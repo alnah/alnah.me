@@ -102,6 +102,7 @@ menu:
   social: []
 
 params:
+  favicon: /favicon.svg
   mainSections:
     - post
   sidebar:
