@@ -195,8 +195,8 @@ tags:
 
 ## Guidelines
 
-1. **One category per article** - Choose the most relevant
-2. **Multiple tags allowed** - Be specific but not excessive (3-7 tags)
-3. **Use existing tags first** - Check this reference before creating new ones
-4. **Kebab-case for tags** - `error-handling` not `errorHandling`
-5. **Singular for categories** - `Tutorial` not `Tutorials` (Hugo handles pluralization)
+- **One category per article** - Choose the most relevant
+- **Multiple tags allowed** - Be specific but not excessive (3-7 tags)
+- **Use existing tags first** - Check this reference before creating new ones
+- **Kebab-case for tags** - `error-handling` not `errorHandling`
+- **Title case for categories** - `Deep Dives` not `deep-dives`
