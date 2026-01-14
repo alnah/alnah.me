@@ -13,7 +13,7 @@ languages:
     contentDir: content/en
     params:
       sidebar:
-        subtitle: Building reliable systems in Go
+        subtitle: Building reliable tools and systems in Go
     menu:
       main:
         - identifier: home
@@ -37,7 +37,7 @@ languages:
     contentDir: content/fr
     params:
       sidebar:
-        subtitle: Construire des systèmes fiables en Go
+        subtitle: Construire des outils et systèmes fiables en Go
     menu:
       main:
         - identifier: home
@@ -61,7 +61,7 @@ languages:
     contentDir: content/pt-br
     params:
       sidebar:
-        subtitle: Construindo sistemas confiáveis em Go
+        subtitle: Construindo ferramentas e sistemas confiáveis em Go
     menu:
       main:
         - identifier: home
