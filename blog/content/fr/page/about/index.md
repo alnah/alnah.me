@@ -33,7 +33,9 @@ Je travaille aussi sur un projet EdTech personnel.
 
 ## Parcours
 
-Français natif, bilingue en anglais et portugais. J'ai passé des années à enseigner le français en ligne, décomposant des règles de grammaire complexes en étapes compréhensibles. Cette même approche s'applique maintenant à l'écriture de code : structure claire, logique explicite, documentation qui aide plutôt qu'elle ne confond.
+Français natif, bilingue en anglais et portugais. J'ai passé des années à enseigner le français : décomposer des règles complexes en étapes claires, comprendre pourquoi un apprenant bloque, transformer sa compréhension en maîtrise réelle, adapter la méthode à sa façon de penser, corriger les mauvais réflexes avant qu'ils ne s'ancrent.
+
+Aujourd'hui je construis des systèmes et outils en Go avec la même approche : structurer le code pour qu'il soit lisible, diagnostiquer ce qui coince, livrer des solutions propres plutôt que des prototypes qui marchent, concevoir pour les contraintes réelles, traquer les anti-patterns.
 
 ## Ce que j'écris ici
 
