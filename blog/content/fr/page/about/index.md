@@ -1,6 +1,6 @@
 ---
 title: À propos
-description: Développeur Go, apprenant perpétuel
+description: Alexis Nahan - Développeur Go, apprenant perpétuel
 date: '2026-01-14'
 aliases:
   - a-propos

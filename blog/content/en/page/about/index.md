@@ -1,6 +1,6 @@
 ---
 title: About
-description: Go developer, perpetual learner
+description: Alexis Nahan - Go developer, perpetual learner
 date: '2026-01-14'
 aliases:
   - about-me

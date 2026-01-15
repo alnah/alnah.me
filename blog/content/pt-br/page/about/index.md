@@ -1,6 +1,6 @@
 ---
 title: Sobre
-description: Desenvolvedor Go, aprendiz perpétuo
+description: Alexis Nahan - Desenvolvedor Go, aprendiz perpétuo
 date: '2026-01-14'
 aliases:
   - sobre-mim
