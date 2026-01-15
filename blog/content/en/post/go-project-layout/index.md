@@ -59,11 +59,10 @@ For tools not meant to be imported as libraries. Everything in `internal/` signa
 mytool/
 ├── go.mod
 ├── main.go
-├── internal/
-│   ├── cmd/            # Command implementations
-│   ├── config/         # Configuration
-│   └── core/           # Business logic
-└── testdata/
+└── internal/
+    ├── cmd/            # Command implementations
+    ├── config/         # Configuration
+    └── core/           # Business logic
 ```
 
 [Terraform](https://github.com/hashicorp/terraform) uses this approach: 100% of implementation lives in `internal/`, explicitly signaling no stable Go API exists.
@@ -172,23 +171,23 @@ The pattern: projects that adopted `pkg/` were often created before Go 1.4 (when
 
 Unlike `pkg/`, the `internal/` directory has compiler enforcement. Code in `internal/` can only be imported by code in the same module tree.
 
-### The case for internal/
+### Arguments for internal/
 
 The [official Go documentation](https://go.dev/doc/modules/layout) recommends it: "it's recommended placing such packages into a directory named internal; this prevents other modules from depending on packages we don't necessarily want to expose."
 
 [Dave Cheney](https://dave.cheney.net/2019/10/06/use-internal-packages-to-reduce-your-public-api-surface) emphasizes the opt-in nature: "You can promote internal packages later if you want to commit to supporting that API; just move them up a directory level. The key is this process is opt-in."
 
-Benefits:
-
 - Protection against accidental API exposure
 - Freedom to refactor without breaking external users
 - Clear boundary between public contract and implementation
 
-### The counter-argument
+### Arguments against internal/
 
 [Laurent Demailly](https://laurentsv.com/blog/2024/10/19/no-nonsense-go-package-layout.html) argues most projects don't need `internal/`: "don't use internal/ unless you're shipping to many third-party users with extensive shared code."
 
-His alternative: use 0.x semver for flexibility and document changes clearly, "rather than under-publishing and forcing people to fork to access what they really need."
+- Forces users to fork when they need access to internals
+- 0.x semver provides similar flexibility without hiding code
+- Most projects never have external consumers anyway
 
 This is valid for applications and small libraries. But for libraries with significant adoption, `internal/` prevents the pain of maintaining APIs you never intended to support.
 
@@ -249,78 +248,6 @@ Avoid:
 - `util.go` (name it by what it does)
 - `helpers.go` (same problem)
 - `misc.go` (where code goes to die)
-
-## Test organization
-
-Go offers two testing approaches with different trade-offs:
-
-### Same-package tests (`foo_test.go`)
-
-```go
-package mylib
-
-func TestParseInternal(t *testing.T) {
-    // Can access unexported functions and types
-    result := parse("input")
-}
-```
-
-Use when you need to test unexported functions or internal state. The risk: tests coupled to implementation details break during refactoring.
-
-### Separate-package tests (`foo_test` package)
-
-```go
-package mylib_test
-
-import "github.com/user/mylib"
-
-func TestParsePublic(t *testing.T) {
-    // Only public API available
-    result := mylib.Parse("input")
-}
-```
-
-Use for black-box testing of your public API. These tests document how external users interact with your code and survive internal refactoring.
-
-**In practice, combine both approaches**:
-
-- `_test` package for integration tests of your public API: these serve as living documentation and force you to design a usable interface
-- Same-package tests for targeted unit tests on complex internal logic (parsing, state machines, validation rules)
-
-```text
-mylib/
-├── parser.go
-├── parser_test.go          # package mylib – tests internal parse()
-├── mylib_test.go           # package mylib_test – tests public API
-└── transform/
-    ├── transform.go
-    └── transform_test.go   # package transform – complex state machine tests
-```
-
-The `_test` package tests catch API design problems early: if your test is awkward to write, your users will struggle too.
-
-### Test fixtures with testdata/
-
-The `testdata/` directory is ignored by the Go toolchain and conventionally holds test fixtures:
-
-```text
-mylib/
-├── parser.go
-├── parser_test.go
-└── testdata/
-    ├── valid_input.json
-    ├── malformed.json
-    └── golden/
-        └── expected_output.json
-```
-
-Access fixtures with relative paths from tests:
-
-```go
-data, err := os.ReadFile("testdata/valid_input.json")
-```
-
-For golden file testing (comparing output against expected files), the `testdata/golden/` convention helps distinguish input fixtures from expected outputs.
 
 ## Real examples
 

@@ -59,11 +59,10 @@ Pour les outils qui ne sont pas destinés à être importés comme bibliothèque
 mytool/
 ├── go.mod
 ├── main.go
-├── internal/
-│   ├── cmd/            # Implémentations des commandes
-│   ├── config/         # Configuration
-│   └── core/           # Logique métier
-└── testdata/
+└── internal/
+    ├── cmd/            # Implémentations des commandes
+    ├── config/         # Configuration
+    └── core/           # Logique métier
 ```
 
 [Terraform](https://github.com/hashicorp/terraform) utilise cette approche : 100% de l'implémentation vit dans `internal/`, signalant explicitement qu'aucune API Go stable n'existe.
@@ -172,23 +171,23 @@ Le pattern : les projets qui ont adopté `pkg/` ont souvent été créés avant 
 
 Contrairement à `pkg/`, le répertoire `internal/` bénéficie d'une application par le compilateur. Le code dans `internal/` ne peut être importé que par du code dans le même arbre de modules.
 
-### Les arguments pour internal/
+### Arguments pour internal/
 
 La [documentation officielle Go](https://go.dev/doc/modules/layout) le recommande : « il est recommandé de placer ces packages dans un répertoire nommé internal ; cela empêche d'autres modules de dépendre de packages que nous ne voulons pas nécessairement exposer ».
 
 [Dave Cheney](https://dave.cheney.net/2019/10/06/use-internal-packages-to-reduce-your-public-api-surface) souligne la nature opt-in : « Vous pouvez promouvoir les packages internes plus tard si vous voulez vous engager à supporter cette API ; il suffit de les remonter d'un ou deux niveaux de répertoire. L'essentiel est que ce processus est opt-in ».
 
-Bénéfices :
-
 - Protection contre l'exposition accidentelle d'API
 - Liberté de refactorer sans casser les utilisateurs externes
 - Frontière claire entre contrat public et implémentation
 
-### Le contre-argument
+### Arguments contre internal/
 
 [Laurent Demailly](https://laurentsv.com/blog/2024/10/19/no-nonsense-go-package-layout.html) argue que la plupart des projets n'ont pas besoin d'`internal/` : « n'utilisez pas internal/ sauf si vous livrez à de nombreux utilisateurs tiers avec beaucoup de code partagé ».
 
-Son alternative : utilisez le semver 0.x pour la flexibilité et documentez clairement les changements, « plutôt que de sous-publier et forcer les gens à forker pour accéder à ce dont ils ont vraiment besoin ».
+- Force les utilisateurs à forker quand ils ont besoin d'accéder aux internals
+- Le semver 0.x offre une flexibilité similaire sans cacher le code
+- La plupart des projets n'ont jamais de consommateurs externes
 
 C'est valide pour les applications et les petites bibliothèques. Mais pour les bibliothèques avec une adoption significative, `internal/` évite la douleur de maintenir des APIs que vous n'avez jamais eu l'intention de supporter.
 
@@ -249,78 +248,6 @@ Chaque fichier a une seule responsabilité. Vous cherchez les définitions d'err
 - `util.go` (nommez-le selon ce qu'il fait)
 - `helpers.go` (même problème)
 - `misc.go` (là où le code va mourir)
-
-## Organisation des tests
-
-Go offre deux approches de test avec des compromis différents :
-
-### Tests dans le même package (`foo_test.go`)
-
-```go
-package mylib
-
-func TestParseInternal(t *testing.T) {
-    // Peut accéder aux fonctions et types non exportés
-    result := parse("input")
-}
-```
-
-À utiliser quand vous devez tester des fonctions non exportées ou un état interne. Le risque : les tests couplés aux détails d'implémentation cassent pendant le refactoring.
-
-### Tests dans un package séparé (package `foo_test`)
-
-```go
-package mylib_test
-
-import "github.com/user/mylib"
-
-func TestParsePublic(t *testing.T) {
-    // Seule l'API publique est disponible
-    result := mylib.Parse("input")
-}
-```
-
-À utiliser pour tester votre API publique en boîte noire. Ces tests documentent comment les utilisateurs externes interagissent avec votre code et survivent au refactoring interne.
-
-**En pratique, combinez les deux approches** :
-
-- Package `_test` pour les tests d'intégration de votre API publique : ils servent de documentation vivante et vous forcent à concevoir une interface utilisable
-- Tests dans le même package pour des tests unitaires ciblés sur de la logique interne complexe (parsing, machines à états, règles de validation)
-
-```text
-mylib/
-├── parser.go
-├── parser_test.go          # package mylib – teste parse() interne
-├── mylib_test.go           # package mylib_test – teste l'API publique
-└── transform/
-    ├── transform.go
-    └── transform_test.go   # package transform – tests de machine à états complexe
-```
-
-Les tests en package `_test` détectent tôt les problèmes de conception d'API : si votre test est pénible à écrire, vos utilisateurs auront les mêmes difficultés.
-
-### Fixtures de test avec testdata/
-
-Le répertoire `testdata/` est ignoré par la toolchain Go et contient conventionnellement les fixtures de test :
-
-```text
-mylib/
-├── parser.go
-├── parser_test.go
-└── testdata/
-    ├── valid_input.json
-    ├── malformed.json
-    └── golden/
-        └── expected_output.json
-```
-
-Accédez aux fixtures avec des chemins relatifs depuis les tests :
-
-```go
-data, err := os.ReadFile("testdata/valid_input.json")
-```
-
-Pour les tests golden file (comparaison de la sortie avec des fichiers attendus), la convention `testdata/golden/` aide à distinguer les fixtures d'entrée des sorties attendues.
 
 ## Exemples réels
 
