@@ -37,8 +37,8 @@ mylib/
 ├── mylib.go            # Primary API
 ├── option.go           # Functional options
 ├── types.go            # Public types
-└── internal/           # Private helpers
-    └── util/
+└── internal/           # Private implementation
+    └── parse/
 ```
 
 Users import directly:
@@ -112,7 +112,7 @@ myproject/
 ├── types.go            # Public types
 ├── internal/
 │   ├── config/         # Config parsing
-│   └── util/           # Private helpers
+│   └── transform/      # Data conversion
 └── cmd/
     └── mytool/         # CLI binary
         └── main.go
@@ -212,7 +212,9 @@ Do not create a package for:
 - "Organization" without functional benefit
 - Matching some external project's structure
 
-A 200-line file at root is fine. A `utils/` package with three functions is over-engineering.
+File size is not the right metric: cohesion and testability are. A 150-line file mixing three distinct responsibilities is worse than a well-structured package. The question isn't "how long is this file?" but "can I describe what this file does in one sentence?"
+
+A `utils/` package with three unrelated functions is over-engineering. But so is a single file that forces you to understand authentication, caching, and logging to modify any one of them.
 
 ## The decision process
 
@@ -248,6 +250,78 @@ Avoid:
 - `helpers.go` (same problem)
 - `misc.go` (where code goes to die)
 
+## Test organization
+
+Go offers two testing approaches with different trade-offs:
+
+### Same-package tests (`foo_test.go`)
+
+```go
+package mylib
+
+func TestParseInternal(t *testing.T) {
+    // Can access unexported functions and types
+    result := parse("input")
+}
+```
+
+Use when you need to test unexported functions or internal state. The risk: tests coupled to implementation details break during refactoring.
+
+### Separate-package tests (`foo_test` package)
+
+```go
+package mylib_test
+
+import "github.com/user/mylib"
+
+func TestParsePublic(t *testing.T) {
+    // Only public API available
+    result := mylib.Parse("input")
+}
+```
+
+Use for black-box testing of your public API. These tests document how external users interact with your code and survive internal refactoring.
+
+**In practice, combine both approaches**:
+
+- `_test` package for integration tests of your public API: these serve as living documentation and force you to design a usable interface
+- Same-package tests for targeted unit tests on complex internal logic (parsing, state machines, validation rules)
+
+```text
+mylib/
+├── parser.go
+├── parser_test.go          # package mylib – tests internal parse()
+├── mylib_test.go           # package mylib_test – tests public API
+└── transform/
+    ├── transform.go
+    └── transform_test.go   # package transform – complex state machine tests
+```
+
+The `_test` package tests catch API design problems early: if your test is awkward to write, your users will struggle too.
+
+### Test fixtures with testdata/
+
+The `testdata/` directory is ignored by the Go toolchain and conventionally holds test fixtures:
+
+```text
+mylib/
+├── parser.go
+├── parser_test.go
+└── testdata/
+    ├── valid_input.json
+    ├── malformed.json
+    └── golden/
+        └── expected_output.json
+```
+
+Access fixtures with relative paths from tests:
+
+```go
+data, err := os.ReadFile("testdata/valid_input.json")
+```
+
+For golden file testing (comparing output against expected files), the `testdata/golden/` convention helps distinguish input fixtures from expected outputs.
+
 ## Real examples
 
 | Project                                                | Structure                 | Library importable? | Uses pkg/? |
@@ -264,7 +338,7 @@ Avoid:
 - **Over-structuring early**: starting with `pkg/`, `internal/`, `cmd/`, `api/`, `web/` for a 500-line project. Start flat, add structure when pain appears.
 - **Copying golang-standards/project-layout**: that repo is not endorsed by the Go team. It promotes patterns most Go projects don't use.
 - **Empty packages for "future use"**: if a package has one file with two functions, it's not a package. It's a file.
-- **internal/ for everything in applications**: if nothing is importable and you're building a CLI, top-level `internal/` adds no value over unexported functions.
+- **Dismissing internal/ for small projects**: the argument "no external users means no need for internal/" conflates two distinct purposes. Yes, compiler-enforced import protection is unnecessary for solo projects. But `internal/` also serves as architectural documentation: a signal to your future self about what was intended as stable API versus throwaway implementation. When you return to your code six months later, that explicit boundary helps you understand what's safe to refactor versus what might have dependents. Even on personal projects, `internal/` can be valuable documentation.
 - **Blindly avoiding pkg/**: if your root is cluttered with configs and you're building a library, `pkg/` might improve clarity. Evaluate, don't dogmatically reject.
 
 ## Summary

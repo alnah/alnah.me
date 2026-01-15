@@ -37,8 +37,8 @@ mylib/
 ├── mylib.go            # API principale
 ├── option.go           # Options fonctionnelles
 ├── types.go            # Types publics
-└── internal/           # Helpers privés
-    └── util/
+└── internal/           # Implémentation privée
+    └── parse/
 ```
 
 Les utilisateurs importent directement :
@@ -112,7 +112,7 @@ myproject/
 ├── types.go            # Types publics
 ├── internal/
 │   ├── config/         # Parsing de config
-│   └── util/           # Helpers privés
+│   └── transform/      # Conversion de données
 └── cmd/
     └── mytool/         # Binaire CLI
         └── main.go
@@ -212,7 +212,9 @@ Ne créez pas de package pour :
 - De l'« organisation » sans bénéfice fonctionnel
 - Copier la structure d'un projet externe
 
-Un fichier de 200 lignes à la racine, c'est bien. Un package `utils/` avec trois fonctions, c'est de la sur-ingénierie.
+La taille du fichier n'est pas le bon critère : c'est la cohésion et la testabilité qui comptent. Un fichier de 150 lignes mélangeant trois responsabilités distinctes est pire qu'un package bien structuré. La question n'est pas « combien de lignes fait ce fichier ? » mais « puis-je décrire ce que fait ce fichier en une phrase ? »
+
+Un package `utils/` avec trois fonctions non liées, c'est de la sur-ingénierie. Mais un fichier unique qui vous force à comprendre l'authentification, le cache et le logging pour modifier l'un d'entre eux, c'est pareil.
 
 ## Le processus de décision
 
@@ -248,6 +250,78 @@ Chaque fichier a une seule responsabilité. Vous cherchez les définitions d'err
 - `helpers.go` (même problème)
 - `misc.go` (là où le code va mourir)
 
+## Organisation des tests
+
+Go offre deux approches de test avec des compromis différents :
+
+### Tests dans le même package (`foo_test.go`)
+
+```go
+package mylib
+
+func TestParseInternal(t *testing.T) {
+    // Peut accéder aux fonctions et types non exportés
+    result := parse("input")
+}
+```
+
+À utiliser quand vous devez tester des fonctions non exportées ou un état interne. Le risque : les tests couplés aux détails d'implémentation cassent pendant le refactoring.
+
+### Tests dans un package séparé (package `foo_test`)
+
+```go
+package mylib_test
+
+import "github.com/user/mylib"
+
+func TestParsePublic(t *testing.T) {
+    // Seule l'API publique est disponible
+    result := mylib.Parse("input")
+}
+```
+
+À utiliser pour tester votre API publique en boîte noire. Ces tests documentent comment les utilisateurs externes interagissent avec votre code et survivent au refactoring interne.
+
+**En pratique, combinez les deux approches** :
+
+- Package `_test` pour les tests d'intégration de votre API publique : ils servent de documentation vivante et vous forcent à concevoir une interface utilisable
+- Tests dans le même package pour des tests unitaires ciblés sur de la logique interne complexe (parsing, machines à états, règles de validation)
+
+```text
+mylib/
+├── parser.go
+├── parser_test.go          # package mylib – teste parse() interne
+├── mylib_test.go           # package mylib_test – teste l'API publique
+└── transform/
+    ├── transform.go
+    └── transform_test.go   # package transform – tests de machine à états complexe
+```
+
+Les tests en package `_test` détectent tôt les problèmes de conception d'API : si votre test est pénible à écrire, vos utilisateurs auront les mêmes difficultés.
+
+### Fixtures de test avec testdata/
+
+Le répertoire `testdata/` est ignoré par la toolchain Go et contient conventionnellement les fixtures de test :
+
+```text
+mylib/
+├── parser.go
+├── parser_test.go
+└── testdata/
+    ├── valid_input.json
+    ├── malformed.json
+    └── golden/
+        └── expected_output.json
+```
+
+Accédez aux fixtures avec des chemins relatifs depuis les tests :
+
+```go
+data, err := os.ReadFile("testdata/valid_input.json")
+```
+
+Pour les tests golden file (comparaison de la sortie avec des fichiers attendus), la convention `testdata/golden/` aide à distinguer les fixtures d'entrée des sorties attendues.
+
 ## Exemples réels
 
 | Projet                                                 | Structure                 | Bibliothèque importable ? | Utilise pkg/ ? |
@@ -264,7 +338,7 @@ Chaque fichier a une seule responsabilité. Vous cherchez les définitions d'err
 - **Sur-structurer trop tôt** : commencer avec `pkg/`, `internal/`, `cmd/`, `api/`, `web/` pour un projet de 500 lignes. Commencez à plat, ajoutez de la structure quand la douleur apparaît.
 - **Copier golang-standards/project-layout** : ce dépôt n'est pas approuvé par l'équipe Go. Il promeut des patterns que la plupart des projets Go n'utilisent pas.
 - **Packages vides pour « usage futur »** : si un package a un fichier avec deux fonctions, ce n'est pas un package. C'est un fichier.
-- **internal/ pour tout dans les applications** : si rien n'est importable et que vous construisez un CLI, `internal/` au niveau supérieur n'apporte rien de plus que les fonctions non exportées.
+- **Rejeter internal/ pour les petits projets** : l'argument « pas d'utilisateurs externes = pas besoin d'internal/ » confond deux usages distincts. Certes, la protection d'import imposée par le compilateur est inutile en solo. Mais `internal/` sert aussi de documentation architecturale : un signal pour votre futur vous sur ce qui était prévu comme API stable versus implémentation jetable. Quand vous revenez sur votre code six mois plus tard, cette frontière explicite aide à comprendre ce qui peut être refactoré sans risque versus ce qui pourrait avoir des dépendants. Même sur des projets personnels, `internal/` peut être une documentation précieuse.
 - **Éviter pkg/ aveuglément** : si votre racine est encombrée de configs et que vous construisez une bibliothèque, `pkg/` pourrait améliorer la clarté. Évaluez, ne rejetez pas dogmatiquement.
 
 ## Résumé
