@@ -33,7 +33,7 @@ I'm also working on a personal EdTech project.
 
 ## Background
 
-Native French speaker, fluent in English and Portuguese. I spent years teaching French: breaking down complex rules into clear steps, understanding why a learner gets stuck, turning comprehension into real proficiency, adapting methods to how they think, correcting bad habits before they take root.
+Trilingual in French, English, and Portuguese. I spent years teaching French: breaking down complex rules into clear steps, understanding why a learner gets stuck, turning comprehension into real proficiency, adapting methods to how they think, correcting bad habits before they take root.
 
 Today I build systems and tools in Go with the same approach: structuring code to be readable, diagnosing what's broken, delivering clean solutions rather than prototypes that just work, designing for real-world constraints, hunting down anti-patterns.
 
