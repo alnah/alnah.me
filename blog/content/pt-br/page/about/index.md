@@ -33,7 +33,7 @@ Também estou trabalhando em um projeto EdTech pessoal.
 
 ## Contexto
 
-Trilíngue em francês, inglês e português. Passei anos ensinando francês: decompor regras complexas em etapas claras, entender por que um aluno trava, transformar compreensão em domínio real, adaptar o método à forma de pensar dele, corrigir maus hábitos antes que se enraízem.
+Trilíngue em francês, inglês e português. Ensinei francês por anos: decompor regras complexas em etapas claras, entender por que um aluno trava, adaptar o método à forma de pensar dele.
 
 Hoje construo sistemas e ferramentas em Go com a mesma abordagem: estruturar código para ser legível, diagnosticar o que está travando, entregar soluções limpas em vez de protótipos que só funcionam, projetar para restrições reais, caçar anti-patterns.
 
