@@ -1,5 +1,15 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ "/apple-touch-icon.png" | relURL }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ "/favicon-32.png" | relURL }}">
+<meta name="author" content="Alexis Music">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "alnah.io",
+  "url": "{{ .Site.BaseURL }}",
+  "logo": "{{ "/og-image.png" | absURL }}"
+}
+</script>
 
 {{- if not hugo.IsServer }}
 <script data-goatcounter="https://alnah.goatcounter.com/count"
