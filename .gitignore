@@ -21,5 +21,6 @@ blog/assets/jsconfig.json
 .env
 .env.*
 
-# Draft/private markdown files
+# Draft/private markdown files (but not Hugo's _index.md)
 _*.md
+!_index.md
