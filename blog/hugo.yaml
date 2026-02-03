@@ -2,88 +2,13 @@ baseURL: https://alnah.io
 title: alnah.io
 theme: stack
 
-defaultContentLanguage: en
-defaultContentLanguageInSubdir: true
-languages:
-  en:
-    languageCode: en
-    languageName: English
-    weight: 1
-    title: alnah.io
-    contentDir: content/en
-    params:
-      sidebar:
-        subtitle: Building reliable tools and systems in Go
-    menu:
-      main:
-        - identifier: home
-          name: Home
-          url: /en/
-          weight: -100
-          params:
-            icon: home
-        - identifier: github
-          name: GitHub
-          url: https://github.com/alnah
-          weight: -90
-          params:
-            icon: brand-github
-            newTab: true
-  fr:
-    languageCode: fr
-    languageName: Français
-    weight: 2
-    title: alnah.io
-    contentDir: content/fr
-    params:
-      sidebar:
-        subtitle: Construire des outils et systèmes fiables en Go
-    menu:
-      main:
-        - identifier: home
-          name: Accueil
-          url: /fr/
-          weight: -100
-          params:
-            icon: home
-        - identifier: github
-          name: GitHub
-          url: https://github.com/alnah
-          weight: -90
-          params:
-            icon: brand-github
-            newTab: true
-  pt-br:
-    languageCode: pt-BR
-    languageName: Português (Brasil)
-    weight: 3
-    title: alnah.io
-    contentDir: content/pt-br
-    params:
-      sidebar:
-        subtitle: Construindo ferramentas e sistemas confiáveis em Go
-    menu:
-      main:
-        - identifier: home
-          name: Início
-          url: /pt-br/
-          weight: -100
-          params:
-            icon: home
-        - identifier: github
-          name: GitHub
-          url: https://github.com/alnah
-          weight: -90
-          params:
-            icon: brand-github
-            newTab: true
+languageCode: en
 
 outputs:
   home:
     - HTML
   page:
     - HTML
-    - JSON
 
 markup:
   goldmark:
@@ -98,7 +23,20 @@ markup:
     tabWidth: 4
 
 menu:
-  main: []
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: -100
+      params:
+        icon: home
+    - identifier: github
+      name: GitHub
+      url: https://github.com/alnah
+      weight: -90
+      params:
+        icon: brand-github
+        newTab: true
   social: []
 
 params:
@@ -106,6 +44,7 @@ params:
   mainSections:
     - post
   sidebar:
+    subtitle: Building reliable tools and systems in Go
     avatar:
       enabled: true
       local: true
