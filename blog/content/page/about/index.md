@@ -15,6 +15,7 @@ I build backend systems and developer tools in Go.
 
 ## Projects
 
+- [alnah.io](https://alnah.io): My technical blog about Go development.
 - [go-md2pdf](https://github.com/alnah/go-md2pdf) (50+ stars): Library and CLI for Markdown to PDF. Cover pages, auto table of contents, watermarks, signatures, CSS themes, and custom assets support. Parallel batch processing via headless Chrome. No LaTeX. No complexity.
 - [go-transcript](https://github.com/alnah/go-transcript): CLI to transcribe meetings, lectures, and brainstorms into structured Markdown. Uses OpenAI for transcription and DeepSeek/OpenAI for AI-powered formatting.
 
