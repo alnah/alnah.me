@@ -1,0 +1,98 @@
+---
+import ContactLinks from "./ContactLinks.astro";
+import { SITE } from "../config/site";
+
+interface Props {
+  reuseUrl?: string;
+}
+
+const { reuseUrl = SITE.reuseUrl } = Astro.props;
+const isPostFooter = reuseUrl !== SITE.reuseUrl;
+---
+
+<footer class="site-footer">
+  <div class="content-band footer-inner section-rule">
+    <div class="footer-copy">
+      {
+        isPostFooter && (
+          <>
+            <a href={reuseUrl}>Reuse this post</a>
+            <span aria-hidden="true">·</span>
+          </>
+        )
+      }
+      <a href={SITE.reuseUrl}>CC BY 4.0 / BSD 3-Clause</a>
+      <span aria-hidden="true">·</span>
+      <a href={SITE.repoUrl} target="_blank" rel="noreferrer">github.com/alnah/alnah.io</a>
+    </div>
+    <ContactLinks variant="footer" />
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding: var(--space-5) 0 var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-5);
+    align-items: baseline;
+    padding-top: var(--space-5);
+  }
+
+  .footer-copy {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: inherit;
+    line-height: var(--line-height-normal);
+  }
+
+  .site-footer a {
+    text-decoration: none;
+  }
+
+  .site-footer :global(.contact-links) {
+    min-width: 0;
+  }
+
+  @media (min-width: 901px) {
+    .footer-copy {
+      max-width: 65%;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .footer-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .site-footer {
+      padding-top: var(--space-4);
+      font-size: var(--font-size-compact);
+    }
+
+    .footer-inner {
+      gap: var(--space-4);
+    }
+
+    .footer-copy {
+      display: grid;
+      gap: var(--space-2);
+      align-items: flex-start;
+    }
+
+    .footer-copy span[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,91 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import PostFooter from "../components/PostFooter.astro";
+import { formatDate, readingTimeFromText } from "../lib/content";
+import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
+
+interface Props {
+  entry: CollectionEntry<"posts">;
+}
+
+const { entry } = Astro.props;
+const documentTitle = resolveEntryTitle(entry);
+const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? ""));
+const canonicalPath = `/posts/${entry.id}/`;
+const reuseUrl = `/raw/posts/${entry.id}.md`;
+const socialImage = resolveSocialImage(entry.data.cover, entry.id);
+const schemaJson = buildBlogPostingSchema({
+  canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
+  dateModified: entry.data.lastmod,
+  datePublished: entry.data.date,
+  description: entry.data.description,
+  image: socialImage,
+  tags: entry.data.tags,
+  title: documentTitle
+});
+---
+
+<BaseLayout
+  title={documentTitle}
+  description={entry.data.description}
+  canonicalPath={canonicalPath}
+  image={socialImage}
+  modifiedTime={(entry.data.lastmod ?? entry.data.date).toISOString()}
+  publishedTime={entry.data.date.toISOString()}
+  schemaJson={schemaJson}
+  reuseUrl={reuseUrl}
+  type="article"
+>
+  <article class="post-shell content-band page-pad-top">
+    <div class="post-article prose reading-column" style="max-width: var(--width-reading); margin-inline: 0;">
+      <header class="post-header">
+        <p class="eyebrow post-meta">
+          <span>{formatDate(entry.data.date)}</span>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime} min read</span>
+        </p>
+      </header>
+      <slot />
+      <PostFooter slug={entry.id} title={documentTitle} tags={entry.data.tags} />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-shell {
+    width: min(100%, var(--width-band));
+    margin-inline: auto;
+  }
+
+  .post-header {
+    margin-bottom: var(--space-4);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .post-article > h1 + p {
+    margin-top: 0;
+    margin-bottom: var(--space-6);
+    color: var(--color-text-muted);
+    max-width: 58ch;
+    font-size: var(--font-size-lg);
+  }
+
+  @media (min-width: 901px) {
+    .post-shell {
+      padding-top: var(--space-8);
+    }
+
+    .post-article > h1 + p {
+      font-size: var(--font-size-xl);
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getPageContent } from "../lib/content";
+import { resolveEntryTitle } from "../lib/document-title.js";
+
+const page = await getPageContent("privacy");
+
+if (!page) {
+  throw new Error("Missing privacy page content");
+}
+
+const { Content } = await render(page);
+---
+
+<BaseLayout title={resolveEntryTitle(page)} description={page.data.description}>
+  <section class="page-shell page-stack page-pad-top content-band">
+    <div class="prose reading-column" style="max-width: var(--width-reading); margin-inline: 0;">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

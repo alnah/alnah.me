@@ -1,0 +1,36 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GitHubActivity from "../components/GitHubActivity.astro";
+import { SITE } from "../config/site";
+import { getPageContent } from "../lib/content";
+import { resolveEntryTitle } from "../lib/document-title.js";
+import { buildProfilePageSchema } from "../lib/seo";
+
+const page = await getPageContent("about");
+
+if (!page) {
+  throw new Error("Missing about page content");
+}
+
+const { Content } = await render(page);
+const pageTitle = resolveEntryTitle(page);
+const pageDescription = page.data.description ?? SITE.description;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  schemaJson={buildProfilePageSchema({
+    canonicalUrl: new URL("/about/", Astro.site).toString(),
+    description: pageDescription,
+    title: SITE.author.name
+  })}
+>
+  <section class="page-shell page-stack page-pad-top content-band">
+    <div class="prose about-copy reading-column" style="max-width: var(--width-reading); margin-inline: 0;">
+      <Content />
+    </div>
+    <GitHubActivity />
+  </section>
+</BaseLayout>

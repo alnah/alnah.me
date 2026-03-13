@@ -1,0 +1,57 @@
+---
+import { SITE } from "../config/site";
+import type { ContactId, ContactLink as SiteContactLink } from "../config/site";
+import SocialIcon from "./SocialIcon.astro";
+
+interface Props {
+  ariaLabel?: string;
+  items?: readonly SiteContactLink[];
+  variant?: "hero" | "section" | "footer";
+}
+
+const {
+  ariaLabel = "Contact links",
+  items = SITE.contacts,
+  variant = "hero"
+} = Astro.props;
+---
+
+<div class="contact-links social-row" data-variant={variant} aria-label={ariaLabel}>
+  <span class="social-row-label">Reach me on</span>
+  <div class="social-links-list">
+    {items.map((contact) => (
+      <a
+        class="social-icon-link"
+        href={contact.href}
+        aria-label={contact.label}
+        title={contact.label}
+        target={contact.href.startsWith("/") ? undefined : "_blank"}
+        rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
+      >
+        <SocialIcon icon={contact.id as ContactId} />
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .contact-links {
+    --social-link-gap: 0.35rem;
+    --social-icon-size: 1rem;
+  }
+
+  .contact-links[data-variant="hero"] {
+    --social-link-gap: 0.3rem;
+  }
+
+  .contact-links[data-variant="footer"] {
+    --social-label-size: inherit;
+  }
+
+  @media (max-width: 480px) {
+    .contact-links[data-variant="footer"] {
+      --social-link-gap: 0.3rem;
+    }
+  }
+
+</style>

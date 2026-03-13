@@ -1,26 +1,27 @@
-# Hugo build output (rebuilt by GitHub Actions)
-blog/public/
-blog/resources/_gen/
+# Never commit scratch docs or files prefixed with nocommit-
+**/nocommit-*
+*.bak
 
-# Hugo lock file
-blog/.hugo_build.lock
-
-# OS
+# macOS
 .DS_Store
-Thumbs.db
+._*
 
-# IDE - fichiers locaux uniquement
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
+# Neovim / Vim
+.nvim/
+.netrwhist
+Session.vim
 *.swp
+*.swo
 *~
-blog/assets/jsconfig.json
 
-# Secrets
-.env
-.env.*
+# VS Code
+.vscode/
+.codex/
 
-# Draft/private markdown files (but not Hugo's _index.md)
-_*.md
-!_index.md
+# Astro
+dist/
+.astro/
+node_modules/
+public/LICENSE
+public/LICENSES/
+public/raw/

@@ -1,67 +1,123 @@
 # alnah.io
 
-[![Hugo](https://img.shields.io/badge/Hugo-0.140+-ff4088?logo=hugo&logoColor=white)](https://gohugo.io/)
-[![Deploy](https://img.shields.io/github/actions/workflow/status/alnah/alnah.github.io/hugo.yaml?branch=main&label=deploy)](https://github.com/alnah/alnah.github.io/actions)
-[![License](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+Static Astro blog by Alexis Nahan.
 
-> Technical blog about building reliable tools, and systems in Go.
-
-## Languages
-
-Content is available in three languages:
-
-- English (`/en/`)
-- Français (`/fr/`)
-- Português Brasil (`/pt-br/`)
-
-## Local Development
-
-```bash
-# Clone with submodules (theme)
-git clone --recurse-submodules https://github.com/alnah/alnah.github.io.git
-cd alnah.github.io/blog
-
-# Run local server
-hugo server
-
-# Run with future-dated posts
-hugo server --buildFuture
-```
-
-Requires [Hugo Extended](https://gohugo.io/installation/) v0.140+.
+The site focuses on solo building, product engineering, technical writing, and
+open source work. It uses a custom theme built specifically for `alnah.io`.
 
 ## Structure
 
-```text
-alnah.github.io/
-├── .github/workflows/    # GitHub Actions deployment
-├── blog/
-│   ├── content/
-│   │   ├── en/           # English content
-│   │   ├── fr/           # French content
-│   │   └── pt-br/        # Portuguese content
-│   ├── assets/           # SCSS, images
-│   ├── layouts/          # Template overrides
-│   └── hugo.yaml         # Site configuration
-└── docs/                 # Additional documentation
+- `src/content/`
+  Markdown posts and standalone pages
+- `src/pages/`
+  routes and special pages such as home, posts, tags, about, privacy, RSS,
+  `robots.txt`, and `index.json`
+- `src/components/`
+  reusable UI components
+- `src/layouts/`
+  shared page and post layouts
+- `src/assets/`
+  local assets used by the site
+- `public/`
+  static files and generated publish artifacts
+- `scripts/`
+  build-time helpers and verification scripts
+
+## Writing posts
+
+Posts live in `src/content/posts/<slug>/index.md`.
+
+Required frontmatter:
+
+```md
+---
+title: "Post Title"
+date: 2026-03-01
+draft: false
+description: "Brief description for feeds and cards."
+tags:
+  - tag1
+  - tag2
+---
+
+# Post Title
+
+Content in Markdown format...
+```
+
+Optional frontmatter:
+
+```md
+lastmod: 2026-03-02
+aliases:
+  - /old-post/
+publishDate: 2026-03-01
+expiryDate: 2026-12-31
+cover: ./cover.jpg
+```
+
+- the Markdown body must start with a leading `# H1`
+- the H1 must match the frontmatter `title`
+- `description` is the summary used for feeds, cards, and search previews
+- `draft: false` means the post is public
+
+## Changing titles and branding
+
+If you want to change the text that appears in the browser tab or page metadata:
+
+- Global site name and author metadata:
+  - `src/config/site.ts`
+- How page titles are formatted in the browser tab:
+  - `src/lib/seo.ts`
+- Post titles:
+  - `src/content/posts/<slug>/index.md`
+  - keep the YAML `title` and the Markdown `# H1` identical
+- Standalone content pages such as `About` and `Privacy`:
+  - `src/content/pages/about.md`
+  - `src/content/pages/privacy.md`
+- System pages such as home, archive, tags, and `404`:
+  - `src/pages/index.astro`
+  - `src/pages/posts/[...page].astro`
+  - `src/pages/tags/[tag].astro`
+  - `src/pages/404.astro`
+
+## Development
+
+Quick start:
+
+```bash
+make install
+make dev
+```
+
+Useful commands:
+
+```bash
+make help
+make build
+make preview
+make verify
 ```
 
 ## Deployment
 
-Automatic deployment to GitHub Pages on push to `main`. The workflow:
+This repo is intended to be deployed on Cloudflare Pages, not GitHub Pages.
 
-1. Builds the Hugo site with `--gc --minify`
-2. Deploys to [alnah.io](https://alnah.io)
+Recommended Cloudflare Pages settings:
 
-## Theme
+- Production branch: `main`
+- Build command: `make build`
+- Build output directory: `dist`
 
-Uses [Hugo Stack](https://github.com/CaiJimmy/hugo-theme-stack) as a git submodule.
+If you want Cloudflare Web Analytics enabled, set this environment variable in
+the Pages project:
 
 ```bash
-# Update theme
-git submodule update --remote themes/stack
+PUBLIC_CF_WEB_ANALYTICS_TOKEN=your_token_here
 ```
 
-## License
+Notes:
 
-Content is licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+- the site already ships `public/_headers` and `public/_redirects`
+- `https://www.alnah.io/* -> https://alnah.io/:splat` is already defined in `_redirects`
+- the analytics beacon is loaded only when `PUBLIC_CF_WEB_ANALYTICS_TOKEN` is set
