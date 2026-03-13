@@ -1,0 +1,61 @@
+---
+import ShareLinks from "./ShareLinks.astro";
+import { slugify } from "../lib/content";
+
+interface Props {
+  slug: string;
+  title: string;
+  tags: string[];
+}
+
+const { slug, title, tags } = Astro.props;
+const canonicalUrl = new URL(`/posts/${slug}/`, Astro.site).toString();
+---
+
+<footer class="post-footer section-rule">
+  <div class="tag-row">
+    {tags.map((tag) => (
+      <a class="tag" href={`/tags/${slugify(tag)}/`}>#{tag}</a>
+    ))}
+  </div>
+  <ShareLinks canonicalUrl={canonicalUrl} title={title} />
+  <div class="post-footer-bottom">
+    <a href="/posts/">All Posts</a>
+  </div>
+</footer>
+
+<style>
+  .post-footer {
+    margin-top: var(--space-8);
+    padding-top: var(--space-4);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tag-row {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .tag {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .tag:hover {
+    border-color: currentColor;
+  }
+
+  .post-footer-bottom {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+  }
+
+  .post-footer-bottom a {
+    text-decoration: none;
+  }
+</style>

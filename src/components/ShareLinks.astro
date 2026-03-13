@@ -1,0 +1,109 @@
+---
+import { SITE } from "../config/site";
+import SocialIcon from "./SocialIcon.astro";
+
+interface Props {
+  canonicalUrl: string;
+  title: string;
+}
+
+const { canonicalUrl, title } = Astro.props;
+
+const encodedUrl = encodeURIComponent(canonicalUrl);
+const encodedTitle = encodeURIComponent(title);
+
+const platforms = [
+  {
+    icon: "x",
+    label: "X",
+    href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`
+  },
+  {
+    icon: "bluesky",
+    label: "Bluesky",
+    href: `https://bsky.app/intent/compose?text=${encodeURIComponent(`${title} ${canonicalUrl}`)}`
+  },
+  {
+    icon: "mastodon",
+    label: "Mastodon",
+    href: `https://mastodonshare.com/?text=${encodeURIComponent(`${title} ${canonicalUrl}`)}`
+  },
+  {
+    icon: "linkedin",
+    label: "LinkedIn",
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`
+  },
+  {
+    icon: "whatsapp",
+    label: "WhatsApp",
+    href: `https://wa.me/?text=${encodeURIComponent(`${title} ${canonicalUrl}`)}`
+  },
+  {
+    icon: "facebook",
+    label: "Facebook",
+    href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`
+  },
+  {
+    icon: "telegram",
+    label: "Telegram",
+    href: `https://t.me/share/url?url=${encodedUrl}&text=${encodedTitle}`
+  },
+  {
+    icon: "email",
+    label: "Email",
+    href: `mailto:${SITE.author.email}?subject=${encodedTitle}&body=${encodeURIComponent(canonicalUrl)}`
+  }
+] as const;
+---
+
+<section class="share-links" aria-label="Share this post">
+  <div class="share-row social-row">
+    <span class="social-row-label">Share this post on</span>
+    <div class="social-links-list">
+      {platforms.map((platform) => (
+        <a
+          class="social-icon-link"
+          href={platform.href}
+          aria-label={platform.label}
+          title={platform.label}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <SocialIcon icon={platform.icon} />
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .share-links {
+    width: 100%;
+  }
+
+  .share-row {
+    --social-link-gap: 0.35rem;
+    --social-icon-size: 1rem;
+    min-width: 0;
+  }
+
+  @media (max-width: 480px) {
+    .share-links {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .share-links::-webkit-scrollbar {
+      display: none;
+    }
+
+    .share-row {
+      --social-link-gap: 0.3rem;
+      width: max-content;
+      min-width: 100%;
+      padding-bottom: 0.125rem;
+    }
+  }
+</style>

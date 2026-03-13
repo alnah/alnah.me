@@ -1,0 +1,120 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import PostList from '../../components/PostList.astro'
+import { SITE } from '../../config/site'
+import { getPublishedPosts } from '../../lib/content'
+
+type PostEntry = CollectionEntry<'posts'>
+
+type ArchivePage = {
+  data: PostEntry[]
+  currentPage: number
+  lastPage: number
+  url: {
+    prev?: string
+    next?: string
+  }
+}
+
+type Paginate = (
+  items: PostEntry[],
+  options: { pageSize: number }
+) => Array<{
+  params: Record<string, string | undefined>
+  props: { page: ArchivePage }
+}>
+
+export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
+  const posts = await getPublishedPosts()
+
+  if (posts.length === 0) {
+    return [
+      {
+        params: { page: undefined },
+        props: {
+          page: {
+            data: [],
+            currentPage: 1,
+            lastPage: 1,
+            url: {},
+          },
+        },
+      },
+    ]
+  }
+
+  return paginate(posts, { pageSize: SITE.postPageSize })
+}
+
+const { page } = Astro.props as { page: ArchivePage }
+---
+
+<BaseLayout title="Posts" description="Archive of blog posts by Alexis Nahan">
+  <section class="archive-shell content-band">
+    <div class="prose archive-intro">
+      <p class="eyebrow">All Posts</p>
+      <h2>Writing archive</h2>
+      <p>A paginated archive of my notes and posts.</p>
+    </div>
+
+    {
+      page.data.length > 0 ? (
+        <>
+          <PostList posts={page.data} showReadingTime />
+
+          <div class="archive-pagination">
+            <nav
+              class:list={[
+                'pagination eyebrow',
+                {
+                  'pagination--leading-label': !page.url.prev,
+                  'pagination--trailing-label': !page.url.next,
+                },
+              ]}
+              aria-label="Posts pagination"
+            >
+              {page.url.prev && <a href={page.url.prev}>Previous</a>}
+              <span>Page {page.currentPage} of {page.lastPage}</span>
+              {page.url.next && <a href={page.url.next}>Next</a>}
+            </nav>
+          </div>
+        </>
+      ) : (
+        <p class="archive-empty">No posts published yet.</p>
+      )
+    }
+  </section>
+
+  <style>
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-3);
+      align-items: center;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .archive-pagination {
+      width: 100%;
+      max-width: var(--width-reading);
+    }
+
+    .archive-empty {
+      margin: 0;
+      max-width: var(--width-reading);
+      color: var(--color-text-muted);
+    }
+
+    .pagination a {
+      text-decoration: none;
+    }
+
+    .pagination--leading-label a:last-child,
+    .pagination--trailing-label span:last-child {
+      margin-left: auto;
+      text-align: right;
+    }
+  </style>
+</BaseLayout>

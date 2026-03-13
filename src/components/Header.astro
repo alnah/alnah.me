@@ -1,0 +1,318 @@
+---
+import { Image } from "astro:assets";
+import ContactLinks from "./ContactLinks.astro";
+import SearchDialog from "./SearchDialog.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import profileImage from "../assets/profile.jpeg";
+import { NAV_ITEMS, SITE } from "../config/site";
+---
+
+<header class="site-header">
+  <div class="topbar">
+    <div class="content-band topbar-inner section-rule">
+      <a class="brand" href="/">{SITE.author.name}</a>
+      <nav class="nav" aria-label="Primary">
+        <SearchDialog />
+        <ThemeToggle />
+        {NAV_ITEMS.map((item) => (
+          <a class="control-pill nav-link" href={item.href}>{item.label}</a>
+        ))}
+      </nav>
+    </div>
+  </div>
+  <div class="intro">
+    <div class="content-band">
+      <div class="intro-inner section-rule">
+        <div class="intro-copy">
+          <p class="eyebrow intro-kicker">{SITE.author.kicker}</p>
+          <h1>{SITE.author.intro}</h1>
+          <p class="intro-blurb">{SITE.author.blurb}</p>
+          <div class="intro-links">
+            <ContactLinks variant="hero" />
+          </div>
+        </div>
+        <Image
+          class="profile-photo"
+          src={profileImage}
+          width="180"
+          height="180"
+          alt={SITE.author.photoAlt}
+          loading="eager"
+          fit="cover"
+        />
+      </div>
+      <div
+        class="intro-end-rule section-rule"
+        aria-hidden="true"
+        style="margin-top: var(--intro-end-rule-space, 1.5rem);"
+      ></div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    padding-top: var(--space-4);
+    --header-search-form-gap: var(--space-2);
+    --header-search-results-offset: calc(100% + var(--space-5));
+    --header-search-open-reserve: 0px;
+    --intro-end-rule-space: var(--space-5);
+  }
+
+  .topbar {
+    padding-bottom: 0;
+  }
+
+  .topbar-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+    padding-block: var(--space-2);
+  }
+
+  .intro {
+    padding: 0 0 var(--space-5);
+  }
+
+  .brand {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .nav {
+    display: grid;
+    grid-template-columns: var(--control-height) minmax(0, 1fr) minmax(0, 4.8rem) minmax(0, 4.8rem);
+    gap: var(--space-2);
+    align-items: stretch;
+    width: 100%;
+    position: relative;
+  }
+
+  .nav > * {
+    min-width: 0;
+  }
+
+  .nav :global(.theme-toggle) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .nav :global(.search-root) {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  .nav .nav-link[href="/posts/"] {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .nav .nav-link[href="/about/"] {
+    grid-column: 4;
+    grid-row: 1;
+  }
+
+  .nav :global(.search-root[data-open="true"]) {
+    grid-column: 2;
+  }
+
+  .nav :global(.search-trigger),
+  .nav :global(.search-form),
+  .nav .nav-link {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nav .nav-link {
+    padding-inline: var(--space-2);
+  }
+
+  .intro-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(5.5rem, 26vw, 7rem);
+    gap: var(--space-4);
+    align-items: start;
+    padding-top: var(--space-4);
+  }
+
+  .profile-photo {
+    width: clamp(5.5rem, 26vw, 7rem);
+    height: clamp(5.5rem, 26vw, 7rem);
+    border-radius: 999px;
+    object-fit: cover;
+    border: 1px solid var(--color-rule);
+    background: var(--color-surface-strong);
+    box-shadow: var(--shadow-sm);
+    justify-self: end;
+    align-self: start;
+    margin-top: var(--space-2);
+  }
+
+  .intro-copy h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.6rem, 11vw, 4rem);
+    line-height: var(--line-height-tight);
+    margin: 0 0 var(--space-3);
+    max-width: none;
+  }
+
+  .intro-blurb {
+    margin: 0;
+    max-width: 42rem;
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+  }
+
+  .intro-kicker {
+    margin-bottom: var(--space-3);
+  }
+
+  .intro-links {
+    margin-top: var(--space-6);
+  }
+
+  .intro-links :global(.contact-links[data-variant="hero"]) {
+    margin-top: 0;
+  }
+
+  @media (max-width: 360px) {
+    .site-header {
+      --intro-end-rule-space: var(--space-4);
+    }
+
+    .intro-inner {
+      grid-template-columns: minmax(0, 1fr) 4.75rem;
+      grid-template-areas:
+        "kicker photo"
+        "title photo"
+        "blurb blurb"
+        "links links";
+      gap: var(--space-2) var(--space-3);
+      align-items: start;
+    }
+
+    .intro-copy {
+      display: contents;
+    }
+
+    .intro-kicker {
+      grid-area: kicker;
+      margin-bottom: 0;
+    }
+
+    .intro-copy h1 {
+      grid-area: title;
+      font-size: clamp(2.45rem, 16vw, 3.2rem);
+      margin-bottom: 0;
+    }
+
+    .intro-blurb {
+      grid-area: blurb;
+      margin-top: var(--space-2);
+    }
+
+    .intro-links {
+      grid-area: links;
+      margin-top: var(--space-5);
+    }
+
+    .profile-photo {
+      grid-area: photo;
+      width: 4.75rem;
+      height: 4.75rem;
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 901px) {
+    .topbar-inner {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      box-sizing: border-box;
+      height: calc(var(--control-height) + (var(--space-3) * 2));
+      padding-block: var(--space-3);
+    }
+
+    .nav {
+      display: flex;
+      gap: var(--space-2);
+      align-items: center;
+      width: auto;
+      min-height: var(--control-height);
+      position: static;
+    }
+
+    .nav > * { min-width: initial; }
+
+    .nav :global(.search-trigger),
+    .nav :global(.search-form),
+    .nav .nav-link {
+      width: auto;
+    }
+
+    .nav :global(.search-root) {
+      min-height: var(--control-height);
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .nav :global(.theme-toggle),
+    .nav :global(.search-root),
+    .nav .nav-link[href="/posts/"],
+    .nav .nav-link[href="/about/"],
+    .nav :global(.search-root[data-open="true"]) {
+      grid-column: auto;
+    }
+
+    .nav .nav-link {
+      padding-inline: var(--space-3);
+    }
+
+    .intro {
+      padding: 0 0 var(--space-6);
+    }
+
+    .intro-inner {
+      grid-template-columns: minmax(0, 42rem) 164px;
+      justify-content: space-between;
+      gap: var(--space-6);
+      padding-top: var(--space-5);
+      align-items: center;
+    }
+
+    .profile-photo {
+      width: 164px;
+      height: 164px;
+      justify-self: start;
+      align-self: center;
+      margin-top: 0;
+    }
+
+    .intro-copy h1 {
+      max-width: 12ch;
+      font-size: clamp(3.4rem, 7vw, 5rem);
+    }
+
+    .intro-copy p {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .topbar-inner:has(.search-root[data-open="true"]) {
+      padding-bottom: var(--header-search-open-reserve);
+    }
+
+    .site-header {
+      --header-search-results-offset: calc(100% + var(--control-height) + var(--space-4));
+      --header-search-open-reserve: calc(var(--control-height) + var(--space-4));
+    }
+  }
+</style>

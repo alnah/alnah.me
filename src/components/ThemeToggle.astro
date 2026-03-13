@@ -1,0 +1,87 @@
+<button
+  type="button"
+  class="theme-toggle control-pill"
+  data-theme-toggle
+  data-mode="system"
+  aria-label="Toggle theme"
+  aria-keyshortcuts="Shift+T"
+  title="Theme (Shift+T)"
+>
+  <svg class="theme-icon theme-icon-system" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="4.5" y="5.5" width="15" height="10" rx="1.5" />
+    <path d="M9 18.5h6" />
+    <path d="M12 15.5v3" />
+  </svg>
+  <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      d="M20.2 15.6A8.8 8.8 0 0 1 8.4 3.8a8.8 8.8 0 1 0 11.8 11.8Z"
+      fill="currentColor"
+      stroke="none"
+    />
+  </svg>
+  <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2.5v3" />
+    <path d="M12 18.5v3" />
+    <path d="M4.9 4.9l2.1 2.1" />
+    <path d="M17 17l2.1 2.1" />
+    <path d="M2.5 12h3" />
+    <path d="M18.5 12h3" />
+    <path d="M4.9 19.1 7 17" />
+    <path d="M17 7l2.1-2.1" />
+  </svg>
+  <span class="theme-shortcut shortcut-pill" aria-hidden="true">⇧t</span>
+  <span class="visually-hidden" data-theme-toggle-label>Auto</span>
+</button>
+
+<script>
+  import "./theme-toggle.client.ts";
+</script>
+
+<style>
+  .theme-toggle {
+    gap: 0.55rem;
+    padding: 0 var(--space-3);
+  }
+
+  .theme-icon {
+    display: none;
+    flex: 0 0 auto;
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: currentColor;
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+
+  .theme-toggle[data-mode="system"] .theme-icon-system,
+  .theme-toggle[data-mode="dark"] .theme-icon-dark,
+  .theme-toggle[data-mode="light"] .theme-icon-light {
+    display: block;
+  }
+
+  .theme-icon-dark {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .theme-shortcut {
+    min-width: 2rem;
+    padding: 0 0.36rem;
+  }
+
+  @media (hover: none), (pointer: coarse), (max-width: 900px) {
+    .theme-toggle {
+      width: var(--control-height);
+      min-width: var(--control-height);
+      padding: 0;
+      gap: 0;
+    }
+
+    .theme-shortcut {
+      display: none;
+    }
+  }
+</style>

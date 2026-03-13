@@ -1,0 +1,42 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import { getPublishedPosts } from "../lib/content";
+import { buildWebsiteSchema } from "../lib/seo";
+
+const posts = (await getPublishedPosts()).slice(0, 4);
+---
+
+<BaseLayout
+  title="Solo building, product engineering, language teaching, and other thoughts"
+  schemaJson={buildWebsiteSchema()}
+>
+  <section class="home-shell content-band">
+    <p class="eyebrow section-label">Recent writing</p>
+    {
+      posts.length > 0 ? (
+        <PostList posts={posts} showReadingTime ctaHref="/posts/" ctaLabel="Browse all posts" />
+      ) : (
+        <p class="empty-copy">No posts published yet.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .home-shell {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-8);
+  }
+
+  .section-label {
+    margin: 0;
+  }
+
+  .empty-copy {
+    margin: 0;
+    max-width: var(--width-reading);
+    color: var(--color-text-muted);
+  }
+</style>

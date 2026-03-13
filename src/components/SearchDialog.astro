@@ -1,0 +1,262 @@
+<section class="search-root" data-search-root data-open="false">
+  <button
+    type="button"
+    class="search-trigger control-pill"
+    data-search-trigger
+    aria-label="Toggle search"
+    aria-keyshortcuts="/"
+  >
+    <span class="search-trigger-label">Search</span>
+    <span class="search-shortcut" aria-hidden="true">
+      <span class="search-shortcut-key shortcut-pill">/</span>
+    </span>
+  </button>
+  <form class="search-form control-pill control-pill--focus-within" data-search-form>
+    <label class="visually-hidden" for="search-input">Search posts</label>
+    <input
+      id="search-input"
+      name="search"
+      type="text"
+      placeholder="Search posts"
+      autocomplete="off"
+      role="combobox"
+      aria-autocomplete="list"
+      aria-expanded="false"
+      aria-controls="search-results"
+    />
+  </form>
+  <div class="results-panel surface-panel" data-search-panel hidden>
+    <p class="eyebrow status" data-search-status hidden></p>
+    <ul class="results" id="search-results" role="listbox" data-search-results></ul>
+  </div>
+</section>
+
+<script>
+  import "./search-dialog.client.ts";
+</script>
+
+<style>
+  .search-root {
+    position: relative;
+    min-width: 0;
+  }
+
+  .search-trigger {
+    position: relative;
+    gap: var(--space-2);
+    padding: var(--space-2) 2.5rem var(--space-2) var(--space-3);
+  }
+
+  .search-trigger-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-shortcut {
+    display: none;
+    align-items: center;
+    position: absolute;
+    right: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  .search-shortcut-key {
+    padding: 0 0.22rem;
+    font-size: 0.74rem;
+  }
+
+  .search-form {
+    display: none;
+    align-items: center;
+    min-width: min(16rem, calc(100vw - 8rem));
+    background: color-mix(in srgb, var(--color-surface) 96%, var(--color-bg));
+    padding: 0 var(--space-3);
+  }
+
+  .search-root[data-open="true"] .search-trigger {
+    display: none;
+  }
+
+  .search-root[data-open="true"] .search-form {
+    display: inline-flex;
+  }
+
+  .search-form input {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--color-text);
+    padding: 0 0.12rem;
+    min-height: 100%;
+    border-radius: 999px;
+  }
+
+  .search-form input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-form input:focus {
+    outline: none;
+  }
+
+  .search-form input:focus-visible {
+    box-shadow: none;
+  }
+
+  .search-form.control-pill--focus-within:focus-within {
+    box-shadow: inset 0 0 0 2px var(--color-accent), var(--shadow-sm);
+  }
+
+  .results-panel {
+    position: absolute;
+    top: var(--header-search-results-offset);
+    left: 0;
+    right: auto;
+    width: min(21rem, calc(100vw - 2rem));
+    margin: 0;
+    padding: var(--space-2);
+    z-index: 20;
+    background: color-mix(in srgb, var(--color-surface) 96%, var(--color-bg));
+    box-shadow: var(--shadow-md);
+  }
+
+  .status {
+    color: var(--color-text-muted);
+    padding: var(--space-2) var(--space-3) 0;
+  }
+
+  .results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    max-height: min(18rem, 55vh);
+    overflow: auto;
+  }
+
+  .results-panel[hidden],
+  .results:empty,
+  .status[hidden] {
+    display: none;
+  }
+
+  .results :global(li) {
+    display: block;
+  }
+
+  .results :global(.search-result-link) {
+    display: grid;
+    gap: var(--space-1);
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--color-text);
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .results :global(.search-result-link:hover) {
+    background: color-mix(in srgb, var(--color-surface-strong) 72%, var(--color-surface));
+  }
+
+  .results :global(.search-result-link.is-active),
+  .results :global(.search-result-link:focus-visible) {
+    background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+    padding: var(--space-3) var(--space-4);
+    margin: 0;
+    outline: none;
+  }
+
+  .results :global(.result-title) {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-snug);
+    color: var(--color-text);
+  }
+
+  .results :global(.result-meta) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem;
+    color: color-mix(in srgb, var(--color-text-muted) 72%, var(--color-rule));
+    font-family: var(--font-mono);
+    font-size: var(--font-size-compact-sm);
+    line-height: 1.4;
+  }
+
+  .results :global(.result-meta-divider) {
+    color: color-mix(in srgb, var(--color-text-muted) 42%, var(--color-rule));
+  }
+
+  @media (max-width: 900px) {
+    .search-root {
+      position: static;
+    }
+
+    .search-root[data-open="true"] {
+      width: auto;
+    }
+
+    .search-form {
+      min-width: 0;
+      width: 100%;
+      display: none;
+    }
+
+    .results-panel {
+      left: 0;
+      right: 0;
+      width: auto;
+    }
+
+    .search-root[data-open="true"] .search-trigger {
+      display: inline-flex;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 26%, transparent), var(--shadow-sm);
+    }
+
+    .search-root[data-open="true"] .search-form {
+      display: inline-flex;
+      position: absolute;
+      top: calc(100% + var(--header-search-form-gap));
+      left: 0;
+      right: 0;
+      z-index: 25;
+    }
+
+    .search-root[data-open="true"] .results-panel {
+      position: absolute;
+      top: var(--header-search-results-offset);
+      left: 0;
+      right: 0;
+      z-index: 24;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .search-shortcut {
+      display: inline-flex;
+    }
+  }
+
+  @media (hover: none), (pointer: coarse), (max-width: 900px) {
+    .search-trigger {
+      padding-inline: var(--space-3);
+    }
+  }
+
+</style>

@@ -1,0 +1,28 @@
+Unified Licensing Notice
+
+Copyright (c) 2026, Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>
+
+This repository uses two licenses, applied by scope:
+
+1. Code: BSD 3-Clause
+   Applies to source code, configuration, scripts, and build tooling,
+   unless another notice is present in a specific file or directory.
+
+2. Content: CC BY 4.0 Attribution 4.0 International
+   Applies to blog post content and media assets, unless another notice
+   is present in a specific file or directory.
+
+Full license texts:
+- BSD 3-Clause: `LICENSES/BSD-3-Clause.txt`
+- CC BY 4.0: `LICENSES/CC-BY-4.0.txt`
+
+For website readers:
+- `/LICENSE` is the scope notice
+- `/LICENSES/BSD-3-Clause.txt` is the full code license
+- `/LICENSES/CC-BY-4.0.txt` is the full content license
+
+Attribution expectations for reused content:
+- credit Alexis Nahan (alias "alnah")
+- link back to the original post when practical
+- link to the CC BY 4.0 license
+- indicate whether you changed the material

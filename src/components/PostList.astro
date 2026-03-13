@@ -1,0 +1,100 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDate, readingTimeFromText } from "../lib/content";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
+
+type PostEntry = CollectionEntry<"posts">;
+
+interface Props {
+  posts: PostEntry[];
+  showReadingTime?: boolean;
+  ctaHref?: string;
+  ctaLabel?: string;
+}
+
+const {
+  posts,
+  showReadingTime = false,
+  ctaHref,
+  ctaLabel
+} = Astro.props;
+---
+
+<div class="post-list">
+  {posts.map((post) => (
+    <article class="post-list-item">
+      <p class="eyebrow post-list-meta">
+        <span>{formatDate(post.data.date)}</span>
+        {
+          showReadingTime && (
+            <>
+              <span aria-hidden="true">·</span>
+              <span>{readingTimeFromText(stripLeadingMarkdownTitle(post.body))} min read</span>
+            </>
+          )
+        }
+      </p>
+      <div class="post-list-copy">
+        <h3><a href={`/posts/${post.id}/`}>{resolveEntryTitle(post)}</a></h3>
+        <p>{post.data.description}</p>
+      </div>
+    </article>
+  ))}
+  {
+    ctaHref && ctaLabel && (
+      <div class="post-list-cta">
+        <a class="post-list-link" href={ctaHref}>{ctaLabel}</a>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .post-list {
+    display: grid;
+    gap: var(--space-6);
+    max-width: var(--width-reading);
+  }
+
+  .post-list-item {
+    display: grid;
+    gap: var(--space-3);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-rule);
+  }
+
+  .post-list-meta {
+    margin: 0;
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .post-list-copy h3 {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    margin: 0 0 var(--space-2);
+  }
+
+  .post-list-copy p {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .post-list-cta {
+    padding-top: var(--space-2);
+  }
+
+  .post-list-link {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+  }
+
+  @media (min-width: 901px) {
+    .post-list {
+      gap: var(--space-7);
+    }
+  }
+</style>

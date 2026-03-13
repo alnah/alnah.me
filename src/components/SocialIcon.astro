@@ -1,0 +1,43 @@
+---
+import githubIcon from "../assets/social/github.svg?raw";
+import xIcon from "../assets/social/x.svg?raw";
+import blueskyIcon from "../assets/social/bluesky.svg?raw";
+import mastodonIcon from "../assets/social/mastodon.svg?raw";
+import linkedinIcon from "../assets/social/linkedin.svg?raw";
+import mailIcon from "../assets/social/email.svg?raw";
+import rssIcon from "../assets/social/rss.svg?raw";
+import whatsappIcon from "../assets/social/whatsapp.svg?raw";
+import facebookIcon from "../assets/social/facebook.svg?raw";
+import telegramIcon from "../assets/social/telegram.svg?raw";
+
+interface Props {
+  icon:
+    | "github"
+    | "x"
+    | "bluesky"
+    | "mastodon"
+    | "linkedin"
+    | "email"
+    | "rss"
+    | "whatsapp"
+    | "facebook"
+    | "telegram";
+}
+
+const { icon } = Astro.props;
+
+const iconMap = {
+  github: githubIcon,
+  x: xIcon,
+  bluesky: blueskyIcon,
+  mastodon: mastodonIcon,
+  linkedin: linkedinIcon,
+  email: mailIcon,
+  rss: rssIcon,
+  whatsapp: whatsappIcon,
+  facebook: facebookIcon,
+  telegram: telegramIcon
+} as const;
+---
+
+<span class="social-icon-svg" aria-hidden="true" set:html={iconMap[icon]} />
