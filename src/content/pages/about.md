@@ -55,7 +55,7 @@ You can also find the [`skills/`](https://github.com/alnah/alnah.io/tree/main/sk
 
 ## Privacy
 
-This site uses a small, privacy-first setup. If analytics are enabled, they run through Cloudflare Web Analytics. You can find the current privacy notice on the [`Privacy` page](/privacy/).
+This site uses a small, privacy-first setup. Analytics are enabled through Cloudflare Web Analytics. You can find the current privacy notice on the [`Privacy` page](/privacy/).
 
 ## Support and contact
 
