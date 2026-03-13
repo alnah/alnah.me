@@ -37,7 +37,7 @@ That work changed how I think about software. It made me more sensitive to progr
 
 Some of my public work lives on GitHub:
 
-- [`Picoloom`](https://github.com/alnah/picoloom) is a library and CLI for Markdown-to-PDF conversion using headless Chrome, with cover pages, table of contents, built-in themes, and parallel batch processing.
+- [`picoloom`](https://github.com/alnah/picoloom) is a library and CLI for Markdown-to-PDF conversion using headless Chrome, with cover pages, table of contents, built-in themes, and parallel batch processing.
 - [`things-agent`](https://github.com/alnah/things-agent) is an AI-first CLI for operating Things 3 on macOS through AppleScript and the official URL Scheme, with constrained agent workflows and no direct SQLite access in normal operations.
 
 Private work:
