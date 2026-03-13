@@ -53,6 +53,10 @@ I write the posts on this website myself. I may use LLMs for editing, grammar, c
 
 You can also find the [`skills/`](https://github.com/alnah/alnah.io/tree/main/skills) I use in the site repository.
 
+## Privacy
+
+This site uses a small, privacy-first setup. If analytics are enabled, they run through Cloudflare Web Analytics. You can find the current privacy notice on the [`Privacy` page](/privacy/).
+
 ## Support and contact
 
 If you want to support this work, you can do it through [GitHub Sponsors](https://github.com/sponsors/alnah); if you need help with a project, feel free to reach out at [me@alnah.io](mailto:me@alnah.io).
