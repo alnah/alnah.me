@@ -15,7 +15,7 @@ const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
 
 async function buildRedirectLines(entries) {
-  const lines = ["https://www.alnah.io/* https://alnah.io/:splat 301"];
+  const lines = [];
 
   for (const [alias, target] of buildAliasRedirects(entries)) {
     lines.push(`${alias} ${target} 301`);

@@ -119,5 +119,5 @@ PUBLIC_CF_WEB_ANALYTICS_TOKEN=your_token_here
 Notes:
 
 - the site already ships `public/_headers` and `public/_redirects`
-- `https://www.alnah.io/* -> https://alnah.io/:splat` is already defined in `_redirects`
+- configure `www -> apex` in Cloudflare, not in `_redirects`, because Workers asset redirects only allow relative targets
 - the analytics beacon is loaded only when `PUBLIC_CF_WEB_ANALYTICS_TOKEN` is set
