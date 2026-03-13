@@ -5,7 +5,18 @@ import { canonicalPostPath, normalizeAlias } from "./aliases.js";
 import { isPublishedData } from "./publication.js";
 
 export async function findMarkdownFiles(dir) {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
+  let entries;
+
+  try {
+    entries = await fs.readdir(dir, { withFileTypes: true });
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
+      return [];
+    }
+
+    throw error;
+  }
+
   const files = await Promise.all(
     entries.map(async (entry) => {
       const fullPath = path.join(dir, entry.name);
