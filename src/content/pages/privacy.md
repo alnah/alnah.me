@@ -5,11 +5,11 @@ description: "Privacy notice for analytics and contact links."
 
 # Privacy
 
-This site is a small personal website hosted on Cloudflare Pages.
+This site is a small personal website hosted on Cloudflare.
 
 ## Analytics
 
-If analytics are enabled on this site, they use Cloudflare Web Analytics.
+This site uses Cloudflare Web Analytics.
 
 Cloudflare Web Analytics is designed to measure aggregate traffic without using cross-site tracking cookies. I use it to understand basic site activity such as page views and general traffic patterns.
 
