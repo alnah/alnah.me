@@ -205,7 +205,7 @@ Do not introduce `public` or `summary` unless the content schema is changed firs
 - Build output directory: `dist`
 - Cloudflare Web Analytics is wired through `PUBLIC_CF_WEB_ANALYTICS_TOKEN`
 - The runtime beacon is rendered by `src/components/Analytics.astro`
-- `public/_redirects` already includes the `www -> apex` redirect for `alnah.io`
+- configure `www -> apex` in Cloudflare, not in `public/_redirects`, because Workers asset redirects only allow relative targets
 
 ## Frontend features
 
