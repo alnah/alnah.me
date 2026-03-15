@@ -18,6 +18,9 @@ Session.vim
 .vscode/
 .codex/
 
+# Obsidian
+src/content/.obsidian/
+
 # Astro
 dist/
 .astro/
