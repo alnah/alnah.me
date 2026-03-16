@@ -345,6 +345,38 @@ input:focus-visible {
   margin: var(--space-7) 0;
 }
 
+.prose img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: min(70vh, 36rem);
+  margin: var(--space-6) auto;
+  object-fit: contain;
+  border: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-rule));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+.prose .video-embed {
+  margin: var(--space-6) 0;
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-border) 82%, var(--color-rule));
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+.prose .video-embed iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  border-radius: calc(var(--radius-md) - 2px);
+}
+
 .surface-panel {
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   border: 1px solid var(--color-rule);

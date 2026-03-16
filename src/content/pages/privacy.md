@@ -11,15 +11,11 @@ This site is a small personal website hosted on Cloudflare.
 
 This site uses Cloudflare Web Analytics.
 
-Cloudflare Web Analytics is designed to measure aggregate traffic without using cross-site tracking cookies. I use it to understand basic site activity such as page views and general traffic patterns.
-
-You can read more here:
-
-- [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/)
+Cloudflare Web Analytics is designed to measure aggregate traffic without using cross-site tracking cookies. I use it to understand basic site activity such as page views and general traffic patterns. You can read more here: [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/)
 
 ## External services
 
-This site links to external services such as GitHub, X, Bluesky, Mastodon, LinkedIn, and email. When you follow those links, their own privacy policies and terms apply.
+This site links to external services such as GitHub, X, Bluesky, Mastodon, LinkedIn, or other platforms. When you follow those links, their own privacy policies and terms apply.
 
 ## Contact
 

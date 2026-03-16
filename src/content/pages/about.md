@@ -1,6 +1,6 @@
 ---
-title: 'About'
-description: 'Who writes here and why this notebook exists.'
+title: About
+description: Who writes here and why this notebook exists.
 ---
 
 # About
