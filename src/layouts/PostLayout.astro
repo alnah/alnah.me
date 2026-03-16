@@ -15,7 +15,7 @@ const documentTitle = resolveEntryTitle(entry);
 const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? ""));
 const canonicalPath = `/posts/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
-const socialImage = resolveSocialImage(entry.data.cover, entry.id);
+const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
   dateModified: entry.data.lastmod,
