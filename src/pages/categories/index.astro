@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCategories } from "../../lib/content";
+
+const categories = await getCategories();
+---
+
+<BaseLayout
+  title="Categories"
+  description="Browse posts by category."
+>
+  <section class="categories-shell content-band">
+    <div class="prose archive-intro">
+      <p class="eyebrow">Categories</p>
+      <h2>Browse by category</h2>
+      <p>The five editorial tracks I use to organize the blog.</p>
+    </div>
+
+    <div class="category-grid">
+      {categories.map((category) => (
+        <article class="category-card">
+          <h3>
+            <a href={`/categories/${category.slug}/`}>{category.label}</a>
+          </h3>
+          <p>{category.description}</p>
+          <p class="eyebrow category-count">{category.count} post(s)</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .categories-shell {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .category-grid {
+    display: grid;
+    gap: var(--space-4);
+    max-width: min(100%, 58rem);
+  }
+
+  .category-card {
+    padding: var(--space-4);
+    border: 1px solid var(--color-rule);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-surface) 90%, var(--color-bg));
+  }
+
+  .category-card h3 {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+  }
+
+  .category-card h3 a {
+    text-decoration: none;
+  }
+
+  .category-card p {
+    margin: 0;
+  }
+
+  .category-card p + p {
+    margin-top: var(--space-2);
+  }
+
+  .category-count {
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 901px) {
+    .category-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

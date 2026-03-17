@@ -1,18 +1,25 @@
 ---
 import ShareLinks from "./ShareLinks.astro";
-import { slugify } from "../lib/content";
+import { getPostCategoryMeta, slugify, type PostCategory } from "../lib/content";
 
 interface Props {
   slug: string;
   title: string;
+  category: PostCategory;
   tags: string[];
 }
 
-const { slug, title, tags } = Astro.props;
+const { slug, title, category, tags } = Astro.props;
 const canonicalUrl = new URL(`/posts/${slug}/`, Astro.site).toString();
+const categoryMeta = getPostCategoryMeta(category);
 ---
 
 <footer class="post-footer section-rule">
+  <div class="category-row">
+    <a class="category-pill" href={`/categories/${categoryMeta.slug}/`}>
+      {categoryMeta.label}
+    </a>
+  </div>
   <div class="tag-row">
     {tags.map((tag) => (
       <a class="tag" href={`/tags/${slugify(tag)}/`}>#{tag}</a>
@@ -30,6 +37,28 @@ const canonicalUrl = new URL(`/posts/${slug}/`, Astro.site).toString();
     padding-top: var(--space-4);
     display: grid;
     gap: var(--space-4);
+  }
+
+  .category-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-accent) 36%, var(--color-rule));
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-compact-sm);
+  }
+
+  .category-pill:hover {
+    background: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
   }
 
   .tag-row {

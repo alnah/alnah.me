@@ -68,8 +68,14 @@ function renderResults(items: SearchIndexDocument[]) {
       const title = document.createElement("strong");
       const meta = document.createElement("span");
       const date = document.createElement("span");
+      const category = document.createElement("span");
       const tags = document.createElement("span");
-      const divider = document.createElement("span");
+      const divider = () => {
+        const element = document.createElement("span");
+        element.className = "result-meta-divider";
+        element.textContent = "·";
+        return element;
+      };
 
       link.href = item.url;
       link.id = `search-result-${itemIndex}`;
@@ -79,20 +85,28 @@ function renderResults(items: SearchIndexDocument[]) {
       title.textContent = item.title;
       meta.className = "result-meta";
       date.className = "result-date";
+      category.className = "result-category";
       tags.className = "result-tags";
-      divider.className = "result-meta-divider";
-      divider.textContent = "·";
       date.textContent = item.dateLabel;
+      category.textContent = item.category;
       tags.textContent = (item.tags ?? []).map((tag) => `#${tag}`).join(" ");
 
       link.append(title);
-      if (item.dateLabel || (item.tags ?? []).length > 0) {
+      if (item.dateLabel || item.category || (item.tags ?? []).length > 0) {
         if (item.dateLabel) {
           meta.append(date);
         }
 
-        if (item.dateLabel && (item.tags ?? []).length > 0) {
-          meta.append(divider);
+        if (item.dateLabel && item.category) {
+          meta.append(divider());
+        }
+
+        if (item.category) {
+          meta.append(category);
+        }
+
+        if ((item.dateLabel || item.category) && (item.tags ?? []).length > 0) {
+          meta.append(divider());
         }
 
         if ((item.tags ?? []).length > 0) {

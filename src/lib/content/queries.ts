@@ -1,6 +1,12 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import { isPublishedData, resolvePublicationDate } from "../publication.js";
 import { slugify } from "./format";
+import {
+  getPostCategoryMeta,
+  isPostCategory,
+  POST_CATEGORIES,
+  type PostCategory
+} from "./taxonomy";
 
 type PostEntry = CollectionEntry<"posts">;
 
@@ -33,6 +39,15 @@ export async function getPostsByTag(tagSlug: string) {
   );
 }
 
+export async function getPostsByCategory(categorySlug: string) {
+  if (!isPostCategory(categorySlug)) {
+    return [];
+  }
+
+  const posts = await getPublishedPosts();
+  return posts.filter((post) => post.data.category === categorySlug);
+}
+
 export async function getTags() {
   const posts = await getPublishedPosts();
   const tags = new Map<string, number>();
@@ -46,4 +61,18 @@ export async function getTags() {
   return [...tags.entries()]
     .map(([label, count]) => ({ label, count, slug: slugify(label) }))
     .sort((left, right) => left.label.localeCompare(right.label));
+}
+
+export async function getCategories() {
+  const posts = await getPublishedPosts();
+  const counts = new Map<PostCategory, number>();
+
+  for (const post of posts) {
+    counts.set(post.data.category, (counts.get(post.data.category) ?? 0) + 1);
+  }
+
+  return POST_CATEGORIES.map((category) => ({
+    ...getPostCategoryMeta(category),
+    count: counts.get(category) ?? 0
+  }));
 }

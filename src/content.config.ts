@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { POST_CATEGORIES } from "./lib/content/taxonomy";
 
 const posts = defineCollection({
   loader: glob({
@@ -13,6 +14,7 @@ const posts = defineCollection({
       date: z.coerce.date(),
       draft: z.boolean(),
       description: z.string().min(1),
+      category: z.enum(POST_CATEGORIES),
       tags: z.array(z.string().min(1)).min(1),
       lastmod: z.coerce.date().optional(),
       aliases: z.array(z.string().min(1)).optional(),

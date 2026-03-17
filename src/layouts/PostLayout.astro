@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, readingTimeFromText } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromText } from "../lib/content";
 import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
 
@@ -16,8 +16,10 @@ const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? 
 const canonicalPath = `/posts/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
+const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
+  category: categoryMeta.label,
   dateModified: entry.data.lastmod,
   datePublished: entry.data.date,
   description: entry.data.description,
@@ -45,10 +47,19 @@ const schemaJson = buildBlogPostingSchema({
           <span>{formatDate(entry.data.date)}</span>
           <span aria-hidden="true">·</span>
           <span>{readingTime} min read</span>
+          <span aria-hidden="true">·</span>
+          <a class="post-category-link" href={`/categories/${categoryMeta.slug}/`}>
+            {categoryMeta.label}
+          </a>
         </p>
       </header>
       <slot />
-      <PostFooter slug={entry.id} title={documentTitle} tags={entry.data.tags} />
+      <PostFooter
+        slug={entry.id}
+        title={documentTitle}
+        category={entry.data.category}
+        tags={entry.data.tags}
+      />
     </div>
   </article>
 </BaseLayout>
@@ -69,6 +80,16 @@ const schemaJson = buildBlogPostingSchema({
     align-items: center;
     margin-bottom: var(--space-4);
     flex-wrap: wrap;
+  }
+
+  .post-category-link {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .post-category-link:hover {
+    border-color: currentColor;
   }
 
   .post-article > h1 + p {
