@@ -1,9 +1,8 @@
 # alnah.me
 
-Static Astro blog by Alexis Nahan.
+Static Astro source for alnah.me.
 
-The site focuses on solo building, product engineering, technical writing, and
-open source work. It uses a custom theme built specifically for `alnah.me`.
+The site focuses on building software, teaching languages, and tooling a real business. It uses a custom theme built specifically for `alnah.me`.
 
 ## Structure
 
@@ -109,15 +108,17 @@ Recommended Cloudflare Pages settings:
 - Build command: `make build`
 - Build output directory: `dist`
 
-If you want Cloudflare Web Analytics enabled, set this environment variable in
-the Pages project:
+Cloudflare Web Analytics can be enabled directly in the Pages project.
+
+Optional environment variables:
 
 ```bash
-PUBLIC_CF_WEB_ANALYTICS_TOKEN=your_token_here
+GITHUB_TOKEN=your_github_token
 ```
 
 Notes:
 
 - the site already ships `public/_headers` and `public/_redirects`
 - configure `www -> apex` in Cloudflare, not in `_redirects`, because Workers asset redirects only allow relative targets
-- the analytics beacon is loaded only when `PUBLIC_CF_WEB_ANALYTICS_TOKEN` is set
+- enable Web Analytics in the Cloudflare Pages project when needed
+- set `GITHUB_TOKEN` in Pages only if you want live GitHub activity data on the About page

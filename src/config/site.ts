@@ -82,7 +82,7 @@ export const SITE = {
     alias: 'alnah',
     email: 'reach@alnah.me',
     intro: "Hi, I'm Alexis.",
-    blurb: 'I use this site to think through my projects as I shape them.',
+    blurb: 'building software, teaching languages, and tooling my business',
     kicker: 'notes from my work',
     photoAlt: 'Portrait of Alexis Nahan',
   },
