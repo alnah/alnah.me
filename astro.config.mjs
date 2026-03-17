@@ -2,7 +2,7 @@ import { defineConfig, passthroughImageService } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://alnah.io",
+  site: "https://alnah.me",
   output: "static",
   integrations: [sitemap()],
   image: {

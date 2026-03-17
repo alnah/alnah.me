@@ -19,4 +19,4 @@ This site links to external services such as GitHub, X, Bluesky, Mastodon, Linke
 
 ## Contact
 
-If you have a privacy-related question, you can reach me at [me@alnah.io](mailto:me@alnah.io).
+If you have a privacy-related question, you can reach me at [reach@alnah.me](mailto:reach@alnah.me).

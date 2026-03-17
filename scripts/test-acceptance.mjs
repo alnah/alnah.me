@@ -46,7 +46,7 @@ for (const label of ["GitHub", "X", "Bluesky", "Mastodon", "LinkedIn", "Email", 
 assertIncludes(homeHtml, 'href="/rss.xml"', "home footer RSS href");
 
 assert.ok(
-  !redirects.includes("https://www.alnah.io/* https://alnah.io/:splat 301"),
+  !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),
   "_redirects should not contain the legacy absolute www redirect under Workers assets"
 );
 assert.ok(!redirects.includes("/reuse-notes/"), "Removed fixture aliases must not remain in redirects");
@@ -71,7 +71,7 @@ assertIncludes(headers, "X-Robots-Tag: noindex", "_headers index noindex");
 assertIncludes(headers, "/LICENSES/*", "_headers license section");
 assertIncludes(headers, "/raw/posts/*", "_headers raw posts section");
 assertIncludes(headers, "X-Robots-Tag: noindex, nofollow", "_headers raw posts noindex");
-assertIncludes(robots, "Sitemap: https://alnah.io/sitemap-index.xml", "robots sitemap");
+assertIncludes(robots, "Sitemap: https://alnah.me/sitemap-index.xml", "robots sitemap");
 assertIncludes(robots, "Disallow: /index.json", "robots index disallow");
 assertIncludes(robots, "Disallow: /raw/posts/", "robots raw disallow");
 assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");
