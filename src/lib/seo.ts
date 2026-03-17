@@ -11,6 +11,7 @@ interface SeoInput {
 
 interface BlogPostingInput {
   canonicalUrl: string;
+  category?: string;
   datePublished: Date;
   dateModified?: Date;
   description: string;
@@ -126,6 +127,7 @@ export function buildProfilePageSchema({
 
 export function buildBlogPostingSchema({
   canonicalUrl,
+  category,
   dateModified,
   datePublished,
   description,
@@ -142,6 +144,7 @@ export function buildBlogPostingSchema({
     dateModified: (dateModified ?? datePublished).toISOString(),
     mainEntityOfPage: canonicalUrl,
     url: canonicalUrl,
+    ...(category ? { articleSection: category } : {}),
     ...(image ? { image } : {}),
     ...(tags?.length ? { keywords: tags.join(", ") } : {}),
     author: buildPersonEntity(),

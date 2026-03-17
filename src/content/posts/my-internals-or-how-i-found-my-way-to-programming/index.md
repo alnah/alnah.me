@@ -4,6 +4,7 @@ date: 2026-03-16
 draft: false
 description: Learning programming late, flying away from pessimistic AI discourse, and finding my way back through teaching, systems thinking, and fun programming applied to my work.
 cover: thinkpad-x200-internals.jpg
+category: thinking
 tags:
   - programming
   - ai

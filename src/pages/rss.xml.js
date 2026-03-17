@@ -1,6 +1,6 @@
 import rss from "@astrojs/rss";
 import { SITE } from "../config/site";
-import { getPublishedPosts } from "../lib/content";
+import { getPostCategoryMeta, getPublishedPosts } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
 
 export async function GET(context) {
@@ -25,7 +25,7 @@ export async function GET(context) {
       description: post.data.description,
       pubDate: post.data.date,
       link: `/posts/${post.id}/`,
-      categories: post.data.tags,
+      categories: [getPostCategoryMeta(post.data.category).label, ...post.data.tags],
       author: SITE.author.email
     }))
   });

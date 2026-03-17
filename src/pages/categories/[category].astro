@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import {
+  getCategories,
+  getPostsByCategory,
+  isPostCategory
+} from "../../lib/content";
+
+export async function getStaticPaths() {
+  const categories = await getCategories();
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: { category }
+  }));
+}
+
+const { category } = Astro.props;
+const posts = isPostCategory(category.slug)
+  ? await getPostsByCategory(category.slug)
+  : [];
+---
+
+<BaseLayout
+  title={`${category.label} posts`}
+  description={category.description}
+>
+  <section class="archive-shell content-band">
+    <div class="prose archive-intro">
+      <p class="eyebrow">Category archive</p>
+      <h2>{category.label}</h2>
+      <p>{category.description}</p>
+      <p>{category.count} post(s) filed under this category.</p>
+    </div>
+    {
+      posts.length > 0 ? (
+        <PostList posts={posts} showReadingTime />
+      ) : (
+        <p class="archive-empty">No posts published in this category yet.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .archive-empty {
+    margin: 0;
+    max-width: var(--width-reading);
+    color: var(--color-text-muted);
+  }
+</style>

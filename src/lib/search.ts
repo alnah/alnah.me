@@ -6,6 +6,7 @@ import {
   markdownToPlainText,
   searchDateText
 } from "./content/format";
+import { getPostCategoryMeta } from "./content/taxonomy";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.js";
 
 type PostEntry = CollectionEntry<"posts">;
@@ -13,6 +14,7 @@ type PostEntry = CollectionEntry<"posts">;
 export type SearchDocument = {
   title: string;
   description: string;
+  category: string;
   tags: string[];
   url: string;
   date: string;
@@ -30,6 +32,7 @@ export type SearchIndexDocument = SearchDocument & {
   position: number;
   search: {
     title: SearchFieldIndex;
+    category: SearchFieldIndex;
     tags: SearchFieldIndex;
     date: SearchFieldIndex;
     description: SearchFieldIndex;
@@ -44,6 +47,7 @@ export type SearchIndexDocument = SearchDocument & {
  */
 export const SEARCH_WEIGHTS = {
   title: 24,
+  category: 20,
   tags: 18,
   date: 14,
   description: 8,
@@ -58,6 +62,7 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
   return {
     title: resolveEntryTitle(post),
     description: post.data.description,
+    category: getPostCategoryMeta(post.data.category).label,
     tags: post.data.tags,
     url: `/posts/${post.id}/`,
     date: formatIsoDate(post.data.date),
@@ -110,6 +115,7 @@ export function buildSearchIndex(items: SearchDocument[]): SearchIndexDocument[]
     position,
     search: {
       title: buildSearchFieldIndex(item.title),
+      category: buildSearchFieldIndex(item.category),
       tags: buildSearchFieldIndex((item.tags ?? []).join(" ")),
       date: buildSearchFieldIndex(buildExpandedDateSearchText(item)),
       description: buildSearchFieldIndex(item.description),
@@ -182,6 +188,10 @@ export function scoreSearchDocument(
     score += 220;
   }
 
+  if (item.search.category.normalized === normalizedQuery) {
+    score += 190;
+  }
+
   if (item.search.tags.normalized === normalizedQuery) {
     score += 180;
   }
@@ -192,6 +202,10 @@ export function scoreSearchDocument(
 
   if (hasAdjacentExactTokens(item.search.title, queryTokens)) {
     score += 120;
+  }
+
+  if (hasAdjacentExactTokens(item.search.category, queryTokens)) {
+    score += 100;
   }
 
   if (hasAdjacentExactTokens(item.search.tags, queryTokens)) {

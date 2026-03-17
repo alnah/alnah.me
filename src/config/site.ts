@@ -73,7 +73,7 @@ export const SITE = {
   siteUrl: 'https://alnah.io',
   aboutPath: '/about/',
   description:
-    'Notes on software, product work, teaching, open source, and related work',
+    'Notes on building software, teaching systems, and business tools from real work.',
   defaultSocialImage: '/profile.jpeg',
   socialImageAlt: 'Portrait of Alexis Nahan',
   xHandle: '@_alnah',
