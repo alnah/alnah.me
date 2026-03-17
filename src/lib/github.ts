@@ -98,7 +98,7 @@ async function fetchContributionCalendar(username: string, token: string) {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
-      "User-Agent": "alnah.io"
+      "User-Agent": "alnah.me"
     },
     body: JSON.stringify({
       query: `
@@ -242,7 +242,7 @@ async function fetchRecentActivity(username: string, token: string) {
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${token}`,
-      "User-Agent": "alnah.io",
+      "User-Agent": "alnah.me",
       "X-GitHub-Api-Version": "2022-11-28"
     }
   }, "GitHub public events request");
@@ -274,7 +274,7 @@ async function fetchRecentCommitActivity(username: string, token: string, limit:
       headers: {
         Accept: "application/vnd.github+json",
         Authorization: `Bearer ${token}`,
-        "User-Agent": "alnah.io",
+        "User-Agent": "alnah.me",
         "X-GitHub-Api-Version": "2022-11-28"
       }
     },
@@ -302,7 +302,7 @@ async function fetchRecentCommitActivity(username: string, token: string, limit:
         headers: {
           Accept: "application/vnd.github+json",
           Authorization: `Bearer ${token}`,
-          "User-Agent": "alnah.io",
+          "User-Agent": "alnah.me",
           "X-GitHub-Api-Version": "2022-11-28"
         }
       }, `GitHub commits request for ${repo.full_name}`);

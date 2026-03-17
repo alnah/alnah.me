@@ -47,7 +47,7 @@ Private work:
 
 ## Artificial Intelligence transparency
 
-I write the posts on this website myself. I may use LLMs for editing, grammar, clarity, or wording because English is not my first language, even though I use it daily. The stories, ideas, experiments, and conclusions are mine. They reflect my own experience, but the grammar or some wording can sometimes benefit from that help. You can also find the [`skills/`](https://github.com/alnah/alnah.io/tree/main/skills) I use in the site repository.
+I write the posts on this website myself. I may use LLMs for editing, grammar, clarity, or wording because English is not my first language, even though I use it daily. The stories, ideas, experiments, and conclusions are mine. They reflect my own experience, but the grammar or some wording can sometimes benefit from that help. You can also find the [`skills/`](https://github.com/alnah/alnah.me/tree/main/skills) I use in the site repository.
 
 ## Privacy
 
@@ -55,4 +55,4 @@ This site uses a small, privacy-first setup. Analytics are enabled through Cloud
 
 ## Support and contact
 
-If you want to support this work, you can do it through [GitHub Sponsors](https://github.com/sponsors/alnah); if you need help with a project, feel free to reach out at [me@alnah.io](mailto:me@alnah.io).
+If you want to support this work, you can do it through [GitHub Sponsors](https://github.com/sponsors/alnah); if you need help with a project, feel free to reach out at [reach@alnah.me](mailto:reach@alnah.me).

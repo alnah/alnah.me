@@ -1,9 +1,9 @@
-# alnah.io
+# alnah.me
 
 Static Astro blog by Alexis Nahan.
 
 The site focuses on solo building, product engineering, technical writing, and
-open source work. It uses a custom theme built specifically for `alnah.io`.
+open source work. It uses a custom theme built specifically for `alnah.me`.
 
 ## Structure
 

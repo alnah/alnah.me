@@ -28,7 +28,7 @@ assert.ok(
 if (representativePath) {
   const postHtml = readAbsoluteFile(representativePath);
 
-  assertIncludes(postHtml, '<link rel="canonical" href="https://alnah.io/posts/', "canonical link");
+  assertIncludes(postHtml, '<link rel="canonical" href="https://alnah.me/posts/', "canonical link");
   assertIncludes(postHtml, '<meta property="og:type" content="article">', "og:type");
   assertIncludes(postHtml, '<meta name="twitter:card" content="summary', "twitter card");
   assertIncludes(postHtml, '"@type":"BlogPosting"', "BlogPosting schema");
@@ -53,9 +53,9 @@ assertIncludes(rssXml, 'rel="self"', "RSS self link");
 assertIncludes(rssXml, "<generator>Astro v6 with @astrojs/rss</generator>", "RSS generator");
 
 if (searchIndex.length > 0) {
-  assertIncludes(rssXml, "<link>https://alnah.io/posts/", "RSS canonical links");
+  assertIncludes(rssXml, "<link>https://alnah.me/posts/", "RSS canonical links");
   assertIncludes(rssXml, "<category>", "RSS item categories");
-  assertIncludes(rssXml, `<author>${"me@alnah.io"}</author>`, "RSS item author");
+  assertIncludes(rssXml, `<author>${"reach@alnah.me"}</author>`, "RSS item author");
 }
 
 assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/", "Alias normalization should add slashes");

@@ -70,7 +70,7 @@ function validateContacts(contacts: readonly ContactLink[]) {
 export const SITE = {
   title: 'Alexis Nahan',
   alternateName: 'alnah',
-  siteUrl: 'https://alnah.io',
+  siteUrl: 'https://alnah.me',
   aboutPath: '/about/',
   description:
     'Notes on building software, teaching systems, and business tools from real work.',
@@ -80,13 +80,13 @@ export const SITE = {
   author: {
     name: 'Alexis Nahan',
     alias: 'alnah',
-    email: 'me@alnah.io',
+    email: 'reach@alnah.me',
     intro: "Hi, I'm Alexis.",
     blurb: 'I use this site to think through my projects as I shape them.',
     kicker: 'notes from my work',
     photoAlt: 'Portrait of Alexis Nahan',
   },
-  repoUrl: 'https://github.com/alnah/alnah.io',
+  repoUrl: 'https://github.com/alnah/alnah.me',
   reuseUrl: '/LICENSE',
   contacts: validateContacts([
     {
@@ -117,7 +117,7 @@ export const SITE = {
     {
       id: 'email',
       label: 'Email',
-      href: 'mailto:me@alnah.io',
+      href: 'mailto:reach@alnah.me',
     },
     {
       id: 'rss',

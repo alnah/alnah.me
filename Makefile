@@ -26,7 +26,7 @@ PW_FULL_PAGE ?= 1
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
 
 help: ## Show available developer targets
-	@printf "alnah.io developer commands\n\n"
+	@printf "alnah.me developer commands\n\n"
 	@awk 'BEGIN {FS = ":.*## "}; /^[a-zA-Z0-9_.-]+:.*## / {printf "  %-18s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 doctor: ## Check that local tooling matches the project baseline

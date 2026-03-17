@@ -9,7 +9,7 @@ This file is for coding agents and automation.
 
 ## Project overview
 
-- This repository contains the static Astro source for `https://alnah.io`.
+- This repository contains the static Astro source for `https://alnah.me`.
 - The site is a content-first blog with:
   - Markdown posts
   - local search
