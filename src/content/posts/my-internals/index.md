@@ -5,6 +5,8 @@ draft: false
 description: Learning programming late, flying away from pessimistic AI discourse, and finding my way back through teaching, systems thinking, and fun programming applied to my work.
 cover: thinkpad-x200-internals.jpg
 category: thinking
+aliases:
+  - /posts/my-internals-or-how-i-found-my-way-to-programming/
 tags:
   - programming
   - ai
