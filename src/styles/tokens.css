@@ -3,19 +3,19 @@
   --font-body: "Source Serif 4", Georgia, serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
-  --font-size-4xl: 2.75rem;
-  --font-size-compact: 0.8125rem;
-  --font-size-compact-sm: 0.72rem;
-  --font-size-compact-xs: 0.66rem;
-  --font-size-compact-2xs: 0.62rem;
-  --font-size-compact-3xs: 0.58rem;
+  --font-size-xs: 0.72rem;
+  --font-size-sm: 0.84rem;
+  --font-size-base: 0.96rem;
+  --font-size-lg: 1.08rem;
+  --font-size-xl: 1.2rem;
+  --font-size-2xl: 1.44rem;
+  --font-size-3xl: 1.92rem;
+  --font-size-4xl: 2.64rem;
+  --font-size-compact: 0.78rem;
+  --font-size-compact-sm: 0.69rem;
+  --font-size-compact-xs: 0.63rem;
+  --font-size-compact-2xs: 0.595rem;
+  --font-size-compact-3xs: 0.56rem;
 
   --line-height-tight: 1.15;
   --line-height-snug: 1.3;
