@@ -7,8 +7,7 @@ export function GET() {
     [
       "User-agent: *",
       "Allow: /",
-      "Disallow: /index.json",
-      "Disallow: /raw/posts/",
+      "Disallow: /cdn-cgi/",
       `Sitemap: ${sitemapUrl}`,
       ""
     ].join("\n"),
