@@ -7,7 +7,21 @@ description: Who writes here and why this notebook exists.
 
 I help people automate, simplify, and structure the way they build, work, and learn.
 
-## Common issues
+## Start here
+
+- [If this feels familiar](#if-this-feels-familiar)
+- [Who is behind this site](#who-is-behind-this-site)
+- [How problems get approached here](#how-problems-get-approached-here)
+- [How useful systems get built](#how-useful-systems-get-built)
+- [Projects you can explore](#projects-you-can-explore)
+- [What you will find here](#what-you-will-find-here)
+- [Tools and ideas behind the work](#tools-and-ideas-behind-the-work)
+- [What keeps this work independent](#what-keeps-this-work-independent)
+- [How AI is used here](#how-ai-is-used-here)
+- [How your privacy is handled](#how-your-privacy-is-handled)
+- [How to support this work or get in touch](#how-to-support-this-work-or-get-in-touch)
+
+## If this feels familiar
 
 A lot of friction in work, study, or personal projects does not come from a lack of effort. It comes from not knowing what to learn first, how different skills fit together, or how to get useful results before the investment feels too high.
 
@@ -15,11 +29,11 @@ I know that experience well. When I started learning programming to make my life
 
 That is why I like small experiments, quick results, and finished projects. We make mistakes, discover what we still need to learn, and improve faster when we work from real constraints. Most of what I build and share starts there.
 
-## Me
+## Who is behind this site
 
 I am Alexis, a French teacher, a solo builder developing products and services for language teaching, and a programmer involved in the open source community.
 
-## Solving problems
+## How problems get approached here
 
 Most of the problems I work on begin with friction I experience myself or see in the people I help.
 
@@ -29,7 +43,7 @@ That is usually where I begin. I break problems into smaller ones and look for p
 
 What looks complex is often many simple things put together. When I can make those parts clearer and make them work together, I can create tools that help me and other people. I share many of those tools with the open source community.
 
-## Building systems
+## How useful systems get built
 
 When those smaller solutions start fitting together, they become larger systems.
 
@@ -37,7 +51,7 @@ That often means combining scripts, command-line interfaces (CLIs), servers that
 
 Each time I build something, I want it to be useful first, trustworthy in real use, clear enough that both I and other people can understand it, and extensible enough to connect with other tools over time.
 
-## My work
+## Projects you can explore
 
 Some of my public work lives on [GitHub](https://github.com/alnah/) under a liberal and reusable [BSD 3-Clause license](https://opensource.org/license/bsd-3-clause). I built these tools to reduce friction in my own work, often by combining agentic workflows, speech models, and structured automation.
 
@@ -54,7 +68,7 @@ Some of my public work lives on [GitHub](https://github.com/alnah/) under a libe
 - `fle` is my internal operations stack, combining retrieval, automation, and structured publishing to support individualised teaching on [italki](https://www.italki.com/fr/teacher/8123606).
 - `upcoming...` more products, and services for learning French, or building educative content.
 
-## My blog
+## What you will find here
 
 Useful work often looks clean only after it is finished. In the middle of it, it rarely feels that way.
 
@@ -72,7 +86,7 @@ The site is organised into five categories. You can use the search bar if you ar
 
 You are free to share and adapt the texts of my blog. They are under the [CC BY 4.0 Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/deed.en).
 
-## My tools
+## Tools and ideas behind the work
 
 These are some of the ideas, languages, and tools I rely on to keep work understandable, reusable, and easier to extend.
 
@@ -93,19 +107,19 @@ These are some of the ideas, languages, and tools I rely on to keep work underst
 - web apps built with [Nuxt](https://nuxt.com/) and [Vue.js](https://vuejs.org/)
 - a Panasonic Lumix GH5, Rode Wireless GO II microphones, and [DaVinci Resolve Studio](https://www.blackmagicdesign.com/products/davinciresolve/studio) for video work
 
-## Independence
+## What keeps this work independent
 
 I do not receive money to write about specific topics on this blog. I want to remain independent. If that ever changes, I will state it clearly.
 
-## LLM transparency
+## How AI is used here
 
 I write the posts on this website myself. I may use LLMs for editing, grammar, or wording because English is not my first language, even though I use it daily. The stories, ideas, experiments, and conclusions are mine. The language may sometimes benefit from that help, but the work and judgment remain my own. You can also find the [`skills/`](https://github.com/alnah/alnah.me/tree/main/skills) I use in the site repository.
 
-## Privacy
+## How your privacy is handled
 
 This site uses a small, privacy-first setup. Analytics are enabled through Cloudflare Web Analytics. You can find the current privacy notice on the [`Privacy` page](/privacy/).
 
-## Support and contact
+## How to support this work or get in touch
 
 If you would like to support this work, you can do so through [GitHub Sponsors](https://github.com/sponsors/alnah). If you are looking for a French teacher, you can find me on [italki](https://www.italki.com/fr/teacher/8123606).
 
