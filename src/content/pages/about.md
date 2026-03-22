@@ -27,7 +27,7 @@ In teaching, learning, and building, useful work often feels harder than it shou
 
 That is usually where I begin. I break problems into smaller ones and look for practical solutions for each part, often through programming, but not always. We learn, practice, and build better when cognitive load is lower.
 
-What looks complex is often many simple things put together. When I can make those parts clearer and make them work together, I can create tools that help me and other people. I share many of those tools with the open source community on [GitHub](https://github.com/alnah/) under a liberal and reusable [BSD 3-Clause license](https://opensource.org/license/bsd-3-clause).
+What looks complex is often many simple things put together. When I can make those parts clearer and make them work together, I can create tools that help me and other people. I share many of those tools with the open source community.
 
 ## Building systems
 
@@ -39,7 +39,7 @@ Each time I build something, I want it to be useful first, trustworthy in real u
 
 ## My work
 
-Some of my public work lives on GitHub. I built these tools to reduce friction in my own work, often by combining agentic workflows, speech models, and structured automation.
+Some of my public work lives on [GitHub](https://github.com/alnah/) under a liberal and reusable [BSD 3-Clause license](https://opensource.org/license/bsd-3-clause). I built these tools to reduce friction in my own work, often by combining agentic workflows, speech models, and structured automation.
 
 ### Public
 
@@ -54,7 +54,7 @@ Some of my public work lives on GitHub. I built these tools to reduce friction i
 - `fle` is my internal operations stack, combining retrieval, automation, and structured publishing to support individualised teaching on [italki](https://www.italki.com/fr/teacher/8123606).
 - `upcoming...` more products, and services for learning French, or building educative content.
 
-## Why this site exists
+## My blog
 
 Useful work often looks clean only after it is finished. In the middle of it, it rarely feels that way.
 
@@ -65,10 +65,12 @@ People arrive here from different kinds of work. Some come for teaching and lang
 The site is organised into five categories. You can use the search bar if you are looking for something specific, or browse by category depending on the kind of problem, idea, or workflow that brought you here.
 
 - **thinking**: notes and reflections accessible to everyone
-- **teaching**: ideas and practices about learning for teachers and students
-- **working**: business operations for people building useful things
 - **tooling**: tools, systems, and technologies for programmers
 - **building**: what I make, test, and ship in public
+- **working**: business operations for people building useful things
+- **teaching**: ideas and practices about learning for teachers and students
+
+You are free to share and adapt the texts of my blog. They are under the [CC BY 4.0 Attribution 4.0 International license](https://creativecommons.org/licenses/by/4.0/deed.en).
 
 ## My tools
 
@@ -105,6 +107,6 @@ This site uses a small, privacy-first setup. Analytics are enabled through Cloud
 
 ## Support and contact
 
-If you are looking for a French teacher, you can find me on [italki](https://www.italki.com/fr/teacher/8123606). If you would like to support this work, you can do so through [GitHub Sponsors](https://github.com/sponsors/alnah). If you need help with a project, feel free to get in touch with me at [reach@alnah.me](mailto:reach@alnah.me).
+If you would like to support this work, you can do so through [GitHub Sponsors](https://github.com/sponsors/alnah). If you are looking for a French teacher, you can find me on [italki](https://www.italki.com/fr/teacher/8123606).
 
-You can also follow my work on [X](https://x.com/_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon.Social](https://mastodon.social/home), or [GitHub](https://github.com/alnah/). If you prefer video, you can also follow my channel on [YouTube](https://www.youtube.com/@alnah_me).
+If you need help with a project, feel free to get in touch with me at [reach@alnah.me](mailto:reach@alnah.me). You can also follow my work on [X](https://x.com/_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon.Social](https://mastodon.social/home), or [GitHub](https://github.com/alnah/). If you prefer video, you can also follow my channel on [YouTube](https://www.youtube.com/@alnah_me).
