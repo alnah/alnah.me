@@ -16,6 +16,9 @@ const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? 
 const canonicalPath = `/posts/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
+const socialImageAlt = entry.data.cover
+  ? `Cover image for ${documentTitle}.`
+  : undefined;
 const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
@@ -34,6 +37,7 @@ const schemaJson = buildBlogPostingSchema({
   description={entry.data.description}
   canonicalPath={canonicalPath}
   image={socialImage}
+  imageAlt={socialImageAlt}
   modifiedTime={(entry.data.lastmod ?? entry.data.date).toISOString()}
   publishedTime={entry.data.date.toISOString()}
   schemaJson={schemaJson}

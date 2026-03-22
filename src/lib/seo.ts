@@ -88,7 +88,7 @@ function buildPersonEntity() {
     name: SITE.author.name,
     alternateName: SITE.author.alias,
     email: SITE.author.email,
-    image: absoluteUrl(SITE.defaultSocialImage),
+    image: absoluteUrl(SITE.author.image),
     url: absoluteUrl(SITE.aboutPath),
     sameAs: resolvePersonSameAs()
   };
