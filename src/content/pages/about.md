@@ -1,6 +1,6 @@
 ---
 title: About
-description: Who writes here and why this notebook exists.
+description: Who writes here and why this blog exists.
 ---
 
 # About
