@@ -11,6 +11,7 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   publishedTime?: string;
   modifiedTime?: string;
   type?: "article" | "website";
@@ -23,6 +24,7 @@ const {
   title = SITE.title,
   description = SITE.description,
   image,
+  imageAlt = SITE.socialImageAlt,
   publishedTime,
   modifiedTime,
   type = "website",
@@ -65,9 +67,9 @@ const seo = buildSeo({
     <meta name="twitter:title" content={seo.title} />
     <meta name="twitter:description" content={seo.description} />
     {seo.image && <meta property="og:image" content={seo.image} />}
-    {seo.image && <meta property="og:image:alt" content={SITE.socialImageAlt} />}
+    {seo.image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
     {seo.image && <meta name="twitter:image" content={seo.image} />}
-    {seo.image && <meta name="twitter:image:alt" content={SITE.socialImageAlt} />}
+    {seo.image && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     <title>{seo.title}</title>

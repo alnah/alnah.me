@@ -74,13 +74,14 @@ export const SITE = {
   aboutPath: '/about/',
   description:
     'Notes on building software, teaching systems, and business tools from real work.',
-  defaultSocialImage: '/profile.jpeg',
-  socialImageAlt: 'Portrait of Alexis Nahan',
+  defaultSocialImage: '/og-default.jpg',
+  socialImageAlt: 'Minimal social preview card with the alnah.me favicon on a warm background.',
   xHandle: '@_alnah',
   author: {
     name: 'Alexis Nahan',
     alias: 'alnah',
     email: 'reach@alnah.me',
+    image: '/profile.jpeg',
     intro: "Hi, I'm Alexis.",
     blurb: 'building software, teaching languages, and tooling my business',
     kicker: 'notes from my work',
