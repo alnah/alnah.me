@@ -296,12 +296,12 @@ input:focus-visible {
 
 .prose h2 {
   font-size: var(--font-size-3xl);
-  margin-top: var(--space-8);
+  margin: var(--space-7) 0 var(--space-4);
 }
 
 .prose h3 {
   font-size: var(--font-size-2xl);
-  margin-top: var(--space-6);
+  margin: var(--space-6) 0 var(--space-3);
 }
 
 .prose pre {
