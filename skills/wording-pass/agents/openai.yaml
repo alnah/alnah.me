@@ -1,4 +1,4 @@
 interface:
   display_name: "Wording pass"
-  short_description: "Refine Markdown wording without rewriting meaning"
-  default_prompt: "Use $wording-pass to make a .bak backup and improve wording in the Markdown files I mention."
+  short_description: "Very conservative wording cleanup with .bak backup"
+  default_prompt: "Use $wording-pass to create .bak backups with a shell command and apply minimal wording fixes in the Markdown files I mention, preserving voice and meaning."

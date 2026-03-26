@@ -1,4 +1,4 @@
 interface:
   display_name: "Grammar pass"
-  short_description: "Backup then fix grammar in Markdown files"
-  default_prompt: "Use $grammar-pass to make a .bak backup and fix grammar in the files I mention."
+  short_description: "Strict grammar correction with simple .bak backup"
+  default_prompt: "Use $grammar-pass to create .bak backups with a shell command, then fix grammar/spelling/punctuation in the Markdown files I mention without rewriting style."
