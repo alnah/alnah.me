@@ -1,6 +1,6 @@
 ---
 title: About
-description: I help people learn French as a foreign language (FLE), or teach it, using technology.
+description: I help people learn or teach French as a foreign language, using technology.
 ---
 
 # About
