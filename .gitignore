@@ -28,3 +28,6 @@ node_modules/
 public/LICENSE
 public/LICENSES/
 public/raw/
+
+# Stack
+stack/
