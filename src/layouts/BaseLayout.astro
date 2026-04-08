@@ -85,7 +85,7 @@ const seo = buildSeo({
       document.documentElement.dataset.theme = resolvedTheme;
       document.documentElement.dataset.themeMode = storedTheme || "system";
     </script>
-    {schemaJson && <script type="application/ld+json" set:html={schemaJson} />}
+    {schemaJson && <script is:inline type="application/ld+json" set:html={schemaJson} />}
   </head>
   <body>
     <div class="shell">
