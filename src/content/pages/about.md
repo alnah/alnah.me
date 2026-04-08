@@ -33,7 +33,7 @@ I connect language teaching with programming. I translate technical possibilitie
 
 ## Support and contact
 
-If you would like to support this blog or my open-source tools, you can do so through [GitHub Sponsors](https://github.com/sponsors/alnah). If you are looking for a French teacher, you can find me on [italki](https://www.italki.com/fr/teacher/8123606). If you need help with a project, you can contact me at [reach@alnah.me](mailto:reach@alnah.me). You can also follow my work on [X](https://x.com/_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon](https://mastodon.social/home), [GitHub](https://github.com/alnah/), or [YouTube](https://www.youtube.com/@alnah_me).
+If you would like to support this blog or my open-source tools, you can do so through [GitHub Sponsors](https://github.com/sponsors/alnah). If you are looking for a French teacher, you can find me on [italki](https://www.italki.com/fr/teacher/8123606). If you need help with a project, you can contact me at [reach@alnah.me](mailto:reach@alnah.me). You can also follow my work on [X](https://x.com/_alnah), [TikTok](https://www.tiktok.com/@_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon](https://mastodon.social/home), [GitHub](https://github.com/alnah/), or [YouTube](https://www.youtube.com/@alnah_me).
 
 ## Disclaimer
 

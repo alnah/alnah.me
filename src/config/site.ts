@@ -1,6 +1,7 @@
 const requiredContactIds = [
   'github',
   'x',
+  'tiktok',
   'bluesky',
   'mastodon',
   'linkedin',
@@ -99,6 +100,11 @@ export const SITE = {
       id: 'x',
       label: 'X',
       href: 'https://x.com/_alnah',
+    },
+    {
+      id: 'tiktok',
+      label: 'TikTok',
+      href: 'https://www.tiktok.com/@_alnah',
     },
     {
       id: 'bluesky',

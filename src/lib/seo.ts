@@ -77,7 +77,7 @@ export function buildSeo({
 function resolvePersonSameAs() {
   return SITE.contacts
     .filter((contact) =>
-      ["github", "x", "bluesky", "mastodon", "linkedin"].includes(contact.id)
+      ["github", "x", "tiktok", "bluesky", "mastodon", "linkedin"].includes(contact.id)
     )
     .map((contact) => contact.href);
 }

@@ -12,6 +12,7 @@ import {
 
 const rssXml = readFile("dist/rss.xml");
 const searchIndex = readJson("dist/index.json");
+const aboutHtml = readFile("dist/about/index.html");
 const representativePath = representativePostPath();
 
 assertInternalLinks();
@@ -46,6 +47,8 @@ if (representativePath) {
     assertIncludes(postHtml, platform, `share link ${platform}`);
   }
 }
+
+assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include TikTok");
 
 assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
 assertIncludes(rssXml, "<language>en</language>", "RSS language");
