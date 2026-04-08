@@ -39,6 +39,7 @@ const seo = buildSeo({
   title,
   type
 });
+const isHomePage = canonicalPath === "/";
 ---
 
 <!doctype html>
@@ -89,7 +90,7 @@ const seo = buildSeo({
   </head>
   <body>
     <div class="shell">
-      <Header />
+      <Header isHomePage={isHomePage} />
       <main>
         <slot />
       </main>

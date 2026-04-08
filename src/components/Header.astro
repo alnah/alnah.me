@@ -5,6 +5,13 @@ import SearchDialog from "./SearchDialog.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import profileImage from "../assets/profile.jpeg";
 import { NAV_ITEMS, SITE } from "../config/site";
+
+interface Props {
+  isHomePage?: boolean;
+}
+
+const { isHomePage = false } = Astro.props;
+const IntroTag = isHomePage ? "h1" : "p";
 ---
 
 <header class="site-header">
@@ -25,7 +32,7 @@ import { NAV_ITEMS, SITE } from "../config/site";
       <div class="intro-inner section-rule">
         <div class="intro-copy">
           <p class="eyebrow intro-kicker">{SITE.author.kicker}</p>
-          <h1>{SITE.author.intro}</h1>
+          <IntroTag class="intro-title">{SITE.author.intro}</IntroTag>
           <p class="intro-blurb">{SITE.author.blurb}</p>
           <div class="intro-links">
             <ContactLinks variant="hero" />
@@ -154,7 +161,7 @@ import { NAV_ITEMS, SITE } from "../config/site";
     margin-top: var(--space-2);
   }
 
-  .intro-copy h1 {
+  .intro-title {
     font-family: var(--font-heading);
     font-size: clamp(2.45rem, 11vw, 3.85rem);
     line-height: var(--line-height-tight);
@@ -206,7 +213,7 @@ import { NAV_ITEMS, SITE } from "../config/site";
       margin-bottom: 0;
     }
 
-    .intro-copy h1 {
+    .intro-title {
       grid-area: title;
       font-size: clamp(2.3rem, 16vw, 3.05rem);
       margin-bottom: 0;
