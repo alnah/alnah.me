@@ -8,7 +8,7 @@
     "predev": "npm run prepare:static",
     "dev": "astro dev",
     "prebuild": "npm run prepare:static",
-    "build": "rm -rf dist .astro node_modules/.astro && astro build",
+    "build": "rm -rf dist .astro && astro build",
     "preview": "astro preview",
     "test:unit": "node scripts/test-unit.mjs",
     "test:acceptance": "npm run build && node scripts/test-acceptance.mjs",
