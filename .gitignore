@@ -2,6 +2,11 @@
 **/nocommit-*
 *.bak
 
+# Environment files
+.env
+.env.*
+!.env.example
+
 # macOS
 .DS_Store
 ._*
@@ -29,5 +34,19 @@ public/LICENSE
 public/LICENSES/
 public/raw/
 
+# Test artifacts
+coverage/
+playwright-report/
+test-results/
+
 # Stack
 stack/
+
+# Pi local state
+# Keep shareable project resources such as .pi/settings.json,
+# .pi/extensions/, .pi/skills/, .pi/prompts/, .pi/themes/,
+# .pi/SYSTEM.md, and .pi/APPEND_SYSTEM.md tracked when needed.
+.pi/todos/
+.pi/sessions/
+.pi/git/
+.pi/npm/
