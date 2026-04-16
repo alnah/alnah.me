@@ -38,6 +38,10 @@ This has two consequences for individual teaching:
 
 Individual teaching tends to lose either the learner’s context or the learner’s long-term sociolinguistic development, sometimes both. The CEFR is not meant to be a grammar checklist. It describes what a person can do at each level in reception, production, interaction, and mediation. It also describes levels of mastery in pragmatic, linguistic, and sociolinguistic competences. It helps teachers assess and support their students.
 
+![Structure of the CEFR descriptive scheme, showing general competences, communicative language competences, communicative language activities, and communicative language strategies.](/images/posts/why-cefr-based-learner-scenarios-are-hard-to-design/cefr-descriptive-scheme.png)
+
+*Figure. The structure of the CEFR descriptive scheme. Source: Piccardo et al. (2011), Pathways through assessing, learning and teaching in the CEFR.*
+
 ## Schools centralize curriculum design and lose learners’ contexts.
 
 > If a school wants coherence around a strong curriculum, it usually has to organize students by level rather than by context or group identity. This can support reception and progression in language knowledge, but it can also reduce production, interaction, and mediation.
