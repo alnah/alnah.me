@@ -16,6 +16,18 @@ const formatEventDate = new Intl.DateTimeFormat("en-US", {
   month: "short",
   day: "numeric"
 });
+
+function formatContributionTitle(date: string, count: number) {
+  return `${count} contribution${count === 1 ? "" : "s"} on ${formatDayLabel.format(new Date(date))}`;
+}
+
+function formatMonthStyle(start: number, span: number) {
+  return `grid-column:${start} / span ${span};`;
+}
+
+function formatWeekdayStyle(row: number) {
+  return `grid-row:${row};`;
+}
 ---
 
 <section
@@ -37,14 +49,14 @@ const formatEventDate = new Intl.DateTimeFormat("en-US", {
               <div class="calendar-months">
                 <div class="month-label-track">
                   {monthColumns.map((month) => (
-                    <span style={`grid-column:${month.start} / span ${month.span};`}>{month.label}</span>
+                    <span style={formatMonthStyle(month.start, month.span)}>{month.label}</span>
                   ))}
                 </div>
               </div>
               <div class="calendar-body">
                 <div class="weekday-labels" aria-hidden="true">
                   {weekdayLabels.map((item) => (
-                    <span style={`grid-row:${item.row};`}>{item.label}</span>
+                    <span style={formatWeekdayStyle(item.row)}>{item.label}</span>
                   ))}
                 </div>
                 <div class="calendar-weeks">
@@ -53,7 +65,7 @@ const formatEventDate = new Intl.DateTimeFormat("en-US", {
                       {week.contributionDays.map((day) => (
                         <span
                           class={`contribution-cell level-${day.contributionLevel.toLowerCase()}`}
-                          title={`${day.contributionCount} contribution${day.contributionCount === 1 ? "" : "s"} on ${formatDayLabel.format(new Date(day.date))}`}
+                          title={formatContributionTitle(day.date, day.contributionCount)}
                         ></span>
                       ))}
                     </div>

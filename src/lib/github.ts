@@ -3,6 +3,9 @@ import type { GitHubActivityConfig } from "../config/site";
 const GITHUB_GRAPHQL_ENDPOINT = "https://api.github.com/graphql";
 const GITHUB_REST_ENDPOINT = "https://api.github.com";
 const GITHUB_FETCH_TIMEOUT_MS = 8000;
+const GITHUB_REST_API_VERSION = "2022-11-28";
+const GITHUB_USER_AGENT = "alnah.me";
+const RECENT_ACTIVITY_LIMIT = 5;
 
 type ContributionLevel =
   | "NONE"
@@ -36,6 +39,128 @@ type RecentActivityItem = {
   url: string | null;
 };
 
+type GitHubContributionCalendar = {
+  totalContributions: number;
+  months: ContributionMonth[];
+  weeks: ContributionWeek[];
+};
+
+type GitHubContributionCalendarResponse = {
+  data?: {
+    user?: {
+      contributionsCollection?: {
+        contributionCalendar?: GitHubContributionCalendar;
+      };
+    };
+  };
+  errors?: Array<{ message: string }>;
+};
+
+type GitHubEventBase = {
+  type: string;
+  created_at?: string;
+  repo?: {
+    name?: string;
+  };
+};
+
+type GitHubPushEvent = GitHubEventBase & {
+  type: "PushEvent";
+  payload?: {
+    commits?: unknown[];
+    ref?: string;
+  };
+};
+
+type GitHubPullRequestEvent = GitHubEventBase & {
+  type: "PullRequestEvent";
+  payload?: {
+    action?: string;
+    pull_request?: {
+      html_url?: string;
+    };
+  };
+};
+
+type GitHubReleaseEvent = GitHubEventBase & {
+  type: "ReleaseEvent";
+  payload?: {
+    release?: {
+      html_url?: string;
+    };
+  };
+};
+
+type GitHubCreateEvent = GitHubEventBase & {
+  type: "CreateEvent";
+  payload?: {
+    ref_type?: string;
+    ref?: string;
+  };
+};
+
+type GitHubIssuesEvent = GitHubEventBase & {
+  type: "IssuesEvent";
+  payload?: {
+    action?: string;
+    issue?: {
+      html_url?: string;
+    };
+  };
+};
+
+type GitHubIssueCommentEvent = GitHubEventBase & {
+  type: "IssueCommentEvent";
+  payload?: {
+    issue?: {
+      html_url?: string;
+    };
+  };
+};
+
+type GitHubForkEvent = GitHubEventBase & {
+  type: "ForkEvent";
+  payload?: {
+    forkee?: {
+      html_url?: string;
+    };
+  };
+};
+
+type GitHubWatchEvent = GitHubEventBase & {
+  type: "WatchEvent";
+};
+
+type GitHubPublicEvent =
+  | GitHubPushEvent
+  | GitHubPullRequestEvent
+  | GitHubReleaseEvent
+  | GitHubCreateEvent
+  | GitHubIssuesEvent
+  | GitHubIssueCommentEvent
+  | GitHubForkEvent
+  | GitHubWatchEvent
+  | GitHubEventBase;
+
+type GitHubRepo = {
+  fork?: boolean;
+  archived?: boolean;
+  full_name?: string;
+  default_branch?: string;
+  html_url?: string;
+  pushed_at?: string;
+};
+
+type GitHubCommit = {
+  html_url?: string;
+  commit?: {
+    message?: string;
+    author?: {
+      date?: string;
+    };
+  };
+};
+
 export type GitHubActivityData = {
   hasLiveData: boolean;
   profileUrl: string;
@@ -49,7 +174,24 @@ function getGitHubToken() {
   return process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 }
 
-async function fetchJson(url: string | URL, init: RequestInit, context: string) {
+function createGitHubGraphQLHeaders(token: string) {
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    "User-Agent": GITHUB_USER_AGENT
+  };
+}
+
+function createGitHubRestHeaders(token: string) {
+  return {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "User-Agent": GITHUB_USER_AGENT,
+    "X-GitHub-Api-Version": GITHUB_REST_API_VERSION
+  };
+}
+
+async function fetchJson<T>(url: string | URL, init: RequestInit, context: string): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), GITHUB_FETCH_TIMEOUT_MS);
 
@@ -63,7 +205,7 @@ async function fetchJson(url: string | URL, init: RequestInit, context: string) 
       throw new Error(`${context} failed with status ${response.status}`);
     }
 
-    return await response.json();
+    return (await response.json()) as T;
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
       throw new Error(`${context} timed out after ${GITHUB_FETCH_TIMEOUT_MS}ms`);
@@ -93,68 +235,85 @@ function createFallbackActivity(config: GitHubActivityConfig): GitHubActivityDat
 }
 
 async function fetchContributionCalendar(username: string, token: string) {
-  const payload = await fetchJson(GITHUB_GRAPHQL_ENDPOINT, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      "User-Agent": "alnah.me"
-    },
-    body: JSON.stringify({
-      query: `
-        query GitHubActivity($login: String!) {
-          user(login: $login) {
-            contributionsCollection {
-              contributionCalendar {
-                totalContributions
-                months {
-                  firstDay
-                  name
-                  totalWeeks
-                  year
-                }
-                weeks {
-                  firstDay
-                  contributionDays {
-                    contributionCount
-                    contributionLevel
-                    date
-                    weekday
+  const payload = await fetchJson<GitHubContributionCalendarResponse>(
+    GITHUB_GRAPHQL_ENDPOINT,
+    {
+      method: "POST",
+      headers: createGitHubGraphQLHeaders(token),
+      body: JSON.stringify({
+        query: `
+          query GitHubActivity($login: String!) {
+            user(login: $login) {
+              contributionsCollection {
+                contributionCalendar {
+                  totalContributions
+                  months {
+                    firstDay
+                    name
+                    totalWeeks
+                    year
+                  }
+                  weeks {
+                    firstDay
+                    contributionDays {
+                      contributionCount
+                      contributionLevel
+                      date
+                      weekday
+                    }
                   }
                 }
               }
             }
           }
+        `,
+        variables: {
+          login: username
         }
-      `,
-      variables: {
-        login: username
-      }
-    })
-  }, "GitHub GraphQL request");
+      })
+    },
+    "GitHub GraphQL request"
+  );
 
   if (payload.errors?.length) {
-    throw new Error(payload.errors.map((error: { message: string }) => error.message).join("; "));
+    throw new Error(payload.errors.map((error) => error.message).join("; "));
   }
 
   const calendar = payload.data?.user?.contributionsCollection?.contributionCalendar;
-
   if (!calendar) {
     throw new Error("Missing contribution calendar in GitHub GraphQL response");
   }
 
-  return calendar as {
-    totalContributions: number;
-    months: ContributionMonth[];
-    weeks: ContributionWeek[];
-  };
+  return calendar;
 }
 
 function formatRepoUrl(repoName: string) {
   return `https://github.com/${repoName}`;
 }
 
-function normalizeRecentEvent(event: any): RecentActivityItem | null {
+function capitalize(value: string) {
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
+
+function createRecentActivityKey(item: RecentActivityItem) {
+  return `${item.summary}::${item.url ?? ""}`;
+}
+
+function dedupeRecentActivity(items: RecentActivityItem[]) {
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const key = createRecentActivityKey(item);
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | null {
   const repoName = event.repo?.name;
   const repoUrl = typeof repoName === "string" ? formatRepoUrl(repoName) : null;
   const createdAt = typeof event.created_at === "string" ? event.created_at : "";
@@ -171,16 +330,24 @@ function normalizeRecentEvent(event: any): RecentActivityItem | null {
 
   if (event.type === "PullRequestEvent" && repoName) {
     const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
-    const prUrl = typeof event.payload?.pull_request?.html_url === "string" ? event.payload.pull_request.html_url : repoUrl;
+    const prUrl =
+      typeof event.payload?.pull_request?.html_url === "string"
+        ? event.payload.pull_request.html_url
+        : repoUrl;
+
     return {
       date: createdAt,
-      summary: `${action.charAt(0).toUpperCase()}${action.slice(1)} a pull request in ${repoName}.`,
+      summary: `${capitalize(action)} a pull request in ${repoName}.`,
       url: prUrl
     };
   }
 
   if (event.type === "ReleaseEvent" && repoName) {
-    const releaseUrl = typeof event.payload?.release?.html_url === "string" ? event.payload.release.html_url : repoUrl;
+    const releaseUrl =
+      typeof event.payload?.release?.html_url === "string"
+        ? event.payload.release.html_url
+        : repoUrl;
+
     return {
       date: createdAt,
       summary: `Published a release in ${repoName}.`,
@@ -191,6 +358,7 @@ function normalizeRecentEvent(event: any): RecentActivityItem | null {
   if (event.type === "CreateEvent" && repoName) {
     const refType = typeof event.payload?.ref_type === "string" ? event.payload.ref_type : "resource";
     const ref = typeof event.payload?.ref === "string" ? event.payload.ref : "";
+
     return {
       date: createdAt,
       summary: `Created ${refType}${ref ? ` ${ref}` : ""} in ${repoName}.`,
@@ -200,16 +368,24 @@ function normalizeRecentEvent(event: any): RecentActivityItem | null {
 
   if (event.type === "IssuesEvent" && repoName) {
     const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
-    const issueUrl = typeof event.payload?.issue?.html_url === "string" ? event.payload.issue.html_url : repoUrl;
+    const issueUrl =
+      typeof event.payload?.issue?.html_url === "string"
+        ? event.payload.issue.html_url
+        : repoUrl;
+
     return {
       date: createdAt,
-      summary: `${action.charAt(0).toUpperCase()}${action.slice(1)} an issue in ${repoName}.`,
+      summary: `${capitalize(action)} an issue in ${repoName}.`,
       url: issueUrl
     };
   }
 
   if (event.type === "IssueCommentEvent" && repoName) {
-    const issueUrl = typeof event.payload?.issue?.html_url === "string" ? event.payload.issue.html_url : repoUrl;
+    const issueUrl =
+      typeof event.payload?.issue?.html_url === "string"
+        ? event.payload.issue.html_url
+        : repoUrl;
+
     return {
       date: createdAt,
       summary: `Commented on an issue in ${repoName}.`,
@@ -218,7 +394,11 @@ function normalizeRecentEvent(event: any): RecentActivityItem | null {
   }
 
   if (event.type === "ForkEvent" && repoName) {
-    const forkUrl = typeof event.payload?.forkee?.html_url === "string" ? event.payload.forkee.html_url : repoUrl;
+    const forkUrl =
+      typeof event.payload?.forkee?.html_url === "string"
+        ? event.payload.forkee.html_url
+        : repoUrl;
+
     return {
       date: createdAt,
       summary: `Forked ${repoName}.`,
@@ -237,46 +417,37 @@ function normalizeRecentEvent(event: any): RecentActivityItem | null {
   return null;
 }
 
-async function fetchRecentActivity(username: string, token: string) {
-  const events = await fetchJson(`${GITHUB_REST_ENDPOINT}/users/${username}/events/public?per_page=30`, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      Authorization: `Bearer ${token}`,
-      "User-Agent": "alnah.me",
-      "X-GitHub-Api-Version": "2022-11-28"
-    }
-  }, "GitHub public events request");
+async function fetchPublicEvents(username: string, token: string) {
+  const events = await fetchJson<GitHubPublicEvent[]>(
+    `${GITHUB_REST_ENDPOINT}/users/${username}/events/public?per_page=30`,
+    {
+      headers: createGitHubRestHeaders(token)
+    },
+    "GitHub public events request"
+  );
 
   if (!Array.isArray(events)) {
     throw new Error("Unexpected GitHub public events payload");
   }
 
-  const seen = new Set<string>();
-
-  return events
-    .map(normalizeRecentEvent)
-    .filter((event): event is RecentActivityItem => Boolean(event))
-    .filter((event) => {
-      const key = `${event.summary}::${event.url ?? ""}`;
-      if (seen.has(key)) {
-        return false;
-      }
-      seen.add(key);
-      return true;
-    })
-    .slice(0, 5);
+  return events;
 }
 
-async function fetchRecentCommitActivity(username: string, token: string, limit: number) {
-  const repos = await fetchJson(
+async function fetchRecentActivity(username: string, token: string) {
+  const events = await fetchPublicEvents(username, token);
+
+  return dedupeRecentActivity(
+    events
+      .map(normalizeRecentEvent)
+      .filter((event): event is RecentActivityItem => Boolean(event))
+  ).slice(0, RECENT_ACTIVITY_LIMIT);
+}
+
+async function fetchOwnedRepos(username: string, token: string, limit: number) {
+  const repos = await fetchJson<GitHubRepo[]>(
     `${GITHUB_REST_ENDPOINT}/users/${username}/repos?sort=pushed&per_page=${Math.max(limit * 2, 10)}&type=owner`,
     {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "User-Agent": "alnah.me",
-        "X-GitHub-Api-Version": "2022-11-28"
-      }
+      headers: createGitHubRestHeaders(token)
     },
     "GitHub repos request"
   );
@@ -285,97 +456,101 @@ async function fetchRecentCommitActivity(username: string, token: string, limit:
     throw new Error("Unexpected GitHub repos payload");
   }
 
-  const candidateRepos = repos
+  return repos
     .filter((repo) => repo && !repo.fork && !repo.archived && typeof repo.full_name === "string")
     .slice(0, Math.max(limit * 2, 10));
+}
 
-  const commitItems = await Promise.all(
-    candidateRepos.map(async (repo) => {
-      const branch = typeof repo.default_branch === "string" ? repo.default_branch : undefined;
-      const commitsUrl = new URL(`${GITHUB_REST_ENDPOINT}/repos/${repo.full_name}/commits`);
-      commitsUrl.searchParams.set("per_page", "1");
-      if (branch) {
-        commitsUrl.searchParams.set("sha", branch);
-      }
+async function fetchLatestRepoCommit(repo: GitHubRepo, token: string): Promise<RecentActivityItem | null> {
+  if (typeof repo.full_name !== "string") {
+    return null;
+  }
 
-      const commits = await fetchJson(commitsUrl, {
-        headers: {
-          Accept: "application/vnd.github+json",
-          Authorization: `Bearer ${token}`,
-          "User-Agent": "alnah.me",
-          "X-GitHub-Api-Version": "2022-11-28"
-        }
-      }, `GitHub commits request for ${repo.full_name}`);
+  const branch = typeof repo.default_branch === "string" ? repo.default_branch : undefined;
+  const commitsUrl = new URL(`${GITHUB_REST_ENDPOINT}/repos/${repo.full_name}/commits`);
+  commitsUrl.searchParams.set("per_page", "1");
+  if (branch) {
+    commitsUrl.searchParams.set("sha", branch);
+  }
 
-      if (!Array.isArray(commits) || commits.length === 0) {
-        return null;
-      }
-
-      const latestCommit = commits[0];
-      const message = typeof latestCommit.commit?.message === "string"
-        ? latestCommit.commit.message.split("\n")[0]
-        : null;
-      const url = typeof latestCommit.html_url === "string" ? latestCommit.html_url : repo.html_url;
-      const date = typeof latestCommit.commit?.author?.date === "string"
-        ? latestCommit.commit.author.date
-        : repo.pushed_at;
-
-      return {
-        date,
-        summary: message
-          ? `Latest commit in ${repo.full_name}: ${message}.`
-          : `Recent work landed in ${repo.full_name}.`,
-        url: typeof url === "string" ? url : null
-      } satisfies RecentActivityItem;
-    })
+  const commits = await fetchJson<GitHubCommit[]>(
+    commitsUrl,
+    {
+      headers: createGitHubRestHeaders(token)
+    },
+    `GitHub commits request for ${repo.full_name}`
   );
+
+  if (!Array.isArray(commits) || commits.length === 0) {
+    return null;
+  }
+
+  const latestCommit = commits[0];
+  const message =
+    typeof latestCommit.commit?.message === "string"
+      ? latestCommit.commit.message.split("\n")[0]
+      : null;
+  const url = typeof latestCommit.html_url === "string" ? latestCommit.html_url : repo.html_url;
+  const date =
+    typeof latestCommit.commit?.author?.date === "string"
+      ? latestCommit.commit.author.date
+      : repo.pushed_at;
+
+  return {
+    date: typeof date === "string" ? date : "",
+    summary: message
+      ? `Latest commit in ${repo.full_name}: ${message}.`
+      : `Recent work landed in ${repo.full_name}.`,
+    url: typeof url === "string" ? url : null
+  };
+}
+
+async function fetchRecentCommitActivity(username: string, token: string, limit: number) {
+  const repos = await fetchOwnedRepos(username, token, limit);
+  const commitItems = await Promise.all(repos.map((repo) => fetchLatestRepoCommit(repo, token)));
 
   return commitItems.filter((item): item is RecentActivityItem => Boolean(item)).slice(0, limit);
 }
 
+async function buildRecentActivity(username: string, token: string) {
+  const recentEvents = await fetchRecentActivity(username, token);
+  if (recentEvents.length >= RECENT_ACTIVITY_LIMIT) {
+    return recentEvents;
+  }
+
+  const supplemental = await fetchRecentCommitActivity(
+    username,
+    token,
+    RECENT_ACTIVITY_LIMIT - recentEvents.length
+  );
+
+  return dedupeRecentActivity([...recentEvents, ...supplemental]).slice(0, RECENT_ACTIVITY_LIMIT);
+}
+
+function createWeekIndexByMonthStart(calendar: GitHubContributionCalendar) {
+  return new Map(
+    calendar.months.map((month) => {
+      const weekIndex = calendar.weeks.findIndex((week) =>
+        week.contributionDays.some((day) => day.date === month.firstDay)
+      );
+
+      return [month.firstDay, weekIndex >= 0 ? weekIndex : 0] as const;
+    })
+  );
+}
+
 export async function getGitHubActivity(config: GitHubActivityConfig): Promise<GitHubActivityData> {
   const token = getGitHubToken();
-
   if (!token) {
     return createFallbackActivity(config);
   }
 
   try {
-    const [calendar, recentEvents] = await Promise.all([
+    const [calendar, recentActivity] = await Promise.all([
       fetchContributionCalendar(config.username, token),
-      fetchRecentActivity(config.username, token)
+      buildRecentActivity(config.username, token)
     ]);
-
-    let recentActivity = recentEvents;
-
-    if (recentActivity.length < 5) {
-      const supplemental = await fetchRecentCommitActivity(
-        config.username,
-        token,
-        5 - recentActivity.length
-      );
-      const seen = new Set(recentActivity.map((item) => `${item.summary}::${item.url ?? ""}`));
-      for (const item of supplemental) {
-        const key = `${item.summary}::${item.url ?? ""}`;
-        if (seen.has(key)) {
-          continue;
-        }
-        seen.add(key);
-        recentActivity.push(item);
-        if (recentActivity.length === 5) {
-          break;
-        }
-      }
-    }
-
-    const weekIndexByMonthStart = new Map(
-      calendar.months.map((month) => {
-        const weekIndex = calendar.weeks.findIndex((week) =>
-          week.contributionDays.some((day) => day.date === month.firstDay)
-        );
-        return [month.firstDay, weekIndex >= 0 ? weekIndex : 0] as const;
-      })
-    );
+    const weekIndexByMonthStart = createWeekIndexByMonthStart(calendar);
 
     return {
       hasLiveData: true,
