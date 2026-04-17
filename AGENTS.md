@@ -1,141 +1,130 @@
 # AGENTS.md
 
-This file is for coding agents and automation.
+## Principles
 
-- `README.md` is the short human-facing guide: project overview, structure,
-  authoring, and basic development commands.
-- `AGENTS.md` is the execution guide: workflow expectations, architecture,
-  build/test commands, and repository-specific constraints for agents.
+KISS: keep it simple and stupid.
+DRY: on behaviors.
+WET: on data structures.
+
+## Source of Truth for coding
+
+Explore: always audit the codebase, the documentation, and the relevant stack; respect language idioms before jumping into a task.
+Codebase: repository root.
+Documentation: `README.md`, `docs/`.
+Stack: `~/workspace/stack/`; always explore the stack and third-party repos there.
+
+## Files for coding
+
+LOC: prefer ~500 LOC; refactor/split as needed.
+Filename: never use generic names like `tools` or `utils`; never prepend the module name in the filename; always name the file from what it does.
+
+## Symbols for coding
+
+Style: always intention-revealing, single-meaning, stable, and readable; never vague, misleading, or noisy.
+Vars: always from data.
+Bools: always from state/question.
+Functions: always from action.
+Classes/Types: always from the thing.
+Constants: always from the fixed value.
+Collections: always in plural.
+Events: always name from the event or effect.
+
+## Docstrings for coding
+
+Style: always short, specific, behavior-driven, contract-focused, clear on inputs, outputs, side effects, edge cases, units, and formats.
+
+## Test-Driven Development for coding
+
+Specs: always toward GRASP architecture; input = user + codebase; output = specs + todos; 1 session = 1 agent Architect; never do Red.
+Red: always write failing tests; input = specs + todos; output = red tests; 1 session = 1 agent QA; never touch Specs; never do Green.
+Green: always make it work correctly to satisfy specs; input = red tests + specs; output = code; 1 session = 1 agent Dev; never touch Red; never do Refactor.
+Refactor-code: always toward SOLID design; input = code; output = clean code; 1 session = 1 agent Expert Dev; use `ts_symbols`, `ts_definition`, `ts_references`, `ts_rename`; never do Refactor-test.
+Refactor-tests: always toward SOLID design; input = tests; output = clean tests; 1 session = 1 agent Expert QA; use `ts_symbols`, `ts_definition`, `ts_references`, `ts_rename`; never touch Refactor-code; never do Expand.
+Expand: when a feature is done, always add tests for safety, edge cases, and regressions; input = user + codebase; output = a new TDD cycle; 1 session = 1 agent Architect; the loop goes on.
 
 ## Project overview
 
-- This repository contains the static Astro source for `https://alnah.me`.
-- The site is a content-first blog with:
-  - Markdown posts
-  - local search
-  - RSS and sitemap
-  - social sharing on posts
-  - reusable raw Markdown exports
-  - an `About` page with GitHub activity
-- The visual system is already established. Favor small, testable changes over redesigns.
+Repo: static Astro source for `https://alnah.me`.
+Site: content-first blog.
+Core content: Markdown posts.
+Core features: local search, RSS, sitemap, social sharing, raw Markdown exports, and an About page with GitHub activity.
+Visuals: already established.
+Changes: favor small, testable changes over redesigns.
 
 ## Development targets
 
-Prefer the `Makefile` over ad hoc commands. `.nvmrc` currently records a known-good Node baseline, and `make` will try to load it through `nvm`.
+Command style: prefer the `Makefile` over ad hoc commands.
+Node baseline: `.nvmrc`.
+Make behavior: `make` tries to load the Node baseline through `nvm`.
 
-- `make help`
-  - show available targets
-- `make doctor`
-  - verify Node and npm versions
-- `make install`
-  - install dependencies with `npm ci`
-- `make prepare-static`
-  - generate `_redirects`, raw Markdown exports, and license copies
-- `make dev`
-  - start Astro on localhost
-- `make dev-lan`
-  - start Astro on the LAN
-- `make build`
-  - build the site into `dist/`
-- `make preview`
-  - preview the built site on localhost
-- `make preview-lan`
-  - preview the built site on the LAN
-- `make check`
-  - run the current green quality gate
-- `make astro-check`
-  - run stricter Astro diagnostics; useful, but not the repo’s current green gate
-- `make verify`
-  - run the full build + acceptance/integration/e2e verification suite
-- `make test-acceptance`
-- `make test-integration`
-- `make test-e2e`
-- `make clean`
-  - remove generated build artifacts
+Help: `make help`; show available targets.
+Doctor: `make doctor`; verify Node and npm versions.
+Install: `make install`; install dependencies with `npm ci`.
+Prepare: `make prepare-static`; generate `_redirects`, raw Markdown exports, and license copies.
+Dev: `make dev`; start Astro on localhost.
+Dev LAN: `make dev-lan`; start Astro on the LAN.
+Build: `make build`; build the site into `dist/`.
+Preview: `make preview`; preview the built site on localhost.
+Preview LAN: `make preview-lan`.
+Check: `make check`.
+Astro check: `make astro-check`.
+Verify: `make verify`.
+Acceptance: `make test-acceptance`.
+Integration: `make test-integration`.
+E2E: `make test-e2e`.
+Clean: `make clean`.
 
 ### Playwright targets
 
-Use the Make wrappers instead of remembering the Playwright CLI flags.
+Wrapper style: use Make wrappers, not raw Playwright CLI flags.
 
-- `make pw-install PW_BROWSER=chromium`
-  - install a browser used by the screenshot helpers
-- `make pw-shot PW_URL=http://127.0.0.1:4321/ PW_OUT=/tmp/home.png`
-  - take a screenshot of any URL
-- `make pw-shot-local PORT=4321 PW_PATH=/about/ PW_DEVICE='iPhone SE' PW_OUT=/tmp/about.png PW_COLOR_SCHEME=dark`
-  - take a screenshot of the local site with optional device emulation
+Install browser: `make pw-install PW_BROWSER=chromium`; install a browser for screenshot helpers.
+Shot URL: `make pw-shot PW_URL=http://127.0.0.1:4321/ PW_OUT=/tmp/home.png`; take a screenshot of any URL.
+Shot local: `make pw-shot-local PORT=4321 PW_PATH=/about/ PW_DEVICE='iPhone SE' PW_OUT=/tmp/about.png PW_COLOR_SCHEME=dark`; take a local screenshot with optional device emulation.
 
-Useful variables:
-- `PORT`
-- `HOST`
-- `PW_URL`
-- `PW_PATH`
-- `PW_OUT`
-- `PW_DEVICE`
-- `PW_BROWSER`
-- `PW_COLOR_SCHEME`
-- `PW_WAIT_FOR_SELECTOR`
-- `PW_WAIT_FOR_TIMEOUT`
+Variables: `PORT`, `HOST`, `PW_URL`, `PW_PATH`, `PW_OUT`, `PW_DEVICE`, `PW_BROWSER`, `PW_COLOR_SCHEME`, `PW_WAIT_FOR_SELECTOR`, `PW_WAIT_FOR_TIMEOUT`.
 
 ## Development workflow reminders
 
-- Use `make verify` before finishing meaningful changes.
-- If you touch content rendering, search, metadata, or build artifacts, also run `make prepare-static`.
-- If you touch visual layout, capture the affected pages on at least:
-  - desktop
-  - `iPhone SE`
-  - a tablet-sized device
-- Prefer minimal diffs. Keep commits atomic and reviewable.
-- Do not commit generated files from:
-  - `dist/`
-  - `.astro/`
-  - `public/LICENSE`
-  - `public/LICENSES/`
-  - `public/raw/`
-- Do not commit `docs/nocommit-*`.
+Prepare: if content rendering, search, metadata, or build artifacts change, also run `make prepare-static`.
+Visual QA: if visual layout changes, capture desktop, `iPhone SE`, and tablet-sized screenshots.
+Diffs: prefer minimal diffs.
+Commits: keep atomic and reviewable.
+Generated files: never commit `dist/`, `.astro/`, `public/LICENSE`, `public/LICENSES/`, `public/raw/`.
+Scratch docs: never commit `docs/nocommit-*`.
 
 ## Architecture
 
 ### App structure
 
-- `src/pages/`
-  - route entrypoints
-- `src/layouts/`
-  - page and post shells
-- `src/components/`
-  - reusable UI pieces
-- `src/lib/`
-  - content, SEO, GitHub, search, publication, and build-shared helpers
-- `src/content/`
-  - Markdown content collections
-- `scripts/`
-  - build-time preparation and verification scripts
-- `public/`
-  - static assets and generated publish artifacts
+Pages: `src/pages/`; route entrypoints.
+Layouts: `src/layouts/`; page and post shells.
+Components: `src/components/`; reusable UI pieces.
+Lib: `src/lib/`; content, SEO, GitHub, search, publication, and build-shared helpers.
+Content: `src/content/`; Markdown content collections.
+Scripts: `scripts/`; build-time preparation and verification scripts.
+Public: `public/`; static assets and generated publish artifacts.
 
 ### Important boundaries
 
-- `TypeScript` is used for the Astro app layer.
-- `.js` / `.mjs` is used for Node/build helpers and scripts.
-- This split is intentional. Do not churn files between TS and JS without a clear payoff.
+Astro app: use `TypeScript`.
+Build helpers: use `.js` / `.mjs`.
+Boundary: keep the split intentional.
+Churn: do not move files between TS and JS without clear payoff.
 
 ### Layout model
 
-- `BaseLayout.astro`
-  - global shell, metadata, theme bootstrap
-- `PostLayout.astro`
-  - post page chrome, metadata row, post footer
-- `Header.astro` and `Footer.astro`
-  - site-wide navigation and bottom bar
+Base layout: `BaseLayout.astro`; global shell, metadata, theme bootstrap.
+Post layout: `PostLayout.astro`; post page chrome, metadata row, post footer.
+Site chrome: `Header.astro` and `Footer.astro`; site-wide navigation and bottom bar.
 
 ## Post format
 
-Posts live under `src/content/posts/<slug>/index.md`.
+Location: `src/content/posts/<slug>/index.md`.
+Purpose: patch content fixtures and respect schema contracts when changing build or rendering logic.
+Authoring guide: `README.md`.
 
-This section exists because agents often need to patch content fixtures or
-respect schema contracts while changing the build or rendering logic. The
-human-facing authoring version lives in `README.md`.
-
-Current required frontmatter:
+Required frontmatter:
 
 ```md
 ---
@@ -153,20 +142,14 @@ tags:
 Content in Markdown format...
 ```
 
-Optional frontmatter fields supported by the current schema:
-- `lastmod`
-- `aliases`
-- `publishDate`
-- `expiryDate`
-- `cover`
+Optional fields: `lastmod`, `aliases`, `publishDate`, `expiryDate`, `cover`.
 
-Important title contract:
-- the Markdown document must start with a leading `# H1`
-- that H1 must match the YAML `title`
-- the site uses that document H1 as the rendered post title
-- `description` currently plays the role of feed/card summary
+Title contract: Markdown must start with a leading `# H1`.
+Title contract: `# H1` must match YAML `title`.
+Rendering: the site uses the document `H1` as the rendered post title.
+Summary: `description` is the feed/card summary.
 
-If you are thinking in terms of:
+Legacy mapping:
 
 ```md
 ---
@@ -178,82 +161,60 @@ summary: Brief description for feeds
 # Post Title
 ```
 
-map that to the current schema as:
-- `public: yes` -> `draft: false`
-- `summary` -> `description`
-
-Do not introduce `public` or `summary` unless the content schema is changed first.
+Mapping: `public: yes` -> `draft: false`.
+Mapping: `summary` -> `description`.
+Schema rule: do not introduce `public` or `summary` unless the content schema changes first.
 
 ## Build system
 
-- `scripts/prepare-static.mjs`
-  - validates Markdown title contracts
-  - generates `public/_redirects`
-  - copies `LICENSE` and `LICENSES/`
-  - generates raw reusable Markdown files under `public/raw/posts/`
-- Astro build outputs to `dist/`
-- Verification lives in:
-  - `scripts/test-acceptance.mjs`
-  - `scripts/test-integration.mjs`
-  - `scripts/test-e2e.mjs`
-  - `scripts/verify.mjs`
+Prepare script: `scripts/prepare-static.mjs`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` and `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
+Acceptance: `scripts/test-acceptance.mjs`.
+Integration: `scripts/test-integration.mjs`.
+E2E: `scripts/test-e2e.mjs`.
+Verify: `scripts/verify.mjs`.
 
 ## Deployment
 
-- Target platform: Cloudflare Pages
-- Recommended build command: `make build`
-- Build output directory: `dist`
-- Cloudflare Web Analytics is wired through `PUBLIC_CF_WEB_ANALYTICS_TOKEN`
-- The runtime beacon is rendered by `src/components/Analytics.astro`
-- configure `www -> apex` in Cloudflare, not in `public/_redirects`, because Workers asset redirects only allow relative targets
+Platform: Cloudflare Pages.
+Build command: `make build`.
+Build output: `dist/`.
+Analytics token: `PUBLIC_CF_WEB_ANALYTICS_TOKEN`.
+Beacon: `src/components/Analytics.astro`.
+Redirect rule: configure `www -> apex` in Cloudflare, not in `public/_redirects`.
+Reason: Workers asset redirects only allow relative targets.
 
 ## Frontend features
 
-- Local search from `/index.json`
-- Theme toggle with light, dark, and auto/system behavior
-- Keyboard search shortcut `/`
-- Reading time on post listings and post pages
-- Social sharing icons on posts
-- Contact icon rows in hero and footer
-- RSS feed at `/rss.xml`
-- GitHub activity block on `About`
+Theme: light, dark, and auto/system theme toggle.
+Shortcut: keyboard search shortcut `/`.
+Reading time: on post listings and post pages.
+Contacts: icon rows in hero and footer.
 
 ## Special pages
 
-- `/`
-  - home page with hero and recent posts
-- `/posts/`
-  - paginated archive
-- `/posts/[slug]/`
-  - single post
-- `/tags/[tag]/`
-  - tag archive
-- `/about/`
-  - about page with GitHub activity
-- `/privacy/`
-  - privacy page
-- `/404.html`
-  - not found page
-- `/rss.xml`
-- `/robots.txt`
-- `/index.json`
+Home: `/`; hero and recent posts.
+Posts: `/posts/`; paginated archive.
+Post: `/posts/[slug]/`; single post.
+Tag: `/tags/[tag]/`; tag archive.
+About: `/about/`; GitHub activity.
+Privacy: `/privacy/`.
+Not found: `/404.html`.
+RSS: `/rss.xml`.
+Robots: `/robots.txt`.
+Search index: `/index.json`.
 
 ## Content management
 
-- Posts are loaded from `src/content/posts/**`
-- Fixed pages are loaded from `src/content/pages/**`
-- The schema is defined in `src/content.config.ts`
-- Published content is filtered through publication rules in `src/lib/publication.js`
-- Raw Markdown reuse exports are generated only for published posts
-- Alias redirects are generated from frontmatter `aliases`
-- Contact links and site metadata are centralized in `src/config/site.ts`
+Posts: load from `src/content/posts/**`.
+Pages: load from `src/content/pages/**`.
+Schema: `src/content.config.ts`.
+Publication: `src/lib/publication.js`.
+Raw exports: generate only for published posts.
+Aliases: generate redirects from frontmatter `aliases`.
+Site metadata: centralize contact links and site metadata in `src/config/site.ts`.
 
 ## Testing and release expectations
 
-- A change is not done if it breaks `make verify`.
-- If a change alters the public HTML structure, verify:
-  - metadata
-  - raw Markdown exports
-  - search behavior
-  - mobile rendering
-- Prefer fixing the build/test pipeline rather than bypassing it.
+Done rule: a change is not done if `make verify` breaks.
+HTML changes: verify metadata, search behavior, raw Markdown exports, and mobile rendering.
+Pipeline: prefer fixing the build/test pipeline over bypassing it.
