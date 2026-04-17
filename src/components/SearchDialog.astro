@@ -1,3 +1,9 @@
+---
+const searchDomId = crypto.randomUUID();
+const searchInputId = `search-input-${searchDomId}`;
+const searchResultsId = `search-results-${searchDomId}`;
+---
+
 <section class="search-root" data-search-root data-open="false">
   <button
     type="button"
@@ -12,9 +18,9 @@
     </span>
   </button>
   <form class="search-form control-pill control-pill--focus-within" data-search-form>
-    <label class="visually-hidden" for="search-input">Search posts</label>
+    <label class="visually-hidden" for={searchInputId}>Search posts</label>
     <input
-      id="search-input"
+      id={searchInputId}
       name="search"
       type="text"
       placeholder="Search posts"
@@ -22,12 +28,13 @@
       role="combobox"
       aria-autocomplete="list"
       aria-expanded="false"
-      aria-controls="search-results"
+      aria-controls={searchResultsId}
+      data-search-input
     />
   </form>
   <div class="results-panel surface-panel" data-search-panel hidden>
     <p class="eyebrow status" data-search-status hidden></p>
-    <ul class="results" id="search-results" role="listbox" data-search-results></ul>
+    <ul class="results" id={searchResultsId} role="listbox" data-search-results></ul>
   </div>
 </section>
 
@@ -148,11 +155,11 @@
     display: none;
   }
 
-  .results :global(li) {
+  .results :global([data-search-result-item]) {
     display: block;
   }
 
-  .results :global(.search-result-link) {
+  .results :global([data-search-result-link]) {
     display: grid;
     gap: var(--space-1);
     width: 100%;
@@ -167,12 +174,12 @@
     outline: none;
   }
 
-  .results :global(.search-result-link:hover) {
+  .results :global([data-search-result-link]:hover) {
     background: color-mix(in srgb, var(--color-surface-strong) 72%, var(--color-surface));
   }
 
-  .results :global(.search-result-link.is-active),
-  .results :global(.search-result-link:focus-visible) {
+  .results :global([data-search-result-link].is-active),
+  .results :global([data-search-result-link]:focus-visible) {
     background: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
     box-shadow: inset 0 0 0 2px var(--color-accent);
     padding: var(--space-3) var(--space-4);
@@ -180,14 +187,14 @@
     outline: none;
   }
 
-  .results :global(.result-title) {
+  .results :global([data-search-result-title]) {
     font-family: var(--font-heading);
     font-size: var(--font-size-lg);
     line-height: var(--line-height-snug);
     color: var(--color-text);
   }
 
-  .results :global(.result-meta) {
+  .results :global([data-search-result-meta]) {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -198,11 +205,11 @@
     line-height: 1.4;
   }
 
-  .results :global(.result-meta-divider) {
+  .results :global([data-search-result-meta-divider]) {
     color: color-mix(in srgb, var(--color-text-muted) 42%, var(--color-rule));
   }
 
-  .results :global(.result-category) {
+  .results :global([data-search-result-category]) {
     text-transform: capitalize;
   }
 
