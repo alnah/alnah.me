@@ -19,10 +19,16 @@ const IntroTag = isHomePage ? "h1" : "p";
     <div class="content-band topbar-inner section-rule">
       <a class="brand" href="/">{SITE.author.name}</a>
       <nav class="nav" aria-label="Primary">
-        <SearchDialog />
-        <ThemeToggle />
+        <div class="nav-slot nav-slot-theme">
+          <ThemeToggle />
+        </div>
+        <div class="nav-slot nav-slot-search">
+          <SearchDialog />
+        </div>
         {NAV_ITEMS.map((item) => (
-          <a class="control-pill nav-link" href={item.href}>{item.label}</a>
+          <div class={`nav-slot nav-slot-${item.id}`}>
+            <a class="control-pill nav-link" href={item.href}>{item.label}</a>
+          </div>
         ))}
       </nav>
     </div>
@@ -100,37 +106,33 @@ const IntroTag = isHomePage ? "h1" : "p";
     position: relative;
   }
 
-  .nav > * {
+  .nav-slot {
     min-width: 0;
   }
 
-  .nav :global(.theme-toggle) {
+  .nav-slot-theme {
     grid-column: 1;
     grid-row: 1;
   }
 
-  .nav :global(.search-root) {
+  .nav-slot-search {
     grid-column: 2;
     grid-row: 1;
     min-width: 0;
   }
 
-  .nav .nav-link[href="/posts/"] {
+  .nav-slot-posts {
     grid-column: 3;
     grid-row: 1;
   }
 
-  .nav .nav-link[href="/about/"] {
+  .nav-slot-about {
     grid-column: 4;
     grid-row: 1;
   }
 
-  .nav :global(.search-root[data-open="true"]) {
-    grid-column: 2;
-  }
-
-  .nav :global(.search-trigger),
-  .nav :global(.search-form),
+  .nav-slot-search :global([data-search-trigger]),
+  .nav-slot-search :global([data-search-form]),
   .nav .nav-link {
     width: 100%;
     min-width: 0;
@@ -256,26 +258,28 @@ const IntroTag = isHomePage ? "h1" : "p";
       position: static;
     }
 
-    .nav > * { min-width: initial; }
+    .nav-slot {
+      min-width: initial;
+    }
 
-    .nav :global(.search-trigger),
-    .nav :global(.search-form),
+    .nav-slot-search :global([data-search-trigger]),
+    .nav-slot-search :global([data-search-form]),
     .nav .nav-link {
       width: auto;
     }
 
-    .nav :global(.search-root) {
+    .nav-slot-search {
       min-height: var(--control-height);
       display: inline-flex;
       align-items: center;
     }
 
-    .nav :global(.theme-toggle),
-    .nav :global(.search-root),
-    .nav .nav-link[href="/posts/"],
-    .nav .nav-link[href="/about/"],
-    .nav :global(.search-root[data-open="true"]) {
+    .nav-slot-theme,
+    .nav-slot-search,
+    .nav-slot-posts,
+    .nav-slot-about {
       grid-column: auto;
+      grid-row: auto;
     }
 
     .nav .nav-link {
@@ -313,7 +317,7 @@ const IntroTag = isHomePage ? "h1" : "p";
   }
 
   @media (max-width: 900px) {
-    .topbar-inner:has(.search-root[data-open="true"]) {
+    .topbar-inner:has([data-search-root][data-open="true"]) {
       padding-bottom: var(--header-search-open-reserve);
     }
 

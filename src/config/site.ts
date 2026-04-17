@@ -141,10 +141,12 @@ export const SITE = {
 
 export const NAV_ITEMS = [
   {
+    id: 'posts',
     href: '/posts/',
     label: 'Posts',
   },
   {
+    id: 'about',
     href: '/about/',
     label: 'About',
   },
