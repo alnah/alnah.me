@@ -1,4 +1,13 @@
 :root {
+  /* Breakpoint conventions
+   * 360px: very narrow phones
+   * 480px: phones
+   * 720px: compact tablet or dense widget layout
+   * 900px: stacked layout upper bound
+   * 901px: desktop layout lower bound
+   * Keep component media queries aligned to these values unless a feature
+   * has a stronger layout need.
+   */
   --font-heading: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
   --font-body: "Source Serif 4", Georgia, serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
