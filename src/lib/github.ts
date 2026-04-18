@@ -313,14 +313,23 @@ function dedupeRecentActivity(items: RecentActivityItem[]) {
   });
 }
 
+function hasGitHubEventType<T extends GitHubPublicEvent["type"]>(
+  event: GitHubPublicEvent,
+  type: T
+): event is Extract<GitHubPublicEvent, { type: T }> {
+  return event.type === type;
+}
+
 function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | null {
   const repoName = event.repo?.name;
   const repoUrl = typeof repoName === "string" ? formatRepoUrl(repoName) : null;
   const createdAt = typeof event.created_at === "string" ? event.created_at : "";
 
-  if (event.type === "PushEvent" && repoName) {
+  if (hasGitHubEventType(event, "PushEvent") && repoName) {
     const commitCount = Array.isArray(event.payload?.commits) ? event.payload.commits.length : 0;
-    const branch = typeof event.payload?.ref === "string" ? event.payload.ref.split("/").pop() : null;
+    const branch =
+      typeof event.payload?.ref === "string" ? event.payload.ref.split("/").pop() : null;
+
     return {
       date: createdAt,
       summary: `Pushed ${commitCount || "new"} commit${commitCount === 1 ? "" : "s"} to ${repoName}${branch ? ` on ${branch}` : ""}.`,
@@ -328,7 +337,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "PullRequestEvent" && repoName) {
+  if (hasGitHubEventType(event, "PullRequestEvent") && repoName) {
     const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
     const prUrl =
       typeof event.payload?.pull_request?.html_url === "string"
@@ -342,7 +351,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "ReleaseEvent" && repoName) {
+  if (hasGitHubEventType(event, "ReleaseEvent") && repoName) {
     const releaseUrl =
       typeof event.payload?.release?.html_url === "string"
         ? event.payload.release.html_url
@@ -355,8 +364,9 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "CreateEvent" && repoName) {
-    const refType = typeof event.payload?.ref_type === "string" ? event.payload.ref_type : "resource";
+  if (hasGitHubEventType(event, "CreateEvent") && repoName) {
+    const refType =
+      typeof event.payload?.ref_type === "string" ? event.payload.ref_type : "resource";
     const ref = typeof event.payload?.ref === "string" ? event.payload.ref : "";
 
     return {
@@ -366,7 +376,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "IssuesEvent" && repoName) {
+  if (hasGitHubEventType(event, "IssuesEvent") && repoName) {
     const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
     const issueUrl =
       typeof event.payload?.issue?.html_url === "string"
@@ -380,7 +390,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "IssueCommentEvent" && repoName) {
+  if (hasGitHubEventType(event, "IssueCommentEvent") && repoName) {
     const issueUrl =
       typeof event.payload?.issue?.html_url === "string"
         ? event.payload.issue.html_url
@@ -393,7 +403,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "ForkEvent" && repoName) {
+  if (hasGitHubEventType(event, "ForkEvent") && repoName) {
     const forkUrl =
       typeof event.payload?.forkee?.html_url === "string"
         ? event.payload.forkee.html_url
@@ -406,7 +416,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
     };
   }
 
-  if (event.type === "WatchEvent" && repoName) {
+  if (hasGitHubEventType(event, "WatchEvent") && repoName) {
     return {
       date: createdAt,
       summary: `Starred ${repoName}.`,

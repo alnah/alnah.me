@@ -61,23 +61,32 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     return null;
   }
 
+  const searchTrigger = trigger;
+  const searchForm = form;
+  const searchInput = input;
+  const resultsPanel = panel;
+  const resultsList = results;
+  const statusMessage = status;
+
   let isOpen = root.dataset.open === "true";
   let activeIndex = -1;
-  const resultIdPrefix = `${input.id}-result`;
+  const resultIdPrefix = `${searchInput.id}-result`;
 
   function syncInputState() {
-    input.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    searchInput.setAttribute("aria-expanded", isOpen ? "true" : "false");
 
     if (activeIndex >= 0) {
-      input.setAttribute("aria-activedescendant", `${resultIdPrefix}-${activeIndex}`);
+      searchInput.setAttribute("aria-activedescendant", `${resultIdPrefix}-${activeIndex}`);
       return;
     }
 
-    input.removeAttribute("aria-activedescendant");
+    searchInput.removeAttribute("aria-activedescendant");
   }
 
   function getResultLinks() {
-    return Array.from(results.querySelectorAll<HTMLAnchorElement>("[data-search-result-link]"));
+    return Array.from(
+      resultsList.querySelectorAll<HTMLAnchorElement>("[data-search-result-link]")
+    );
   }
 
   function syncActiveResult(nextIndex: number, options: { focus?: boolean } = {}) {
@@ -103,16 +112,16 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
   }
 
   function clearResults() {
-    status.textContent = "";
-    status.hidden = true;
-    panel.hidden = true;
-    results.replaceChildren();
+    statusMessage.textContent = "";
+    statusMessage.hidden = true;
+    resultsPanel.hidden = true;
+    resultsList.replaceChildren();
     activeIndex = -1;
     syncInputState();
   }
 
   function renderResults(items: SearchIndexDocument[]) {
-    results.replaceChildren(
+    resultsList.replaceChildren(
       ...items.map((item, itemIndex) => {
         const listItem = document.createElement("li");
         const link = document.createElement("a");
@@ -186,15 +195,15 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     try {
       const items = await loadSearchIndex();
       const matches = searchDocuments(items, query);
-      panel.hidden = false;
-      status.hidden = matches.length > 0;
-      status.textContent = matches.length > 0 ? "" : "No matching posts yet.";
+      resultsPanel.hidden = false;
+      statusMessage.hidden = matches.length > 0;
+      statusMessage.textContent = matches.length > 0 ? "" : "No matching posts yet.";
       renderResults(matches);
     } catch {
-      panel.hidden = false;
-      status.hidden = false;
-      status.textContent = "Search index unavailable. You can still browse posts.";
-      results.replaceChildren();
+      resultsPanel.hidden = false;
+      statusMessage.hidden = false;
+      statusMessage.textContent = "Search index unavailable. You can still browse posts.";
+      resultsList.replaceChildren();
       activeIndex = -1;
       syncInputState();
     }
@@ -203,16 +212,16 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
   function closeSearch() {
     root.dataset.open = "false";
     isOpen = false;
-    input.value = "";
+    searchInput.value = "";
     clearResults();
   }
 
   async function openSearch() {
     root.dataset.open = "true";
     isOpen = true;
-    input.value = "";
+    searchInput.value = "";
     await runSearch("");
-    input.focus();
+    searchInput.focus();
     syncInputState();
   }
 
@@ -222,12 +231,12 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     openSearch,
     closeSearch,
     contains: (target) => root.contains(target),
-    focusTrigger: () => trigger.focus()
+    focusTrigger: () => searchTrigger.focus()
   };
 
   syncInputState();
 
-  trigger.addEventListener("click", async () => {
+  searchTrigger.addEventListener("click", async () => {
     if (isOpen) {
       closeSearch();
       return;
@@ -237,7 +246,7 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     await openSearch();
   });
 
-  input.addEventListener("input", (event) => {
+  searchInput.addEventListener("input", (event) => {
     const target = event.currentTarget;
     if (!(target instanceof HTMLInputElement)) {
       return;
@@ -246,7 +255,7 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     void runSearch(target.value);
   });
 
-  input.addEventListener("keydown", (event) => {
+  searchInput.addEventListener("keydown", (event) => {
     const links = getResultLinks();
     if (links.length === 0) {
       return;
@@ -283,11 +292,11 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     }
   });
 
-  form.addEventListener("submit", (event) => {
+  searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
   });
 
-  results.addEventListener("focusin", (event) => {
+  resultsList.addEventListener("focusin", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLAnchorElement)) {
       return;
@@ -300,7 +309,7 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
     }
   });
 
-  results.addEventListener("keydown", (event) => {
+  resultsList.addEventListener("keydown", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLAnchorElement)) {
       return;
@@ -319,7 +328,7 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
       if (currentIndex <= 0) {
         activeIndex = -1;
         syncInputState();
-        input.focus();
+        searchInput.focus();
         return;
       }
 
