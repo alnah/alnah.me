@@ -87,11 +87,16 @@ function firstUsefulToken(title) {
 
 async function assertNoHorizontalOverflow(page, label) {
   const overflow = await page.evaluate(() => {
-    const doc = document.documentElement;
-    return Math.max(doc.scrollWidth - doc.clientWidth, document.body.scrollWidth - window.innerWidth);
+    const previousScrollX = window.scrollX;
+
+    window.scrollTo(999999, window.scrollY);
+    const maxScrollX = window.scrollX;
+    window.scrollTo(previousScrollX, window.scrollY);
+
+    return maxScrollX;
   });
 
-  assert.ok(overflow <= 1, `${label} should not overflow horizontally (got ${overflow}px)`);
+  assert.equal(overflow, 0, `${label} should not overflow horizontally (got ${overflow}px)`);
 }
 
 const searchIndex = JSON.parse(fs.readFileSync(path.join(distDir, "index.json"), "utf8"));
@@ -106,17 +111,19 @@ try {
   await desktopPage.goto(`${server.origin}/`);
   await desktopPage.getByRole("button", { name: /toggle search/i }).click();
 
+  const searchInput = desktopPage.locator("[data-search-input]");
+
   if (targetPost) {
     const searchQuery = firstUsefulToken(targetPost.title);
-    await desktopPage.locator("#search-input").fill(searchQuery);
+    await searchInput.fill(searchQuery);
     await desktopPage.locator("[data-search-results] a").first().waitFor({ state: "visible" });
-    await desktopPage.locator("#search-input").press("ArrowDown");
+    await searchInput.press("ArrowDown");
     await Promise.all([
       desktopPage.waitForURL(`${server.origin}${targetPost.url}`),
-      desktopPage.locator("#search-input").press("Enter")
+      searchInput.press("Enter")
     ]);
   } else {
-    await desktopPage.locator("#search-input").fill("hello");
+    await searchInput.fill("hello");
     await desktopPage.locator("[data-search-status]").waitFor({ state: "visible" });
   }
 
