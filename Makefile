@@ -24,6 +24,7 @@ PW_FULL_PAGE ?= 1
 	verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
 
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
+WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.mjs
 
 help: ## Show available developer targets
 	@printf "alnah.me developer commands\n\n"
@@ -48,13 +49,13 @@ dev-lan: doctor ## Start the Astro dev server on the LAN
 	@$(USE_PROJECT_NODE) $(NPM) run dev -- --host 0.0.0.0 --port $(PORT)
 
 build: doctor ## Build the production site into dist/
-	@$(USE_PROJECT_NODE) $(NPM) run build
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run build
 
 preview: doctor ## Preview the built site on localhost
-	@$(USE_PROJECT_NODE) $(NPM) run preview -- --host $(HOST) --port $(PORT)
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run preview -- --host $(HOST) --port $(PORT)
 
 preview-lan: doctor ## Preview the built site on the LAN
-	@$(USE_PROJECT_NODE) $(NPM) run preview -- --host 0.0.0.0 --port $(PORT)
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run preview -- --host 0.0.0.0 --port $(PORT)
 
 check: verify ## Run the current green quality gate
 
@@ -62,22 +63,22 @@ astro-check: doctor ## Run Astro's stricter diagnostics (may expose known type d
 	@$(USE_PROJECT_NODE) $(NPM) exec astro check
 
 verify: doctor ## Run the full build + verification suite
-	@$(USE_PROJECT_NODE) $(NPM) run verify
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run verify
 
 test-unit: doctor ## Run pure helper checks without rebuilding the site
 	@$(USE_PROJECT_NODE) $(NPM) run test:unit
 
 test-acceptance: doctor ## Run acceptance checks against a fresh build
-	@$(USE_PROJECT_NODE) $(NPM) run test:acceptance
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:acceptance
 
 test-integration: doctor ## Run integration checks against a fresh build
-	@$(USE_PROJECT_NODE) $(NPM) run test:integration
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:integration
 
 test-e2e: doctor ## Run the local end-to-end smoke checks against a fresh build
-	@$(USE_PROJECT_NODE) $(NPM) run test:e2e
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:e2e
 
 test-ui: doctor ## Run the minimal Playwright UI smoke checks against a fresh build
-	@$(USE_PROJECT_NODE) $(NPM) run test:ui
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:ui
 
 pw-install: doctor ## Install the Playwright browser set used by pw-* targets (default: chromium)
 	@$(USE_PROJECT_NODE) command -v playwright >/dev/null || { echo "playwright CLI is not available in the current Node environment."; exit 1; }

@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
@@ -13,6 +14,72 @@ const licenseTarget = path.join(cwd, "public/LICENSE");
 const licensesSourceDir = path.join(cwd, "LICENSES");
 const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
+const tempFilePrefix = ".prepare-static-";
+
+function createTempFilePath(targetPath) {
+  return path.join(
+    path.dirname(targetPath),
+    `${tempFilePrefix}${process.pid}-${randomUUID()}-${path.basename(targetPath)}`
+  );
+}
+
+async function writeFileAtomically(targetPath, content) {
+  const tempPath = createTempFilePath(targetPath);
+  await fs.mkdir(path.dirname(targetPath), { recursive: true });
+
+  try {
+    await fs.writeFile(tempPath, content, "utf8");
+    await fs.rename(tempPath, targetPath);
+  } finally {
+    await fs.rm(tempPath, { force: true }).catch(() => undefined);
+  }
+}
+
+async function copyFileAtomically(sourcePath, targetPath) {
+  const tempPath = createTempFilePath(targetPath);
+  await fs.mkdir(path.dirname(targetPath), { recursive: true });
+
+  try {
+    await fs.copyFile(sourcePath, tempPath);
+    await fs.rename(tempPath, targetPath);
+  } finally {
+    await fs.rm(tempPath, { force: true }).catch(() => undefined);
+  }
+}
+
+async function listDirectoryEntries(dirPath) {
+  try {
+    return await fs.readdir(dirPath, { withFileTypes: true });
+  } catch (error) {
+    if (error && typeof error === "object" && error.code === "ENOENT") {
+      return [];
+    }
+
+    throw error;
+  }
+}
+
+async function pruneDirectoryFiles(dirPath, expectedFileNames) {
+  const entries = await listDirectoryEntries(dirPath);
+
+  await Promise.all(
+    entries
+      .filter((entry) => entry.isFile())
+      .filter((entry) => !entry.name.startsWith(tempFilePrefix))
+      .filter((entry) => !expectedFileNames.has(entry.name))
+      .map(async (entry) => {
+        try {
+          await fs.rm(path.join(dirPath, entry.name), { force: true });
+        } catch (error) {
+          if (error && typeof error === "object" && error.code === "ENOENT") {
+            return;
+          }
+
+          throw error;
+        }
+      })
+  );
+}
 
 async function buildRedirectLines(entries) {
   const lines = [];
@@ -25,30 +92,43 @@ async function buildRedirectLines(entries) {
 }
 
 async function writeRawMarkdown(entries) {
-  await fs.rm(rawPostsRoot, { recursive: true, force: true });
   await fs.mkdir(rawPostsRoot, { recursive: true });
 
+  const rawPostFiles = entries.map((entry) => ({
+    fileName: `${entry.slug}.md`,
+    content: entry.bodyMarkdown
+  }));
+
   await Promise.all(
-    entries.map((entry) => {
-      return fs.writeFile(path.join(rawPostsRoot, `${entry.slug}.md`), entry.bodyMarkdown, "utf8");
-    })
+    rawPostFiles.map((entry) =>
+      writeFileAtomically(path.join(rawPostsRoot, entry.fileName), entry.content)
+    )
+  );
+
+  await pruneDirectoryFiles(
+    rawPostsRoot,
+    new Set(rawPostFiles.map((entry) => entry.fileName))
   );
 }
 
 async function copyLicenseFiles() {
-  await fs.rm(licensesTargetDir, { recursive: true, force: true });
   await fs.mkdir(licensesTargetDir, { recursive: true });
 
-  const entries = await fs.readdir(licensesSourceDir, { withFileTypes: true });
+  const entries = await listDirectoryEntries(licensesSourceDir);
+  const licenseFiles = entries.filter((entry) => entry.isFile());
+
   await Promise.all(
-    entries
-      .filter((entry) => entry.isFile())
-      .map((entry) =>
-        fs.copyFile(
-          path.join(licensesSourceDir, entry.name),
-          path.join(licensesTargetDir, entry.name)
-        )
+    licenseFiles.map((entry) =>
+      copyFileAtomically(
+        path.join(licensesSourceDir, entry.name),
+        path.join(licensesTargetDir, entry.name)
       )
+    )
+  );
+
+  await pruneDirectoryFiles(
+    licensesTargetDir,
+    new Set(licenseFiles.map((entry) => entry.name))
   );
 }
 
@@ -75,10 +155,9 @@ async function validateMarkdownTitleContract(rootDir) {
 await validateMarkdownTitleContract(contentRoot);
 await validateMarkdownTitleContract(pagesRoot);
 const publishedEntries = await getPublishedMarkdownEntries(contentRoot);
-await fs.mkdir(path.dirname(licenseTarget), { recursive: true });
-await fs.copyFile(licenseSource, licenseTarget);
+await copyFileAtomically(licenseSource, licenseTarget);
 await copyLicenseFiles();
-await fs.writeFile(redirectsPath, await buildRedirectLines(publishedEntries), "utf8");
+await writeFileAtomically(redirectsPath, await buildRedirectLines(publishedEntries));
 await writeRawMarkdown(publishedEntries);
 console.log(
   "prepare-static: wrote public/_redirects, public/LICENSE, public/LICENSES, and public/raw/posts"
