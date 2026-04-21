@@ -27,7 +27,7 @@ I release what I create under easy-going licenses. The tools I publish on [GitHu
 
 I'm Alexis Nahan, also known as `alnah`. I'm a French teacher and developer based in Salvador, Brazil. French is my native language, and I teach it daily on [italki](https://www.italki.com/fr/teacher/8123606).
 
-My teaching is based on the [input/output model](https://www.britishcouncil.org/voices-magazine/can-we-learn-second-language-we-learned-our-first) and the [CEFR descriptors](https://europass.europa.eu/en/what-common-european-framework-languages-cefr), which I use as a framework for understanding language proficiency.
+I follow [Eaquals recommendations for scenario-based learning](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf), the [input/output model](https://www.britishcouncil.org/voices-magazine/can-we-learn-second-language-we-learned-our-first), and the [CEFR descriptors](https://europass.europa.eu/en/what-common-european-framework-languages-cefr), which I use as a framework for understanding language proficiency.
 
 I connect language teaching with programming. I translate technical possibilities into educational solutions, and I build things that learners, teachers, and organizations can use. Some of my [projects](https://github.com/alnah) include [Falaro (soon public)](https://github.com/alnah/falaro), [Picoloom](https://github.com/alnah/picoloom), and [Panefleet](https://github.com/alnah/panefleet).
 

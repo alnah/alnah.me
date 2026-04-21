@@ -22,7 +22,7 @@ From my experience in one-to-one teaching on [italki](https://www.italki.com/tea
 
 Small schools tend to rely on textbooks because the curriculum is outsourced to foreign language publishers. This allows the person responsible for pedagogy in those schools to focus on teacher management and mid-term assessments.
 
-Only solid pedagogical infrastructure can make this happen. In French teaching, [the Eurocentres and Eaquals recommendations for building scenarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) provide a strong framework. Unfortunately, for many of us, it is almost impossible to apply under our working conditions. Students pay the price.
+Only solid pedagogical infrastructure can make this happen. In French teaching, [the Eaquals recommendations for building scenarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) provide a strong framework. Unfortunately, for many of us, it is almost impossible to apply under our working conditions. Students pay the price.
 
 ## Teachers are motivated and lack design capacity.
 
