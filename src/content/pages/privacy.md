@@ -13,7 +13,7 @@ Cloudflare Web Analytics measures aggregate traffic, such as page views and broa
 
 ## Newsletter
 
-If you subscribe to the newsletter, I use your email address to send one monthly email. The legal basis is your consent. Subscriptions use double opt-in, and you can unsubscribe at any time.
+If you subscribe to the newsletter, I use your email address to send an email when I publish, once a week or once every two weeks. The legal basis is your consent. Subscriptions use double opt-in, and you can unsubscribe at any time.
 
 If you subscribe, I collect your email address and subscription metadata: signup, confirmation, and unsubscribe events.
 

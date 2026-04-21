@@ -33,7 +33,7 @@ I connect language teaching with programming. I translate technical possibilitie
 
 ## Subscribe
 
-You can subscribe to my blog via email newsletter if you don't want to miss something. I send an e-mail version of my posts when I publish them.
+You can subscribe to my blog via email newsletter if you don't want to miss something. I send an email when I publish, once a week or once every two weeks.
 
 ## Support and contact
 
