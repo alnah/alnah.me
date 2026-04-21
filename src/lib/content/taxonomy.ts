@@ -18,27 +18,27 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
   building: {
     slug: "building",
     label: "Building",
-    description: "Things I build and ship."
+    description: "Why and how I build things."
   },
   tooling: {
     slug: "tooling",
     label: "Tooling",
-    description: "Tools, workflows, and automation I actually use."
+    description: "Tools and workflows for automation."
   },
   teaching: {
     slug: "teaching",
     label: "Teaching",
-    description: "Teaching practice, pedagogy, and language work."
+    description: "Teaching practices and language pedagogy."
   },
   working: {
     slug: "working",
     label: "Working",
-    description: "Client work, delivery, business, and operations."
+    description: "Organizing for delivery and business operations."
   },
   thinking: {
     slug: "thinking",
     label: "Thinking",
-    description: "Notes, essays, and reflections across the whole site."
+    description: "Thoughts on language, technology, and more."
   }
 };
 
