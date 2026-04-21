@@ -76,7 +76,7 @@ export const SITE = {
   description:
     'Notes about how to teach French or learn it using technology.',
   defaultSocialImage: '/og-default.jpg',
-  socialImageAlt: 'Minimal social preview card with the alnah.me favicon on a warm background.',
+  socialImageAlt: 'Minimal social preview image with a centered circular alnah.me mark on a warm background.',
   xHandle: '@_alnah',
   author: {
     name: 'Alexis Nahan',
