@@ -9,9 +9,7 @@ This personal website is hosted on Cloudflare.
 
 ## Analytics
 
-Cloudflare Web Analytics measures aggregate traffic, such as page views and broad traffic patterns, without cross-site tracking cookies.
-
-You can read more here: [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/)
+Cloudflare Web Analytics measures aggregate traffic, such as page views and broad traffic patterns, without cross-site tracking cookies. You can read more on [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/).
 
 ## Newsletter
 

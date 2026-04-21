@@ -1,3 +1,4 @@
+import profileImage from "../assets/profile.jpeg";
 import { SITE } from "../config/site";
 import { serializeJsonForHtmlScript } from "./script-safe.js";
 
@@ -88,7 +89,7 @@ function buildPersonEntity() {
     name: SITE.author.name,
     alternateName: SITE.author.alias,
     email: SITE.author.email,
-    image: absoluteUrl(SITE.author.image),
+    image: absoluteUrl(profileImage.src),
     url: absoluteUrl(SITE.aboutPath),
     sameAs: resolvePersonSameAs()
   };

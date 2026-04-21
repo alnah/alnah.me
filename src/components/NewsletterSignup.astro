@@ -1,0 +1,164 @@
+---
+import { NEWSLETTER } from "../config/newsletter";
+
+const emailInputId = `newsletter-email-${crypto.randomUUID()}`;
+const titleId = `newsletter-title-${crypto.randomUUID()}`;
+const legalId = `newsletter-legal-${crypto.randomUUID()}`;
+---
+
+<section class="signup-panel surface-panel" aria-labelledby={titleId}>
+  <p class="signup-title" id={titleId}>{NEWSLETTER.heading}</p>
+  <p class="signup-copy">{NEWSLETTER.promise}</p>
+  <form class="signup-form" action={NEWSLETTER.subscribeAction} method="post">
+    <label class="visually-hidden" for={emailInputId}>Email address</label>
+    <input type="hidden" name="embed" value="1" />
+    <div class="signup-fields">
+      <div class="signup-input-shell control-pill control-pill--focus-within">
+        <input
+          id={emailInputId}
+          class="signup-input"
+          type="email"
+          name="email"
+          placeholder={NEWSLETTER.emailPlaceholder}
+          autocomplete="email"
+          required
+          aria-describedby={legalId}
+        />
+      </div>
+      <button class="signup-button control-pill" type="submit">{NEWSLETTER.subscribeLabel}</button>
+    </div>
+  </form>
+  <p class="signup-legal" id={legalId}>
+    By subscribing you agree to my <a href={NEWSLETTER.privacyHref}>Privacy notice</a>.
+  </p>
+</section>
+
+<style>
+  .signup-panel {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    max-width: var(--width-reading);
+    padding: var(--space-5);
+    text-align: center;
+    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  }
+
+  .signup-title,
+  .signup-copy,
+  .signup-legal {
+    margin: 0;
+  }
+
+  .signup-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: -0.03em;
+    font-weight: 650;
+  }
+
+  .signup-copy {
+    color: var(--color-text-muted);
+    max-width: 36rem;
+  }
+
+  .signup-form {
+    width: 100%;
+    margin: var(--space-1) 0 0;
+  }
+
+  .signup-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--space-2);
+    align-items: stretch;
+    max-width: 30rem;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .signup-input-shell {
+    width: 100%;
+    min-width: 0;
+    justify-content: flex-start;
+    padding: 0 var(--space-3);
+  }
+
+  .signup-input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-text);
+    padding: 0;
+  }
+
+  .signup-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .signup-input:focus {
+    outline: none;
+  }
+
+  .signup-input:focus-visible {
+    box-shadow: none;
+  }
+
+  .signup-input-shell.control-pill--focus-within:focus-within {
+    box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-sm);
+  }
+
+  .signup-button {
+    min-width: 8.5rem;
+    background: var(--color-link);
+    border-color: color-mix(in srgb, var(--color-link) 82%, var(--color-rule));
+    color: #fff;
+  }
+
+  .signup-button:hover {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+  }
+
+  .signup-button:focus-visible {
+    box-shadow: 0 0 0 2px var(--color-accent), var(--shadow-sm);
+  }
+
+  .signup-legal {
+    max-width: 34rem;
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    line-height: 1.45;
+  }
+
+  .signup-legal a {
+    color: inherit;
+  }
+
+  @media (max-width: 720px) {
+    .signup-fields {
+      grid-template-columns: 1fr;
+      max-width: none;
+    }
+
+    .signup-button {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .signup-panel {
+      padding: var(--space-4);
+    }
+
+    .signup-title {
+      font-size: var(--font-size-xl);
+    }
+  }
+</style>

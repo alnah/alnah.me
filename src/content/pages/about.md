@@ -29,7 +29,11 @@ I'm Alexis Nahan, also known as `alnah`. I'm a French teacher and developer base
 
 I follow [Eaquals recommendations for scenario-based learning](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf), the [input/output model](https://www.britishcouncil.org/voices-magazine/can-we-learn-second-language-we-learned-our-first), and the [CEFR descriptors](https://europass.europa.eu/en/what-common-european-framework-languages-cefr), which I use as a framework for understanding language proficiency.
 
-I connect language teaching with programming. I translate technical possibilities into educational solutions, and I build things that learners, teachers, and organizations can use. Some of my [projects](https://github.com/alnah) include [Falaro (soon public)](https://github.com/alnah/falaro), [Picoloom](https://github.com/alnah/picoloom), and [Panefleet](https://github.com/alnah/panefleet).
+I connect language teaching with programming. I translate technical possibilities into educational solutions, and I build things that learners, teachers, and organizations can use. Some of my [projects](https://github.com/alnah) include [Falaro](https://github.com/alnah/falaro), and [Picoloom](https://github.com/alnah/picoloom).
+
+## Subscribe
+
+You can subscribe to my blog via email newsletter if you don't want to miss something, I share out what I have done monthly.
 
 ## Support and contact
 
@@ -41,7 +45,7 @@ I don't receive money to write about specific topics on this blog. I want to rem
 
 ## Privacy
 
-This site uses a small, privacy-first setup. Analytics are enabled through Cloudflare Web Analytics. You can find the current privacy notice on the [`Privacy` page](https://alnah.me/privacy/).
+This site uses a small, privacy-first setup. Analytics are enabled through Cloudflare Web Analytics. You can find the current privacy notice on the [Privacy page](/privacy/).
 
 ## Artificial intelligence transparency
 

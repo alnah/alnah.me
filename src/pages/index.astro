@@ -1,4 +1,5 @@
 ---
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
 import { getPublishedPosts } from "../lib/content";
@@ -8,7 +9,7 @@ const posts = (await getPublishedPosts()).slice(0, 4);
 ---
 
 <BaseLayout
-  title="Solo building, product engineering, language teaching, and other thoughts"
+  title="learning or teaching French as a foreign language using technology"
   schemaJson={buildWebsiteSchema()}
 >
   <section class="home-shell content-band">
@@ -20,6 +21,7 @@ const posts = (await getPublishedPosts()).slice(0, 4);
         <p class="empty-copy">No posts published yet.</p>
       )
     }
+    <NewsletterSignup />
   </section>
 </BaseLayout>
 

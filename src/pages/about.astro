@@ -1,7 +1,8 @@
 ---
-import { render } from "astro:content";
+import { createMarkdownProcessor } from "@astrojs/markdown-remark";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GitHubActivity from "../components/GitHubActivity.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import { SITE } from "../config/site";
 import { getPageContent } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
@@ -13,9 +14,18 @@ if (!page) {
   throw new Error("Missing about page content");
 }
 
-const { Content } = await render(page);
 const pageTitle = resolveEntryTitle(page);
 const pageDescription = page.data.description ?? SITE.description;
+const signupAnchor = "## Support and contact";
+const [beforeSignup, afterSignup] = page.body.split(signupAnchor);
+
+if (!beforeSignup || afterSignup === undefined) {
+  throw new Error("About page is missing the support-and-contact anchor for newsletter signup placement");
+}
+
+const markdownProcessor = await createMarkdownProcessor();
+const { code: beforeSignupHtml } = await markdownProcessor.render(beforeSignup);
+const { code: afterSignupHtml } = await markdownProcessor.render(`${signupAnchor}${afterSignup}`);
 ---
 
 <BaseLayout
@@ -29,7 +39,9 @@ const pageDescription = page.data.description ?? SITE.description;
 >
   <section class="page-shell page-stack page-pad-top content-band">
     <div class="prose about-copy reading-column">
-      <Content />
+      <Fragment set:html={beforeSignupHtml} />
+      <NewsletterSignup />
+      <Fragment set:html={afterSignupHtml} />
     </div>
     <GitHubActivity />
   </section>

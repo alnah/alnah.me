@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
 import { formatDate, getPostCategoryMeta, readingTimeFromText } from "../lib/content";
@@ -66,6 +67,9 @@ const schemaJson = buildBlogPostingSchema({
       />
     </div>
   </article>
+  <section class="signup-shell content-band">
+    <NewsletterSignup />
+  </section>
 </BaseLayout>
 
 <style>
@@ -104,6 +108,10 @@ const schemaJson = buildBlogPostingSchema({
     font-size: var(--font-size-lg);
   }
 
+  .signup-shell {
+    margin-top: var(--space-6);
+  }
+
   @media (min-width: 901px) {
     .post-shell {
       padding-top: var(--space-8);
@@ -111,6 +119,10 @@ const schemaJson = buildBlogPostingSchema({
 
     .post-article > h1 + p {
       font-size: var(--font-size-xl);
+    }
+
+    .signup-shell {
+      margin-top: var(--space-7);
     }
   }
 </style>

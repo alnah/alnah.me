@@ -82,7 +82,6 @@ export const SITE = {
     name: 'Alexis Nahan',
     alias: 'alnah',
     email: 'reach@alnah.me',
-    image: '/profile.jpeg',
     intro: "Hi, I'm Alexis.",
     blurb: 'learning or teaching French as a foreign language using technology',
     kicker: 'notes and thoughts from my work',
