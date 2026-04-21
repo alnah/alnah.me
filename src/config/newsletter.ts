@@ -1,6 +1,6 @@
 export const NEWSLETTER = {
   heading: "Newsletter",
-  promise: 'Once a month, I share a newsletter version of this blog.',
+  promise: 'I share what I’ve been working on in my blog every week or two.',
   emailPlaceholder: 'Type your email…',
   subscribeAction: 'https://buttondown.com/api/emails/embed-subscribe/alnah',
   subscribeLabel: 'Subscribe',
