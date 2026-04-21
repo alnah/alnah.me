@@ -2,6 +2,7 @@
 import type { CollectionEntry } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostList from '../../components/PostList.astro'
+import NewsletterSignup from '../../components/NewsletterSignup.astro'
 import { SITE } from '../../config/site'
 import { getPublishedPosts } from '../../lib/content'
 
@@ -85,6 +86,8 @@ const { page } = Astro.props as { page: ArchivePage }
         <p class="archive-empty">No posts published yet.</p>
       )
     }
+
+    <NewsletterSignup />
   </section>
 
   <style>
