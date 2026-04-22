@@ -8,7 +8,7 @@ import { getPageContent } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
 import { buildProfilePageSchema } from "../lib/seo";
 
-const page = await getPageContent("about");
+const page = await getPageContent("a-propos");
 
 if (!page) {
   throw new Error("Missing about page content");

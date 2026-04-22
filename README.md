@@ -71,8 +71,8 @@ If you want to change the text that appears in the browser tab or page metadata:
   - `src/content/posts/<slug>/index.md`
   - keep the YAML `title` and the Markdown `# H1` identical
 - Standalone content pages such as `About` and `Privacy`:
-  - `src/content/pages/about.md`
-  - `src/content/pages/privacy.md`
+  - `src/content/pages/a-propos.md`
+  - `src/content/pages/confidentialite.md`
 - System pages such as home, archive, tags, and `404`:
   - `src/pages/index.astro`
   - `src/pages/posts/[...page].astro`
