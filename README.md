@@ -7,7 +7,7 @@ Static Astro source for alnah.me.
 - `src/content/`
   Markdown posts and standalone pages
 - `src/pages/`
-  routes and special pages such as home, posts, tags, about, privacy, RSS,
+  routes and special pages such as home, articles, tags, about, privacy, RSS,
   `robots.txt`, and `index.json`
 - `src/components/`
   reusable UI components
@@ -75,8 +75,8 @@ If you want to change the text that appears in the browser tab or page metadata:
   - `src/content/pages/confidentialite.md`
 - System pages such as home, archive, tags, and `404`:
   - `src/pages/index.astro`
-  - `src/pages/posts/[...page].astro`
-  - `src/pages/tags/[tag].astro`
+  - `src/pages/articles/[...page].astro`
+  - `src/pages/etiquettes/[tag].astro`
   - `src/pages/404.astro`
 
 ## Development
