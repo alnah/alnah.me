@@ -1,9 +1,8 @@
 ---
 import githubIcon from "../assets/social/github.svg?raw";
 import xIcon from "../assets/social/x.svg?raw";
+import youtubeIcon from "../assets/social/youtube.svg?raw";
 import tiktokIcon from "../assets/social/tiktok.svg?raw";
-import blueskyIcon from "../assets/social/bluesky.svg?raw";
-import mastodonIcon from "../assets/social/mastodon.svg?raw";
 import linkedinIcon from "../assets/social/linkedin.svg?raw";
 import mailIcon from "../assets/social/email.svg?raw";
 import rssIcon from "../assets/social/rss.svg?raw";
@@ -15,9 +14,8 @@ interface Props {
   icon:
     | "github"
     | "x"
+    | "youtube"
     | "tiktok"
-    | "bluesky"
-    | "mastodon"
     | "linkedin"
     | "email"
     | "rss"
@@ -31,9 +29,8 @@ const { icon } = Astro.props;
 const iconMap = {
   github: githubIcon,
   x: xIcon,
+  youtube: youtubeIcon,
   tiktok: tiktokIcon,
-  bluesky: blueskyIcon,
-  mastodon: mastodonIcon,
   linkedin: linkedinIcon,
   email: mailIcon,
   rss: rssIcon,

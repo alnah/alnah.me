@@ -36,8 +36,6 @@ if (representativePath) {
 
   for (const platform of [
     "twitter.com/intent/tweet",
-    "bsky.app/intent/compose",
-    "mastodonshare.com",
     "linkedin.com/sharing/share-offsite",
     "wa.me/?text=",
     "facebook.com/sharer/sharer.php",
@@ -48,7 +46,7 @@ if (representativePath) {
   }
 }
 
-assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include TikTok");
+assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.youtube.com/@alnah_me","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include YouTube before TikTok");
 
 assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
 assertIncludes(rssXml, "<language>fr</language>", "RSS language");

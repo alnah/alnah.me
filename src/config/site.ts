@@ -1,9 +1,8 @@
 const requiredContactIds = [
   'github',
   'x',
+  'youtube',
   'tiktok',
-  'bluesky',
-  'mastodon',
   'linkedin',
   'email',
   'rss',
@@ -100,19 +99,14 @@ export const SITE = {
       href: 'https://x.com/_alnah',
     },
     {
+      id: 'youtube',
+      label: 'YouTube',
+      href: 'https://www.youtube.com/@alnah_me',
+    },
+    {
       id: 'tiktok',
       label: 'TikTok',
       href: 'https://www.tiktok.com/@_alnah',
-    },
-    {
-      id: 'bluesky',
-      label: 'Bluesky',
-      href: 'https://bsky.app/profile/alnah.bsky.social',
-    },
-    {
-      id: 'mastodon',
-      label: 'Mastodon',
-      href: 'https://mastodon.social/@alnah',
     },
     {
       id: 'linkedin',

@@ -39,7 +39,7 @@ const cspLine = headers
   .split("\n")
   .find((line) => line.trimStart().startsWith("Content-Security-Policy:"));
 
-for (const label of ["GitHub", "X", "TikTok", "Bluesky", "Mastodon", "LinkedIn", "E-mail", "RSS"]) {
+for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail", "RSS"]) {
   assertIncludes(homeHtml, `aria-label="${label}"`, `home social icon ${label}`);
   assertIncludes(aboutHtml, `aria-label="${label}"`, `about social icon ${label}`);
 }
