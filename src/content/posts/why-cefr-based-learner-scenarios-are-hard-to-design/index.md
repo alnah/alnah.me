@@ -1,99 +1,98 @@
 ---
-title: "Why is it hard to build learner scenarios based on the CEFR?"
-date: 2026-04-16
+title: "Pourquoi est-il difficile de construire des scénarios basés sur le CECRL ?"
+date: 2026-04-22
 draft: false
-description: "Why CEFR-based learner scenarios are hard to design in practice, and how Pi helped me as a teacher to reduce the cost of pedagogical planning."
-category: teaching
+description: "Le quotidien des enseignants et des écoles de Français Langue Étrangère (FLE) rend difficile l'élaboration de scénarios basés sur les descripteurs du CECRL. Cela impacte directement la qualité de l'offre de l'enseignement. Les agents autonomes peuvent réduire le coût de conception de tels scénarios."
+category: enseigner
 tags:
-  - cefr
-  - curriculum
-  - scenario
-  - pedagogy
+  - cecrl
+  - scénario
+  - pédagogie
+  - fle
+  - ia
   - agent
-  - llm
-  - pi
 ---
 
-# Why is it hard to build learner scenarios based on the CEFR?
+Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de FLE pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) basés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL). Je présenterai les résultats de mon travail dans les prochains articles.
 
-> I want to teach with [CEFR](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) descriptors in a pragmatic way. The problem is that everyday teaching conditions push me toward less contextualized formats.
+## Les difficultés pratiques de la construction de scénarios basés sur le CECRL
 
-From my experience in one-to-one teaching on [italki](https://www.italki.com/teacher/8123606) and in language schools, teachers like me are expected to individualize learning. We do not have enough time or the right tools to design CEFR-aligned scenarios based on learners’ contexts and needs.
+Le quotidien des enseignants et des écoles de FLE rend difficile l'élaboration de scénarios basés sur les descripteurs du CECRL.
 
-Small schools tend to rely on textbooks because the curriculum is outsourced to foreign language publishers. This allows the person responsible for pedagogy in those schools to focus on teacher management and mid-term assessments.
+Ma vision est formée à partir de mon expérience personnelle d'enseignant du FLE à des particuliers en ligne sur [italki](https://www.italki.com/teacher/8123606), ainsi qu'à des groupes d'apprenants à l'Alliance Française de Salvador de Bahia, au Brésil. Mon expérience n'est pas universelle, mais il est possible de généraliser à partir de sa particularité.
 
-Only solid pedagogical infrastructure can make this happen. In French teaching, [the Eaquals recommendations for building scenarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) provide a strong framework. Unfortunately, for many of us, it is almost impossible to apply under our working conditions. Students pay the price.
+Sur italki, je gère entre 25 et 30 apprenants en moyenne. Je dois individualiser l'expérience d'enseignement, ce qui devient rapidement très difficile, car proposer des matériaux pédagogiques qui sont basés sur le CECRL et qui sont construits comme des scénarios d'apprentissage pour l'apprenant, à partir de son contexte d'utilisation du français, est un défi en raison du manque de temps et de ressources.
 
-## Teachers are motivated and lack design capacity.
+À l'Alliance Française de Salvador, j'ai observé que l'école externalisait la conception du programme de FLE à un éditeur comme les Éditions Maison des Langues (EMDL) en ayant recours à un manuel de référence, par exemple la série Défi. Cela permet aux responsables pédagogiques de mieux gérer les enseignants et de se concentrer sur les évaluations semestrielles des apprenants et la relation avec eux.
 
-> If I want to support my student’s progression, I will use a textbook and build language knowledge without enough practice. If I want to build confidence, I have to use conversation and sacrifice a more solid progression.
+Pour la plupart des écoles et des enseignants individuels, il est presque impossible d'internaliser la production de matériaux pédagogiques de qualité à partir du contexte d'un apprenant ou d'un groupe d'apprenants.
 
-My daily life is one-to-one teaching. I have to teach around ~30 students in parallel. This means I prepare lessons under time pressure. I adapt my materials on the fly. I use the [Common European Framework of Reference for Languages: Learning, Teaching, Assessment (CEFR)](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) in general terms. In daily work it is very hard to use operational descriptors to build my teaching materials. It is too heavy.
+## Le professeur de FLE en enseignement individuel balance entre la structure et la pratique sous la pression du marché
 
-This has two consequences for individual teaching:
+Un enseignant de FLE qui gère une vingtaine ou une trentaine d'apprenants individuellement travaille sous une très forte pression.
 
-- I can build structured lessons. They can feel too rigid and school-like. The sequence is very clear, if not boring. To do that, I need to rely on a textbook for progression. Of course, this is often too far from my students’ context, even if it is efficient for planning.
+Mon quotidien sur italki, c'est d'abord de rencontrer mes apprenants en ligne, de préparer des matériaux pédagogiques, de faire des corrections et aussi de communiquer autour de mon activité. Je dirais que 20 ou 25 classes de 60 minutes par semaine correspondent à 40 à 50 heures de travail minimum.
 
-- I can also offer flexible conversation classes. However, speaking does not cover everything involved in language learning. People should also be able to read, write, interact, and mediate meaning across texts, people, and contexts if they want to feel progression.
+Même si j'ai une bonne connaissance et une solide expérience pour utiliser les descripteurs du CECRL, la réalité opérationnelle fait qu'il est très difficile pour moi de les appliquer de manière systématique dans la construction de mes matériaux pédagogiques, parce que c'est assez lourd à manipuler.
 
-Individual teaching tends to lose either the learner’s context or the learner’s long-term sociolinguistic development, sometimes both. The CEFR is not meant to be a grammar checklist. It describes what a person can do at each level in reception, production, interaction, and mediation. It also describes levels of mastery in pragmatic, linguistic, and sociolinguistic competences. It helps teachers assess and support their students.
+![Structure du schéma descriptif du CECRL : compétences générales, compétences langagières communicatives, activités langagières communicatives, et stratégies langagières communicatives.](/images/posts/why-cefr-based-learner-scenarios-are-hard-to-design/cefr-descriptive-scheme.png)
 
-![Structure of the CEFR descriptive scheme, showing general competences, communicative language competences, communicative language activities, and communicative language strategies.](/images/posts/why-cefr-based-learner-scenarios-are-hard-to-design/cefr-descriptive-scheme.png)
+L'enseignement individuel peut arbitrer entre ou combiner deux directions :
 
-*Figure. The structure of the CEFR descriptive scheme. Source: Piccardo et al. (2011), Pathways through assessing, learning and teaching in the CEFR.*
+- La structure pour progresser. En raison du manque de temps pour élaborer un scénario basé sur le CECRL, un enseignant qui valorise la structure peut utiliser un manuel pour garantir la structure. Il peut alternativement préparer des séquences de cours lui-même parfois trop claires ou trop rigides pour l'apprenant. La progression dans la langue est bien présente, mais on perd les compétences de communication pratiques.
 
-## Schools centralize curriculum design and lose learners’ contexts.
+- La conversation pour pratiquer. De nombreux apprenants préfèrent la conversation dans l'enseignement individualisé. Mais la production orale ou l'interaction orale ne représentent pas toutes les compétences de communication. On peut interagir ou produire à l'écrit. Et ce format conduit à négliger la compréhension et la médiation, aussi bien à l'oral qu'à l'écrit. La pratique est plus solide, mais on sacrifie les autres compétences et la maîtrise de la langue.
 
-> If a school wants coherence around a strong curriculum, it usually has to organize students by level rather than by context or group identity. This can support reception and progression in language knowledge, but it can also reduce production, interaction, and mediation.
+Si un enseignant répond à la demande de conversation des apprenants, c'est comme s'il sacrifiait ses compétences de professeur. Mais s'il ne la satisfait pas, il sera assez mal positionné sur le marché pour garantir son activité.
 
-From my experience, and from what I know from other language teachers, schools often solve this problem relying on a senior teacher working as a pedagogical coordinator. This person is responsible for designing programs for A1, A2, B1, and so on. They teach less, or they have stopped to teach. They focus on structure and consistency for students. They also manage teachers. They meet with the head of the school. They work on controlled assessments. The curriculum is put at the background to priorize other responsibilities.
+## La petite ou moyenne école de FLE externalise le curriculum et internalise la gestion des apprenants via des enseignants
 
-Unfortunately, this also creates two limitations:
+Une petite ou une moyenne école de FLE utilise les curriculums des manuels produits par des éditeurs et organise ses professeurs pour qu'ils offrent un enseignement collectif et une relation individualisée aux apprenants.
 
-- Scenario-based curricula can be well designed. But they are designed for a language level, not for a group of people with particular contexts. In other words, the curriculum does not always connect with what constitutes the identity of a group.
+C'est souvent un professeur senior qui occupe le poste de responsable pédagogique. Il coordonne les professeurs de FLE pour veiller à la qualité de l'enseignement et aux relations avec les apprenants. Ce responsable contrôle l'évaluation semestrielle des apprenants. Il distribue les parties d'un manuel avec des scénarios généralistes basés sur le CECRL dans le calendrier annuel. Il organise aussi les classes par groupes de niveaux pour assurer la cohérence des groupes. De cette manière, l'enseignement est plus opérable pour les professeurs de FLE.
 
-- Classes are well organized because learners are treated as members of a group, not as individuals. This leads to a lack of communicative goals tailored to each student. Good schools invest a lot of time in building relationships with students to not lose them.
+L'enseignement en écoles de FLE connaît toutefois des limites structurelles :
 
-The group format also changes the balance of CEFR activities. Reception activities such as listening and reading tend to dominate. Knowledge of the target language can become stronger. However, students often develop less in production, interaction, and mediation. This is because group teaching comes with structural limitations.
+- L'organisation par niveaux. Les scénarios basés sur le CECRL proposés par les manuels sont bien construits pour correspondre à un niveau et les classes constituées par groupes de niveau sont le plus souvent cohérentes. En revanche, cette organisation ne garantit pas un scénario d'enseignement fondé sur le contexte d'utilisation spécifique à un groupe d'apprenants.
 
-## What are the consequences for learners?
+- La compréhension et la langue survalorisées. Un cours est divisé entre les consignes, les explications, les transitions et la gestion du groupe d'apprenants. Certains participent peu. D'autres trop. Si une école peut proposer des classes structurées, elle tend à favoriser la compréhension et la maîtrise de la langue, et moins les autres compétences.
 
-> Anxious learners may prefer a school curriculum or a teacher with a textbook. More pragmatic learners may prefer conversation. In both cases, they often end up losing either confidence or progression.
+- L'enseignement collectif et la relation individualisée. Un enseignant de FLE dans une école ne peut pas individualiser l'enseignement dans un groupe. Pourtant, le responsable pédagogique et la direction lui demandent d'individualiser la relation. C'est un bon compromis, mais cela ne garantit pas un suivi individualisé complet.
 
-Let’s take a 90-minute class with 6 students. I think this is reasonable. 5 minutes are gone for welcoming and warming up the students. 20 minutes are used for teacher explanations, instructions, clarifications, and the whole-class framing. Add 5 more minutes for closing the class. That leaves only 60 useful minutes for students.
+Même si une école de langue a plus de ressources, elle a plus de mal à construire un scénario fondé sur le contexte d'un groupe et à garantir une pratique suffisante pour chaque apprenant. Elle cherche souvent à compenser cette limite par une bonne relation avec les apprenants pour rester compétitive sur le marché.
 
-This is more or less 10 minutes for each student. This is still theoretical speaking time. In a class, students do not participate equally. Dead time still exists. Some dominant speakers are often overvalued by less experienced teachers. There is always some friction during activities. A more realistic range is maybe 6 to 8 minutes per learner.
+## Les apprenants choisissent en fonction de leur profil et de leurs besoins
 
-This is why learners often get only a few minutes of speaking and meaningful interaction. Mediation is rarely practiced in depth. Individual feedback is weaker. Learners’ progression is often measured through mid-term assessments and controlled exercises based mainly on reception and written production.
+Les apprenants eux aussi font des choix forts et déterminants en ce qui concerne leur apprentissage.
 
-These are clearly not the best outcomes for learners:
+Par exemple, un apprenant qui a un comportement plutôt anxieux tend à compenser son stress avec ses connaissances structurées. Il aime apprendre le vocabulaire, la grammaire, mais lorsqu'il doit s'exprimer ou interagir à l'écrit ou à l'oral, il manque de confiance. Il préfère une école ou un professeur avec un manuel, car il cherche de la structure. Toutefois, cela ne garantit pas une pratique solide pour construire sa confiance pour s'exprimer ou interagir, surtout à l'oral.
 
-- Anxious learners compensate with structured knowledge. They like learning vocabulary and grammar rules, and they often lack confidence when they need to speak. They will likely go to a school to access a structured curriculum based on their level. But they may still not speak enough to build confidence.
+Un apprenant avec un profil plutôt pragmatique valorise l'interaction et la production et se tourne plus volontiers vers un professeur particulier. Mais il peut rencontrer un enseignant soucieux de le faire progresser de manière structurée, alors que ce n'est pas ce qu'il est venu chercher. Un autre professeur qui accepte le compromis du progrès contre la pratique peut pratiquer la conversation avec lui, mais cela risque de fragiliser sa progression à long terme.
 
-- Pragmatic learners enjoy interaction and production. They often turn to a private tutor or teacher. It sounds like a good idea at first. They may meet someone who focuses on structure through a textbook. This strengthens reception and language knowledge. Or that person may rely on conversation and weaken long-term progression.
+Il existe bien sûr plus de profils d'apprenants. On peut être parfois pragmatique, anxieux ou quelque chose d'autre dans certains aspects de la langue et pas dans d'autres. Les apprenants, en fonction de leur profil et de leurs besoins, vont se diriger vers un type d'enseignement ou un autre. Cela impacte directement la qualité de leur apprentissage et leur compétence en français.
 
-## So what can teachers and schools do?
+Rarement les apprenants sont conscients qu'un professeur manque de temps et de capacité de conception, et que les écoles manquent de souplesse pour partir du contexte d'un groupe d'individus. Ils ne mesurent pas ces conséquences sur leur apprentissage.
 
-> If I want to design scenario-based curricula for my students, or for a group of learners in a school, I need better tools and systems to support that work. That is the only way to reduce friction and build better materials.
+## L'enseignant ou l'école de FLE sont limités par l'infrastructure
 
-I think we should review our expectations and understand these trade-offs better if we want to create good solutions. We cannot expect our students to buy textbooks, follow a solid curriculum in a school, and then compensate for their weaknesses with a private teacher. This costs a lot of money and takes a lot of time. We should focus on building better support for our students.
+À titre personnel, j'ai beaucoup plus souvent rencontré des enseignants et des écoles motivés par leur mission que l'inverse, mais la bonne volonté ne suffit pas à modifier nos conditions de travail.
 
-Designing strong scenarios requires a lot of invisible work. When I do that, I need to understand the learner’s context. Then I must select the relevant CEFR descriptors and make hard choices about the competences required by the student’s profile. I need to map those descriptors and turn them into activities. I also need to sequence the scenario in balanced phases. This is heavy work.
+Lorsqu'un enseignant ou une école veut construire des scénarios contextualisés basés sur le CECRL pour un étudiant ou un groupe d'étudiants, le coût de conception est trop élevé. L'individu ou l'organisation reviennent mécaniquement vers des formats plus simples à gérer ou à produire parce que ce sont des agents économiques rationnels qui doivent opérer en fonction des contraintes du marché.
 
-Good schools and good teachers care about this, and they already know these things. I have often felt frustrated when I had to accept these trade-offs for my students. It affects my responsibility as a teacher, and it is frankly not enjoyable to face these limits every day in your job. But we still lack solutions that help us balance these trade-offs.
+Concevoir des scénarios solides pour les étudiants demande des ressources. Il faut d'abord beaucoup de temps pour sélectionner les descripteurs du CECRL adaptés au contexte d'un étudiant, et davantage pour collecter des ressources, les sélectionner ou les adapter grâce au CECRL. Il faut aussi assembler ces ressources dans des phases d'apprentissage avec des activités qui mobilisent naturellement la langue.
 
-## Trying to solve part of the problem with an open source agent.
+Le design pédagogique d'une telle structure scénaristique est très long et très complexe. Sur le marché de l'enseignement du FLE, ce travail est très lourd. C'est pour cette raison que les manuels, qui offrent des progressions généralistes standardisées, ou les conversations sans structures claires, prennent autant de place sur le marché. Ils réduisent le coût de la préparation et simplifient le travail.
 
-> I think this can help teachers and schools understand agentic workflows better, and see how they can be applied to language teaching.
+Malheureusement, cette simplification de l'organisation du travail simplifie aussi ce que l'enseignement peut apporter aux apprenants.
 
-I think we can improve language teaching by building tools and systems that help both teachers and schools. This would also benefit students. I built a set of tooling extensions for [Pi](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent), an open-source coding agent environment made by [Mario Zechner](https://mariozechner.at/). Through those extensions, my agent can access CEFR descriptors and additional descriptor sets that I curated or created to support language-teaching workflows. This gives the agent a richer pedagogical context and a structured retrieval layer.
+## Le coût de conception peut être réduit grâce à des agents
 
-The agent can retrieve CEFR and French descriptors, compare them across levels, and help me organize them more systematically. It also has access to a headless Chrome browser and can search for websites, images, and other online materials. It can then draft a scenario based on the context I choose to share. With a good set of instructions, it can support a long design session autonomously. Last time, my agent worked ~2h on such a scenario draft.
+J'ai commencé à outiller et systématiser mon approche du FLE avec l'Intelligence Artificielle (IA) et la programmation pour faire face à ces problèmes.
 
-It allows comparative and reusable reasoning about descriptors. The agent can help me connect them and suggest teaching-material designs. It can also help me evaluate an authentic document by comparing it with relevant descriptors for that kind of text. By chatting or speaking with the agent, I can focus more on architecting programs and scenarios. It helps me refine details and align them with my students’ needs.
+Mes outils et mon système ne cherchent pas à supprimer mon jugement pédagogique, ni à résoudre tous les problèmes de l'enseignement du FLE. L'IA est une technologie qui a une nature prédictive qui ne garantit ni la créativité ni le naturel d'un humain. Cependant, je pense qu'il est possible de réduire une grande partie des frictions invisibles de la conception pédagogique grâce à elle si on structure son cadre de travail.
 
-I feel very enthusiastic about teaching French using my custom tooling. The different phases of a scenario are now easier to build. It used to take me weeks to find authentic documents on the web, evaluate them with CEFR descriptors, and adapt them to a target level. When I started teaching, it took me a year and a half, alongside my lessons, to do that from A1 to C1 with the help of many textbooks. Now I can do it much faster. My students really enjoy the scenarios.
+Lorsque je me réfère à l'IA, je ne fais pas référence à ChatGPT ou Claude, mais à des [agents autonomes](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Dans un flux de travail agentique, il est possible de combiner différents types d'IA comme les _Large Language Models (LLMs)_, les modèles de _Text-to-Speech_ et les modèles de _Speech-to-Text_ dans des _loops_, ou boucles de travail continues, pour externaliser la recherche et la conception pédagogique à un agent qui a accès, de manière à la fois riche et fine, aux descripteurs du CECRL et à des outils pour les mobiliser, les comparer et s'orienter.
 
-This can be reliable under certain conditions. Behind the agent, there is a Large Language Model (LLM). On its own, a model is not enough to guarantee good pedagogical output. The system is useful due to the combination of curated descriptors, constrained retrieval, comparison across domains and subdomains such as production, reception, mediation, and interaction, and teacher validation.
+Dans les prochains articles, je présenterai mon travail : quelques concepts, mes choix technologiques, comment j'ai construit mon agent de FLE, ses outils et ses missions, quels sont les atouts et les limites de cette approche, et en quoi cela peut solutionner les problèmes d'infrastructure d'un enseignant ou d'une école de FLE.
 
-I will soon share how I designed this agent.
+Je suis convaincu que les enseignants et les écoles de FLE découvriront une approche innovante à faible coût pour améliorer la qualité de l'enseignement offerte aux apprenants.
