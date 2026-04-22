@@ -59,6 +59,6 @@ Ce site utilise une configuration légère, pensée pour respecter la vie privé
 
 J'écris moi-même les articles de ce site. J'utilise parfois des [large language models (LLMs)](https://en.wikipedia.org/wiki/Large_language_model) pour l'édition, la grammaire ou la formulation. Un travail éditorial mené seul demande beaucoup de temps.
 
-Je n'aime pas le [slop](https://fr.wikipedia.org/wiki/Slop_(intelligence_artificielle)). Tout ce que je partage est le fruit de ma créativité et de mon jugement. Je respecte mes clients, mes lecteurs et toutes les interactions sociales.
+Je n'aime pas le [slop](https://fr.wikipedia.org/wiki/Slop_(intelligence_artificielle)). Tout ce que je partage est le fruit de ma créativité et de mon jugement. Je respecte mes lecteurs, mes clients, et toutes mes interactions sociales.
 
 Pour être transparent, vous pouvez trouver les [`skills/`](https://github.com/alnah/alnah.me/tree/main/skills) que j'utilise dans le dépôt GitHub du blog pour m'aider avec l'édition des articles.
