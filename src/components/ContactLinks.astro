@@ -10,14 +10,14 @@ interface Props {
 }
 
 const {
-  ariaLabel = "Contact links",
+  ariaLabel = 'Liens de contact',
   items = SITE.contacts,
-  variant = "hero"
+  variant = 'hero'
 } = Astro.props;
 ---
 
 <div class="contact-links social-row" data-variant={variant} aria-label={ariaLabel}>
-  <span class="social-row-label">Reach me on</span>
+  <span class="social-row-label">Me suivre sur</span>
   <div class="social-links-list">
     {items.map((contact) => (
       <a

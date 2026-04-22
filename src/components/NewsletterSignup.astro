@@ -10,7 +10,7 @@ const legalId = `newsletter-legal-${crypto.randomUUID()}`;
   <p class="signup-title" id={titleId}>{NEWSLETTER.heading}</p>
   <p class="signup-copy">{NEWSLETTER.promise}</p>
   <form class="signup-form" action={NEWSLETTER.subscribeAction} method="post">
-    <label class="visually-hidden" for={emailInputId}>Email address</label>
+    <label class="visually-hidden" for={emailInputId}>Adresse e-mail</label>
     <input type="hidden" name="embed" value="1" />
     <div class="signup-fields">
       <div class="signup-input-shell control-pill control-pill--focus-within">
@@ -29,7 +29,7 @@ const legalId = `newsletter-legal-${crypto.randomUUID()}`;
     </div>
   </form>
   <p class="signup-legal" id={legalId}>
-    By subscribing you agree to my <a href={NEWSLETTER.privacyHref}>Privacy notice</a>.
+    En vous abonnant, vous acceptez ma <a href={NEWSLETTER.privacyHref}>politique de confidentialité</a>.
   </p>
 </section>
 

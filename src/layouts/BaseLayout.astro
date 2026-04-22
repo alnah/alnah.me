@@ -43,7 +43,7 @@ const isHomePage = canonicalPath === "/";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,7 +54,7 @@ const isHomePage = canonicalPath === "/";
     <link
       rel="alternate"
       type="application/rss+xml"
-      title={`${SITE.title} RSS`}
+      title={`Flux RSS de ${SITE.title}`}
       href={new URL("/rss.xml", Astro.site).toString()}
     />
     <meta property="og:site_name" content={SITE.title} />

@@ -28,7 +28,7 @@ async function loadSearchIndex() {
   searchIndexPromise = fetch("/index.json")
     .then(async (response) => {
       if (!response.ok) {
-        throw new Error("Could not load search index");
+        throw new Error("Impossible de charger l'index de recherche");
       }
 
       return buildSearchIndex(await response.json());
@@ -133,7 +133,7 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
         const divider = () => {
           const element = document.createElement("span");
           element.dataset.searchResultMetaDivider = "";
-          element.textContent = "·";
+          element.textContent = '·';
           return element;
         };
 
@@ -197,12 +197,12 @@ function createSearchDialog(root: HTMLElement): SearchDialogController | null {
       const matches = searchDocuments(items, query);
       resultsPanel.hidden = false;
       statusMessage.hidden = matches.length > 0;
-      statusMessage.textContent = matches.length > 0 ? "" : "No matching posts yet.";
+      statusMessage.textContent = matches.length > 0 ? '' : 'Aucun article correspondant pour le moment.';
       renderResults(matches);
     } catch {
       resultsPanel.hidden = false;
       statusMessage.hidden = false;
-      statusMessage.textContent = "Search index unavailable. You can still browse posts.";
+      statusMessage.textContent = "L'index de recherche est indisponible. Vous pouvez toujours parcourir les articles.";
       resultsList.replaceChildren();
       activeIndex = -1;
       syncInputState();

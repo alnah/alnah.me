@@ -50,15 +50,15 @@ const platforms = [
   },
   {
     icon: "email",
-    label: "Email",
+    label: "E-mail",
     href: `mailto:${SITE.author.email}?subject=${encodedTitle}&body=${encodeURIComponent(canonicalUrl)}`
   }
 ] as const;
 ---
 
-<section class="share-links" aria-label="Share this post">
+<section class="share-links" aria-label="Partager cet article">
   <div class="share-row social-row">
-    <span class="social-row-label">Share this post on</span>
+    <span class="social-row-label">Partager cet article sur</span>
     <div class="social-links-list">
       {platforms.map((platform) => (
         <a

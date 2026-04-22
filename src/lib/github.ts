@@ -295,6 +295,33 @@ function capitalize(value: string) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
+function translateGitHubAction(action: string) {
+  const labels: Record<string, string> = {
+    opened: 'ouverture de',
+    closed: 'fermeture de',
+    reopened: 'réouverture de',
+    edited: 'modification de',
+    updated: 'mise à jour de',
+    created: 'création de',
+    deleted: 'suppression de',
+    published: 'publication de',
+    synchronized: 'synchronisation de'
+  };
+
+  return labels[action] ?? action;
+}
+
+function translateGitHubRefType(refType: string) {
+  const labels: Record<string, string> = {
+    repository: 'dépôt',
+    branch: 'branche',
+    tag: 'tag',
+    resource: 'ressource'
+  };
+
+  return labels[refType] ?? refType;
+}
+
 function createRecentActivityKey(item: RecentActivityItem) {
   return `${item.summary}::${item.url ?? ""}`;
 }
@@ -332,7 +359,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `Pushed ${commitCount || "new"} commit${commitCount === 1 ? "" : "s"} to ${repoName}${branch ? ` on ${branch}` : ""}.`,
+      summary: `Push de ${commitCount || 'nouveaux'} commit${commitCount === 1 ? '' : 's'} sur ${repoName}${branch ? ` via ${branch}` : ''}.`,
       url: repoUrl
     };
   }
@@ -346,7 +373,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `${capitalize(action)} a pull request in ${repoName}.`,
+      summary: `${capitalize(translateGitHubAction(action))} une pull request dans ${repoName}.`,
       url: prUrl
     };
   }
@@ -359,7 +386,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `Published a release in ${repoName}.`,
+      summary: `Publication d'une release dans ${repoName}.`,
       url: releaseUrl
     };
   }
@@ -371,7 +398,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `Created ${refType}${ref ? ` ${ref}` : ""} in ${repoName}.`,
+      summary: `Création de ${translateGitHubRefType(refType)}${ref ? ` ${ref}` : ''} dans ${repoName}.`,
       url: repoUrl
     };
   }
@@ -385,7 +412,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `${capitalize(action)} an issue in ${repoName}.`,
+      summary: `${capitalize(translateGitHubAction(action))} une issue dans ${repoName}.`,
       url: issueUrl
     };
   }
@@ -398,7 +425,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `Commented on an issue in ${repoName}.`,
+      summary: `Commentaire sur une issue dans ${repoName}.`,
       url: issueUrl
     };
   }
@@ -411,7 +438,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
 
     return {
       date: createdAt,
-      summary: `Forked ${repoName}.`,
+      summary: `Fork de ${repoName}.`,
       url: forkUrl
     };
   }
@@ -419,7 +446,7 @@ function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | nu
   if (hasGitHubEventType(event, "WatchEvent") && repoName) {
     return {
       date: createdAt,
-      summary: `Starred ${repoName}.`,
+      summary: `Ajout d'une étoile sur ${repoName}.`,
       url: repoUrl
     };
   }

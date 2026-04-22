@@ -9,21 +9,21 @@ const searchResultsId = `search-results-${searchDomId}`;
     type="button"
     class="search-trigger control-pill"
     data-search-trigger
-    aria-label="Toggle search"
+    aria-label="Ouvrir la recherche"
     aria-keyshortcuts="/"
   >
-    <span class="search-trigger-label">Search</span>
+    <span class="search-trigger-label">Recherche</span>
     <span class="search-shortcut" aria-hidden="true">
       <span class="search-shortcut-key shortcut-pill">/</span>
     </span>
   </button>
   <form class="search-form control-pill control-pill--focus-within" data-search-form>
-    <label class="visually-hidden" for={searchInputId}>Search posts</label>
+    <label class="visually-hidden" for={searchInputId}>Rechercher des articles</label>
     <input
       id={searchInputId}
       name="search"
       type="text"
-      placeholder="Search posts"
+      placeholder="Rechercher des articles"
       autocomplete="off"
       role="combobox"
       aria-autocomplete="list"

@@ -7,11 +7,11 @@ export function slugify(value: string) {
 }
 
 export function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    timeZone: "UTC"
+  return new Intl.DateTimeFormat('fr', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC'
   }).format(date);
 }
 
@@ -45,13 +45,13 @@ export function searchDateText(date: Date) {
   const paddedMonth = monthNumber.padStart(2, "0");
   const dayNumber = String(date.getUTCDate());
   const paddedDay = dayNumber.padStart(2, "0");
-  const shortMonth = new Intl.DateTimeFormat("en", {
-    month: "short",
-    timeZone: "UTC"
+  const shortMonth = new Intl.DateTimeFormat('fr', {
+    month: 'short',
+    timeZone: 'UTC'
   }).format(date);
-  const longMonth = new Intl.DateTimeFormat("en", {
-    month: "long",
-    timeZone: "UTC"
+  const longMonth = new Intl.DateTimeFormat('fr', {
+    month: 'long',
+    timeZone: 'UTC'
   }).format(date);
 
   return [

@@ -74,18 +74,18 @@ export const SITE = {
   siteUrl: 'https://alnah.me',
   aboutPath: '/about/',
   description:
-    'Notes about how to teach French or learn it using technology.',
+    "Notes de travail et réflexion générales sur l'enseignement du Français Langue Étrangère (FLE) et les technologies.",
   defaultSocialImage: '/og-default.jpg',
-  socialImageAlt: 'Minimal social preview image with a centered circular alnah.me mark on a warm background.',
+  socialImageAlt: "Image avec un symbole circulaire dans lequel est écrit AN, sous-titré par alnah.me, centré sur un fond chaud.",
   xHandle: '@_alnah',
   author: {
     name: 'Alexis Nahan',
     alias: 'alnah',
     email: 'reach@alnah.me',
-    intro: "Hi, I'm Alexis.",
-    blurb: 'learning or teaching French as a foreign language using technology',
-    kicker: 'notes and thoughts from my work',
-    photoAlt: 'Portrait of Alexis Nahan',
+    intro: 'Salut, je suis Alexis.',
+    blurb: "apprendre ou enseigner le français comme langue étrangère avec les technologies",
+    kicker: 'notes et réflexions fondées sur mon travail comme enseignant de FLE et programmeur',
+    photoAlt: "Portrait d'Alexis Nahan",
   },
   repoUrl: 'https://github.com/alnah/alnah.me',
   reuseUrl: '/LICENSE',
@@ -122,7 +122,7 @@ export const SITE = {
     },
     {
       id: 'email',
-      label: 'Email',
+      label: 'E-mail',
       href: 'mailto:reach@alnah.me',
     },
     {
@@ -142,11 +142,11 @@ export const NAV_ITEMS = [
   {
     id: 'posts',
     href: '/posts/',
-    label: 'Posts',
+    label: 'Articles',
   },
   {
     id: 'about',
     href: '/about/',
-    label: 'About',
+    label: 'À propos',
   },
 ] as const

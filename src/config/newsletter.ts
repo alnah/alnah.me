@@ -1,9 +1,9 @@
 export const NEWSLETTER = {
-  heading: "Keep you up to date!",
-  promise: 'I send an email when I publish, once a week or once every two weeks.',
-  emailPlaceholder: 'Type your email…',
+  heading: 'Restez à jour',
+  promise: "J'envoie un courriel à chaque publication, une fois par semaine ou toutes les deux semaines.",
+  emailPlaceholder: 'Votre adresse e-mail…',
   subscribeAction: 'https://buttondown.com/api/emails/embed-subscribe/alnah',
-  subscribeLabel: 'Subscribe',
+  subscribeLabel: "S'abonner",
   privacyHref: '/privacy/',
-  privacyNotice: 'By subscribing you agree to my Privacy notice.',
+  privacyNotice: "En vous abonnant, vous acceptez ma politique de confidentialité.",
 } as const

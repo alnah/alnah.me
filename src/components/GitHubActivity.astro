@@ -6,19 +6,19 @@ import { buildGitHubActivityView } from "../lib/github-view";
 const activity = await getGitHubActivity(SITE.githubActivity);
 const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = buildGitHubActivityView(activity);
 
-const formatDayLabel = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric"
+const formatDayLabel = new Intl.DateTimeFormat('fr-FR', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric'
 });
 
-const formatEventDate = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric"
+const formatEventDate = new Intl.DateTimeFormat('fr-FR', {
+  month: 'short',
+  day: 'numeric'
 });
 
 function formatContributionTitle(date: string, count: number) {
-  return `${count} contribution${count === 1 ? "" : "s"} on ${formatDayLabel.format(new Date(date))}`;
+  return `${count} contribution${count === 1 ? '' : 's'} le ${formatDayLabel.format(new Date(date))}`;
 }
 
 function formatMonthStyle(start: number, span: number) {
@@ -34,13 +34,13 @@ function formatWeekdayStyle(row: number) {
   class="github-activity section-rule"
   style="padding-top: var(--github-activity-space, 1.5rem);"
 >
-  <div class="eyebrow">GitHub activity</div>
+  <div class="eyebrow">Activité GitHub</div>
   {
     activity.hasLiveData ? (
       <>
         <div class="calendar-header">
           <div class="activity-summary">
-            <strong>{activity.totalContributions?.toLocaleString("en-US")}</strong> contributions in the last year
+            <strong>{activity.totalContributions?.toLocaleString('fr-FR')}</strong> contributions au cours de la dernière année
           </div>
         </div>
         <div class="calendar-card" style={`--week-count:${weekCount};`}>
@@ -74,16 +74,16 @@ function formatWeekdayStyle(row: number) {
               </div>
               <div class="calendar-footer" aria-hidden="true">
                 <div class="calendar-legend">
-                  <span>Less</span>
+                  <span>Moins</span>
                   <span class="legend-scale"></span>
-                  <span>More</span>
+                  <span>Plus</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
           <div class="activity-subsection">
-            <div class="eyebrow">Recent public activity</div>
+            <div class="eyebrow">Activité publique récente</div>
             <ul class="activity-list">
             {recentItems.map((item) => (
               <li>
@@ -103,7 +103,7 @@ function formatWeekdayStyle(row: number) {
     ) : (
       <>
         <p class="activity-intro">
-          A lightweight snapshot of the kind of public work that usually feeds the writing here.
+          Un aperçu du type de travail qui alimente généralement les articles publiés ici.
         </p>
         <ul class="activity-list">
           {recentItems.map((item) => (
@@ -115,7 +115,7 @@ function formatWeekdayStyle(row: number) {
   }
   <p>
     <a href={activity.profileUrl} target="_blank" rel="noreferrer">
-      Follow the public work on GitHub
+      Suivre mon activité publique sur GitHub
     </a>
   </p>
 </section>

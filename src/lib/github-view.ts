@@ -12,13 +12,28 @@ type MonthColumn = {
 };
 
 const WEEKDAY_LABELS: WeekdayLabel[] = [
-  { label: "Mon", row: 2 },
-  { label: "Wed", row: 4 },
-  { label: "Fri", row: 6 }
+  { label: 'Lun', row: 2 },
+  { label: 'Mer', row: 4 },
+  { label: 'Ven', row: 6 }
 ];
 
+const MONTH_LABELS: Record<string, string> = {
+  January: 'janv.',
+  February: 'févr.',
+  March: 'mars',
+  April: 'avr.',
+  May: 'mai',
+  June: 'juin',
+  July: 'juil.',
+  August: 'août',
+  September: 'sept.',
+  October: 'oct.',
+  November: 'nov.',
+  December: 'déc.'
+};
+
 function shortMonth(name: string) {
-  return name.slice(0, 3);
+  return MONTH_LABELS[name] ?? name.slice(0, 3);
 }
 
 /**

@@ -18,7 +18,7 @@ const canonicalPath = `/posts/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
 const socialImageAlt = entry.data.cover
-  ? `Cover image for ${documentTitle}.`
+  ? `Image de couverture pour ${documentTitle}.`
   : undefined;
 const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
@@ -51,7 +51,7 @@ const schemaJson = buildBlogPostingSchema({
         <p class="eyebrow post-meta">
           <span>{formatDate(entry.data.date)}</span>
           <span aria-hidden="true">·</span>
-          <span>{readingTime} min read</span>
+          <span>{readingTime} min de lecture</span>
           <span aria-hidden="true">·</span>
           <a class="post-category-link" href={`/categories/${categoryMeta.slug}/`}>
             {categoryMeta.label}

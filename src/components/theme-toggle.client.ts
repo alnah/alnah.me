@@ -4,9 +4,9 @@ const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
 const labelNode = button?.querySelector<HTMLElement>("[data-theme-toggle-label]") ?? null;
 const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 const labels: Record<ThemeMode, string> = {
-  system: "Auto",
-  dark: "Dark",
-  light: "Light"
+  system: 'Auto',
+  dark: 'Sombre',
+  light: 'Clair'
 };
 
 function resolveThemeMode(value: string | undefined): ThemeMode {
@@ -27,7 +27,7 @@ function syncLabel(root: HTMLElement) {
   if (labelNode) {
     labelNode.textContent = label;
   }
-  button.setAttribute("aria-label", `Theme: ${label}`);
+  button.setAttribute('aria-label', `Thème : ${label}`);
 }
 
 function toggleTheme() {
