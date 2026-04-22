@@ -26,5 +26,5 @@ export function normalizeAlias(alias) {
 }
 
 export function canonicalPostPath(slug) {
-  return `/posts/${slug}/`;
+  return `/articles/${slug}/`;
 }

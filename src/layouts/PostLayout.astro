@@ -14,7 +14,7 @@ interface Props {
 const { entry } = Astro.props;
 const documentTitle = resolveEntryTitle(entry);
 const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? ""));
-const canonicalPath = `/posts/${entry.id}/`;
+const canonicalPath = `/articles/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
 const socialImageAlt = entry.data.cover

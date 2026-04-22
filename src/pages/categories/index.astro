@@ -6,14 +6,14 @@ const categories = await getCategories();
 ---
 
 <BaseLayout
-  title="Categories"
-  description="Browse posts by category."
+  title="Catégories"
+  description="Parcourir les articles par catégorie."
 >
   <section class="categories-shell content-band">
     <div class="prose archive-intro">
-      <p class="eyebrow">Categories</p>
-      <h1>Browse by category</h1>
-      <p>The five categories I use to structure the blog.</p>
+      <p class="eyebrow">Catégories</p>
+      <h1>Parcourir par catégorie</h1>
+      <p>Les cinq catégories que j'utilise pour structurer le blog.</p>
     </div>
 
     <div class="category-grid">
@@ -23,7 +23,7 @@ const categories = await getCategories();
             <a href={`/categories/${category.slug}/`}>{category.label}</a>
           </h3>
           <p>{category.description}</p>
-          <p class="eyebrow category-count">{category.count} post(s)</p>
+          <p class="eyebrow category-count">{category.count} article(s)</p>
         </article>
       ))}
     </div>

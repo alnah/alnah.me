@@ -22,21 +22,21 @@ const posts = isPostCategory(category.slug)
 ---
 
 <BaseLayout
-  title={`${category.label} posts`}
+  title={`Articles classés dans ${category.label}`}
   description={category.description}
 >
   <section class="archive-shell content-band">
     <div class="prose archive-intro">
-      <p class="eyebrow">Category archive</p>
+      <p class="eyebrow">Archive de catégorie</p>
       <h1>{category.label}</h1>
       <p>{category.description}</p>
-      <p>{category.count} post(s) filed under this category.</p>
+      <p>{category.count} article(s) classé(s) dans cette catégorie.</p>
     </div>
     {
       posts.length > 0 ? (
         <PostList posts={posts} showReadingTime />
       ) : (
-        <p class="archive-empty">No posts published in this category yet.</p>
+        <p class="archive-empty">Aucun article publié dans cette catégorie pour le moment.</p>
       )
     }
   </section>

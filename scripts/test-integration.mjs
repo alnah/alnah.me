@@ -29,7 +29,7 @@ assert.ok(
 if (representativePath) {
   const postHtml = readAbsoluteFile(representativePath);
 
-  assertIncludes(postHtml, '<link rel="canonical" href="https://alnah.me/posts/', "canonical link");
+  assertIncludes(postHtml, '<link rel="canonical" href="https://alnah.me/articles/', "canonical link");
   assertIncludes(postHtml, '<meta property="og:type" content="article">', "og:type");
   assertIncludes(postHtml, '<meta name="twitter:card" content="summary', "twitter card");
   assertIncludes(postHtml, '"@type":"BlogPosting"', "BlogPosting schema");
@@ -56,7 +56,7 @@ assertIncludes(rssXml, 'rel="self"', "RSS self link");
 assertIncludes(rssXml, "<generator>Astro v6 with @astrojs/rss</generator>", "RSS generator");
 
 if (searchIndex.length > 0) {
-  assertIncludes(rssXml, "<link>https://alnah.me/posts/", "RSS canonical links");
+  assertIncludes(rssXml, "<link>https://alnah.me/articles/", "RSS canonical links");
   assertIncludes(rssXml, "<category>", "RSS item categories");
   assertIncludes(rssXml, `<author>${"contact@alnah.me"}</author>`, "RSS item author");
 }
@@ -69,7 +69,7 @@ for (const item of searchIndex) {
   assert.ok(item.title, "Search item missing title");
   assert.ok(item.description, "Search item missing description");
   assert.ok(Array.isArray(item.tags), "Search item missing tags array");
-  assert.ok(item.url?.startsWith("/posts/"), "Search item URL should point to a post");
+  assert.ok(item.url?.startsWith('/articles/'), 'Search item URL should point to a post');
   assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.date), "Search item missing ISO date");
   assert.ok(item.dateLabel, "Search item missing human date label");
   assert.ok(item.excerpt, "Search item missing excerpt");

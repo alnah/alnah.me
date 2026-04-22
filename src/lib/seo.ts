@@ -49,7 +49,7 @@ export function resolveSocialImage(image: string | undefined, slug?: string) {
   }
 
   if (slug) {
-    return absoluteUrl(`/posts/${slug}/${image.replace(/^\.?\//, "")}`);
+    return absoluteUrl(`/articles/${slug}/${image.replace(/^\.?\//, "")}`);
   }
 
   return absoluteUrl(`/${image.replace(/^\.?\//, "")}`);

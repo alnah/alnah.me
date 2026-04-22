@@ -141,7 +141,7 @@ export const SITE = {
 export const NAV_ITEMS = [
   {
     id: 'posts',
-    href: '/posts/',
+    href: '/articles/',
     label: 'Articles',
   },
   {

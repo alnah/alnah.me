@@ -144,7 +144,7 @@ try {
     });
     const page = await context.newPage();
 
-    const routes = ["/", "/a-propos/", "/posts/"];
+    const routes = ['/', '/a-propos/', '/articles/'];
     if (targetPost) {
       routes.push(targetPost.url);
     }

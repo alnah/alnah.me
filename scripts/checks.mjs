@@ -62,20 +62,20 @@ export function executableInlineScriptHashes(relativePath) {
 }
 
 export function representativePostPath() {
-  const postsDir = path.join(distDir, "posts");
+  const postsDir = path.join(distDir, 'articles');
   if (!fs.existsSync(postsDir)) {
     return null;
   }
   const entries = fs.readdirSync(postsDir, { withFileTypes: true });
   const postDir = entries.find(
-    (entry) => entry.isDirectory() && entry.name !== "2"
+    (entry) => entry.isDirectory() && entry.name !== '2'
   );
 
   if (!postDir) {
     return null;
   }
 
-  return path.join(postsDir, postDir.name, "index.html");
+  return path.join(postsDir, postDir.name, 'index.html');
 }
 
 function hrefMatches(html) {

@@ -39,9 +39,9 @@ if (representativePath) {
   assert.ok(rawMarkdown.startsWith(`# ${representativeTitle}`), "Raw reuse file should start with the markdown H1 title");
   assertIncludes(postHtml, `>${representativeTitle}</h1>`, "post HTML should render the markdown H1 title");
 } else {
-  assertIncludes(homeHtml, "No posts published yet.", "home empty state");
-  const archiveHtml = readFile("dist/posts/index.html");
-  assertIncludes(archiveHtml, "No posts published yet.", "archive empty state");
+  assertIncludes(homeHtml, 'Aucun article publié pour le moment.', 'home empty state');
+  const archiveHtml = readFile('dist/articles/index.html');
+  assertIncludes(archiveHtml, 'Aucun article publié pour le moment.', 'archive empty state');
 }
 
 assertIncludes(aboutHtml, "Activité GitHub", "about GitHub activity section");

@@ -39,4 +39,4 @@
   X-Robots-Tag: noindex
 
 /raw/posts/:slug.md
-  Link: </posts/:slug/>; rel="canonical"
+  Link: </articles/:slug/>; rel="canonical"

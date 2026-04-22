@@ -72,7 +72,7 @@ assertIncludes(headers, "/LICENSES/*", "_headers license section");
 assertIncludes(headers, "/raw/posts/*", "_headers raw posts section");
 assertIncludes(headers, "X-Robots-Tag: noindex", "_headers raw posts noindex");
 assertIncludes(headers, "/raw/posts/:slug.md", "_headers raw posts canonical section");
-assertIncludes(headers, 'Link: </posts/:slug/>; rel="canonical"', "_headers raw canonical link");
+assertIncludes(headers, 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
 assertIncludes(robots, "Sitemap: https://alnah.me/sitemap-index.xml", "robots sitemap");
 assertIncludes(robots, "Disallow: /cdn-cgi/", "robots cdn-cgi disallow");
 assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");

@@ -16,14 +16,14 @@ const posts = await getPostsByTag(tag.slug);
 ---
 
 <BaseLayout
-  title={`Posts tagged ${tag.label}`}
-  description={`Posts tagged ${tag.label}`}
+  title={`Articles étiquetés ${tag.label}`}
+  description={`Articles étiquetés ${tag.label}`}
 >
   <section class="archive-shell content-band">
     <div class="prose archive-intro">
-      <p class="eyebrow">Tag archive</p>
+      <p class="eyebrow">Archive d'étiquettes</p>
       <h1>#{tag.label}</h1>
-      <p>{tag.count} post(s) filed under this topic.</p>
+      <p>{tag.count} article(s) classé(s) sous cette étiquette.</p>
     </div>
     <PostList posts={posts} />
   </section>

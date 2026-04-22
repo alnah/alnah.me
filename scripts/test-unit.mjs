@@ -24,8 +24,8 @@ Because readable systems compound.`;
 const strippedSampleMarkdown = stripFrontmatter(sampleMarkdown);
 
 assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/");
-assert.equal(normalizeAlias("/posts/old-slug"), "/posts/old-slug/");
-assert.equal(canonicalPostPath("search-that-stays-local"), "/posts/search-that-stays-local/");
+assert.equal(normalizeAlias('/articles/old-slug'), '/articles/old-slug/');
+assert.equal(canonicalPostPath('search-that-stays-local'), '/articles/search-that-stays-local/');
 assert.throws(() => normalizeAlias("../bad"), /Invalid alias path/);
 assert.throws(() => normalizeAlias("/bad path"), /Invalid alias path/);
 

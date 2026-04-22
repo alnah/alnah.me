@@ -64,7 +64,7 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
     description: post.data.description,
     category: getPostCategoryMeta(post.data.category).label,
     tags: post.data.tags,
-    url: `/posts/${post.id}/`,
+    url: `/articles/${post.id}/`,
     date: formatIsoDate(post.data.date),
     dateLabel: formatDate(post.data.date),
     excerpt: excerptFromMarkdown(contentBody),

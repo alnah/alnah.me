@@ -24,7 +24,7 @@ export async function GET(context) {
       title: resolveEntryTitle(post),
       description: post.data.description,
       pubDate: post.data.date,
-      link: `/posts/${post.id}/`,
+      link: `/articles/${post.id}/`,
       categories: [getPostCategoryMeta(post.data.category).label, ...post.data.tags],
       author: SITE.author.email
     }))

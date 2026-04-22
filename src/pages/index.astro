@@ -9,16 +9,16 @@ const posts = (await getPublishedPosts()).slice(0, 4);
 ---
 
 <BaseLayout
-  title="learning or teaching French as a foreign language using technology"
+  title="apprendre ou enseigner le français langue étrangère avec les technologies"
   schemaJson={buildWebsiteSchema()}
 >
   <section class="home-shell content-band">
-    <p class="eyebrow section-label">Recent writing</p>
+    <p class="eyebrow section-label">Articles récents</p>
     {
       posts.length > 0 ? (
-        <PostList posts={posts} showReadingTime ctaHref="/posts/" ctaLabel="Browse all posts" />
+        <PostList posts={posts} showReadingTime ctaHref="/articles/" ctaLabel="Parcourir tous les articles" />
       ) : (
-        <p class="empty-copy">No posts published yet.</p>
+        <p class="empty-copy">Aucun article publié pour le moment.</p>
       )
     }
     <NewsletterSignup />

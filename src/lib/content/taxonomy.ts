@@ -18,27 +18,27 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
   construire: {
     slug: 'construire',
     label: 'Construire',
-    description: 'Pourquoi et comment je construis des choses.'
+    description: 'Pourquoi et comment je construis mes outils ou systèmes.'
   },
   outils: {
     slug: 'outils',
     label: 'Outils',
-    description: "Outils et workflows pour l'automatisation."
+    description: "Les outils que j'utilise pour l'automatisation."
   },
   enseigner: {
     slug: 'enseigner',
     label: 'Enseigner',
-    description: "Pratiques d'enseignement et pédagogie des langues."
+    description: "Mes idées et pratiques pour l'enseignement du FLE et sa pédagogie."
   },
   travailler: {
     slug: 'travailler',
     label: 'Travailler',
-    description: 'Organisation du travail, livraison et opérations.'
+    description: "Comment j'organise mon travail d'enseignant du FLE et d'entrepeneur."
   },
   penser: {
     slug: 'penser',
     label: 'Penser',
-    description: 'Réflexions sur les langues, la technologie et plus encore.'
+    description: 'Les réflexions que je partage sur les langues, les technologies et bien plus !'
   }
 };
 

@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { slug, title, category, tags } = Astro.props;
-const canonicalUrl = new URL(`/posts/${slug}/`, Astro.site).toString();
+const canonicalUrl = new URL(`/articles/${slug}/`, Astro.site).toString();
 const categoryMeta = getPostCategoryMeta(category);
 ---
 
@@ -22,12 +22,12 @@ const categoryMeta = getPostCategoryMeta(category);
   </div>
   <div class="tag-row">
     {tags.map((tag) => (
-      <a class="tag" href={`/tags/${slugify(tag)}/`}>#{tag}</a>
+      <a class="tag" href={`/etiquettes/${slugify(tag)}/`}>#{tag}</a>
     ))}
   </div>
   <ShareLinks canonicalUrl={canonicalUrl} title={title} />
   <div class="post-footer-bottom">
-    <a href="/posts/">Tous les articles</a>
+    <a href="/articles/">Tous les articles</a>
   </div>
 </footer>
 

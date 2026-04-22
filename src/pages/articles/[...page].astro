@@ -51,13 +51,13 @@ export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
 const { page } = Astro.props as { page: ArchivePage }
 ---
 
-<BaseLayout title="Posts" description="Archive of blog posts by Alexis Nahan">
+<BaseLayout title="Articles" description="Archive des articles du blog d'Alexis Nahan">
   <section class="archive-shell content-band">
     <div class="prose archive-intro">
-      <p class="eyebrow">All Posts</p>
-      <h1>Writing archive</h1>
-      <p>A paginated archive of my notes and posts.</p>
-      <p><a href="/categories/">Browse by category</a></p>
+      <p class="eyebrow">Tous les articles</p>
+      <h1>Archives des articles</h1>
+      <p>Une archive paginée de mes notes et de mes articles.</p>
+      <p><a href="/categories/">Parcourir par catégorie</a></p>
     </div>
 
     {
@@ -74,16 +74,16 @@ const { page } = Astro.props as { page: ArchivePage }
                   'pagination--trailing-label': !page.url.next,
                 },
               ]}
-              aria-label="Posts pagination"
+              aria-label="Pagination des articles"
             >
-              {page.url.prev && <a href={page.url.prev}>Previous</a>}
-              <span>Page {page.currentPage} of {page.lastPage}</span>
-              {page.url.next && <a href={page.url.next}>Next</a>}
+              {page.url.prev && <a href={page.url.prev}>Précédent</a>}
+              <span>Page {page.currentPage} sur {page.lastPage}</span>
+              {page.url.next && <a href={page.url.next}>Suivant</a>}
             </nav>
           </div>
         </>
       ) : (
-        <p class="archive-empty">No posts published yet.</p>
+        <p class="archive-empty">Aucun article publié pour le moment.</p>
       )
     }
 
