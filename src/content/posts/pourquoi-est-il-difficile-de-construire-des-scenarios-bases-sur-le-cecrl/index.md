@@ -15,7 +15,7 @@ tags:
 
 # Pourquoi est-il difficile de construire des scénarios basés sur le CECRL ?
 
-Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de FLE pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) basés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL). Je présenterai les résultats de mon travail dans les prochains articles.
+Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de FLE pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) fondés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL) et la méthode actionnelle. Je présenterai les résultats de mon travail dans les prochains articles.
 
 ## Les difficultés pratiques de la construction de scénarios basés sur le CECRL
 
