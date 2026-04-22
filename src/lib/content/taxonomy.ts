@@ -1,9 +1,9 @@
 export const POST_CATEGORIES = [
-  "building",
-  "tooling",
-  "teaching",
-  "working",
-  "thinking"
+  'construire',
+  'outils',
+  'enseigner',
+  'travailler',
+  'penser'
 ] as const;
 
 export type PostCategory = (typeof POST_CATEGORIES)[number];
@@ -15,30 +15,30 @@ type PostCategoryMeta = {
 };
 
 export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
-  building: {
-    slug: "building",
-    label: "Building",
-    description: "Why and how I build things."
+  construire: {
+    slug: 'construire',
+    label: 'Construire',
+    description: 'Pourquoi et comment je construis des choses.'
   },
-  tooling: {
-    slug: "tooling",
-    label: "Tooling",
-    description: "Tools and workflows for automation."
+  outils: {
+    slug: 'outils',
+    label: 'Outils',
+    description: "Outils et workflows pour l'automatisation."
   },
-  teaching: {
-    slug: "teaching",
-    label: "Teaching",
-    description: "Teaching practices and language pedagogy."
+  enseigner: {
+    slug: 'enseigner',
+    label: 'Enseigner',
+    description: "Pratiques d'enseignement et pédagogie des langues."
   },
-  working: {
-    slug: "working",
-    label: "Working",
-    description: "Organizing for delivery and business operations."
+  travailler: {
+    slug: 'travailler',
+    label: 'Travailler',
+    description: 'Organisation du travail, livraison et opérations.'
   },
-  thinking: {
-    slug: "thinking",
-    label: "Thinking",
-    description: "Thoughts on language, technology, and more."
+  penser: {
+    slug: 'penser',
+    label: 'Penser',
+    description: 'Réflexions sur les langues, la technologie et plus encore.'
   }
 };
 

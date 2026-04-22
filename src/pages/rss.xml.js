@@ -15,7 +15,7 @@ export async function GET(context) {
       atom: "http://www.w3.org/2005/Atom"
     },
     customData: `
-      <language>en</language>
+      <language>fr</language>
       <lastBuildDate>${latestBuildDate.toUTCString()}</lastBuildDate>
       <generator>Astro v6 with @astrojs/rss</generator>
       <atom:link href="${new URL("/rss.xml", context.site).toString()}" rel="self" type="application/rss+xml" />

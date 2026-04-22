@@ -29,9 +29,9 @@ if (representativePath) {
     matter(representativeSourceMarkdown).data.title
   );
 
-  assertIncludes(postHtml, "min read", "reading time");
-  assertIncludes(postHtml, "All Posts", "post footer all posts link");
-  assertIncludes(postHtml, "Share this post on", "share block");
+  assertIncludes(postHtml, "min de lecture", "reading time");
+  assertIncludes(postHtml, "Tous les articles", "post footer all posts link");
+  assertIncludes(postHtml, "Partager cet article sur", "share block");
   assertIncludes(postHtml, `/raw/posts/${representativeSlug}.md`, "raw reuse link");
   assertFile(`dist/raw/posts/${representativeSlug}.md`);
   assert.ok(!rawMarkdown.startsWith("---"), "Raw reuse file should not include frontmatter");
@@ -44,6 +44,6 @@ if (representativePath) {
   assertIncludes(archiveHtml, "No posts published yet.", "archive empty state");
 }
 
-assertIncludes(aboutHtml, "GitHub activity", "about GitHub activity section");
+assertIncludes(aboutHtml, "Activité GitHub", "about GitHub activity section");
 
 console.log("test:e2e passed");

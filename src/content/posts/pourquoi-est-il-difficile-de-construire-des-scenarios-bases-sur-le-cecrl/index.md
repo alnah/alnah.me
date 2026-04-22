@@ -6,12 +6,14 @@ description: "Le quotidien des enseignants et des écoles de Français Langue É
 category: enseigner
 tags:
   - cecrl
-  - scénario
-  - pédagogie
+  - scenario
+  - pedagogie
   - fle
   - ia
   - agent
 ---
+
+# Pourquoi est-il difficile de construire des scénarios basés sur le CECRL ?
 
 Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de FLE pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) basés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL). Je présenterai les résultats de mon travail dans les prochains articles.
 
@@ -35,7 +37,7 @@ Mon quotidien sur italki, c'est d'abord de rencontrer mes apprenants en ligne, d
 
 Même si j'ai une bonne connaissance et une solide expérience pour utiliser les descripteurs du CECRL, la réalité opérationnelle fait qu'il est très difficile pour moi de les appliquer de manière systématique dans la construction de mes matériaux pédagogiques, parce que c'est assez lourd à manipuler.
 
-![Structure du schéma descriptif du CECRL : compétences générales, compétences langagières communicatives, activités langagières communicatives, et stratégies langagières communicatives.](/images/posts/why-cefr-based-learner-scenarios-are-hard-to-design/cefr-descriptive-scheme.png)
+![Structure du schéma descriptif du CECRL : compétences générales, compétences langagières communicatives, activités langagières communicatives, et stratégies langagières communicatives.](/images/posts/pourquoi-est-il-difficile-de-construire-des-scenarios-bases-sur-le-cecrl/cefr-descriptive-scheme.png)
 
 L'enseignement individuel peut arbitrer entre ou combiner deux directions :
 

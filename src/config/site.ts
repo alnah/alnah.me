@@ -81,7 +81,7 @@ export const SITE = {
   author: {
     name: 'Alexis Nahan',
     alias: 'alnah',
-    email: 'reach@alnah.me',
+    email: 'contact@alnah.me',
     intro: 'Salut, je suis Alexis.',
     blurb: "apprendre ou enseigner le français comme langue étrangère avec les technologies",
     kicker: 'notes et réflexions fondées sur mon travail comme enseignant de FLE et programmeur',
@@ -123,7 +123,7 @@ export const SITE = {
     {
       id: 'email',
       label: 'E-mail',
-      href: 'mailto:reach@alnah.me',
+      href: 'mailto:contact@alnah.me',
     },
     {
       id: 'rss',

@@ -51,14 +51,14 @@ if (representativePath) {
 assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include TikTok");
 
 assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
-assertIncludes(rssXml, "<language>en</language>", "RSS language");
+assertIncludes(rssXml, "<language>fr</language>", "RSS language");
 assertIncludes(rssXml, 'rel="self"', "RSS self link");
 assertIncludes(rssXml, "<generator>Astro v6 with @astrojs/rss</generator>", "RSS generator");
 
 if (searchIndex.length > 0) {
   assertIncludes(rssXml, "<link>https://alnah.me/posts/", "RSS canonical links");
   assertIncludes(rssXml, "<category>", "RSS item categories");
-  assertIncludes(rssXml, `<author>${"reach@alnah.me"}</author>`, "RSS item author");
+  assertIncludes(rssXml, `<author>${"contact@alnah.me"}</author>`, "RSS item author");
 }
 
 assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/", "Alias normalization should add slashes");

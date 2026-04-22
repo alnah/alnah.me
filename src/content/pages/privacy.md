@@ -25,4 +25,4 @@ Ce site contient des liens vers des services externes comme GitHub, X, TikTok, B
 
 ## Contact
 
-Pour toute question liée à la confidentialité, vous pouvez m'écrire à [reach@alnah.me](mailto:reach@alnah.me).
+Pour toute question liée à la confidentialité, vous pouvez m'écrire à [contact@alnah.me](mailto:contact@alnah.me).

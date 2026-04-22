@@ -17,7 +17,7 @@ Mon approche est liée à mon expérience. Apprendre l'anglais américain et le 
 
 ## Outils ouverts, services commerciaux
 
-Mon [contenu de blog](https://alnah.me) et mes [outils open source](https://github.com/alnah) sont gratuits pour les personnes qui veulent apprendre à leur rythme et qui sont curieuses de programmation ou de [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Je propose aussi des services commerciaux pour les personnes et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer mes outils gratuits dans leur propre écosystème. Vous pouvez me [contacter](mailto:reach@alnah.me) pour cela.
+Mon [contenu de blog](https://alnah.me) et mes [outils open source](https://github.com/alnah) sont gratuits pour les personnes qui veulent apprendre à leur rythme et qui sont curieuses de programmation ou de [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Je propose aussi des services commerciaux pour les personnes et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer mes outils gratuits dans leur propre écosystème. Vous pouvez me [contacter](mailto:contact@alnah.me) pour cela.
 
 ## Licences
 
@@ -39,7 +39,7 @@ Vous pouvez vous abonner à mon blog par e-mail si vous ne voulez rien manquer. 
 
 ## Soutien et contact
 
-Si vous souhaitez soutenir ce blog ou mes outils open source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah). Si vous cherchez un professeur de français, vous pouvez me trouver sur [italki](https://www.italki.com/fr/teacher/8123606). Si vous avez besoin d'aide sur un projet, vous pouvez m'écrire à [reach@alnah.me](mailto:reach@alnah.me). Vous pouvez aussi suivre mon travail sur [X](https://x.com/_alnah), [TikTok](https://www.tiktok.com/@_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon](https://mastodon.social/home), [GitHub](https://github.com/alnah/), ou [YouTube](https://www.youtube.com/@alnah_me).
+Si vous souhaitez soutenir ce blog ou mes outils open source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah). Si vous cherchez un professeur de français, vous pouvez me trouver sur [italki](https://www.italki.com/fr/teacher/8123606). Si vous avez besoin d'aide sur un projet, vous pouvez m'écrire à [contact@alnah.me](mailto:contact@alnah.me). Vous pouvez aussi suivre mon travail sur [X](https://x.com/_alnah), [TikTok](https://www.tiktok.com/@_alnah), [Bluesky](https://bsky.app/profile/alnah.bsky.social), [LinkedIn](https://www.linkedin.com/in/alnah/), [Mastodon](https://mastodon.social/home), [GitHub](https://github.com/alnah/), ou [YouTube](https://www.youtube.com/@alnah_me).
 
 ## Indépendance
 

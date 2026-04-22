@@ -109,7 +109,7 @@ try {
   const desktopPage = await desktopContext.newPage();
 
   await desktopPage.goto(`${server.origin}/`);
-  await desktopPage.getByRole("button", { name: /toggle search/i }).click();
+  await desktopPage.getByRole("button", { name: /ouvrir la recherche/i }).click();
 
   const searchInput = desktopPage.locator("[data-search-input]");
 
@@ -153,7 +153,7 @@ try {
       await page.goto(`${server.origin}${route}`);
 
       if (route === "/") {
-        await page.getByRole("button", { name: /toggle search/i }).click();
+        await page.getByRole("button", { name: /ouvrir la recherche/i }).click();
       }
 
       await assertNoHorizontalOverflow(page, `${deviceName} ${route}`);

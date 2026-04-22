@@ -1,6 +1,6 @@
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-onWwe/VnX7/IAa0/y6i8I1jOJGHbKJwrPKjBU4vEVzM=' 'sha256-tf2rKJ7/T3G4MPm8syOGUvq0k/fvVd6ZgkraXCTdv0E=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-onWwe/VnX7/IAa0/y6i8I1jOJGHbKJwrPKjBU4vEVzM=' 'sha256-1BY//bJNPMC3G8FKoLr1oq2TOmmZpgW45Rba4hFFQew=' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://static.cloudflareinsights.com; frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
