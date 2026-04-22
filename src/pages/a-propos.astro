@@ -16,23 +16,23 @@ if (!page) {
 
 const pageTitle = resolveEntryTitle(page);
 const pageDescription = page.data.description ?? SITE.description;
-const signupAnchor = "## Support and contact";
-const [beforeSignup, afterSignup] = page.body.split(signupAnchor);
+const signupMarker = "<!-- newsletter-signup -->";
+const [beforeSignup, afterSignup] = page.body.split(signupMarker);
 
 if (!beforeSignup || afterSignup === undefined) {
-  throw new Error("About page is missing the support-and-contact anchor for newsletter signup placement");
+  throw new Error("About page is missing the newsletter marker for signup placement");
 }
 
 const markdownProcessor = await createMarkdownProcessor();
 const { code: beforeSignupHtml } = await markdownProcessor.render(beforeSignup);
-const { code: afterSignupHtml } = await markdownProcessor.render(`${signupAnchor}${afterSignup}`);
+const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
 ---
 
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
   schemaJson={buildProfilePageSchema({
-    canonicalUrl: new URL("/about/", Astro.site).toString(),
+    canonicalUrl: new URL("/a-propos/", Astro.site).toString(),
     description: pageDescription,
     title: SITE.author.name
   })}

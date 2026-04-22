@@ -17,8 +17,8 @@ const requiredFiles = [
   "dist/LICENSE",
   "dist/LICENSES/BSD-3-Clause.txt",
   "dist/LICENSES/CC-BY-4.0.txt",
-  "dist/about/index.html",
-  "dist/privacy/index.html"
+  "dist/a-propos/index.html",
+  "dist/confidentialite/index.html"
 ];
 
 for (const file of requiredFiles) {
@@ -26,7 +26,7 @@ for (const file of requiredFiles) {
 }
 
 const homeHtml = readFile("dist/index.html");
-const aboutHtml = readFile("dist/about/index.html");
+const aboutHtml = readFile("dist/a-propos/index.html");
 const redirects = readFile("dist/_redirects");
 const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");

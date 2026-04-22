@@ -4,6 +4,6 @@ export const NEWSLETTER = {
   emailPlaceholder: 'Votre adresse e-mail…',
   subscribeAction: 'https://buttondown.com/api/emails/embed-subscribe/alnah',
   subscribeLabel: "S'abonner",
-  privacyHref: '/privacy/',
+  privacyHref: '/confidentialite/',
   privacyNotice: "En vous abonnant, vous acceptez ma politique de confidentialité.",
 } as const

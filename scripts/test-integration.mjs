@@ -12,7 +12,7 @@ import {
 
 const rssXml = readFile("dist/rss.xml");
 const searchIndex = readJson("dist/index.json");
-const aboutHtml = readFile("dist/about/index.html");
+const aboutHtml = readFile("dist/a-propos/index.html");
 const representativePath = representativePostPath();
 
 assertInternalLinks();

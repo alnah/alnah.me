@@ -1,28 +1,28 @@
 ---
-title: "Privacy"
-description: "Privacy notice for site analytics, newsletter subscriptions, and external links."
+title: "Confidentialité"
+description: "Politique de confidentialité pour les statistiques du site, les abonnements à la newsletter et les liens externes."
 ---
 
-# Privacy
+# Confidentialité
 
-This personal website is hosted on Cloudflare.
+Ce site personnel est hébergé sur Cloudflare.
 
-## Analytics
+## Statistiques
 
-Cloudflare Web Analytics measures aggregate traffic, such as page views and broad traffic patterns, without cross-site tracking cookies. You can read more on [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/).
+Cloudflare Web Analytics mesure un trafic agrégé, comme les pages vues et les grandes tendances de trafic, sans cookies de suivi intersites. Vous pouvez en savoir plus sur [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/).
 
 ## Newsletter
 
-If you subscribe to the newsletter, I use your email address to send an email when I publish, once a week or once every two weeks. The legal basis is your consent. Subscriptions use double opt-in, and you can unsubscribe at any time.
+Si vous vous abonnez à la newsletter, j'utilise votre adresse e-mail pour envoyer un message à chaque publication, une fois par semaine ou toutes les deux semaines. La base légale est votre consentement. Les abonnements utilisent un double opt-in, et vous pouvez vous désabonner à tout moment.
 
-If you subscribe, I collect your email address and subscription metadata: signup, confirmation, and unsubscribe events.
+Si vous vous abonnez, je collecte votre adresse e-mail et des métadonnées d'abonnement : inscription, confirmation et désabonnement.
 
-I use [Buttondown](https://buttondown.com/) to manage subscriptions and send the newsletter, and [Zoho Mail](https://www.zoho.com/mail) to receive newsletter replies.
+J'utilise [Buttondown](https://buttondown.com/) pour gérer les abonnements et envoyer la newsletter, et [Zoho Mail](https://www.zoho.com/mail) pour recevoir les réponses à la newsletter.
 
-## External services
+## Services externes
 
-This site links to external services such as GitHub, X, TikTok, Bluesky, Mastodon, and LinkedIn. When you follow those links, their own privacy policies and terms apply.
+Ce site contient des liens vers des services externes comme GitHub, X, TikTok, Bluesky, Mastodon et LinkedIn. Quand vous suivez ces liens, leurs propres politiques de confidentialité et leurs conditions s'appliquent.
 
 ## Contact
 
-For privacy questions, you can reach me at [reach@alnah.me](mailto:reach@alnah.me).
+Pour toute question liée à la confidentialité, vous pouvez m'écrire à [reach@alnah.me](mailto:reach@alnah.me).

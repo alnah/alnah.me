@@ -72,7 +72,7 @@ export const SITE = {
   title: 'Alexis Nahan',
   alternateName: 'alnah',
   siteUrl: 'https://alnah.me',
-  aboutPath: '/about/',
+  aboutPath: '/a-propos/',
   description:
     "Notes de travail et réflexion générales sur l'enseignement du Français Langue Étrangère (FLE) et les technologies.",
   defaultSocialImage: '/og-default.jpg',
@@ -146,7 +146,7 @@ export const NAV_ITEMS = [
   },
   {
     id: 'about',
-    href: '/about/',
+    href: '/a-propos/',
     label: 'À propos',
   },
 ] as const

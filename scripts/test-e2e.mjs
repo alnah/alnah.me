@@ -12,7 +12,7 @@ import {
 } from "./checks.mjs";
 
 const homeHtml = readFile("dist/index.html");
-const aboutHtml = readFile("dist/about/index.html");
+const aboutHtml = readFile("dist/a-propos/index.html");
 const representativePath = representativePostPath();
 
 assertIncludes(homeHtml, "data-search-trigger", "search trigger");
