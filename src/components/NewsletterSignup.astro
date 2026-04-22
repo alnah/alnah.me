@@ -147,8 +147,11 @@ const legalId = `newsletter-legal-${crypto.randomUUID()}`;
     }
 
     .signup-button {
-      width: 100%;
-      min-width: 0;
+      width: auto;
+      min-width: 12rem;
+      max-width: 100%;
+      justify-self: center;
+      padding-inline: var(--space-5);
     }
   }
 

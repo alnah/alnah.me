@@ -21,7 +21,7 @@ J'utilise [Buttondown](https://buttondown.com/) pour gérer les abonnements et e
 
 ## Services externes
 
-Ce site contient des liens vers des services externes comme GitHub, X, TikTok, Bluesky, Mastodon et LinkedIn. Quand vous suivez ces liens, leurs propres politiques de confidentialité et leurs conditions s'appliquent.
+Ce site contient des liens vers des services externes comme GitHub, X, TikTok, Bluesky, Mastodon,  LinkedIn et YouTube. Quand vous suivez ces liens, leurs propres politiques de confidentialité et leurs conditions s'appliquent.
 
 ## Contact
 

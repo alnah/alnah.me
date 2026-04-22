@@ -22,8 +22,8 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
   },
   outils: {
     slug: 'outils',
-    label: 'Outils',
-    description: "Les outils que j'utilise pour l'automatisation."
+    label: 'Outiller',
+    description: "Les outils que j'utilise pour automatiser une partie de mon travail."
   },
   enseigner: {
     slug: 'enseigner',
