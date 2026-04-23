@@ -33,7 +33,7 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
   travailler: {
     slug: 'travailler',
     label: 'Travailler',
-    description: "Comment j'organise mon travail d'enseignant du FLE et d'entrepeneur."
+    description: "Comment j'organise mon travail d'enseignant de FLE et d'entrepeneur."
   },
   penser: {
     slug: 'penser',
