@@ -39,7 +39,7 @@ Vous pouvez vous abonner à mon blog par e-mail si vous ne voulez rien manquer. 
 
 ## Soutien et contact
 
-Si vous souhaitez soutenir ce blog ou mes outils open-source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah). Si vous avez besoin de mes services pour un projet, vous pouvez m'écrire à [contact@alnah.me](mailto:contact@alnah.me). Vous pouvez suivre mon travail sur [X](https://x.com/_alnah), [YouTube](https://www.youtube.com/@alnah_me), [TikTok](https://www.tiktok.com/@_alnah), [LinkedIn](https://www.linkedin.com/in/alnah/), ou [GitHub](https://github.com/alnah/). Si vous cherchez un professeur de français, vous pouvez me trouver sur [italki](https://www.italki.com/fr/teacher/8123606).
+Si vous souhaitez soutenir ce blog ou mes outils open-source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah). Si vous avez besoin de mes services pour un projet, vous pouvez m'écrire à [contact@alnah.me](mailto:contact@alnah.me). Vous pouvez suivre mon travail sur [X](https://x.com/_alnah), [YouTube](https://www.youtube.com/@alnah_chan), [TikTok](https://www.tiktok.com/@_alnah), [LinkedIn](https://www.linkedin.com/in/alnah/), ou [GitHub](https://github.com/alnah/). Si vous cherchez un professeur de français, vous pouvez me trouver sur [italki](https://www.italki.com/fr/teacher/8123606).
 
 ## Indépendance
 

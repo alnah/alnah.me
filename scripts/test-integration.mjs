@@ -46,7 +46,7 @@ if (representativePath) {
   }
 }
 
-assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.youtube.com/@alnah_me","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include YouTube before TikTok");
+assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_alnah","https://www.youtube.com/@alnah_chan","https://www.tiktok.com/@_alnah"', "ProfilePage sameAs should include YouTube before TikTok");
 
 assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
 assertIncludes(rssXml, "<language>fr</language>", "RSS language");

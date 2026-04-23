@@ -100,7 +100,7 @@ export const SITE = {
     {
       id: 'youtube',
       label: 'YouTube',
-      href: 'https://www.youtube.com/@alnah_me',
+      href: 'https://www.youtube.com/@alnah_chan',
     },
     {
       id: 'tiktok',
