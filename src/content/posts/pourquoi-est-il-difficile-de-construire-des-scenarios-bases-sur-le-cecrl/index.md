@@ -75,7 +75,7 @@ Il existe bien sûr plus de profils d'apprenants. On peut être parfois pragmati
 
 Rarement les apprenants sont conscients qu'un professeur manque de temps et de capacité de conception, et que les écoles manquent de souplesse pour partir du contexte d'un groupe d'individus. Ils ne mesurent pas ces conséquences sur leur apprentissage.
 
-## L'enseignant ou l'école de FLE sont limités par l'infrastructure
+## L'enseignant ou l'école de FLE sont limités par leur infrastructure
 
 À titre personnel, j'ai beaucoup plus souvent rencontré des enseignants et des écoles motivés par leur mission que l'inverse, mais la bonne volonté ne suffit pas à modifier nos conditions de travail.
 
