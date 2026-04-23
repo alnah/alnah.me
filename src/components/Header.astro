@@ -37,7 +37,6 @@ const IntroTag = isHomePage ? "h1" : "p";
     <div class="content-band">
       <div class="intro-inner section-rule">
         <div class="intro-copy">
-          <p class="eyebrow intro-kicker">{SITE.author.kicker}</p>
           <IntroTag class="intro-title">{SITE.author.intro}</IntroTag>
           <div class="intro-links">
             <ContactLinks variant="hero" />
@@ -166,16 +165,12 @@ const IntroTag = isHomePage ? "h1" : "p";
     font-family: var(--font-heading);
     font-size: clamp(2.45rem, 11vw, 3.85rem);
     line-height: var(--line-height-tight);
-    margin: 0 0 var(--space-3);
+    margin: 0;
     max-width: none;
   }
 
-  .intro-kicker {
-    margin-bottom: var(--space-3);
-  }
-
   .intro-links {
-    margin-top: var(--space-6);
+    margin-top: var(--space-5);
   }
 
   .intro-links :global(.contact-links[data-variant="hero"]) {
@@ -237,21 +232,13 @@ const IntroTag = isHomePage ? "h1" : "p";
     }
 
     .intro-title {
-      order: 1;
       max-width: none;
       margin: 0;
       font-size: clamp(2.75rem, 12vw, 3.55rem);
       text-wrap: balance;
     }
 
-    .intro-kicker {
-      order: 2;
-      width: min(100%, 32ch);
-      margin: var(--space-2) 0 0;
-    }
-
     .intro-links {
-      order: 3;
       width: 100%;
       margin-top: var(--space-4);
     }
@@ -295,9 +282,6 @@ const IntroTag = isHomePage ? "h1" : "p";
       font-size: clamp(2.8rem, 16vw, 3.35rem);
     }
 
-    .intro-kicker {
-      width: min(100%, 26ch);
-    }
   }
 
   @media (min-width: 901px) {

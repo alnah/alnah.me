@@ -7,15 +7,15 @@ description: "J'aide les enseignants et les organisations à enseigner le Franç
 
 J'aide les enseignants et les organisations à enseigner le Français Langue Étrangère (FLE) à l'aide des technologies.
 
-## Pour vous
+## Contenu éditorial
 
 Sur ce blog, vous trouverez des outils, des idées et des ressources pratiques à l'intersection de la pédagogie, de la programmation et des [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/).
 
-## Ma manière de travailler
+## Approche professionnelle
 
 Mon approche est connectée à mon expérience. Apprendre l'anglais américain et le portugais brésilien m'a aidé à mieux comprendre les difficultés dans l'apprentissage d'une langue. Enseigner le français chaque jour sur [italki](https://www.italki.com/fr/teacher/8123606) me maintient au contact des défis rencontrés par mes étudiants. Publier et commenter sur [r/learnfrench](https://www.reddit.com/r/learnfrench/) et [r/French](https://www.reddit.com/r/French/) sur Reddit m'aide aussi à rester proche des communautés d'apprentissage des langues. Ces expériences orientent les articles, les outils et les systèmes que je partage ici.
 
-## Outils ouverts, services commerciaux
+## Outils libres, services commerciaux
 
 Mon [contenu de blog](https://alnah.me) et mes [outils open-source](https://github.com/alnah) sont gratuits pour les personnes qui veulent apprendre à leur rythme et qui sont curieuses de programmation ou de [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Je propose aussi des services commerciaux pour les enseignants et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer mes outils gratuits dans leur propre écosystème. Vous pouvez me [contacter](mailto:contact@alnah.me) pour cela.
 

@@ -15,7 +15,7 @@ tags:
 
 # Pourquoi est-il difficile de construire des scénarios basés sur le CECRL ?
 
-Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de FLE pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) fondés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL) et la méthode actionnelle. Je présenterai les résultats de mon travail dans les prochains articles.
+Cet article fait partie d'une série. Il présente les problèmes des enseignants et des écoles de Français Langue Étrangère (FLE) pour élaborer des [scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf) fondés sur le [Cadre Européen Commun de Référence pour les Langues](https://rm.coe.int/common-european-framework-of-reference-for-languages-learning-teaching/16809ea0d4) (CECRL) et la méthode actionnelle. Je présenterai les résultats de mon travail dans les prochains articles.
 
 ## Les difficultés pratiques de la construction de scénarios basés sur le CECRL
 
@@ -45,7 +45,7 @@ L'enseignement individuel peut arbitrer entre ou combiner deux directions :
 
 - La conversation pour pratiquer. De nombreux apprenants préfèrent la conversation dans l'enseignement individualisé. Mais la production orale ou l'interaction orale ne représentent pas toutes les compétences de communication. On peut interagir ou produire à l'écrit. Et ce format conduit à négliger la compréhension et la médiation, aussi bien à l'oral qu'à l'écrit. La pratique est plus solide, mais on sacrifie les autres compétences et la maîtrise de la langue.
 
-Si un enseignant répond à la demande de conversation des apprenants, c'est comme s'il sacrifiait ses compétences de professeur. Mais s'il ne la satisfait pas, il sera assez mal positionné sur le marché pour garantir son activité.
+Si un enseignant répond à la demande de conversation des apprenants, c'est comme s'il sacrifiait son expertise. Mais s'il ne la satisfait pas, il sera assez mal positionné sur le marché pour garantir son activité.
 
 ## La petite ou moyenne école de FLE externalise le curriculum et internalise la gestion des apprenants via des enseignants
 
