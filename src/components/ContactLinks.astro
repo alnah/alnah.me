@@ -14,30 +14,61 @@ const {
   items = SITE.contacts,
   variant = 'hero'
 } = Astro.props;
+
+const socialIds = ['github', 'x', 'youtube', 'tiktok', 'linkedin'] as const;
+const contactIds = ['email'] as const;
+const socialItems = items.filter((contact) => socialIds.includes(contact.id));
+const contactItems = items.filter((contact) => contactIds.includes(contact.id));
 ---
 
-<div class="contact-links social-row" data-variant={variant} aria-label={ariaLabel}>
-  <span class="social-row-label">Me suivre sur</span>
-  <div class="social-links-list">
-    {items.map((contact) => (
-      <a
-        class="social-icon-link"
-        href={contact.href}
-        aria-label={contact.label}
-        title={contact.label}
-        target={contact.href.startsWith("/") ? undefined : "_blank"}
-        rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
-      >
-        <SocialIcon icon={contact.id as ContactId} />
-      </a>
-    ))}
-  </div>
+<div class="contact-links" data-variant={variant} aria-label={ariaLabel}>
+  {socialItems.length > 0 && (
+    <div class="social-row">
+      <span class="social-row-label">Me suivre sur</span>
+      <div class="social-links-list">
+        {socialItems.map((contact) => (
+          <a
+            class="social-icon-link"
+            href={contact.href}
+            aria-label={contact.label}
+            title={contact.label}
+            target={contact.href.startsWith("/") ? undefined : "_blank"}
+            rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
+          >
+            <SocialIcon icon={contact.id as ContactId} />
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+
+  {contactItems.length > 0 && (
+    <div class="social-row">
+      <span class="social-row-label">Me contacter par</span>
+      <div class="social-links-list">
+        {contactItems.map((contact) => (
+          <a
+            class="social-icon-link"
+            href={contact.href}
+            aria-label={contact.label}
+            title={contact.label}
+            target={contact.href.startsWith("/") ? undefined : "_blank"}
+            rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
+          >
+            <SocialIcon icon={contact.id as ContactId} />
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
 </div>
 
 <style>
   .contact-links {
     --social-link-gap: 0.35rem;
     --social-icon-size: 1rem;
+    display: grid;
+    gap: var(--space-2);
   }
 
   .contact-links[data-variant="hero"] {
@@ -52,7 +83,9 @@ const {
     .contact-links[data-variant="footer"] {
       --social-link-gap: 0.3rem;
       width: 100%;
-      align-items: center;
+    }
+
+    .contact-links[data-variant="footer"] .social-row {
       justify-content: center;
       flex-wrap: wrap;
       row-gap: var(--space-2);

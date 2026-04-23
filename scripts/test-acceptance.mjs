@@ -39,11 +39,15 @@ const cspLine = headers
   .split("\n")
   .find((line) => line.trimStart().startsWith("Content-Security-Policy:"));
 
-for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail", "RSS"]) {
-  assertIncludes(homeHtml, `aria-label="${label}"`, `home social icon ${label}`);
-  assertIncludes(aboutHtml, `aria-label="${label}"`, `about social icon ${label}`);
+for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail"]) {
+  assertIncludes(homeHtml, `aria-label="${label}"`, `home contact icon ${label}`);
+  assertIncludes(aboutHtml, `aria-label="${label}"`, `about contact icon ${label}`);
 }
-assertIncludes(homeHtml, 'href="/rss.xml"', "home footer RSS href");
+assertIncludes(homeHtml, 'Me suivre sur', 'home social label');
+assertIncludes(homeHtml, 'Me contacter par', 'home contact label');
+assertIncludes(aboutHtml, 'Me suivre sur', 'about social label');
+assertIncludes(aboutHtml, 'Me contacter par', 'about contact label');
+assertIncludes(homeHtml, 'href="https://alnah.me/rss.xml"', "home RSS href");
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),
