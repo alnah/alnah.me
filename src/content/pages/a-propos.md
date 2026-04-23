@@ -17,7 +17,7 @@ Mon approche est connectée à mon expérience. Apprendre l'anglais américain e
 
 ## Outils ouverts, services commerciaux
 
-Mon [contenu de blog](https://alnah.me) et mes [outils open source](https://github.com/alnah) sont gratuits pour les personnes qui veulent apprendre à leur rythme et qui sont curieuses de programmation ou de [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Je propose aussi des services commerciaux pour les enseignants et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer mes outils gratuits dans leur propre écosystème. Vous pouvez me [contacter](mailto:contact@alnah.me) pour cela.
+Mon [contenu de blog](https://alnah.me) et mes [outils open-source](https://github.com/alnah) sont gratuits pour les personnes qui veulent apprendre à leur rythme et qui sont curieuses de programmation ou de [workflows agentiques](https://simonwillison.net/guides/agentic-engineering-patterns/what-is-agentic-engineering/). Je propose aussi des services commerciaux pour les enseignants et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer mes outils gratuits dans leur propre écosystème. Vous pouvez me [contacter](mailto:contact@alnah.me) pour cela.
 
 ## Licences
 
@@ -25,7 +25,7 @@ Je publie ce que je crée sous des licences open-source. Les outils que je publi
 
 ## Qui je suis
 
-Je m'appelle Alexis Nahan, mon pseudonyme public est `alnah`. Je suis professeur de FLE et développeur à Salvador, au Brésil. Le français est ma langue maternelle, et je l'enseigne chaque jour sur [italki](https://www.italki.com/fr/teacher/8123606).
+Je m'appelle Alexis Nahan, mon pseudonyme public est `alnah`. Je suis professeur de FLE et développeur. Le français est ma langue maternelle, et je l'enseigne chaque jour sur [italki](https://www.italki.com/fr/teacher/8123606).
 
 Je m'appuie sur les [recommandations d'Eaquals pour l'apprentissage basé sur les scénarios](https://www.eaquals.org/wp-content/uploads/Inventaire_ONLINE_full.pdf), sur le [modèle input/output](https://www.britishcouncil.org/voices-magazine/can-we-learn-second-language-we-learned-our-first), et sur les [descripteurs du CECRL](https://europass.europa.eu/fr/common-european-framework-reference-language-skills), que j'utilise comme cadre pour comprendre la maîtrise d'une langue.
 
@@ -39,7 +39,7 @@ Vous pouvez vous abonner à mon blog par e-mail si vous ne voulez rien manquer. 
 
 ## Soutien et contact
 
-Si vous souhaitez soutenir ce blog ou mes outils open source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah).
+Si vous souhaitez soutenir ce blog ou mes outils open-source, vous pouvez le faire via [GitHub Sponsors](https://github.com/sponsors/alnah).
 
 Si vous cherchez un professeur de français, vous pouvez me trouver sur [italki](https://www.italki.com/fr/teacher/8123606).
 

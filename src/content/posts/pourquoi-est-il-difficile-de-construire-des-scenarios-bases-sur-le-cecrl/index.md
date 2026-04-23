@@ -25,7 +25,7 @@ Ma vision est formée à partir de mon expérience personnelle d'enseignant du F
 
 Sur italki, je gère entre 25 et 30 apprenants en moyenne. Je dois individualiser l'expérience d'enseignement, ce qui devient rapidement très difficile, car proposer des matériaux pédagogiques qui sont basés sur le CECRL et qui sont construits comme des scénarios d'apprentissage pour l'apprenant, à partir de son contexte d'utilisation du français, est un défi en raison du manque de temps et de ressources.
 
-À l'Alliance Française de Salvador, j'ai observé que l'école externalisait la conception du programme de FLE à un éditeur comme les Éditions Maison des Langues (EMDL) en ayant recours à un manuel de référence, par exemple la série Défi. Cela permet aux responsables pédagogiques de mieux gérer les enseignants et de se concentrer sur les évaluations semestrielles des apprenants et la relation avec eux.
+À l'Alliance Française, j'ai observé que l'école externalisait la conception du programme de FLE à un éditeur comme les Éditions Maison des Langues (EMDL) en ayant recours à un manuel de référence, par exemple la série Défi. Cela permet aux responsables pédagogiques de mieux gérer les enseignants et de se concentrer sur les évaluations semestrielles des apprenants et la relation avec eux.
 
 Pour la plupart des écoles et des enseignants individuels, il est presque impossible d'internaliser la production de matériaux pédagogiques de qualité à partir du contexte d'un apprenant ou d'un groupe d'apprenants.
 
