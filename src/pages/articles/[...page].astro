@@ -103,10 +103,11 @@ const { page } = Astro.props as { page: ArchivePage }
     .archive-pagination {
       width: 100%;
       max-width: var(--width-reading);
+      margin-inline: auto;
     }
 
     .archive-empty {
-      margin: 0;
+      margin: 0 auto;
       max-width: var(--width-reading);
       color: var(--color-text-muted);
     }

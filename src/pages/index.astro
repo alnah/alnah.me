@@ -33,11 +33,12 @@ const posts = (await getPublishedPosts()).slice(0, 4);
   }
 
   .section-label {
-    margin: 0;
+    max-width: var(--width-reading);
+    margin: 0 auto;
   }
 
   .empty-copy {
-    margin: 0;
+    margin: 0 auto;
     max-width: var(--width-reading);
     color: var(--color-text-muted);
   }

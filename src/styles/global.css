@@ -246,7 +246,7 @@ input:focus-visible {
 .reading-column {
   width: 100%;
   max-width: var(--width-reading);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
 .full-bleed {
@@ -274,13 +274,9 @@ input:focus-visible {
   margin-inline: auto;
 }
 
-.prose.reading-column {
-  margin-inline: 0;
-}
-
 .archive-intro {
   max-width: var(--width-reading);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
 .archive-intro :where(p, h2) {
