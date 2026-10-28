@@ -132,6 +132,7 @@ title: "Post Title"
 date: 2026-03-01
 draft: false
 description: "Brief description for feeds and cards."
+category: enseigner
 tags:
   - tag1
   - tag2
@@ -143,6 +144,8 @@ Content in Markdown format...
 ```
 
 Optional fields: `lastmod`, `aliases`, `publishDate`, `expiryDate`, `cover`.
+Category: required; one of `construire`, `outils`, `enseigner`, `travailler`, `penser` (`src/lib/content/taxonomy.ts`).
+Tags: required; at least one.
 
 Title contract: Markdown must start with a leading `# H1`.
 Title contract: `# H1` must match YAML `title`.
