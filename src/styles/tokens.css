@@ -58,39 +58,43 @@
   --width-page: 1180px;
   --width-dialog: 42rem;
 
-  --color-bg: #f4efe6;
-  --color-surface: #fbf7f1;
-  --color-surface-strong: #efe6d8;
-  --color-text: #201a16;
-  --color-text-muted: #5f564f;
-  --color-border: #d8ccbb;
-  --color-accent: #6e5d4d;
-  --color-accent-strong: #4d4034;
-  --color-link: #7a4d2f;
-  --color-code-bg: #ede4d7;
-  --color-code-text: #2a231d;
-  --color-rule: rgba(110, 93, 77, 0.24);
-  --color-ornament-1: #dbcbb8;
-  --color-ornament-2: #bfa184;
-  --color-ornament-3: #8f7058;
-  --color-ornament-4: #5d4b3d;
+  /* Neutral gray palette on white. Values follow the Open Props gray scale so
+   * text, muted text, and borders stay on a single consistent ramp. */
+  --color-bg: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-surface-strong: #e9ecef;
+  --color-text: #212529;
+  --color-text-muted: #6c757d;
+  --color-border: #dee2e6;
+  --color-accent: #495057;
+  --color-accent-strong: #212529;
+  --color-link: #343a40;
+  --color-code-bg: #f1f3f5;
+  --color-code-text: #212529;
+  --color-rule: rgba(33, 37, 41, 0.16);
+  --color-ornament-1: #dee2e6;
+  --color-ornament-2: #ced4da;
+  --color-ornament-3: #adb5bd;
+  --color-ornament-4: #6c757d;
 }
 
 :root[data-theme="dark"] {
-  --color-bg: #161311;
-  --color-surface: #1d1916;
-  --color-surface-strong: #2a241f;
-  --color-text: #f1e7db;
-  --color-text-muted: #b8aa9a;
-  --color-border: #3b322a;
-  --color-accent: #c28a57;
-  --color-accent-strong: #ddb186;
-  --color-link: #e1a36d;
-  --color-code-bg: #211c18;
-  --color-code-text: #f4eadf;
-  --color-rule: rgba(221, 177, 134, 0.2);
-  --color-ornament-1: #3c3028;
-  --color-ornament-2: #6c523d;
-  --color-ornament-3: #a97b53;
-  --color-ornament-4: #d8b89a;
+  /* Neutral gray dark theme on #3c3c3c. Same ramp logic as the light theme,
+   * inverted: surfaces get lighter as they elevate. */
+  --color-bg: #3c3c3c;
+  --color-surface: #4a4a4a;
+  --color-surface-strong: #5a5a5a;
+  --color-text: #f1f3f5;
+  --color-text-muted: #ced4da;
+  --color-border: #5a5a5a;
+  --color-accent: #ced4da;
+  --color-accent-strong: #f1f3f5;
+  --color-link: #dee2e6;
+  --color-code-bg: #333333;
+  --color-code-text: #f1f3f5;
+  --color-rule: rgba(222, 226, 230, 0.2);
+  --color-ornament-1: #4a4a4a;
+  --color-ornament-2: #5a5a5a;
+  --color-ornament-3: #6e6e6e;
+  --color-ornament-4: #adb5bd;
 }
