@@ -69,9 +69,11 @@ Preview LAN: `make preview-lan`.
 Check: `make check`.
 Astro check: `make astro-check`.
 Verify: `make verify`.
+Unit: `make test-unit`; pure helper checks without a rebuild.
 Acceptance: `make test-acceptance`.
 Integration: `make test-integration`.
 E2E: `make test-e2e`.
+UI: `make test-ui`; Playwright smoke for search, theme, and mobile overflow (needs `make pw-install`).
 Clean: `make clean`.
 
 ### Playwright targets
