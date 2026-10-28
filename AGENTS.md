@@ -181,10 +181,11 @@ Verify: `scripts/verify.mjs`.
 Platform: Cloudflare Pages.
 Build command: `make build`.
 Build output: `dist/`.
+Config: Pages project `alnah-me`; build settings live in the Cloudflare dashboard, not `wrangler.jsonc`.
 Analytics token: `PUBLIC_CF_WEB_ANALYTICS_TOKEN`.
 Beacon: `src/components/Analytics.astro`.
 Redirect rule: configure `www -> apex` in Cloudflare, not in `public/_redirects`.
-Reason: Workers asset redirects only allow relative targets.
+Reason: Cloudflare's Pages guidance uses Bulk Redirects for cross-host `www` redirects; `public/_redirects` handles in-site paths.
 
 ## Frontend features
 

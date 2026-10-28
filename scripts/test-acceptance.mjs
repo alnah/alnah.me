@@ -51,7 +51,7 @@ assertIncludes(homeHtml, 'href="https://alnah.me/rss.xml"', "home RSS href");
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),
-  "_redirects should not contain the legacy absolute www redirect under Workers assets"
+  "_redirects should not contain the legacy absolute www redirect under Cloudflare Pages"
 );
 assert.ok(!redirects.includes("/reuse-notes/"), "Removed fixture aliases must not remain in redirects");
 assert.ok(!redirects.includes("/hidden-draft/"), "Draft aliases must not appear in redirects");
