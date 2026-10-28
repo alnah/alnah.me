@@ -19,6 +19,7 @@ PW_OUT ?= /tmp/playwright-shot.png
 PW_WAIT_FOR_SELECTOR ?=
 PW_WAIT_FOR_TIMEOUT ?= 0
 PW_FULL_PAGE ?= 1
+PLAYWRIGHT ?= $(NPM) exec -- playwright
 
 .PHONY: help doctor install prepare-static dev dev-lan build preview preview-lan check astro-check \
 	verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
@@ -81,11 +82,11 @@ test-ui: doctor ## Run the minimal Playwright UI smoke checks against a fresh bu
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:ui
 
 pw-install: doctor ## Install the Playwright browser set used by pw-* targets (default: chromium)
-	@$(USE_PROJECT_NODE) command -v playwright >/dev/null || { echo "playwright CLI is not available in the current Node environment."; exit 1; }
-	@$(USE_PROJECT_NODE) playwright install $(PW_BROWSER)
+	@[ -x node_modules/.bin/playwright ] || { echo "Playwright is not installed. Run: make install"; exit 1; }
+	@$(USE_PROJECT_NODE) $(PLAYWRIGHT) install $(PW_BROWSER)
 
 pw-shot: doctor ## Capture a screenshot with Playwright (set PW_URL and optionally PW_DEVICE/PW_OUT)
-	@$(USE_PROJECT_NODE) command -v playwright >/dev/null || { echo "playwright CLI is not available in the current Node environment."; exit 1; }
+	@[ -x node_modules/.bin/playwright ] || { echo "Playwright is not installed. Run: make install"; exit 1; }
 	@[ -n "$(PW_URL)" ] || { echo "Set PW_URL, e.g. make pw-shot PW_URL=http://127.0.0.1:4321/ PW_OUT=/tmp/home.png"; exit 1; }
 	@args="--browser=$(PW_BROWSER)"; \
 	if [ "$(PW_FULL_PAGE)" = "1" ]; then args="$$args --full-page"; fi; \
@@ -93,7 +94,7 @@ pw-shot: doctor ## Capture a screenshot with Playwright (set PW_URL and optional
 	if [ -n "$(PW_COLOR_SCHEME)" ]; then args="$$args --color-scheme=$(PW_COLOR_SCHEME)"; fi; \
 	if [ -n "$(PW_WAIT_FOR_SELECTOR)" ]; then args="$$args --wait-for-selector=\"$(PW_WAIT_FOR_SELECTOR)\""; fi; \
 	if [ "$(PW_WAIT_FOR_TIMEOUT)" != "0" ]; then args="$$args --wait-for-timeout=$(PW_WAIT_FOR_TIMEOUT)"; fi; \
-	eval "$(USE_PROJECT_NODE) playwright screenshot $$args \"$(PW_URL)\" \"$(PW_OUT)\""
+	eval "$(USE_PROJECT_NODE) $(PLAYWRIGHT) screenshot $$args \"$(PW_URL)\" \"$(PW_OUT)\""
 
 pw-shot-local: doctor ## Capture a local screenshot (set PW_PATH and optionally PORT/PW_DEVICE/PW_OUT)
 	@$(MAKE) --no-print-directory pw-shot PW_URL=http://$(HOST):$(PORT)$(PW_PATH) PW_OUT="$(PW_OUT)" PW_DEVICE="$(PW_DEVICE)" PW_BROWSER="$(PW_BROWSER)" PW_COLOR_SCHEME="$(PW_COLOR_SCHEME)" PW_WAIT_FOR_SELECTOR="$(PW_WAIT_FOR_SELECTOR)" PW_WAIT_FOR_TIMEOUT="$(PW_WAIT_FOR_TIMEOUT)" PW_FULL_PAGE="$(PW_FULL_PAGE)"
