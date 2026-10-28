@@ -217,6 +217,7 @@ Search index: `/index.json`.
 Posts: load from `src/content/posts/**`.
 Pages: load from `src/content/pages/**`.
 Schema: `src/content.config.ts`.
+Categories: fixed taxonomy in `src/lib/content/taxonomy.ts`.
 Publication: `src/lib/publication.js`.
 Raw exports: generate only for published posts.
 Aliases: generate redirects from frontmatter `aliases`.
