@@ -22,6 +22,10 @@ PW_WAIT_FOR_TIMEOUT ?= 0
 PW_FULL_PAGE ?= 1
 PLAYWRIGHT ?= $(NPM) exec -- playwright
 
+# Local dev can render the GitHub activity section without persisting a token:
+# fall back to the authenticated gh CLI when no env var or .env entry is set.
+GITHUB_TOKEN_FALLBACK = if [ -z "$$GITHUB_TOKEN" ] && [ -z "$$GH_TOKEN" ] && ! grep -qE '^[[:space:]]*(GITHUB_TOKEN|GH_TOKEN)=' .env 2>/dev/null && command -v gh >/dev/null 2>&1; then export GITHUB_TOKEN="$$(gh auth token 2>/dev/null)"; fi;
+
 .PHONY: help doctor install prepare-static dev dev-lan build preview preview-lan check astro-check \
 	verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
 
@@ -45,10 +49,10 @@ prepare-static: doctor ## Generate redirects, raw markdown, and license artifact
 	@$(USE_PROJECT_NODE) $(NPM) run prepare:static
 
 dev: doctor ## Start the Astro dev server on localhost
-	@$(USE_PROJECT_NODE) $(NPM) run dev -- --host $(HOST) --port $(PORT)
+	@$(GITHUB_TOKEN_FALLBACK) $(USE_PROJECT_NODE) $(NPM) run dev -- --host $(HOST) --port $(PORT)
 
 dev-lan: doctor ## Start the Astro dev server on the LAN
-	@$(USE_PROJECT_NODE) $(NPM) run dev -- --host 0.0.0.0 --port $(PORT)
+	@$(GITHUB_TOKEN_FALLBACK) $(USE_PROJECT_NODE) $(NPM) run dev -- --host 0.0.0.0 --port $(PORT)
 
 build: doctor ## Build the production site into dist/
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run build
