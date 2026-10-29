@@ -1,14 +1,13 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate, type PostEntry } from "../lib/content";
 import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
 
 interface Props {
-  entry: CollectionEntry<"posts">;
+  entry: PostEntry;
 }
 
 const { entry } = Astro.props;

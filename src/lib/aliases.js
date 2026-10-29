@@ -1,3 +1,9 @@
+// @ts-check
+
+/**
+ * @param {string} alias
+ * @returns {string}
+ */
 export function normalizeAlias(alias) {
   const trimmed = alias.trim();
 
@@ -25,6 +31,10 @@ export function normalizeAlias(alias) {
   return normalized;
 }
 
+/**
+ * @param {string} slug
+ * @returns {string}
+ */
 export function canonicalPostPath(slug) {
   return `/articles/${slug}/`;
 }

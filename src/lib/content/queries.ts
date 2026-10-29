@@ -8,7 +8,7 @@ import {
   type PostCategory
 } from "./taxonomy";
 
-type PostEntry = CollectionEntry<"posts">;
+export type PostEntry = CollectionEntry<"posts">;
 
 export function isPublished(post: PostEntry) {
   return isPublishedData(post.data);

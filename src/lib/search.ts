@@ -1,4 +1,3 @@
-import type { CollectionEntry } from "astro:content";
 import {
   excerptFromMarkdown,
   formatDate,
@@ -6,11 +5,10 @@ import {
   markdownToPlainText,
   searchDateText
 } from "./content/format";
+import type { PostEntry } from "./content/queries";
 import { getPostCategoryMeta } from "./content/taxonomy";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.js";
 import { resolvePublicationDate } from "./publication.js";
-
-type PostEntry = CollectionEntry<"posts">;
 
 export type SearchDocument = {
   title: string;

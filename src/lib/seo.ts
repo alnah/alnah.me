@@ -1,5 +1,5 @@
 import profileImage from "../assets/profile.jpeg";
-import { SITE } from "../config/site";
+import { SITE, SOCIAL_CONTACT_IDS } from "../config/site";
 import { serializeJsonForHtmlScript } from "./script-safe.js";
 
 interface SeoInput {
@@ -80,9 +80,7 @@ export function buildSeo({
 
 function resolvePersonSameAs() {
   return SITE.contacts
-    .filter((contact) =>
-      ["github", "x", "youtube", "tiktok", "linkedin"].includes(contact.id)
-    )
+    .filter((contact) => SOCIAL_CONTACT_IDS.includes(contact.id))
     .map((contact) => contact.href);
 }
 
