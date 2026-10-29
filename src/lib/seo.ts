@@ -22,7 +22,7 @@ interface BlogPostingInput {
 }
 
 export function pageTitle(title?: string) {
-  const suffix = ` · ${SITE.title}`;
+  const suffix = ` - ${SITE.title}`;
 
   if (!title || title === SITE.title) {
     return SITE.title;
