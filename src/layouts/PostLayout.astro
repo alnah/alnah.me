@@ -4,7 +4,7 @@ import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
 import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate, type PostEntry } from "../lib/content";
 import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title";
 
 interface Props {
   entry: PostEntry;

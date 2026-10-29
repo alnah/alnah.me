@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageContent } from "../lib/content";
-import { resolveEntryTitle } from "../lib/document-title.js";
+import { resolveEntryTitle } from "../lib/document-title";
 
 const page = await getPageContent("confidentialite");
 
