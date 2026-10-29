@@ -7,7 +7,7 @@ import {
   resolvePublicationDate
 } from "../src/lib/publication.ts";
 import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.ts";
-import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.js";
+import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.ts";
 
 const now = new Date("2026-06-15T00:00:00Z");
 const past = new Date("2026-01-01T00:00:00Z");
