@@ -15,8 +15,8 @@ const {
   variant = 'hero'
 } = Astro.props;
 
-const socialIds = ['github', 'x', 'youtube', 'tiktok', 'linkedin'] as const;
-const contactIds = ['email'] as const;
+const socialIds: readonly ContactId[] = ['github', 'x', 'youtube', 'tiktok', 'linkedin'];
+const contactIds: readonly ContactId[] = ['email'];
 const socialItems = items.filter((contact) => socialIds.includes(contact.id));
 const contactItems = items.filter((contact) => contactIds.includes(contact.id));
 ---

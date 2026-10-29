@@ -16,11 +16,17 @@ if (!page) {
   throw new Error("Missing about page content");
 }
 
+const pageBody = page.body;
+
+if (!pageBody) {
+  throw new Error("Missing about page body");
+}
+
 const pageTitle = resolveEntryTitle(page);
 const pageDescription = page.data.description ?? SITE.description;
 const signupMarker = "<!-- newsletter-signup -->";
 const portraitMarker = "<!-- portrait -->";
-const [beforeSignup, afterSignup] = page.body.split(signupMarker);
+const [beforeSignup, afterSignup] = pageBody.split(signupMarker);
 
 if (!beforeSignup || afterSignup === undefined) {
   throw new Error("About page is missing the newsletter marker for signup placement");
