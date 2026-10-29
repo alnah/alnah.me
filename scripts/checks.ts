@@ -6,30 +6,30 @@ import path from "node:path";
 export const rootDir = process.cwd();
 export const distDir = path.join(rootDir, "dist");
 
-export function assertFile(relativePath) {
+export function assertFile(relativePath: string) {
   const fullPath = path.join(rootDir, relativePath);
   assert.ok(fs.existsSync(fullPath), `Missing required file: ${relativePath}`);
   return fullPath;
 }
 
-export function readFile(relativePath) {
+export function readFile(relativePath: string) {
   return fs.readFileSync(assertFile(relativePath), "utf8");
 }
 
-export function readAbsoluteFile(absolutePath) {
+export function readAbsoluteFile(absolutePath: string) {
   assert.ok(fs.existsSync(absolutePath), `Missing required file: ${absolutePath}`);
   return fs.readFileSync(absolutePath, "utf8");
 }
 
-export function assertIncludes(text, expected, label) {
+export function assertIncludes(text: string, expected: string, label: string) {
   assert.ok(text.includes(expected), `Expected ${label} to include: ${expected}`);
 }
 
-export function readJson(relativePath) {
+export function readJson(relativePath: string): any {
   return JSON.parse(readFile(relativePath));
 }
 
-export function htmlFiles(dir = distDir) {
+export function htmlFiles(dir = distDir): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   return entries.flatMap((entry) => {
     const fullPath = path.join(dir, entry.name);
@@ -42,7 +42,7 @@ export function htmlFiles(dir = distDir) {
   });
 }
 
-export function executableInlineScriptHashesFromHtml(html) {
+export function executableInlineScriptHashesFromHtml(html: string) {
   return [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
     .filter((match) => {
       const attributes = match[1] ?? "";
@@ -59,28 +59,28 @@ export function executableInlineScriptHashesFromHtml(html) {
     );
 }
 
-export function executableInlineScriptHashes(relativePath) {
+export function executableInlineScriptHashes(relativePath: string) {
   return executableInlineScriptHashesFromHtml(readFile(relativePath));
 }
 
-export function representativePostPath() {
-  const postsDir = path.join(distDir, 'articles');
+export function representativePostPath(): string | null {
+  const postsDir = path.join(distDir, "articles");
   if (!fs.existsSync(postsDir)) {
     return null;
   }
   const entries = fs.readdirSync(postsDir, { withFileTypes: true });
   const postDir = entries.find(
-    (entry) => entry.isDirectory() && entry.name !== '2'
+    (entry) => entry.isDirectory() && entry.name !== "2"
   );
 
   if (!postDir) {
     return null;
   }
 
-  return path.join(postsDir, postDir.name, 'index.html');
+  return path.join(postsDir, postDir.name, "index.html");
 }
 
-function hrefMatches(html) {
+function hrefMatches(html: string) {
   const withoutScripts = html.replace(/<script[\s\S]*?<\/script>/g, "");
   return [
     ...withoutScripts.matchAll(/href="([^"]+)"/g),
@@ -90,7 +90,7 @@ function hrefMatches(html) {
     .filter((href) => !href.includes("${"));
 }
 
-function resolveInternalHref(href) {
+function resolveInternalHref(href: string): string | null {
   if (
     !href ||
     href.startsWith("#") ||

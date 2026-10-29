@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { distDir, executableInlineScriptHashesFromHtml, htmlFiles } from "./checks.mjs";
+import { distDir, executableInlineScriptHashesFromHtml, htmlFiles } from "./checks.ts";
 
 const headersPath = path.join(distDir, "_headers");
 const SCRIPT_SRC_PATTERN = /script-src(?![\w-])([^;]*);/;
