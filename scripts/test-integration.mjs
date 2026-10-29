@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { normalizeAlias } from "../src/lib/aliases.ts";
-import { serializeJsonForHtmlScript } from "../src/lib/script-safe.js";
+import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 import {
   assertIncludes,
   assertInternalLinks,

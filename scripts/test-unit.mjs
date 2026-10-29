@@ -6,7 +6,7 @@ import {
   validateMarkdownTitle
 } from "../src/lib/document-title.ts";
 import { stripFrontmatter } from "../src/lib/post-files.js";
-import { serializeJsonForHtmlScript } from "../src/lib/script-safe.js";
+import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 
 const sampleMarkdown = `---
 title: "Compounding Through Clarity"
