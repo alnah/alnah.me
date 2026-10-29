@@ -81,6 +81,10 @@
   --color-ornament-2: #ced4da;
   --color-ornament-3: #adb5bd;
   --color-ornament-4: #6c757d;
+
+  /* Neutral mix endpoints for color-mix highlights and shades. */
+  --color-highlight: #ffffff;
+  --color-shade: #000000;
 }
 
 :root[data-theme="dark"] {

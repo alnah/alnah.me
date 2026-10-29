@@ -155,7 +155,7 @@ function formatWeekdayStyle(row: number) {
     border: 1px solid color-mix(in srgb, var(--color-rule) 96%, transparent);
     border-radius: 0.7rem;
     overflow: hidden;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, white 14%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-highlight) 14%, transparent);
   }
 
   .calendar-scroll {
@@ -258,7 +258,7 @@ function formatWeekdayStyle(row: number) {
   .level-first_quartile {
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-accent) 22%, white 6%) 0%,
+      color-mix(in srgb, var(--color-accent) 22%, var(--color-highlight) 6%) 0%,
       color-mix(in srgb, var(--color-accent) 16%, var(--color-surface)) 100%
     );
   }
@@ -266,7 +266,7 @@ function formatWeekdayStyle(row: number) {
   .level-second_quartile {
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-accent) 38%, white 8%) 0%,
+      color-mix(in srgb, var(--color-accent) 38%, var(--color-highlight) 8%) 0%,
       color-mix(in srgb, var(--color-accent) 30%, var(--color-surface)) 100%
     );
   }
@@ -274,7 +274,7 @@ function formatWeekdayStyle(row: number) {
   .level-third_quartile {
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-accent) 56%, white 10%) 0%,
+      color-mix(in srgb, var(--color-accent) 56%, var(--color-highlight) 10%) 0%,
       color-mix(in srgb, var(--color-accent) 46%, var(--color-surface)) 100%
     );
   }
@@ -282,7 +282,7 @@ function formatWeekdayStyle(row: number) {
   .level-fourth_quartile {
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--color-accent) 72%, white 12%) 0%,
+      color-mix(in srgb, var(--color-accent) 72%, var(--color-highlight) 12%) 0%,
       color-mix(in srgb, var(--color-accent) 60%, var(--color-accent-strong)) 100%
     );
   }
@@ -311,16 +311,16 @@ function formatWeekdayStyle(row: number) {
     height: 0.72rem;
     border-radius: var(--radius-pill);
     border: 0;
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-bg) 82%, black 18%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-bg) 82%, var(--color-shade) 18%);
     background:
       linear-gradient(
         90deg,
-        color-mix(in srgb, var(--color-bg) 94%, black 6%) 0%,
+        color-mix(in srgb, var(--color-bg) 94%, var(--color-shade) 6%) 0%,
         color-mix(in srgb, var(--color-bg) 82%, var(--color-surface-strong)) 20%,
-        color-mix(in srgb, var(--color-accent) 22%, white 5%) 42%,
-        color-mix(in srgb, var(--color-accent) 42%, white 7%) 60%,
-        color-mix(in srgb, var(--color-accent) 64%, white 8%) 80%,
-        color-mix(in srgb, var(--color-accent) 86%, white 10%) 100%
+        color-mix(in srgb, var(--color-accent) 22%, var(--color-highlight) 5%) 42%,
+        color-mix(in srgb, var(--color-accent) 42%, var(--color-highlight) 7%) 60%,
+        color-mix(in srgb, var(--color-accent) 64%, var(--color-highlight) 8%) 80%,
+        color-mix(in srgb, var(--color-accent) 86%, var(--color-highlight) 10%) 100%
       );
   }
 
