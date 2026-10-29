@@ -51,7 +51,10 @@ assertIncludes(aboutHtml, '"sameAs":["https://github.com/alnah","https://x.com/_
 assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
 assertIncludes(rssXml, "<language>fr</language>", "RSS language");
 assertIncludes(rssXml, 'rel="self"', "RSS self link");
-assertIncludes(rssXml, "<generator>Astro v6 with @astrojs/rss</generator>", "RSS generator");
+assert.ok(
+  /<generator>Astro v\d+\.\d+\.\d+ with @astrojs\/rss<\/generator>/.test(rssXml),
+  "RSS generator should reflect the installed Astro version"
+);
 
 if (searchIndex.length > 0) {
   assertIncludes(rssXml, "<link>https://alnah.me/articles/", "RSS canonical links");

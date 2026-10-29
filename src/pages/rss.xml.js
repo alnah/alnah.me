@@ -1,4 +1,5 @@
 import rss from "@astrojs/rss";
+import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site";
 import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
@@ -19,7 +20,7 @@ export async function GET(context) {
     customData: `
       <language>fr</language>
       <lastBuildDate>${latestBuildDate.toUTCString()}</lastBuildDate>
-      <generator>Astro v6 with @astrojs/rss</generator>
+      <generator>Astro v${astroVersion} with @astrojs/rss</generator>
       <atom:link href="${new URL("/rss.xml", context.site).toString()}" rel="self" type="application/rss+xml" />
     `,
     items: posts.map((post) => ({
