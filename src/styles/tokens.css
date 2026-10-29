@@ -12,7 +12,6 @@
   --font-body: "Fira Sans", "Helvetica Neue", Arial, sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", monospace;
 
-  --font-size-xs: 0.72rem;
   --font-size-sm: 0.84rem;
   --font-size-base: 1.08rem;
   --font-size-lg: 1.16rem;
@@ -39,7 +38,6 @@
   --space-6: 2rem;
   --space-7: 3rem;
   --space-8: 4rem;
-  --space-9: 6rem;
 
   --radius-sm: 0.375rem;
   --radius-md: 0.625rem;
@@ -60,7 +58,6 @@
   --width-reading: 70ch;
   --width-band: 64rem;
   --width-page: 1180px;
-  --width-dialog: 42rem;
 
   /* Neutral gray palette on white. Values follow the Open Props gray scale so
    * text, muted text, and borders stay on a single consistent ramp. */
@@ -77,10 +74,6 @@
   --color-code-bg: #f1f3f5;
   --color-code-text: #212529;
   --color-rule: rgba(33, 37, 41, 0.16);
-  --color-ornament-1: #dee2e6;
-  --color-ornament-2: #ced4da;
-  --color-ornament-3: #adb5bd;
-  --color-ornament-4: #6c757d;
 
   /* Neutral mix endpoints for color-mix highlights and shades. */
   --color-highlight: #ffffff;
@@ -102,8 +95,4 @@
   --color-code-bg: #333333;
   --color-code-text: #f1f3f5;
   --color-rule: rgba(222, 226, 230, 0.2);
-  --color-ornament-1: #4a4a4a;
-  --color-ornament-2: #5a5a5a;
-  --color-ornament-3: #6e6e6e;
-  --color-ornament-4: #adb5bd;
 }
