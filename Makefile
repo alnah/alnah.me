@@ -27,7 +27,7 @@ PLAYWRIGHT ?= $(NPM) exec -- playwright
 GITHUB_TOKEN_FALLBACK = if [ -z "$$GITHUB_TOKEN" ] && [ -z "$$GH_TOKEN" ] && ! grep -qE '^[[:space:]]*(GITHUB_TOKEN|GH_TOKEN)=' .env 2>/dev/null && command -v gh >/dev/null 2>&1; then export GITHUB_TOKEN="$$(gh auth token 2>/dev/null)"; fi;
 
 .PHONY: help doctor install prepare-static dev dev-lan build preview preview-lan check astro-check \
-	verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
+	check-css verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
 
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
 WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.mjs
@@ -67,6 +67,9 @@ check: verify ## Run the current green quality gate
 
 astro-check: doctor ## Run Astro's stricter diagnostics (also part of verify)
 	@$(USE_PROJECT_NODE) $(NPM) exec astro check
+
+check-css: ## Check CSS conventions (tokens, breakpoints, no !important)
+	@$(USE_PROJECT_NODE) $(NODE) scripts/check-css.mjs
 
 verify: doctor ## Run the full build + verification suite
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run verify
