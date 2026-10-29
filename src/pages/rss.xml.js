@@ -1,11 +1,13 @@
 import rss from "@astrojs/rss";
 import { SITE } from "../config/site";
-import { getPostCategoryMeta, getPublishedPosts } from "../lib/content";
+import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
 
 export async function GET(context) {
   const posts = await getPublishedPosts();
-  const latestBuildDate = posts[0]?.data.lastmod ?? posts[0]?.data.date ?? new Date();
+  const latestBuildDate =
+    posts[0]?.data.lastmod ??
+    (posts[0] ? resolvePublicationDate(posts[0].data) : new Date());
 
   return rss({
     title: SITE.title,
@@ -23,7 +25,7 @@ export async function GET(context) {
     items: posts.map((post) => ({
       title: resolveEntryTitle(post),
       description: post.data.description,
-      pubDate: post.data.date,
+      pubDate: resolvePublicationDate(post.data),
       link: `/articles/${post.id}/`,
       categories: [getPostCategoryMeta(post.data.category).label, ...post.data.tags],
       author: SITE.author.email

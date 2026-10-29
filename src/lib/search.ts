@@ -8,6 +8,7 @@ import {
 } from "./content/format";
 import { getPostCategoryMeta } from "./content/taxonomy";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.js";
+import { resolvePublicationDate } from "./publication.js";
 
 type PostEntry = CollectionEntry<"posts">;
 
@@ -58,6 +59,7 @@ export const SEARCH_WEIGHTS = {
 export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");
   const content = markdownToPlainText(contentBody);
+  const publicationDate = resolvePublicationDate(post.data);
 
   return {
     title: resolveEntryTitle(post),
@@ -65,8 +67,8 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
     category: getPostCategoryMeta(post.data.category).label,
     tags: post.data.tags,
     url: `/articles/${post.id}/`,
-    date: formatIsoDate(post.data.date),
-    dateLabel: formatDate(post.data.date),
+    date: formatIsoDate(publicationDate),
+    dateLabel: formatDate(publicationDate),
     excerpt: excerptFromMarkdown(contentBody),
     content
   };

@@ -3,7 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, getPostCategoryMeta, readingTimeFromText } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate } from "../lib/content";
 import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
 
@@ -14,6 +14,7 @@ interface Props {
 const { entry } = Astro.props;
 const documentTitle = resolveEntryTitle(entry);
 const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? ""));
+const publicationDate = resolvePublicationDate(entry.data);
 const canonicalPath = `/articles/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
@@ -25,7 +26,7 @@ const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
   category: categoryMeta.label,
   dateModified: entry.data.lastmod,
-  datePublished: entry.data.date,
+  datePublished: publicationDate,
   description: entry.data.description,
   image: socialImage,
   tags: entry.data.tags,
@@ -39,8 +40,8 @@ const schemaJson = buildBlogPostingSchema({
   canonicalPath={canonicalPath}
   image={socialImage}
   imageAlt={socialImageAlt}
-  modifiedTime={(entry.data.lastmod ?? entry.data.date).toISOString()}
-  publishedTime={entry.data.date.toISOString()}
+  modifiedTime={(entry.data.lastmod ?? publicationDate).toISOString()}
+  publishedTime={publicationDate.toISOString()}
   schemaJson={schemaJson}
   reuseUrl={reuseUrl}
   type="article"
@@ -49,7 +50,7 @@ const schemaJson = buildBlogPostingSchema({
     <div class="post-article prose reading-column">
       <header class="post-header">
         <p class="eyebrow post-meta">
-          <span>{formatDate(entry.data.date)}</span>
+          <span>{formatDate(publicationDate)}</span>
           <span aria-hidden="true">·</span>
           <span>{readingTime} min de lecture</span>
           <span aria-hidden="true">·</span>

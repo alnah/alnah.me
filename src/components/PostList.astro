@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { formatDate, getPostCategoryMeta, readingTimeFromText } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate } from "../lib/content";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
 
 type PostEntry = CollectionEntry<"posts">;
@@ -29,7 +29,7 @@ const {
         </a>
       </p>
       <p class="eyebrow post-list-meta">
-        <span>{formatDate(post.data.date)}</span>
+        <span>{formatDate(resolvePublicationDate(post.data))}</span>
         {
           showReadingTime && (
             <>
