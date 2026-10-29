@@ -11,7 +11,7 @@
     "postbuild": "node scripts/generate-headers.ts",
     "build": "rm -rf dist .astro && astro build",
     "preview": "astro preview",
-    "test:unit": "node scripts/test-unit.mjs",
+    "test:unit": "node scripts/test-unit.ts",
     "test:domain": "node scripts/test-domain.mjs",
     "test:acceptance": "npm run build && node scripts/test-acceptance.mjs",
     "test:integration": "npm run build && node scripts/test-integration.mjs",
