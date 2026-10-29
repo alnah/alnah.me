@@ -274,10 +274,8 @@ input:focus-visible {
   margin-inline: auto;
 }
 
-/* Justify body copy, but keep the closing line flush left. */
 .prose p {
-  text-align: justify;
-  text-align-last: left;
+  text-align: left;
 }
 
 .archive-intro {
