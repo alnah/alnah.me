@@ -3,7 +3,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
-import { buildAliasRedirects, findMarkdownFiles, getPublishedMarkdownEntries, stripFrontmatter } from "../src/lib/post-files.ts";
+import {
+  buildAliasRedirects,
+  findMarkdownFiles,
+  getPublishedMarkdownEntries,
+  stripFrontmatter,
+  type MarkdownPostEntry
+} from "../src/lib/post-files.ts";
 import { buildLegacyRedirectLines } from "../src/lib/legacy-redirects.ts";
 
 const cwd = process.cwd();
@@ -17,14 +23,18 @@ const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
 const tempFilePrefix = ".prepare-static-";
 
-function createTempFilePath(targetPath) {
+function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
+function createTempFilePath(targetPath: string) {
   return path.join(
     path.dirname(targetPath),
     `${tempFilePrefix}${process.pid}-${randomUUID()}-${path.basename(targetPath)}`
   );
 }
 
-async function writeFileAtomically(targetPath, content) {
+async function writeFileAtomically(targetPath: string, content: string) {
   const tempPath = createTempFilePath(targetPath);
   await fs.mkdir(path.dirname(targetPath), { recursive: true });
 
@@ -36,7 +46,7 @@ async function writeFileAtomically(targetPath, content) {
   }
 }
 
-async function copyFileAtomically(sourcePath, targetPath) {
+async function copyFileAtomically(sourcePath: string, targetPath: string) {
   const tempPath = createTempFilePath(targetPath);
   await fs.mkdir(path.dirname(targetPath), { recursive: true });
 
@@ -48,11 +58,11 @@ async function copyFileAtomically(sourcePath, targetPath) {
   }
 }
 
-async function listDirectoryEntries(dirPath) {
+async function listDirectoryEntries(dirPath: string) {
   try {
     return await fs.readdir(dirPath, { withFileTypes: true });
   } catch (error) {
-    if (error && typeof error === "object" && error.code === "ENOENT") {
+    if (isErrnoException(error) && error.code === "ENOENT") {
       return [];
     }
 
@@ -60,7 +70,7 @@ async function listDirectoryEntries(dirPath) {
   }
 }
 
-async function pruneDirectoryFiles(dirPath, expectedFileNames) {
+async function pruneDirectoryFiles(dirPath: string, expectedFileNames: Set<string>) {
   const entries = await listDirectoryEntries(dirPath);
 
   await Promise.all(
@@ -72,7 +82,7 @@ async function pruneDirectoryFiles(dirPath, expectedFileNames) {
         try {
           await fs.rm(path.join(dirPath, entry.name), { force: true });
         } catch (error) {
-          if (error && typeof error === "object" && error.code === "ENOENT") {
+          if (isErrnoException(error) && error.code === "ENOENT") {
             return;
           }
 
@@ -82,8 +92,8 @@ async function pruneDirectoryFiles(dirPath, expectedFileNames) {
   );
 }
 
-async function buildRedirectLines(entries) {
-  const lines = [];
+async function buildRedirectLines(entries: MarkdownPostEntry[]) {
+  const lines: string[] = [];
 
   for (const [alias, target] of buildAliasRedirects(entries)) {
     lines.push(`${alias} ${target} 301`);
@@ -94,7 +104,7 @@ async function buildRedirectLines(entries) {
   return `${lines.join("\n")}\n`;
 }
 
-async function writeRawMarkdown(entries) {
+async function writeRawMarkdown(entries: MarkdownPostEntry[]) {
   await fs.mkdir(rawPostsRoot, { recursive: true });
 
   const rawPostFiles = entries.map((entry) => ({
@@ -139,7 +149,7 @@ async function copyLicenseFiles() {
  * The site now treats the Markdown document itself as the editorial source of
  * truth, so we validate titles before any build artifact is written.
  */
-async function validateMarkdownTitleContract(rootDir) {
+async function validateMarkdownTitleContract(rootDir: string) {
   const files = await findMarkdownFiles(rootDir);
 
   await Promise.all(
@@ -147,7 +157,7 @@ async function validateMarkdownTitleContract(rootDir) {
       const markdown = await fs.readFile(file, "utf8");
       const { data } = matter(markdown);
 
-      validateMarkdownTitle(stripFrontmatter(markdown), data.title, {
+      validateMarkdownTitle(stripFrontmatter(markdown), String(data.title ?? ""), {
         label: path.relative(cwd, file),
         requireLeadingTitle: true
       });

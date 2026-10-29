@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "prepare:static": "node scripts/prepare-static.mjs",
+    "prepare:static": "node scripts/prepare-static.ts",
     "predev": "npm run prepare:static",
     "dev": "astro dev",
     "prebuild": "npm run prepare:static",
