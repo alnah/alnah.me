@@ -124,6 +124,36 @@
     border-radius: var(--radius-lg);
   }
 
+  /* Category pills */
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.24rem 0.62rem;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-rule);
+    background: color-mix(in srgb, var(--color-surface-strong) 70%, var(--color-surface));
+    font-family: var(--font-body);
+    font-size: var(--font-size-compact-sm);
+  }
+
+  .category-pill:hover {
+    color: var(--color-text);
+    border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-rule));
+  }
+
+  .category-pill--accent {
+    padding: 0.32rem 0.7rem;
+    color: var(--color-text);
+    background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+    border-color: color-mix(in srgb, var(--color-accent) 36%, var(--color-rule));
+  }
+
+  .category-pill--accent:hover {
+    background: color-mix(in srgb, var(--color-accent) 14%, var(--color-surface));
+  }
+
   @media (max-width: 480px) {
     .social-row {
       --social-label-size: var(--font-size-compact-sm);
