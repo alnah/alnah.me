@@ -17,12 +17,35 @@ function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function removeLockIfStale(lockPath) {
+async function readLockOwner(lockPath) {
   try {
-    const stats = await fs.stat(lockPath);
-    if (Date.now() - stats.mtimeMs < staleLockMs) {
-      return false;
-    }
+    const raw = await fs.readFile(path.join(lockPath, "owner.json"), "utf8");
+    const parsed = JSON.parse(raw);
+    return typeof parsed?.pid === "number" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function isProcessAlive(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) {
+    return false;
+  }
+
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (error) {
+    // EPERM means the process exists but is owned by another user.
+    return error && typeof error === "object" && error.code === "EPERM";
+  }
+}
+
+async function removeLockIfStale(lockPath) {
+  let stats;
+
+  try {
+    stats = await fs.stat(lockPath);
   } catch (error) {
     if (error && typeof error === "object" && error.code === "ENOENT") {
       return false;
@@ -31,8 +54,21 @@ async function removeLockIfStale(lockPath) {
     throw error;
   }
 
-  await fs.rm(lockPath, { recursive: true, force: true });
-  return true;
+  // Hard upper bound: never keep a lock older than the stale window.
+  if (Date.now() - stats.mtimeMs >= staleLockMs) {
+    await fs.rm(lockPath, { recursive: true, force: true });
+    return true;
+  }
+
+  const owner = await readLockOwner(lockPath);
+
+  // A lock whose owner is gone can be reclaimed immediately.
+  if (owner && !isProcessAlive(owner.pid)) {
+    await fs.rm(lockPath, { recursive: true, force: true });
+    return true;
+  }
+
+  return false;
 }
 
 async function acquireLock(lockPath) {
@@ -64,7 +100,11 @@ async function acquireLock(lockPath) {
       await removeLockIfStale(lockPath);
 
       if (Date.now() >= deadline) {
-        throw new Error(`Timed out waiting for worktree lock: ${lockPath}`);
+        const owner = await readLockOwner(lockPath);
+        const ownerInfo = owner
+          ? ` held by pid ${owner.pid} (${(owner.command ?? []).join(" ")})`
+          : "";
+        throw new Error(`Timed out waiting for worktree lock${ownerInfo}: ${lockPath}`);
       }
 
       await wait(lockWaitMs);

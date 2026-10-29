@@ -53,10 +53,10 @@ build: doctor ## Build the production site into dist/
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run build
 
 preview: doctor ## Preview the built site on localhost
-	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run preview -- --host $(HOST) --port $(PORT)
+	@$(USE_PROJECT_NODE) $(NPM) run preview -- --host $(HOST) --port $(PORT)
 
 preview-lan: doctor ## Preview the built site on the LAN
-	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run preview -- --host 0.0.0.0 --port $(PORT)
+	@$(USE_PROJECT_NODE) $(NPM) run preview -- --host 0.0.0.0 --port $(PORT)
 
 check: verify ## Run the current green quality gate
 
