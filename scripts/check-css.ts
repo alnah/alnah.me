@@ -15,9 +15,19 @@ const allowedBreakpoints = new Set(["360", "480", "720", "900", "901"]);
 const rawColorPattern = /#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(|\b(?:white|black)\b(?!-)/;
 const breakpointPattern = /@media[^{]*?\((?:min|max)-width:\s*(\d+)px\)/g;
 
-const violations = [];
+const violations: string[] = [];
 
-function checkCss(css, file, lineOffset = 0, { allowRawColors = false, allowLiterals = false } = {}) {
+type CheckCssOptions = {
+  allowRawColors?: boolean;
+  allowLiterals?: boolean;
+};
+
+function checkCss(
+  css: string,
+  file: string,
+  lineOffset = 0,
+  { allowRawColors = false, allowLiterals = false }: CheckCssOptions = {}
+) {
   const relativeFile = path.relative(rootDir, file);
   const lines = css.split("\n");
 
@@ -50,8 +60,13 @@ function checkCss(css, file, lineOffset = 0, { allowRawColors = false, allowLite
   }
 }
 
-function styleBlocks(source) {
-  const blocks = [];
+type StyleBlock = {
+  css: string;
+  lineOffset: number;
+};
+
+function styleBlocks(source: string): StyleBlock[] {
+  const blocks: StyleBlock[] = [];
   const pattern = /<style[^>]*>([\s\S]*?)<\/style>/g;
   let match;
 
@@ -63,7 +78,7 @@ function styleBlocks(source) {
   return blocks;
 }
 
-function listFiles(dir, extension) {
+function listFiles(dir: string, extension: string): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
   return entries.flatMap((entry) => {

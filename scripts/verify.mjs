@@ -1,4 +1,4 @@
-import "./check-css.mjs";
+import "./check-css.ts";
 import "./test-domain.mjs";
 import "./test-unit.mjs";
 import "./test-acceptance.mjs";
