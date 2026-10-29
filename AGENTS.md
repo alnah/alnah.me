@@ -11,7 +11,7 @@ WET: on data structures.
 Explore: always audit the codebase, the documentation, and the relevant stack; respect language idioms before jumping into a task.
 Codebase: repository root.
 Documentation: `README.md`, `docs/`.
-Stack: `~/workspace/stack/`; always explore the stack and third-party repos there.
+Stack: `~/workspace/repos/`; always explore the stack and third-party repos there.
 
 ## Files for coding
 
