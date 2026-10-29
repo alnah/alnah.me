@@ -23,6 +23,11 @@ const {
 <div class="post-list">
   {posts.map((post) => (
     <article class="post-list-item">
+      <p class="post-list-category">
+        <a href={`/categories/${post.data.category}/`}>
+          {getPostCategoryMeta(post.data.category).label}
+        </a>
+      </p>
       <p class="eyebrow post-list-meta">
         <span>{formatDate(post.data.date)}</span>
         {
@@ -35,11 +40,6 @@ const {
         }
       </p>
       <div class="post-list-copy">
-        <p class="post-list-category">
-          <a href={`/categories/${post.data.category}/`}>
-            {getPostCategoryMeta(post.data.category).label}
-          </a>
-        </p>
         <h3><a href={`/articles/${post.id}/`}>{resolveEntryTitle(post)}</a></h3>
         <p>{post.data.description}</p>
       </div>
@@ -84,7 +84,7 @@ const {
   }
 
   .post-list-category {
-    margin: 0 0 var(--space-2);
+    margin: 0;
     font-family: var(--font-body);
     font-size: var(--font-size-compact-sm);
     line-height: 1.4;
@@ -109,6 +109,8 @@ const {
   .post-list-copy p {
     margin: 0;
     color: var(--color-text-muted);
+    text-align: justify;
+    text-align-last: left;
   }
 
   .post-list-cta {

@@ -121,5 +121,14 @@ const { page } = Astro.props as { page: ArchivePage }
       margin-left: auto;
       text-align: right;
     }
+
+    .pagination--leading-label.pagination--trailing-label {
+      justify-content: center;
+    }
+
+    .pagination--leading-label.pagination--trailing-label span:last-child {
+      margin-left: 0;
+      text-align: center;
+    }
   </style>
 </BaseLayout>
