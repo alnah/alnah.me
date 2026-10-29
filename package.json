@@ -16,7 +16,7 @@
     "test:acceptance": "npm run build && node scripts/test-acceptance.ts",
     "test:integration": "npm run build && node scripts/test-integration.ts",
     "test:e2e": "npm run build && node scripts/test-e2e.ts",
-    "test:ui": "npm run build && node scripts/test-ui.mjs",
+    "test:ui": "npm run build && node scripts/test-ui.ts",
     "verify": "npm run build && astro check && node scripts/verify.mjs"
   },
   "dependencies": {
