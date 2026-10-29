@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { validateMarkdownTitle } from "../src/lib/document-title.js";
+import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { buildAliasRedirects, findMarkdownFiles, getPublishedMarkdownEntries, stripFrontmatter } from "../src/lib/post-files.js";
 import { buildLegacyRedirectLines } from "../src/lib/legacy-redirects.js";
 

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import matter from "gray-matter";
 import { stripFrontmatter } from "../src/lib/post-files.js";
-import { validateMarkdownTitle } from "../src/lib/document-title.js";
+import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import {
   assertFile,
   assertIncludes,

@@ -2,7 +2,7 @@ import rss from "@astrojs/rss";
 import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site";
 import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content";
-import { resolveEntryTitle } from "../lib/document-title.js";
+import { resolveEntryTitle } from "../lib/document-title";
 
 export async function GET(context) {
   const posts = await getPublishedPosts();

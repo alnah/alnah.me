@@ -4,7 +4,7 @@ import {
   extractLeadingMarkdownTitle,
   stripLeadingMarkdownTitle,
   validateMarkdownTitle
-} from "../src/lib/document-title.js";
+} from "../src/lib/document-title.ts";
 import { stripFrontmatter } from "../src/lib/post-files.js";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.js";
 

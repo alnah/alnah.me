@@ -7,7 +7,7 @@ import {
 } from "./content/format";
 import type { PostEntry } from "./content/queries";
 import { getPostCategoryMeta } from "./content/taxonomy";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.js";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title";
 import { resolvePublicationDate } from "./publication";
 import {
   buildSearchFieldIndex,
