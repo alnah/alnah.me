@@ -27,7 +27,7 @@ PLAYWRIGHT ?= $(NPM) exec -- playwright
 GITHUB_TOKEN_FALLBACK = if [ -z "$$GITHUB_TOKEN" ] && [ -z "$$GH_TOKEN" ] && ! grep -qE '^[[:space:]]*(GITHUB_TOKEN|GH_TOKEN)=' .env 2>/dev/null && command -v gh >/dev/null 2>&1; then export GITHUB_TOKEN="$$(gh auth token 2>/dev/null)"; fi;
 
 .PHONY: help doctor install prepare-static dev dev-lan build preview preview-lan check astro-check \
-	check-css verify test-unit test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
+	check-css verify test-unit test-domain test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
 
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
 WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.mjs
@@ -76,6 +76,9 @@ verify: doctor ## Run the full build + verification suite
 
 test-unit: doctor ## Run pure helper checks without rebuilding the site
 	@$(USE_PROJECT_NODE) $(NPM) run test:unit
+
+test-domain: doctor ## Run domain invariant checks without rebuilding the site
+	@$(USE_PROJECT_NODE) $(NPM) run test:domain
 
 test-acceptance: doctor ## Run acceptance checks against a fresh build
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:acceptance
