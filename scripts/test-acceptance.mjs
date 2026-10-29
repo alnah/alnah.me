@@ -55,6 +55,10 @@ assert.ok(
 );
 assert.ok(!redirects.includes("/reuse-notes/"), "Removed fixture aliases must not remain in redirects");
 assert.ok(!redirects.includes("/hidden-draft/"), "Draft aliases must not appear in redirects");
+assertIncludes(redirects, "/about/ /a-propos/ 301", "_redirects legacy about");
+assertIncludes(redirects, "/privacy/ /confidentialite/ 301", "_redirects legacy privacy");
+assertIncludes(redirects, "/posts/* /articles/ 301", "_redirects legacy posts");
+assertIncludes(redirects, "/tags/* /articles/ 301", "_redirects legacy tags");
 assertIncludes(headers, "Content-Security-Policy:", "_headers CSP");
 assert.ok(cspLine, "_headers should include a CSP line");
 assert.ok(

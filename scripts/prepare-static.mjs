@@ -4,6 +4,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { validateMarkdownTitle } from "../src/lib/document-title.js";
 import { buildAliasRedirects, findMarkdownFiles, getPublishedMarkdownEntries, stripFrontmatter } from "../src/lib/post-files.js";
+import { buildLegacyRedirectLines } from "../src/lib/legacy-redirects.js";
 
 const cwd = process.cwd();
 const contentRoot = path.join(cwd, "src/content/posts");
@@ -87,6 +88,8 @@ async function buildRedirectLines(entries) {
   for (const [alias, target] of buildAliasRedirects(entries)) {
     lines.push(`${alias} ${target} 301`);
   }
+
+  lines.push(...buildLegacyRedirectLines());
 
   return `${lines.join("\n")}\n`;
 }
