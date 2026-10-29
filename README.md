@@ -128,6 +128,4 @@ CSS lives in `src/styles/` and is organized in cascade layers, declared once in
 - `utilities.css`: single-purpose helpers.
 
 Component styles stay scoped in `.astro` `<style>` blocks and, being unlayered,
-always win over the layered global styles. `make check-css` enforces the
-conventions: no raw colors, no `!important`, approved breakpoints only, and no
-hardcoded radius or duration literals.
+always win over the layered global styles.
