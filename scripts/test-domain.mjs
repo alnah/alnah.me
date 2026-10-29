@@ -5,7 +5,7 @@ import {
   isBefore,
   isPublishedData,
   resolvePublicationDate
-} from "../src/lib/publication.js";
+} from "../src/lib/publication.ts";
 import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.js";
 import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.js";
 

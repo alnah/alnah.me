@@ -8,7 +8,7 @@ import {
 import type { PostEntry } from "./content/queries";
 import { getPostCategoryMeta } from "./content/taxonomy";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.js";
-import { resolvePublicationDate } from "./publication.js";
+import { resolvePublicationDate } from "./publication";
 import {
   buildSearchFieldIndex,
   type SearchDocument,

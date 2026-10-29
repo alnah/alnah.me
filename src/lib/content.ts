@@ -1,4 +1,4 @@
 export * from "./content/queries";
 export * from "./content/format";
 export * from "./content/taxonomy";
-export * from "./publication.js";
+export * from "./publication";
