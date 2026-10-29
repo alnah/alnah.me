@@ -81,7 +81,7 @@ export const SITE = {
     name: 'Alexis Nahan',
     alias: 'alnah',
     email: 'contact@alnah.me',
-    intro: "Le FLE et la tech.",
+    intro: "Le fle et la tech",
     photoAlt: "Portrait d'Alexis Nahan",
   },
   repoUrl: 'https://github.com/alnah/alnah.me',
