@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostList from "../../components/PostList.astro";
+import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import {
   getCategories,
   getPostsByCategory,
@@ -26,12 +27,13 @@ const posts = isPostCategory(category.slug)
   description={category.description}
 >
   <section class="archive-shell content-band">
-    <div class="prose archive-intro">
-      <p class="eyebrow">Archive de catégorie</p>
-      <h1>{category.label}</h1>
-      <p>{category.description}</p>
+    <ArchiveIntro
+      eyebrow="Archive de catégorie"
+      title={category.label}
+      description={category.description}
+    >
       <p>{category.count} article(s) classé(s) dans cette catégorie.</p>
-    </div>
+    </ArchiveIntro>
     {
       posts.length > 0 ? (
         <PostList posts={posts} showReadingTime />

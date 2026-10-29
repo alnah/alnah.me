@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostList from '../../components/PostList.astro'
 import NewsletterSignup from '../../components/NewsletterSignup.astro'
+import ArchiveIntro from '../../components/ArchiveIntro.astro'
 import { SITE } from '../../config/site'
 import { getPublishedPosts, type PostEntry } from '../../lib/content'
 
@@ -50,12 +51,13 @@ const { page } = Astro.props as { page: ArchivePage }
 
 <BaseLayout title="Articles" description="Archive des articles du blog d'Alexis Nahan">
   <section class="archive-shell content-band">
-    <div class="prose archive-intro">
-      <p class="eyebrow">Tous les articles</p>
-      <h1>Archives des articles</h1>
-      <p>Une archive paginée de mes notes et de mes articles.</p>
+    <ArchiveIntro
+      eyebrow="Tous les articles"
+      title="Archives des articles"
+      description="Une archive paginée de mes notes et de mes articles."
+    >
       <p><a href="/categories/">Parcourir par catégorie</a></p>
-    </div>
+    </ArchiveIntro>
 
     {
       page.data.length > 0 ? (

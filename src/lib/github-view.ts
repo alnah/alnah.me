@@ -36,6 +36,33 @@ function shortMonth(name: string) {
   return MONTH_LABELS[name] ?? name.slice(0, 3);
 }
 
+const dayLabelFormat = new Intl.DateTimeFormat('fr-FR', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric'
+});
+
+const eventDateFormat = new Intl.DateTimeFormat('fr-FR', {
+  month: 'short',
+  day: 'numeric'
+});
+
+export function formatContributionTitle(date: string, count: number) {
+  return `${count} contribution${count === 1 ? '' : 's'} le ${dayLabelFormat.format(new Date(date))}`;
+}
+
+export function formatEventDate(date: string) {
+  return eventDateFormat.format(new Date(date));
+}
+
+export function formatMonthStyle(start: number, span: number) {
+  return `grid-column:${start} / span ${span};`;
+}
+
+export function formatWeekdayStyle(row: number) {
+  return `grid-row:${row};`;
+}
+
 /**
  * The component should render a stable view model, not carry layout math. That
  * keeps visual tuning separate from the correctness of the GitHub data slice.
