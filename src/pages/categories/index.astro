@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import { getCategories } from "../../lib/content";
 
 const categories = await getCategories();
@@ -10,11 +11,11 @@ const categories = await getCategories();
   description="Parcourir les articles par catégorie."
 >
   <section class="categories-shell content-band">
-    <div class="prose archive-intro">
-      <p class="eyebrow">Catégories</p>
-      <h1>Parcourir par catégorie</h1>
-      <p>Les cinq catégories que j'utilise pour structurer le blog.</p>
-    </div>
+    <ArchiveIntro
+      eyebrow="Catégories"
+      title="Parcourir par catégorie"
+      description="Les cinq catégories que j'utilise pour structurer le blog."
+    />
 
     <div class="category-grid">
       {categories.map((category) => (

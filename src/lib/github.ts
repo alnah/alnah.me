@@ -1,10 +1,13 @@
 import type { GitHubActivityConfig } from "../config/site";
+import {
+  fetchContributionCalendar,
+  fetchLatestRepoCommit,
+  fetchOwnedRepos,
+  fetchPublicEvents,
+  getGitHubToken
+} from "./github-client";
+import { dedupeRecentActivity, toRecentActivity } from "./github-events.js";
 
-const GITHUB_GRAPHQL_ENDPOINT = "https://api.github.com/graphql";
-const GITHUB_REST_ENDPOINT = "https://api.github.com";
-const GITHUB_FETCH_TIMEOUT_MS = 8000;
-const GITHUB_REST_API_VERSION = "2022-11-28";
-const GITHUB_USER_AGENT = "alnah.me";
 const RECENT_ACTIVITY_LIMIT = 5;
 
 type ContributionLevel =
@@ -33,27 +36,16 @@ type ContributionMonth = {
   year: number;
 };
 
-type RecentActivityItem = {
+export type RecentActivityItem = {
   date: string;
   summary: string;
   url: string | null;
 };
 
-type GitHubContributionCalendar = {
+export type GitHubContributionCalendar = {
   totalContributions: number;
   months: ContributionMonth[];
   weeks: ContributionWeek[];
-};
-
-type GitHubContributionCalendarResponse = {
-  data?: {
-    user?: {
-      contributionsCollection?: {
-        contributionCalendar?: GitHubContributionCalendar;
-      };
-    };
-  };
-  errors?: Array<{ message: string }>;
 };
 
 type GitHubEventBase = {
@@ -131,7 +123,7 @@ type GitHubWatchEvent = GitHubEventBase & {
   type: "WatchEvent";
 };
 
-type GitHubPublicEvent =
+export type GitHubPublicEvent =
   | GitHubPushEvent
   | GitHubPullRequestEvent
   | GitHubReleaseEvent
@@ -139,10 +131,9 @@ type GitHubPublicEvent =
   | GitHubIssuesEvent
   | GitHubIssueCommentEvent
   | GitHubForkEvent
-  | GitHubWatchEvent
-  | GitHubEventBase;
+  | GitHubWatchEvent;
 
-type GitHubRepo = {
+export type GitHubRepo = {
   fork?: boolean;
   archived?: boolean;
   full_name?: string;
@@ -151,7 +142,7 @@ type GitHubRepo = {
   pushed_at?: string;
 };
 
-type GitHubCommit = {
+export type GitHubCommit = {
   html_url?: string;
   commit?: {
     message?: string;
@@ -170,53 +161,6 @@ export type GitHubActivityData = {
   recentActivity: RecentActivityItem[];
 };
 
-function getGitHubToken() {
-  return process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
-}
-
-function createGitHubGraphQLHeaders(token: string) {
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-    "User-Agent": GITHUB_USER_AGENT
-  };
-}
-
-function createGitHubRestHeaders(token: string) {
-  return {
-    Accept: "application/vnd.github+json",
-    Authorization: `Bearer ${token}`,
-    "User-Agent": GITHUB_USER_AGENT,
-    "X-GitHub-Api-Version": GITHUB_REST_API_VERSION
-  };
-}
-
-async function fetchJson<T>(url: string | URL, init: RequestInit, context: string): Promise<T> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), GITHUB_FETCH_TIMEOUT_MS);
-
-  try {
-    const response = await fetch(url, {
-      ...init,
-      signal: controller.signal
-    });
-
-    if (!response.ok) {
-      throw new Error(`${context} failed with status ${response.status}`);
-    }
-
-    return (await response.json()) as T;
-  } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") {
-      throw new Error(`${context} timed out after ${GITHUB_FETCH_TIMEOUT_MS}ms`);
-    }
-
-    throw error;
-  } finally {
-    clearTimeout(timeout);
-  }
-}
-
 function createFallbackActivity(config: GitHubActivityConfig): GitHubActivityData {
   return {
     hasLiveData: false,
@@ -228,312 +172,14 @@ function createFallbackActivity(config: GitHubActivityConfig): GitHubActivityDat
   };
 }
 
-async function fetchContributionCalendar(username: string, token: string) {
-  const payload = await fetchJson<GitHubContributionCalendarResponse>(
-    GITHUB_GRAPHQL_ENDPOINT,
-    {
-      method: "POST",
-      headers: createGitHubGraphQLHeaders(token),
-      body: JSON.stringify({
-        query: `
-          query GitHubActivity($login: String!) {
-            user(login: $login) {
-              contributionsCollection {
-                contributionCalendar {
-                  totalContributions
-                  months {
-                    firstDay
-                    name
-                    totalWeeks
-                    year
-                  }
-                  weeks {
-                    firstDay
-                    contributionDays {
-                      contributionCount
-                      contributionLevel
-                      date
-                      weekday
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `,
-        variables: {
-          login: username
-        }
-      })
-    },
-    "GitHub GraphQL request"
-  );
-
-  if (payload.errors?.length) {
-    throw new Error(payload.errors.map((error) => error.message).join("; "));
-  }
-
-  const calendar = payload.data?.user?.contributionsCollection?.contributionCalendar;
-  if (!calendar) {
-    throw new Error("Missing contribution calendar in GitHub GraphQL response");
-  }
-
-  return calendar;
-}
-
-function formatRepoUrl(repoName: string) {
-  return `https://github.com/${repoName}`;
-}
-
-function capitalize(value: string) {
-  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
-}
-
-function translateGitHubAction(action: string) {
-  const labels: Record<string, string> = {
-    opened: 'ouverture de',
-    closed: 'fermeture de',
-    reopened: 'réouverture de',
-    edited: 'modification de',
-    updated: 'mise à jour de',
-    created: 'création de',
-    deleted: 'suppression de',
-    published: 'publication de',
-    synchronized: 'synchronisation de'
-  };
-
-  return labels[action] ?? action;
-}
-
-function translateGitHubRefType(refType: string) {
-  const labels: Record<string, string> = {
-    repository: 'dépôt',
-    branch: 'branche',
-    tag: 'tag',
-    resource: 'ressource'
-  };
-
-  return labels[refType] ?? refType;
-}
-
-function createRecentActivityKey(item: RecentActivityItem) {
-  return `${item.summary}::${item.url ?? ""}`;
-}
-
-function dedupeRecentActivity(items: RecentActivityItem[]) {
-  const seen = new Set<string>();
-
-  return items.filter((item) => {
-    const key = createRecentActivityKey(item);
-    if (seen.has(key)) {
-      return false;
-    }
-
-    seen.add(key);
-    return true;
-  });
-}
-
-function hasGitHubEventType<T extends GitHubPublicEvent["type"]>(
-  event: GitHubPublicEvent,
-  type: T
-): event is Extract<GitHubPublicEvent, { type: T }> {
-  return event.type === type;
-}
-
-function normalizeRecentEvent(event: GitHubPublicEvent): RecentActivityItem | null {
-  const repoName = event.repo?.name;
-  const repoUrl = typeof repoName === "string" ? formatRepoUrl(repoName) : null;
-  const createdAt = typeof event.created_at === "string" ? event.created_at : "";
-
-  if (hasGitHubEventType(event, "PushEvent") && repoName) {
-    const commitCount = Array.isArray(event.payload?.commits) ? event.payload.commits.length : 0;
-    const branch =
-      typeof event.payload?.ref === "string" ? event.payload.ref.split("/").pop() : null;
-
-    return {
-      date: createdAt,
-      summary: `Push de ${commitCount || 'nouveaux'} commit${commitCount === 1 ? '' : 's'} sur ${repoName}${branch ? ` via ${branch}` : ''}.`,
-      url: repoUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "PullRequestEvent") && repoName) {
-    const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
-    const prUrl =
-      typeof event.payload?.pull_request?.html_url === "string"
-        ? event.payload.pull_request.html_url
-        : repoUrl;
-
-    return {
-      date: createdAt,
-      summary: `${capitalize(translateGitHubAction(action))} une pull request dans ${repoName}.`,
-      url: prUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "ReleaseEvent") && repoName) {
-    const releaseUrl =
-      typeof event.payload?.release?.html_url === "string"
-        ? event.payload.release.html_url
-        : repoUrl;
-
-    return {
-      date: createdAt,
-      summary: `Publication d'une release dans ${repoName}.`,
-      url: releaseUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "CreateEvent") && repoName) {
-    const refType =
-      typeof event.payload?.ref_type === "string" ? event.payload.ref_type : "resource";
-    const ref = typeof event.payload?.ref === "string" ? event.payload.ref : "";
-
-    return {
-      date: createdAt,
-      summary: `Création de ${translateGitHubRefType(refType)}${ref ? ` ${ref}` : ''} dans ${repoName}.`,
-      url: repoUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "IssuesEvent") && repoName) {
-    const action = typeof event.payload?.action === "string" ? event.payload.action : "updated";
-    const issueUrl =
-      typeof event.payload?.issue?.html_url === "string"
-        ? event.payload.issue.html_url
-        : repoUrl;
-
-    return {
-      date: createdAt,
-      summary: `${capitalize(translateGitHubAction(action))} une issue dans ${repoName}.`,
-      url: issueUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "IssueCommentEvent") && repoName) {
-    const issueUrl =
-      typeof event.payload?.issue?.html_url === "string"
-        ? event.payload.issue.html_url
-        : repoUrl;
-
-    return {
-      date: createdAt,
-      summary: `Commentaire sur une issue dans ${repoName}.`,
-      url: issueUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "ForkEvent") && repoName) {
-    const forkUrl =
-      typeof event.payload?.forkee?.html_url === "string"
-        ? event.payload.forkee.html_url
-        : repoUrl;
-
-    return {
-      date: createdAt,
-      summary: `Fork de ${repoName}.`,
-      url: forkUrl
-    };
-  }
-
-  if (hasGitHubEventType(event, "WatchEvent") && repoName) {
-    return {
-      date: createdAt,
-      summary: `Ajout d'une étoile sur ${repoName}.`,
-      url: repoUrl
-    };
-  }
-
-  return null;
-}
-
-async function fetchPublicEvents(username: string, token: string) {
-  const events = await fetchJson<GitHubPublicEvent[]>(
-    `${GITHUB_REST_ENDPOINT}/users/${username}/events/public?per_page=30`,
-    {
-      headers: createGitHubRestHeaders(token)
-    },
-    "GitHub public events request"
-  );
-
-  if (!Array.isArray(events)) {
-    throw new Error("Unexpected GitHub public events payload");
-  }
-
-  return events;
-}
-
 async function fetchRecentActivity(username: string, token: string) {
   const events = await fetchPublicEvents(username, token);
 
   return dedupeRecentActivity(
     events
-      .map(normalizeRecentEvent)
+      .map(toRecentActivity)
       .filter((event): event is RecentActivityItem => Boolean(event))
   ).slice(0, RECENT_ACTIVITY_LIMIT);
-}
-
-async function fetchOwnedRepos(username: string, token: string, limit: number) {
-  const repos = await fetchJson<GitHubRepo[]>(
-    `${GITHUB_REST_ENDPOINT}/users/${username}/repos?sort=pushed&per_page=${Math.max(limit * 2, 10)}&type=owner`,
-    {
-      headers: createGitHubRestHeaders(token)
-    },
-    "GitHub repos request"
-  );
-
-  if (!Array.isArray(repos)) {
-    throw new Error("Unexpected GitHub repos payload");
-  }
-
-  return repos
-    .filter((repo) => repo && !repo.fork && !repo.archived && typeof repo.full_name === "string")
-    .slice(0, Math.max(limit * 2, 10));
-}
-
-async function fetchLatestRepoCommit(repo: GitHubRepo, token: string): Promise<RecentActivityItem | null> {
-  if (typeof repo.full_name !== "string") {
-    return null;
-  }
-
-  const branch = typeof repo.default_branch === "string" ? repo.default_branch : undefined;
-  const commitsUrl = new URL(`${GITHUB_REST_ENDPOINT}/repos/${repo.full_name}/commits`);
-  commitsUrl.searchParams.set("per_page", "1");
-  if (branch) {
-    commitsUrl.searchParams.set("sha", branch);
-  }
-
-  const commits = await fetchJson<GitHubCommit[]>(
-    commitsUrl,
-    {
-      headers: createGitHubRestHeaders(token)
-    },
-    `GitHub commits request for ${repo.full_name}`
-  );
-
-  if (!Array.isArray(commits) || commits.length === 0) {
-    return null;
-  }
-
-  const latestCommit = commits[0];
-  const message =
-    typeof latestCommit.commit?.message === "string"
-      ? latestCommit.commit.message.split("\n")[0]
-      : null;
-  const url = typeof latestCommit.html_url === "string" ? latestCommit.html_url : repo.html_url;
-  const date =
-    typeof latestCommit.commit?.author?.date === "string"
-      ? latestCommit.commit.author.date
-      : repo.pushed_at;
-
-  return {
-    date: typeof date === "string" ? date : "",
-    summary: message
-      ? `Dernier commit sur ${repo.full_name} : ${message}.`
-      : `Activité récente sur ${repo.full_name}.`,
-    url: typeof url === "string" ? url : null
-  };
 }
 
 async function fetchRecentCommitActivity(username: string, token: string, limit: number) {

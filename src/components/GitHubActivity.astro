@@ -1,33 +1,16 @@
 ---
 import { SITE } from "../config/site";
 import { getGitHubActivity } from "../lib/github";
-import { buildGitHubActivityView } from "../lib/github-view";
+import {
+  buildGitHubActivityView,
+  formatContributionTitle,
+  formatEventDate,
+  formatMonthStyle,
+  formatWeekdayStyle
+} from "../lib/github-view";
 
 const activity = await getGitHubActivity(SITE.githubActivity);
 const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = buildGitHubActivityView(activity);
-
-const formatDayLabel = new Intl.DateTimeFormat('fr-FR', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
-});
-
-const formatEventDate = new Intl.DateTimeFormat('fr-FR', {
-  month: 'short',
-  day: 'numeric'
-});
-
-function formatContributionTitle(date: string, count: number) {
-  return `${count} contribution${count === 1 ? '' : 's'} le ${formatDayLabel.format(new Date(date))}`;
-}
-
-function formatMonthStyle(start: number, span: number) {
-  return `grid-column:${start} / span ${span};`;
-}
-
-function formatWeekdayStyle(row: number) {
-  return `grid-row:${row};`;
-}
 ---
 
 {
@@ -88,7 +71,7 @@ function formatWeekdayStyle(row: number) {
             <ul class="activity-list">
               {recentItems.map((item) => (
                 <li>
-                  <span class="event-date">{formatEventDate.format(new Date(item.date))}</span>
+                  <span class="event-date">{formatEventDate(item.date)}</span>
                   {
                     item.url ? (
                       <a href={item.url} target="_blank" rel="noreferrer">{item.summary}</a>

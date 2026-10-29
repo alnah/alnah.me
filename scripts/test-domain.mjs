@@ -7,6 +7,7 @@ import {
   resolvePublicationDate
 } from "../src/lib/publication.js";
 import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.js";
+import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.js";
 
 const now = new Date("2026-06-15T00:00:00Z");
 const past = new Date("2026-01-01T00:00:00Z");
@@ -149,5 +150,82 @@ const manyMatches = Array.from({ length: 12 }, (_, index) =>
   indexDocument({ title: `recherche ${index}` }, index)
 );
 assert.equal(searchDocuments(manyMatches, "recherche").length, 8, "results are limited to 8");
+
+function githubEvent(overrides = {}) {
+  return {
+    created_at: "2026-06-15T12:00:00Z",
+    repo: { name: "alnah/example" },
+    ...overrides
+  };
+}
+
+assert.equal(toRecentActivity({ type: "PushEvent" }), null, "an event without a repo is ignored");
+assert.equal(toRecentActivity(githubEvent({ type: "UnknownEvent" })), null, "an unknown event type is ignored");
+
+const push = toRecentActivity(
+  githubEvent({ type: "PushEvent", payload: { commits: [{}, {}], ref: "refs/heads/main" } })
+);
+assert.match(push.summary, /^Push de 2 commits sur alnah\/example via main\.$/, "push summary");
+assert.equal(push.url, "https://github.com/alnah/example", "push points to the repo");
+
+const singleCommit = toRecentActivity(
+  githubEvent({ type: "PushEvent", payload: { commits: [{}], ref: "refs/heads/main" } })
+);
+assert.match(singleCommit.summary, /^Push de 1 commit sur/, "a single commit is singular");
+
+const pullRequest = toRecentActivity(
+  githubEvent({
+    type: "PullRequestEvent",
+    payload: { action: "opened", pull_request: { html_url: "https://github.com/alnah/example/pull/1" } }
+  })
+);
+assert.match(pullRequest.summary, /^Ouverture de une pull request dans alnah\/example\.$/, "pull request summary");
+assert.equal(pullRequest.url, "https://github.com/alnah/example/pull/1", "pull request points to the PR");
+
+const release = toRecentActivity(
+  githubEvent({
+    type: "ReleaseEvent",
+    payload: { release: { html_url: "https://github.com/alnah/example/releases/tag/v1" } }
+  })
+);
+assert.match(release.summary, /^Publication d'une release dans alnah\/example\.$/, "release summary");
+
+const created = toRecentActivity(
+  githubEvent({ type: "CreateEvent", payload: { ref_type: "branch", ref: "feature" } })
+);
+assert.match(created.summary, /^Création de branche feature dans alnah\/example\.$/, "create summary");
+
+const issue = toRecentActivity(
+  githubEvent({
+    type: "IssuesEvent",
+    payload: { action: "closed", issue: { html_url: "https://github.com/alnah/example/issues/2" } }
+  })
+);
+assert.match(issue.summary, /^Fermeture de une issue dans alnah\/example\.$/, "issue summary");
+
+const issueComment = toRecentActivity(
+  githubEvent({
+    type: "IssueCommentEvent",
+    payload: { issue: { html_url: "https://github.com/alnah/example/issues/3" } }
+  })
+);
+assert.match(issueComment.summary, /^Commentaire sur une issue dans alnah\/example\.$/, "issue comment summary");
+
+const fork = toRecentActivity(
+  githubEvent({ type: "ForkEvent", payload: { forkee: { html_url: "https://github.com/someone/example" } } })
+);
+assert.match(fork.summary, /^Fork de alnah\/example\.$/, "fork summary");
+
+const watch = toRecentActivity(githubEvent({ type: "WatchEvent" }));
+assert.match(watch.summary, /^Ajout d'une étoile sur alnah\/example\.$/, "watch summary");
+
+assert.equal(
+  dedupeRecentActivity([
+    { date: "2026-06-15", summary: "same", url: "https://github.com/alnah/example" },
+    { date: "2026-06-16", summary: "same", url: "https://github.com/alnah/example" }
+  ]).length,
+  1,
+  "identical activity items are deduped"
+);
 
 console.log("test:domain passed");
