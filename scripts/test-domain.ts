@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import type { GitHubPublicEvent, RecentActivityItem } from "../src/lib/github.ts";
+import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.ts";
 import { buildAliasRedirects } from "../src/lib/post-files.ts";
 import {
   isAfter,
@@ -6,8 +8,13 @@ import {
   isPublishedData,
   resolvePublicationDate
 } from "../src/lib/publication.ts";
-import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.ts";
-import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.ts";
+import {
+  buildSearchFieldIndex,
+  searchDocuments,
+  type SearchField,
+  type SearchFieldIndex,
+  type SearchIndexDocument
+} from "../src/lib/search-ranking.ts";
 
 const now = new Date("2026-06-15T00:00:00Z");
 const past = new Date("2026-01-01T00:00:00Z");
@@ -85,7 +92,7 @@ assert.throws(
   "two posts cannot claim the same alias"
 );
 
-const EMPTY_SEARCH_FIELDS = {
+const EMPTY_SEARCH_FIELDS: Record<SearchField, string> = {
   title: "",
   category: "",
   tags: "",
@@ -95,11 +102,14 @@ const EMPTY_SEARCH_FIELDS = {
   content: ""
 };
 
-function indexDocument(fields, position = 0) {
-  const merged = { ...EMPTY_SEARCH_FIELDS, ...fields };
+function indexDocument(
+  fields: Partial<Record<SearchField, string>>,
+  position = 0
+): SearchIndexDocument {
+  const merged: Record<SearchField, string> = { ...EMPTY_SEARCH_FIELDS, ...fields };
   const search = Object.fromEntries(
     Object.entries(merged).map(([name, value]) => [name, buildSearchFieldIndex(value)])
-  );
+  ) as Record<SearchField, SearchFieldIndex>;
 
   return {
     title: merged.title,
@@ -151,29 +161,39 @@ const manyMatches = Array.from({ length: 12 }, (_, index) =>
 );
 assert.equal(searchDocuments(manyMatches, "recherche").length, 8, "results are limited to 8");
 
-function githubEvent(overrides = {}) {
+function githubEvent(overrides: Record<string, unknown> = {}): GitHubPublicEvent {
   return {
     created_at: "2026-06-15T12:00:00Z",
     repo: { name: "alnah/example" },
     ...overrides
-  };
+  } as GitHubPublicEvent;
+}
+
+function toActivity(event: GitHubPublicEvent): RecentActivityItem {
+  const item = toRecentActivity(event);
+  assert.ok(item, "expected a recent activity item");
+  return item;
 }
 
 assert.equal(toRecentActivity({ type: "PushEvent" }), null, "an event without a repo is ignored");
-assert.equal(toRecentActivity(githubEvent({ type: "UnknownEvent" })), null, "an unknown event type is ignored");
+assert.equal(
+  toRecentActivity(githubEvent({ type: "UnknownEvent" })),
+  null,
+  "an unknown event type is ignored"
+);
 
-const push = toRecentActivity(
+const push = toActivity(
   githubEvent({ type: "PushEvent", payload: { commits: [{}, {}], ref: "refs/heads/main" } })
 );
 assert.match(push.summary, /^Push de 2 commits sur alnah\/example via main\.$/, "push summary");
 assert.equal(push.url, "https://github.com/alnah/example", "push points to the repo");
 
-const singleCommit = toRecentActivity(
+const singleCommit = toActivity(
   githubEvent({ type: "PushEvent", payload: { commits: [{}], ref: "refs/heads/main" } })
 );
 assert.match(singleCommit.summary, /^Push de 1 commit sur/, "a single commit is singular");
 
-const pullRequest = toRecentActivity(
+const pullRequest = toActivity(
   githubEvent({
     type: "PullRequestEvent",
     payload: { action: "opened", pull_request: { html_url: "https://github.com/alnah/example/pull/1" } }
@@ -182,7 +202,7 @@ const pullRequest = toRecentActivity(
 assert.match(pullRequest.summary, /^Ouverture de une pull request dans alnah\/example\.$/, "pull request summary");
 assert.equal(pullRequest.url, "https://github.com/alnah/example/pull/1", "pull request points to the PR");
 
-const release = toRecentActivity(
+const release = toActivity(
   githubEvent({
     type: "ReleaseEvent",
     payload: { release: { html_url: "https://github.com/alnah/example/releases/tag/v1" } }
@@ -190,12 +210,12 @@ const release = toRecentActivity(
 );
 assert.match(release.summary, /^Publication d'une release dans alnah\/example\.$/, "release summary");
 
-const created = toRecentActivity(
+const created = toActivity(
   githubEvent({ type: "CreateEvent", payload: { ref_type: "branch", ref: "feature" } })
 );
 assert.match(created.summary, /^Création de branche feature dans alnah\/example\.$/, "create summary");
 
-const issue = toRecentActivity(
+const issue = toActivity(
   githubEvent({
     type: "IssuesEvent",
     payload: { action: "closed", issue: { html_url: "https://github.com/alnah/example/issues/2" } }
@@ -203,7 +223,7 @@ const issue = toRecentActivity(
 );
 assert.match(issue.summary, /^Fermeture de une issue dans alnah\/example\.$/, "issue summary");
 
-const issueComment = toRecentActivity(
+const issueComment = toActivity(
   githubEvent({
     type: "IssueCommentEvent",
     payload: { issue: { html_url: "https://github.com/alnah/example/issues/3" } }
@@ -211,12 +231,12 @@ const issueComment = toRecentActivity(
 );
 assert.match(issueComment.summary, /^Commentaire sur une issue dans alnah\/example\.$/, "issue comment summary");
 
-const fork = toRecentActivity(
+const fork = toActivity(
   githubEvent({ type: "ForkEvent", payload: { forkee: { html_url: "https://github.com/someone/example" } } })
 );
 assert.match(fork.summary, /^Fork de alnah\/example\.$/, "fork summary");
 
-const watch = toRecentActivity(githubEvent({ type: "WatchEvent" }));
+const watch = toActivity(githubEvent({ type: "WatchEvent" }));
 assert.match(watch.summary, /^Ajout d'une étoile sur alnah\/example\.$/, "watch summary");
 
 assert.equal(

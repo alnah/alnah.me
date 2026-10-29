@@ -12,7 +12,7 @@
     "build": "rm -rf dist .astro && astro build",
     "preview": "astro preview",
     "test:unit": "node scripts/test-unit.ts",
-    "test:domain": "node scripts/test-domain.mjs",
+    "test:domain": "node scripts/test-domain.ts",
     "test:acceptance": "npm run build && node scripts/test-acceptance.mjs",
     "test:integration": "npm run build && node scripts/test-integration.mjs",
     "test:e2e": "npm run build && node scripts/test-e2e.mjs",
