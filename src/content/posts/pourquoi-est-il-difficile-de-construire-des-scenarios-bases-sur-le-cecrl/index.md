@@ -1,7 +1,7 @@
 ---
 title: "Pourquoi est-il difficile de construire des scénarios basés sur le CECRL ?"
 date: 2026-04-22
-draft: false
+draft: true
 description: "Le quotidien des enseignants et des écoles de Français Langue Étrangère (FLE) rend difficile l'élaboration de scénarios basés sur les descripteurs du CECRL. Cela impacte directement la qualité de l'offre de l'enseignement. Les agents autonomes peuvent réduire le coût de conception de tels scénarios."
 category: enseigner
 tags:
