@@ -69,7 +69,7 @@ astro-check: doctor ## Run Astro's stricter diagnostics (also part of verify)
 	@$(USE_PROJECT_NODE) $(NPM) exec astro check
 
 check-css: ## Check CSS conventions (tokens, breakpoints, no !important)
-	@$(USE_PROJECT_NODE) $(NODE) scripts/check-css.mjs
+	@$(USE_PROJECT_NODE) $(NODE) scripts/check-css.ts
 
 verify: doctor ## Run the full build + verification suite
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run verify
