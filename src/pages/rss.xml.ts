@@ -1,10 +1,12 @@
 import rss from "@astrojs/rss";
+import type { APIContext } from "astro";
 import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site";
 import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title";
 
-export async function GET(context) {
+export async function GET(context: APIContext) {
+  const site = context.site ?? new URL(SITE.siteUrl);
   const posts = await getPublishedPosts();
   const latestBuildDate =
     posts[0]?.data.lastmod ??
@@ -13,7 +15,7 @@ export async function GET(context) {
   return rss({
     title: SITE.title,
     description: SITE.description,
-    site: context.site,
+    site,
     xmlns: {
       atom: "http://www.w3.org/2005/Atom"
     },
@@ -21,7 +23,7 @@ export async function GET(context) {
       <language>fr</language>
       <lastBuildDate>${latestBuildDate.toUTCString()}</lastBuildDate>
       <generator>Astro v${astroVersion} with @astrojs/rss</generator>
-      <atom:link href="${new URL("/rss.xml", context.site).toString()}" rel="self" type="application/rss+xml" />
+      <atom:link href="${new URL("/rss.xml", site).toString()}" rel="self" type="application/rss+xml" />
     `,
     items: posts.map((post) => ({
       title: resolveEntryTitle(post),
