@@ -63,6 +63,10 @@ export async function getTags() {
     .sort((left, right) => left.label.localeCompare(right.label));
 }
 
+/**
+ * The taxonomy is fixed; empty categories are still returned so their URLs
+ * stay stable and the index stays complete.
+ */
 export async function getCategories() {
   const posts = await getPublishedPosts();
   const counts = new Map<PostCategory, number>();
