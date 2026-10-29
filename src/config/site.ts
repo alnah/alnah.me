@@ -5,10 +5,19 @@ const requiredContactIds = [
   'tiktok',
   'linkedin',
   'email',
-  'rss',
 ] as const
 
 export type ContactId = (typeof requiredContactIds)[number]
+
+// Single source of truth for the contacts rendered as social icons and reused
+// as the person `sameAs` list in the structured data.
+export const SOCIAL_CONTACT_IDS: readonly ContactId[] = [
+  'github',
+  'x',
+  'youtube',
+  'tiktok',
+  'linkedin',
+]
 
 export type ContactLink = {
   id: ContactId
@@ -115,11 +124,6 @@ export const SITE = {
       id: 'email',
       label: 'E-mail',
       href: 'mailto:contact@alnah.me',
-    },
-    {
-      id: 'rss',
-      label: 'RSS',
-      href: '/rss.xml',
     },
   ]),
   githubActivity: {

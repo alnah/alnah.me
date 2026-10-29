@@ -1,5 +1,11 @@
+// @ts-check
+
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
 export function serializeJsonForHtmlScript(value) {
-  return JSON.stringify(value)
+  return (JSON.stringify(value) ?? "")
     .replace(/</g, "\\u003C")
     .replace(/>/g, "\\u003E")
     .replace(/&/g, "\\u0026")

@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { canonicalPostPath, normalizeAlias } from "../src/lib/aliases.js";
 import {
   extractLeadingMarkdownTitle,
-  resolveMarkdownTitle,
   stripLeadingMarkdownTitle,
   validateMarkdownTitle
 } from "../src/lib/document-title.js";
@@ -31,7 +30,7 @@ assert.throws(() => normalizeAlias("/bad path"), /Invalid alias path/);
 
 assert.equal(extractLeadingMarkdownTitle(strippedSampleMarkdown), "Compounding Through Clarity");
 assert.equal(
-  resolveMarkdownTitle(strippedSampleMarkdown, "Compounding Through Clarity"),
+  validateMarkdownTitle(strippedSampleMarkdown, "Compounding Through Clarity"),
   "Compounding Through Clarity"
 );
 assert.throws(

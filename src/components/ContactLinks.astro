@@ -1,27 +1,20 @@
 ---
-import { SITE } from "../config/site";
-import type { ContactId, ContactLink as SiteContactLink } from "../config/site";
+import { SITE, SOCIAL_CONTACT_IDS } from "../config/site";
+import type { ContactId } from "../config/site";
 import SocialIcon from "./SocialIcon.astro";
 
 interface Props {
-  ariaLabel?: string;
-  items?: readonly SiteContactLink[];
-  variant?: "hero" | "section" | "footer";
+  variant?: "hero" | "footer";
 }
 
-const {
-  ariaLabel = 'Liens de contact',
-  items = SITE.contacts,
-  variant = 'hero'
-} = Astro.props;
+const { variant = 'hero' } = Astro.props;
 
-const socialIds: readonly ContactId[] = ['github', 'x', 'youtube', 'tiktok', 'linkedin'];
 const contactIds: readonly ContactId[] = ['email'];
-const socialItems = items.filter((contact) => socialIds.includes(contact.id));
-const contactItems = items.filter((contact) => contactIds.includes(contact.id));
+const socialItems = SITE.contacts.filter((contact) => SOCIAL_CONTACT_IDS.includes(contact.id));
+const contactItems = SITE.contacts.filter((contact) => contactIds.includes(contact.id));
 ---
 
-<div class="contact-links" data-variant={variant} aria-label={ariaLabel}>
+<div class="contact-links" data-variant={variant} aria-label="Liens de contact">
   {socialItems.length > 0 && (
     <div class="social-row">
       <span class="social-row-label">Me suivre sur</span>

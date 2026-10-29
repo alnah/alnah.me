@@ -1,9 +1,6 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate, type PostEntry } from "../lib/content";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.js";
-
-type PostEntry = CollectionEntry<"posts">;
 
 interface Props {
   posts: PostEntry[];
@@ -34,7 +31,7 @@ const {
           showReadingTime && (
             <>
               <span aria-hidden="true">·</span>
-              <span>{readingTimeFromText(stripLeadingMarkdownTitle(post.body))} min de lecture</span>
+              <span>{readingTimeFromText(stripLeadingMarkdownTitle(post.body ?? ""))} min de lecture</span>
             </>
           )
         }

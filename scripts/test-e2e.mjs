@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import path from "node:path";
 import matter from "gray-matter";
 import { stripFrontmatter } from "../src/lib/post-files.js";
-import { resolveMarkdownTitle } from "../src/lib/document-title.js";
+import { validateMarkdownTitle } from "../src/lib/document-title.js";
 import {
   assertFile,
   assertIncludes,
@@ -37,7 +37,7 @@ if (representativePath) {
   const postHtml = readAbsoluteFile(representativePath);
   const rawMarkdown = readFile(`dist/raw/posts/${representativeSlug}.md`);
   const representativeSourceMarkdown = readFile(`src/content/posts/${representativeSlug}/index.md`);
-  const representativeTitle = resolveMarkdownTitle(
+  const representativeTitle = validateMarkdownTitle(
     stripFrontmatter(representativeSourceMarkdown),
     matter(representativeSourceMarkdown).data.title
   );
