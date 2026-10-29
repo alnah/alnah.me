@@ -41,7 +41,7 @@ Avoid: never test what the build, the type checker, or a review already catches.
 Order: always remove an invariant structurally (single source of truth, generated artifact) before testing it; always make a violation loud before relying on review.
 TDD: always use the Specs -> Red -> Green -> Refactor -> Expand loop for logic-heavy or high-blast-radius work; never force it on static content, layout, or copy.
 UI: `make test-ui` runs the Playwright smoke; run it for search, theme, or responsive changes.
-Type debt: `make astro-check` reports known type errors; never treat it as a gate until the debt is cleared.
+Types: `astro check` runs inside `make verify`; always keep it at zero errors.
 
 ## Project overview
 

@@ -16,7 +16,7 @@
     "test:integration": "npm run build && node scripts/test-integration.mjs",
     "test:e2e": "npm run build && node scripts/test-e2e.mjs",
     "test:ui": "npm run build && node scripts/test-ui.mjs",
-    "verify": "npm run build && node scripts/verify.mjs"
+    "verify": "npm run build && astro check && node scripts/verify.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.6",

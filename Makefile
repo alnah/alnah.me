@@ -61,7 +61,7 @@ preview-lan: doctor ## Preview the built site on the LAN
 
 check: verify ## Run the current green quality gate
 
-astro-check: doctor ## Run Astro's stricter diagnostics (may expose known type debt)
+astro-check: doctor ## Run Astro's stricter diagnostics (also part of verify)
 	@$(USE_PROJECT_NODE) $(NPM) exec astro check
 
 verify: doctor ## Run the full build + verification suite
