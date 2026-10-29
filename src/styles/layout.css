@@ -1,0 +1,47 @@
+@layer layout {
+  .shell {
+    width: min(calc(100% - 1.5rem), var(--width-page));
+    margin: 0 auto;
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .content-band {
+    width: min(100%, var(--width-band));
+    margin-inline: auto;
+  }
+
+  .page-pad-top {
+    padding-top: var(--space-7);
+  }
+
+  .page-stack {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .page-shell {
+    width: min(100%, var(--width-band));
+    margin-inline: auto;
+  }
+
+  .archive-shell {
+    display: grid;
+    gap: var(--space-7);
+    padding-top: var(--space-8);
+  }
+
+  .reading-column {
+    width: 100%;
+    max-width: var(--width-reading);
+    margin-inline: auto;
+  }
+
+  @media (min-width: 901px) {
+    .shell {
+      width: min(calc(100% - 3rem), var(--width-page));
+      padding-top: var(--space-4);
+      padding-bottom: var(--space-4);
+    }
+  }
+}
