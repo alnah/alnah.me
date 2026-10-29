@@ -33,14 +33,15 @@ Events: always name from the event or effect.
 
 Style: always short, specific, behavior-driven, contract-focused, clear on inputs, outputs, side effects, edge cases, units, and formats.
 
-## Test-Driven Development for coding
+## Testing for coding
 
-Specs: always toward GRASP architecture; input = user + codebase; output = specs + todos; 1 session = 1 agent Architect; never do Red.
-Red: always write failing tests; input = specs + todos; output = red tests; 1 session = 1 agent QA; never touch Specs; never do Green.
-Green: always make it work correctly to satisfy specs; input = red tests + specs; output = code; 1 session = 1 agent Dev; never touch Red; never do Refactor.
-Refactor-code: always toward SOLID design; input = code; output = clean code; 1 session = 1 agent Expert Dev; use `ts_symbols`, `ts_definition`, `ts_references`, `ts_rename`; never do Refactor-test.
-Refactor-tests: always toward SOLID design; input = tests; output = clean tests; 1 session = 1 agent Expert QA; use `ts_symbols`, `ts_definition`, `ts_references`, `ts_rename`; never touch Refactor-code; never do Expand.
-Expand: when a feature is done, always add tests for safety, edge cases, and regressions; input = user + codebase; output = a new TDD cycle; 1 session = 1 agent Architect; the loop goes on.
+Gate: always keep `make verify` green; never merge while it breaks.
+Scope: always test invariants whose failure would be silent (headers, feeds, metadata, links, search index, alias and title contracts).
+Avoid: never test what the build, the type checker, or a review already catches.
+Order: always remove an invariant structurally (single source of truth, generated artifact) before testing it; always make a violation loud before relying on review.
+TDD: always use the Specs -> Red -> Green -> Refactor -> Expand loop for logic-heavy or high-blast-radius work; never force it on static content, layout, or copy.
+UI: `make test-ui` runs the Playwright smoke; run it for search, theme, or responsive changes.
+Type debt: `make astro-check` reports known type errors; never treat it as a gate until the debt is cleared.
 
 ## Project overview
 
@@ -226,5 +227,6 @@ Site metadata: centralize contact links and site metadata in `src/config/site.ts
 ## Testing and release expectations
 
 Done rule: a change is not done if `make verify` breaks.
+CI: GitHub Actions runs the verify suite and the UI smoke on push and pull request.
 HTML changes: verify metadata, search behavior, raw Markdown exports, and mobile rendering.
 Pipeline: prefer fixing the build/test pipeline over bypassing it.
