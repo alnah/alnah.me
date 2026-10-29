@@ -1,9 +1,7 @@
 ---
-import { Image } from "astro:assets";
 import ContactLinks from "./ContactLinks.astro";
 import SearchDialog from "./SearchDialog.astro";
 import ThemeToggle from "./ThemeToggle.astro";
-import profileImage from "../assets/profile.jpeg";
 import { NAV_ITEMS, SITE } from "../config/site";
 
 interface Props {
@@ -16,7 +14,7 @@ const IntroTag = isHomePage ? "h1" : "p";
 
 <header class="site-header">
   <div class="topbar">
-    <div class="content-band topbar-inner section-rule">
+    <div class="content-band topbar-inner">
       <a class="brand" href="/">{SITE.author.name}</a>
       <nav class="nav" aria-label="Navigation principale">
         <div class="nav-slot nav-slot-theme">
@@ -42,21 +40,7 @@ const IntroTag = isHomePage ? "h1" : "p";
             <ContactLinks variant="hero" />
           </div>
         </div>
-        <Image
-          class="profile-photo"
-          src={profileImage}
-          width="180"
-          height="180"
-          alt={SITE.author.photoAlt}
-          loading="eager"
-          fit="cover"
-        />
       </div>
-      <div
-        class="intro-end-rule section-rule"
-        aria-hidden="true"
-        style="margin-top: var(--intro-end-rule-space, 1.5rem);"
-      ></div>
     </div>
   </div>
 </header>
@@ -67,7 +51,6 @@ const IntroTag = isHomePage ? "h1" : "p";
     --header-search-form-gap: var(--space-2);
     --header-search-results-offset: calc(100% + var(--space-5));
     --header-search-open-reserve: 0px;
-    --intro-end-rule-space: var(--space-5);
   }
 
   .topbar {
@@ -142,23 +125,18 @@ const IntroTag = isHomePage ? "h1" : "p";
 
   .intro-inner {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) clamp(5.5rem, 26vw, 7rem);
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
     gap: var(--space-4);
-    align-items: start;
     padding-top: var(--space-4);
+    text-align: center;
   }
 
-  .profile-photo {
-    width: clamp(5.5rem, 26vw, 7rem);
-    height: clamp(5.5rem, 26vw, 7rem);
-    border-radius: 999px;
-    object-fit: cover;
-    border: 1px solid var(--color-rule);
-    background: var(--color-surface-strong);
-    box-shadow: var(--shadow-sm);
-    justify-self: end;
-    align-self: start;
-    margin-top: var(--space-2);
+  .intro-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
   }
 
   .intro-title {
@@ -171,6 +149,8 @@ const IntroTag = isHomePage ? "h1" : "p";
   }
 
   .intro-links {
+    display: flex;
+    justify-content: center;
     margin-top: var(--space-5);
   }
 
@@ -179,10 +159,6 @@ const IntroTag = isHomePage ? "h1" : "p";
   }
 
   @media (max-width: 480px) {
-    .site-header {
-      --intro-end-rule-space: var(--space-4);
-    }
-
     .topbar-inner {
       align-items: center;
     }
@@ -208,28 +184,7 @@ const IntroTag = isHomePage ? "h1" : "p";
     }
 
     .intro-inner {
-      grid-template-columns: 1fr;
-      justify-items: center;
-      gap: var(--space-4);
       padding-top: var(--space-5);
-      text-align: center;
-    }
-
-    .intro-copy {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 100%;
-    }
-
-    .profile-photo {
-      justify-self: center;
-      align-self: center;
-      width: clamp(5.5rem, 22vw, 6.25rem);
-      height: clamp(5.5rem, 22vw, 6.25rem);
-      margin-top: 0;
-      order: -1;
     }
 
     .intro-title {
@@ -272,11 +227,6 @@ const IntroTag = isHomePage ? "h1" : "p";
 
     .intro-copy {
       max-width: 100%;
-    }
-
-    .profile-photo {
-      width: 5rem;
-      height: 5rem;
     }
 
     .intro-title {
@@ -337,19 +287,7 @@ const IntroTag = isHomePage ? "h1" : "p";
     }
 
     .intro-inner {
-      grid-template-columns: minmax(0, 42rem) 164px;
-      justify-content: space-between;
-      gap: var(--space-6);
       padding-top: var(--space-5);
-      align-items: center;
-    }
-
-    .profile-photo {
-      width: 164px;
-      height: 164px;
-      justify-self: start;
-      align-self: center;
-      margin-top: 0;
     }
 
     .intro-title {

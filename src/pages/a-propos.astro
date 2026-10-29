@@ -1,8 +1,10 @@
 ---
 import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GitHubActivity from "../components/GitHubActivity.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
+import profileImage from "../assets/profile.jpeg";
 import { SITE } from "../config/site";
 import { getPageContent } from "../lib/content";
 import { resolveEntryTitle } from "../lib/document-title.js";
@@ -42,7 +44,34 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
       <Fragment set:html={beforeSignupHtml} />
       <NewsletterSignup />
       <Fragment set:html={afterSignupHtml} />
+      <figure class="about-portrait">
+        <Image
+          class="about-portrait-image"
+          src={profileImage}
+          width="200"
+          height="200"
+          alt={SITE.author.photoAlt}
+          fit="cover"
+        />
+      </figure>
     </div>
     <GitHubActivity />
   </section>
 </BaseLayout>
+
+<style>
+  .about-portrait {
+    display: flex;
+    justify-content: center;
+    margin: var(--space-6) 0 0;
+  }
+
+  .about-portrait-image {
+    width: clamp(7rem, 30vw, 10rem);
+    height: auto;
+    border-radius: 999px;
+    border: 1px solid var(--color-rule);
+    background: var(--color-surface-strong);
+    box-shadow: var(--shadow-sm);
+  }
+</style>
