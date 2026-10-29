@@ -65,27 +65,16 @@ const contactItems = items.filter((contact) => contactIds.includes(contact.id));
 
 <style>
   .contact-links {
-    --social-link-gap: 0.35rem;
-    --social-icon-size: 1rem;
     display: grid;
     gap: var(--space-2);
-  }
-
-  .contact-links[data-variant="hero"] {
-    --social-link-gap: 0.3rem;
   }
 
   .contact-links[data-variant="hero"] .social-row {
     justify-content: center;
   }
 
-  .contact-links[data-variant="footer"] {
-    --social-label-size: inherit;
-  }
-
   @media (max-width: 480px) {
     .contact-links[data-variant="footer"] {
-      --social-link-gap: 0.3rem;
       width: 100%;
     }
 
