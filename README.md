@@ -5,20 +5,20 @@ Static Astro source for alnah.me.
 ## Structure
 
 - `src/content/`
-  Markdown posts and standalone pages
+  Markdown posts and pages
 - `src/pages/`
-  routes and special pages such as home, articles, categories, tags, about, privacy, RSS,
+  routes such as home, articles, categories, tags, about, privacy, RSS,
   `robots.txt`, and `index.json`
 - `src/components/`
-  reusable UI components
+  UI components
 - `src/layouts/`
-  shared page and post layouts
+  page and post layouts
 - `src/assets/`
-  local assets used by the site
+  local assets
 - `public/`
   static files and generated publish artifacts
 - `scripts/`
-  build-time helpers and verification scripts
+  build and verification scripts
 
 ## Writing posts
 
@@ -64,7 +64,7 @@ cover: ./cover.jpg
 
 ## Changing titles and branding
 
-If you want to change the text that appears in the browser tab or page metadata:
+Where to change site, page, and post titles:
 
 - Global site name and author metadata:
   - `src/config/site.ts`
@@ -111,8 +111,6 @@ available; otherwise the section is hidden.
   when neither `GITHUB_TOKEN` nor `GH_TOKEN` is set, and never write it to disk.
 - Alternatively, copy `.env.example` to `.env` (gitignored) and set
   `GITHUB_TOKEN`. Astro loads it into `process.env` for `dev` and `build`.
-- Without a token, `getGitHubActivity` falls back to empty data and the section
-  is not rendered.
 
 ## Styles
 
@@ -133,10 +131,3 @@ Component styles stay scoped in `.astro` `<style>` blocks and, being unlayered,
 always win over the layered global styles. `make check-css` enforces the
 conventions: no raw colors, no `!important`, approved breakpoints only, and no
 hardcoded radius or duration literals.
-
-### Bundling and minification
-
-At deploy time, bundle and minify the styles into one or more optimized files
-with the unnecessary whitespace stripped. This project gets it from Astro and
-Vite: `make build` emits minified CSS in `dist/_astro/`. A separate tool (Vite,
-Webpack or Sass) is only needed when styles are compiled outside Astro.
