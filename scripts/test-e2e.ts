@@ -15,7 +15,7 @@ import {
  * The Markdown renderer applies typographic punctuation (curly quotes, narrow
  * spaces), so comparing rendered text to raw Markdown needs normalization.
  */
-function normalizeRenderedText(value) {
+function normalizeRenderedText(value: string) {
   return value
     .replace(/[\u2018\u2019\u02BC]/g, "'")
     .replace(/[\u201C\u201D]/g, '"')
