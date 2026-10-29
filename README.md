@@ -86,6 +86,8 @@ Where to change site, page, and post titles:
 
 ## Development
 
+Requires Node >= 23.6.0 (see `.nvmrc`); `make doctor` enforces it.
+
 Quick start:
 
 ```bash
