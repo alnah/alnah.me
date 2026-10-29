@@ -1,4 +1,10 @@
 @layer utilities {
+  .empty-state {
+    margin: 0 auto;
+    max-width: var(--width-reading);
+    color: var(--color-text-muted);
+  }
+
   .full-bleed {
     width: 100vw;
     margin-left: calc(50% - 50vw);
