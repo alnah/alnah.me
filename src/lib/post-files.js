@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { canonicalPostPath, normalizeAlias } from "./aliases.js";
+import { canonicalPostPath, normalizeAlias } from "./aliases.ts";
 import { isPublishedData } from "./publication.ts";
 
 export async function findMarkdownFiles(dir) {
