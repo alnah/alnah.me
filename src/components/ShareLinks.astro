@@ -47,7 +47,7 @@ const platforms = [
 ---
 
 <section class="share-links" aria-label="Partager cet article">
-  <div class="share-row social-row">
+  <div class="share-row social-row social-row--wide">
     <span class="social-row-label">Partager cet article sur</span>
     <div class="social-links-list">
       {platforms.map((platform) => (
@@ -72,15 +72,12 @@ const platforms = [
   }
 
   .share-row {
-    --social-link-gap: 0.35rem;
-    --social-icon-size: 1rem;
     min-width: 0;
     justify-content: center;
   }
 
   @media (max-width: 480px) {
     .share-row {
-      --social-link-gap: 0.3rem;
       align-items: flex-start;
       flex-wrap: wrap;
       row-gap: var(--space-2);

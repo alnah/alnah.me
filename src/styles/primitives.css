@@ -14,6 +14,11 @@
     line-height: 1;
   }
 
+  .social-row--wide {
+    --social-link-gap: 0.35rem;
+    --social-icon-size: 1rem;
+  }
+
   .social-row-label {
     flex: 0 0 auto;
     font-family: var(--font-body);
