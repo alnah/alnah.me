@@ -9,7 +9,7 @@ import {
   readAbsoluteFile,
   readFile,
   representativePostPath
-} from "./checks.mjs";
+} from "./checks.ts";
 
 /**
  * The Markdown renderer applies typographic punctuation (curly quotes, narrow

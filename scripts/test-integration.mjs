@@ -8,7 +8,7 @@ import {
   readFile,
   readJson,
   representativePostPath
-} from "./checks.mjs";
+} from "./checks.ts";
 
 const rssXml = readFile("dist/rss.xml");
 const searchIndex = readJson("dist/index.json");
