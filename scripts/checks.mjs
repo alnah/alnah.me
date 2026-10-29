@@ -42,9 +42,7 @@ export function htmlFiles(dir = distDir) {
   });
 }
 
-export function executableInlineScriptHashes(relativePath) {
-  const html = readFile(relativePath);
-
+export function executableInlineScriptHashesFromHtml(html) {
   return [...html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
     .filter((match) => {
       const attributes = match[1] ?? "";
@@ -59,6 +57,10 @@ export function executableInlineScriptHashes(relativePath) {
     .map((match) =>
       `sha256-${crypto.createHash("sha256").update(match[2]).digest("base64")}`
     );
+}
+
+export function executableInlineScriptHashes(relativePath) {
+  return executableInlineScriptHashesFromHtml(readFile(relativePath));
 }
 
 export function representativePostPath() {

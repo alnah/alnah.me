@@ -8,6 +8,7 @@
     "predev": "npm run prepare:static",
     "dev": "astro dev",
     "prebuild": "npm run prepare:static",
+    "postbuild": "node scripts/generate-headers.mjs",
     "build": "rm -rf dist .astro && astro build",
     "preview": "astro preview",
     "test:unit": "node scripts/test-unit.mjs",
