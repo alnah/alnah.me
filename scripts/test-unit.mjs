@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { canonicalPostPath, normalizeAlias } from "../src/lib/aliases.js";
+import { canonicalPostPath, normalizeAlias } from "../src/lib/aliases.ts";
 import {
   extractLeadingMarkdownTitle,
   stripLeadingMarkdownTitle,

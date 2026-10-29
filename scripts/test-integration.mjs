@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { normalizeAlias } from "../src/lib/aliases.js";
+import { normalizeAlias } from "../src/lib/aliases.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.js";
 import {
   assertIncludes,
