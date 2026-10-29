@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
-import { chromium, devices } from "playwright";
+import { chromium, devices, type Page } from "playwright";
 
 const rootDir = process.cwd();
 const distDir = path.join(rootDir, "dist");
@@ -21,7 +21,7 @@ const MIME_TYPES = new Map([
   [".webp", "image/webp"]
 ]);
 
-function resolveDistAsset(pathname) {
+function resolveDistAsset(pathname: string) {
   const decodedPath = decodeURIComponent(pathname.split("?")[0] || "/");
   const safePath = path.normalize(decodedPath).replace(/^(\.\.(\/|\\|$))+/, "");
 
@@ -59,7 +59,7 @@ async function startStaticServer() {
     fs.createReadStream(assetPath).pipe(response);
   });
 
-  await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
   const address = server.address();
 
   if (!address || typeof address === "string") {
@@ -69,14 +69,14 @@ async function startStaticServer() {
   return {
     origin: `http://127.0.0.1:${address.port}`,
     async close() {
-      await new Promise((resolve, reject) => {
-        server.close((error) => (error ? reject(error) : resolve(undefined)));
+      await new Promise<void>((resolve, reject) => {
+        server.close((error) => (error ? reject(error) : resolve()));
       });
     }
   };
 }
 
-function firstUsefulToken(title) {
+function firstUsefulToken(title: string) {
   return (
     title
       .normalize("NFKD")
@@ -87,7 +87,7 @@ function firstUsefulToken(title) {
   );
 }
 
-async function assertNoHorizontalOverflow(page, label) {
+async function assertNoHorizontalOverflow(page: Page, label: string) {
   const overflow = await page.evaluate(() => {
     const previousScrollX = window.scrollX;
 
@@ -102,7 +102,7 @@ async function assertNoHorizontalOverflow(page, label) {
 }
 
 const searchIndex = JSON.parse(fs.readFileSync(path.join(distDir, "index.json"), "utf8"));
-const targetPost = searchIndex.find((item) => item?.title && item?.url);
+const targetPost = searchIndex.find((item: any) => item?.title && item?.url);
 const server = await startStaticServer();
 const browser = await chromium.launch();
 
@@ -146,7 +146,7 @@ try {
     });
     const page = await context.newPage();
 
-    const routes = ['/', '/a-propos/', '/articles/'];
+    const routes = ["/", "/a-propos/", "/articles/"];
     if (targetPost) {
       routes.push(targetPost.url);
     }
