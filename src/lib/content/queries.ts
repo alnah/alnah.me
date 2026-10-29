@@ -1,5 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { isPublishedData, resolvePublicationDate } from "../publication.js";
+import { isPublishedData, resolvePublicationDate } from "../publication";
 import { slugify } from "./format";
 import {
   getPostCategoryMeta,
