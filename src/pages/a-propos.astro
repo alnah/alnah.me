@@ -1,5 +1,5 @@
 ---
-import { createMarkdownProcessor } from "@astrojs/markdown-remark";
+import { createSatteriMarkdownProcessor } from "@astrojs/markdown-satteri";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import GitHubActivity from "../components/GitHubActivity.astro";
@@ -32,7 +32,7 @@ if (!beforePortrait || afterPortrait === undefined) {
   throw new Error("About page is missing the portrait marker for photo placement");
 }
 
-const markdownProcessor = await createMarkdownProcessor();
+const markdownProcessor = await createSatteriMarkdownProcessor();
 const { code: beforePortraitHtml } = await markdownProcessor.render(beforePortrait);
 const { code: afterPortraitHtml } = await markdownProcessor.render(afterPortrait);
 const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
