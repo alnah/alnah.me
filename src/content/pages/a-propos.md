@@ -31,6 +31,8 @@ Je m'appuie sur les [recommandations d'Eaquals pour l'apprentissage basé sur le
 
 Je relie l'enseignement des langues à la programmation. Je traduis des possibilités techniques en solutions éducatives, et je construis des choses que les apprenants, les professeurs et les organisations peuvent utiliser. Parmi mes [projets](https://github.com/alnah), il y a [Falaro](https://github.com/alnah/falaro) et [Picoloom](https://github.com/alnah/picoloom).
 
+<!-- portrait -->
+
 ## Abonnement à la newsletter
 
 Vous pouvez vous abonner à mon blog par e-mail si vous ne voulez rien manquer. J'envoie un e-mail à chaque publication, généralement une fois par semaine ou toutes les deux semaines.

@@ -19,14 +19,22 @@ if (!page) {
 const pageTitle = resolveEntryTitle(page);
 const pageDescription = page.data.description ?? SITE.description;
 const signupMarker = "<!-- newsletter-signup -->";
+const portraitMarker = "<!-- portrait -->";
 const [beforeSignup, afterSignup] = page.body.split(signupMarker);
 
 if (!beforeSignup || afterSignup === undefined) {
   throw new Error("About page is missing the newsletter marker for signup placement");
 }
 
+const [beforePortrait, afterPortrait] = beforeSignup.split(portraitMarker);
+
+if (!beforePortrait || afterPortrait === undefined) {
+  throw new Error("About page is missing the portrait marker for photo placement");
+}
+
 const markdownProcessor = await createMarkdownProcessor();
-const { code: beforeSignupHtml } = await markdownProcessor.render(beforeSignup);
+const { code: beforePortraitHtml } = await markdownProcessor.render(beforePortrait);
+const { code: afterPortraitHtml } = await markdownProcessor.render(afterPortrait);
 const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
 ---
 
@@ -41,9 +49,7 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
 >
   <section class="page-shell page-stack page-pad-top content-band">
     <div class="prose about-copy reading-column">
-      <Fragment set:html={beforeSignupHtml} />
-      <NewsletterSignup />
-      <Fragment set:html={afterSignupHtml} />
+      <Fragment set:html={beforePortraitHtml} />
       <figure class="about-portrait">
         <Image
           class="about-portrait-image"
@@ -54,6 +60,9 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
           fit="cover"
         />
       </figure>
+      <Fragment set:html={afterPortraitHtml} />
+      <NewsletterSignup />
+      <Fragment set:html={afterSignupHtml} />
     </div>
     <GitHubActivity />
   </section>
@@ -63,7 +72,7 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
   .about-portrait {
     display: flex;
     justify-content: center;
-    margin: var(--space-6) 0 0;
+    margin: var(--space-6) 0;
   }
 
   .about-portrait-image {
