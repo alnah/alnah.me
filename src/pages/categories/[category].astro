@@ -36,16 +36,8 @@ const posts = isPostCategory(category.slug)
       posts.length > 0 ? (
         <PostList posts={posts} showReadingTime />
       ) : (
-        <p class="archive-empty">Aucun article publié dans cette catégorie pour le moment.</p>
+        <p class="empty-state">Aucun article publié dans cette catégorie pour le moment.</p>
       )
     }
   </section>
 </BaseLayout>
-
-<style>
-  .archive-empty {
-    margin: 0 auto;
-    max-width: var(--width-reading);
-    color: var(--color-text-muted);
-  }
-</style>
