@@ -1,0 +1,63 @@
+@layer base {
+  body {
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-relaxed);
+    background:
+      radial-gradient(circle at top left, color-mix(in srgb, var(--color-surface-strong) 52%, transparent) 0, transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)) 0, var(--color-bg) 22rem);
+    color: var(--color-text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  main {
+    padding-bottom: var(--space-8);
+  }
+
+  a {
+    color: var(--color-link);
+    text-decoration-color: color-mix(in srgb, var(--color-link) 55%, transparent);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.22em;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      text-decoration-color var(--duration-fast) var(--ease-standard);
+  }
+
+  a:hover {
+    color: var(--color-accent-strong);
+    text-decoration-color: currentColor;
+  }
+
+  a,
+  button,
+  input {
+    border-radius: var(--radius-sm);
+  }
+
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-focus-ring);
+    border-radius: calc(var(--radius-sm) + 2px);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  :where(.prose, .post-list-copy, .post-list-link, .footer-copy, .tag-row) a:focus-visible {
+    padding: 0.05em 0.16em;
+    margin: -0.05em -0.16em;
+    text-decoration-color: transparent;
+  }
+
+  @media (min-width: 901px) {
+    body {
+      font-size: var(--font-size-lg);
+    }
+  }
+}
