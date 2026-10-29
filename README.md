@@ -113,3 +113,30 @@ available; otherwise the section is hidden.
   `GITHUB_TOKEN`. Astro loads it into `process.env` for `dev` and `build`.
 - Without a token, `getGitHubActivity` falls back to empty data and the section
   is not rendered.
+
+## Styles
+
+CSS lives in `src/styles/` and is organized in cascade layers, declared once in
+`global.css`:
+
+- `tokens.css`: design tokens, split into primitives and semantic roles, plus
+  the dark theme.
+- `reset.css`: element resets.
+- `base.css`: document defaults and focus styles.
+- `layout.css`: page containers and the reading column.
+- `primitives.css`: shared UI primitives such as control pills, social rows and
+  category pills.
+- `prose.css`: rendered Markdown typography.
+- `utilities.css`: single-purpose helpers.
+
+Component styles stay scoped in `.astro` `<style>` blocks and, being unlayered,
+always win over the layered global styles. `make check-css` enforces the
+conventions: no raw colors, no `!important`, approved breakpoints only, and no
+hardcoded radius or duration literals.
+
+### Bundling and minification
+
+At deploy time, bundle and minify the styles into one or more optimized files
+with the unnecessary whitespace stripped. This project gets it from Astro and
+Vite: `make build` emits minified CSS in `dist/_astro/`. A separate tool (Vite,
+Webpack or Sass) is only needed when styles are compiled outside Astro.
