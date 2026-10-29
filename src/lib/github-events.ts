@@ -1,16 +1,12 @@
-// @ts-check
+import type { GitHubPublicEvent, RecentActivityItem } from "./github";
 
 /**
  * Pure mapping from GitHub public events to the recent-activity items shown on
  * the About page. Keeping it free of I/O makes it testable and keeps the
  * transport in github-client.ts.
- *
- * @typedef {import("./github").GitHubPublicEvent} GitHubPublicEvent
- * @typedef {import("./github").RecentActivityItem} RecentActivityItem
  */
 
-/** @type {Record<string, string>} */
-const ACTION_LABELS = {
+const ACTION_LABELS: Record<string, string> = {
   opened: 'ouverture de',
   closed: 'fermeture de',
   reopened: 'réouverture de',
@@ -22,60 +18,35 @@ const ACTION_LABELS = {
   synchronized: 'synchronisation de'
 };
 
-/** @type {Record<string, string>} */
-const REF_TYPE_LABELS = {
+const REF_TYPE_LABELS: Record<string, string> = {
   repository: 'dépôt',
   branch: 'branche',
   tag: 'tag',
   resource: 'ressource'
 };
 
-/**
- * @param {string} repoName
- * @returns {string}
- */
-function formatRepoUrl(repoName) {
+function formatRepoUrl(repoName: string) {
   return `https://github.com/${repoName}`;
 }
 
-/**
- * @param {string} value
- * @returns {string}
- */
-function capitalize(value) {
+function capitalize(value: string) {
   return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
-/**
- * @param {string} action
- * @returns {string}
- */
-function translateGitHubAction(action) {
+function translateGitHubAction(action: string) {
   return ACTION_LABELS[action] ?? action;
 }
 
-/**
- * @param {string} refType
- * @returns {string}
- */
-function translateGitHubRefType(refType) {
+function translateGitHubRefType(refType: string) {
   return REF_TYPE_LABELS[refType] ?? refType;
 }
 
-/**
- * @param {RecentActivityItem} item
- * @returns {string}
- */
-function createRecentActivityKey(item) {
+function createRecentActivityKey(item: RecentActivityItem) {
   return `${item.summary}::${item.url ?? ""}`;
 }
 
-/**
- * @param {RecentActivityItem[]} items
- * @returns {RecentActivityItem[]}
- */
-export function dedupeRecentActivity(items) {
-  const seen = new Set();
+export function dedupeRecentActivity(items: RecentActivityItem[]) {
+  const seen = new Set<string>();
 
   return items.filter((item) => {
     const key = createRecentActivityKey(item);
@@ -88,11 +59,7 @@ export function dedupeRecentActivity(items) {
   });
 }
 
-/**
- * @param {GitHubPublicEvent} event
- * @returns {RecentActivityItem | null}
- */
-export function toRecentActivity(event) {
+export function toRecentActivity(event: GitHubPublicEvent): RecentActivityItem | null {
   const repoName = event.repo?.name;
   if (typeof repoName !== "string") {
     return null;

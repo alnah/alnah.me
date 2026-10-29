@@ -6,7 +6,7 @@ import {
   fetchPublicEvents,
   getGitHubToken
 } from "./github-client";
-import { dedupeRecentActivity, toRecentActivity } from "./github-events.js";
+import { dedupeRecentActivity, toRecentActivity } from "./github-events";
 
 const RECENT_ACTIVITY_LIMIT = 5;
 
