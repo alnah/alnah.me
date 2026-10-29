@@ -2,15 +2,35 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { canonicalPostPath, normalizeAlias } from "./aliases.ts";
-import { isPublishedData } from "./publication.ts";
+import { isPublishedData, type PublicationData } from "./publication.ts";
 
-export async function findMarkdownFiles(dir) {
+type RawFrontmatter = Record<string, unknown>;
+
+export type MarkdownPostEntry = {
+  file: string;
+  markdown: string;
+  slug: string;
+  aliases: unknown[];
+  bodyMarkdown: string;
+  postData: PublicationData;
+};
+
+export type AliasSourceEntry = {
+  slug: string;
+  aliases: unknown[];
+};
+
+function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
+export async function findMarkdownFiles(dir: string): Promise<string[]> {
   let entries;
 
   try {
     entries = await fs.readdir(dir, { withFileTypes: true });
   } catch (error) {
-    if (error && typeof error === "object" && error.code === "ENOENT") {
+    if (isErrnoException(error) && error.code === "ENOENT") {
       return [];
     }
 
@@ -32,12 +52,12 @@ export async function findMarkdownFiles(dir) {
   return files.flat();
 }
 
-function normalizePublicationData(data) {
+function normalizePublicationData(data: RawFrontmatter): PublicationData {
   return {
     ...data,
-    date: data.date ? new Date(data.date) : undefined,
-    publishDate: data.publishDate ? new Date(data.publishDate) : undefined,
-    expiryDate: data.expiryDate ? new Date(data.expiryDate) : undefined
+    date: data.date ? new Date(String(data.date)) : undefined,
+    publishDate: data.publishDate ? new Date(String(data.publishDate)) : undefined,
+    expiryDate: data.expiryDate ? new Date(String(data.expiryDate)) : undefined
   };
 }
 
@@ -45,12 +65,13 @@ function normalizePublicationData(data) {
  * Raw "reuse this post" exports should stay readable and pasteable. Stripping
  * frontmatter keeps the reusable document focused on the article itself.
  */
-export function stripFrontmatter(markdown) {
+export function stripFrontmatter(markdown: string) {
   return matter(markdown).content.replace(/^\n+/, "");
 }
 
-export function parseMarkdownPost(markdown, slug) {
+export function parseMarkdownPost(markdown: string, slug: string) {
   const { data } = matter(markdown);
+
   return {
     slug,
     aliases: Array.isArray(data.aliases) ? data.aliases : [],
@@ -59,7 +80,7 @@ export function parseMarkdownPost(markdown, slug) {
   };
 }
 
-export async function readMarkdownPost(file) {
+export async function readMarkdownPost(file: string) {
   const markdown = await fs.readFile(file, "utf8");
   const slug = path.basename(path.dirname(file));
 
@@ -70,7 +91,7 @@ export async function readMarkdownPost(file) {
   };
 }
 
-export async function getPublishedMarkdownEntries(contentRoot) {
+export async function getPublishedMarkdownEntries(contentRoot: string) {
   const files = await findMarkdownFiles(contentRoot);
   const entries = await Promise.all(files.map((file) => readMarkdownPost(file)));
 
@@ -81,8 +102,10 @@ export async function getPublishedMarkdownEntries(contentRoot) {
  * Redirect collisions are a publishing bug, not a runtime edge case. We fail
  * hard here so canonical URLs stay predictable for readers and crawlers.
  */
-export function buildAliasRedirects(entries) {
-  const aliases = new Map();
+export function buildAliasRedirects(
+  entries: AliasSourceEntry[]
+): Array<[string, string]> {
+  const aliases = new Map<string, string>();
 
   for (const entry of entries) {
     const canonicalTarget = canonicalPostPath(entry.slug);

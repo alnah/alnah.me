@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildAliasRedirects } from "../src/lib/post-files.js";
+import { buildAliasRedirects } from "../src/lib/post-files.ts";
 import {
   isAfter,
   isBefore,

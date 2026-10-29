@@ -5,7 +5,7 @@ import {
   stripLeadingMarkdownTitle,
   validateMarkdownTitle
 } from "../src/lib/document-title.ts";
-import { stripFrontmatter } from "../src/lib/post-files.js";
+import { stripFrontmatter } from "../src/lib/post-files.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 
 const sampleMarkdown = `---
