@@ -62,6 +62,24 @@ if (representativePath) {
   assertIncludes(archiveHtml, 'Aucun article publié pour le moment.', 'archive empty state');
 }
 
-assertIncludes(aboutHtml, "Activité GitHub", "about GitHub activity section");
+const hasGitHubToken = Boolean(process.env.GITHUB_TOKEN || process.env.GH_TOKEN);
+const activitySection = aboutHtml.match(/<section[^>]*class="github-activity"/);
+const activityList = aboutHtml.match(/<ul class="activity-list"[^>]*>([\s\S]*?)<\/ul>/);
+
+if (hasGitHubToken) {
+  assert.ok(
+    activitySection,
+    "about page should render GitHub activity when a token is available"
+  );
+  assert.ok(
+    activityList && /<li[\s>]/.test(activityList[1]),
+    "GitHub activity section should never render an empty list"
+  );
+} else {
+  assert.ok(
+    !activitySection,
+    "about page should hide GitHub activity when no token is available"
+  );
+}
 
 console.log("test:e2e passed");

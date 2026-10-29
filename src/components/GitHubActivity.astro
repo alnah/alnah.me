@@ -30,95 +30,86 @@ function formatWeekdayStyle(row: number) {
 }
 ---
 
-<section
-  class="github-activity section-rule"
-  style="padding-top: var(--github-activity-space, 1.5rem);"
->
-  <div class="eyebrow">Activité GitHub</div>
-  {
-    activity.hasLiveData ? (
-      <>
-        <div class="calendar-header">
-          <div class="activity-summary">
-            <strong>{activity.totalContributions?.toLocaleString('fr-FR')}</strong> contributions au cours de la dernière année
-          </div>
+{
+  activity.hasLiveData && (
+    <section
+      class="github-activity section-rule"
+      style="padding-top: var(--github-activity-space, 1.5rem);"
+    >
+      <div class="eyebrow">Activité GitHub</div>
+      <div class="calendar-header">
+        <div class="activity-summary">
+          <strong>{activity.totalContributions?.toLocaleString('fr-FR')}</strong> contributions au cours de la dernière année
         </div>
-        <div class="calendar-card" style={`--week-count:${weekCount};`}>
-          <div class="calendar-scroll">
-            <div class="calendar-grid">
-              <div class="calendar-months">
-                <div class="month-label-track">
-                  {monthColumns.map((month) => (
-                    <span style={formatMonthStyle(month.start, month.span)}>{month.label}</span>
-                  ))}
-                </div>
+      </div>
+      <div class="calendar-card" style={`--week-count:${weekCount};`}>
+        <div class="calendar-scroll">
+          <div class="calendar-grid">
+            <div class="calendar-months">
+              <div class="month-label-track">
+                {monthColumns.map((month) => (
+                  <span style={formatMonthStyle(month.start, month.span)}>{month.label}</span>
+                ))}
               </div>
-              <div class="calendar-body">
-                <div class="weekday-labels" aria-hidden="true">
-                  {weekdayLabels.map((item) => (
-                    <span style={formatWeekdayStyle(item.row)}>{item.label}</span>
-                  ))}
-                </div>
-                <div class="calendar-weeks">
-                  {visibleWeeks.map((week) => (
-                    <div class="calendar-week">
-                      {week.contributionDays.map((day) => (
-                        <span
-                          class={`contribution-cell level-${day.contributionLevel.toLowerCase()}`}
-                          title={formatContributionTitle(day.date, day.contributionCount)}
-                        ></span>
-                      ))}
-                    </div>
-                  ))}
-                </div>
+            </div>
+            <div class="calendar-body">
+              <div class="weekday-labels" aria-hidden="true">
+                {weekdayLabels.map((item) => (
+                  <span style={formatWeekdayStyle(item.row)}>{item.label}</span>
+                ))}
               </div>
-              <div class="calendar-footer" aria-hidden="true">
-                <div class="calendar-legend">
-                  <span>Moins</span>
-                  <span class="legend-scale"></span>
-                  <span>Plus</span>
-                </div>
+              <div class="calendar-weeks">
+                {visibleWeeks.map((week) => (
+                  <div class="calendar-week">
+                    {week.contributionDays.map((day) => (
+                      <span
+                        class={`contribution-cell level-${day.contributionLevel.toLowerCase()}`}
+                        title={formatContributionTitle(day.date, day.contributionCount)}
+                      ></span>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="calendar-footer" aria-hidden="true">
+              <div class="calendar-legend">
+                <span>Moins</span>
+                <span class="legend-scale"></span>
+                <span>Plus</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+      {
+        recentItems.length > 0 && (
           <div class="activity-subsection">
             <div class="eyebrow">Activité publique récente</div>
             <ul class="activity-list">
-            {recentItems.map((item) => (
-              <li>
-                <span class="event-date">{formatEventDate.format(new Date(item.date))}</span>
-                {
-                  item.url ? (
-                    <a href={item.url} target="_blank" rel="noreferrer">{item.summary}</a>
-                  ) : (
-                    <span>{item.summary}</span>
-                  )
-                }
-              </li>
-            ))}
-          </ul>
-        </div>
-      </>
-    ) : (
-      <>
-        <p class="activity-intro">
-          Un aperçu du type de travail qui alimente généralement les articles publiés ici.
-        </p>
-        <ul class="activity-list">
-          {recentItems.map((item) => (
-            <li>{item.summary}</li>
-          ))}
-        </ul>
-      </>
-    )
-  }
-  <p>
-    <a href={activity.profileUrl} target="_blank" rel="noreferrer">
-      Suivre mon activité publique sur GitHub
-    </a>
-  </p>
-</section>
+              {recentItems.map((item) => (
+                <li>
+                  <span class="event-date">{formatEventDate.format(new Date(item.date))}</span>
+                  {
+                    item.url ? (
+                      <a href={item.url} target="_blank" rel="noreferrer">{item.summary}</a>
+                    ) : (
+                      <span>{item.summary}</span>
+                    )
+                  }
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      <p>
+        <a href={activity.profileUrl} target="_blank" rel="noreferrer">
+          Suivre mon activité publique sur GitHub
+        </a>
+      </p>
+    </section>
+  )
+}
 
 <style>
   .github-activity {
@@ -145,11 +136,6 @@ function formatWeekdayStyle(row: number) {
     display: flex;
     align-items: center;
     gap: var(--space-4);
-  }
-
-  .activity-intro {
-    margin: 0;
-    color: var(--color-text-muted);
   }
 
   .calendar-card {

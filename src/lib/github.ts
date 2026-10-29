@@ -218,19 +218,13 @@ async function fetchJson<T>(url: string | URL, init: RequestInit, context: strin
 }
 
 function createFallbackActivity(config: GitHubActivityConfig): GitHubActivityData {
-  const items = config.items ?? [];
-
   return {
     hasLiveData: false,
     profileUrl: config.profileUrl,
     totalContributions: null,
     months: [],
     weeks: [],
-    recentActivity: items.map((summary) => ({
-      date: "",
-      summary,
-      url: config.profileUrl
-    }))
+    recentActivity: []
   };
 }
 

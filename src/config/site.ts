@@ -19,7 +19,6 @@ export type ContactLink = {
 export type GitHubActivityConfig = {
   username: string
   profileUrl: string
-  items?: readonly string[]
 }
 
 function validateExternalUrl(label: string, href: string) {
