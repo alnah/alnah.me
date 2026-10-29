@@ -6,7 +6,7 @@ const headersPath = path.join(distDir, "_headers");
 const SCRIPT_SRC_PATTERN = /script-src(?![\w-])([^;]*);/;
 
 function collectInlineScriptHashes() {
-  const hashes = new Set();
+  const hashes = new Set<string>();
 
   for (const file of htmlFiles()) {
     const html = fs.readFileSync(file, "utf8");
@@ -23,7 +23,7 @@ function collectInlineScriptHashes() {
  * The header template ships without hashes, so the built output is the single
  * source of truth. Any stale hash left in the template is dropped first.
  */
-function injectScriptHashes(headers, hashes) {
+function injectScriptHashes(headers: string, hashes: string[]) {
   const tokens = hashes.map((hash) => `'${hash}'`);
 
   return headers
@@ -37,7 +37,7 @@ function injectScriptHashes(headers, hashes) {
         const kept = sources
           .trim()
           .split(/\s+/)
-          .filter((source) => source && !source.startsWith("'sha256-"));
+          .filter((source: string) => source && !source.startsWith("'sha256-"));
 
         const selfIndex = kept.indexOf("'self'");
         kept.splice(selfIndex >= 0 ? selfIndex + 1 : kept.length, 0, ...tokens);
