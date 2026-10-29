@@ -84,7 +84,7 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
   .about-portrait-image {
     width: clamp(7rem, 30vw, 10rem);
     height: auto;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     border: 1px solid var(--color-rule);
     background: var(--color-surface-strong);
     box-shadow: var(--shadow-sm);

@@ -44,6 +44,10 @@
   --radius-sm: 0.375rem;
   --radius-md: 0.625rem;
   --radius-lg: 1rem;
+  --radius-pill: 999px;
+
+  --duration-fast: 160ms;
+  --ease-standard: ease;
 
   --control-height: 2.625rem;
   --control-min-width: 5.75rem;
@@ -69,6 +73,7 @@
   --color-accent: #495057;
   --color-accent-strong: #212529;
   --color-link: #343a40;
+  --color-focus-ring: var(--color-accent);
   --color-code-bg: #f1f3f5;
   --color-code-text: #212529;
   --color-rule: rgba(33, 37, 41, 0.16);
