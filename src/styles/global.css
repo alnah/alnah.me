@@ -49,8 +49,8 @@ a {
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.22em;
   transition:
-    color 160ms ease,
-    text-decoration-color 160ms ease;
+    color var(--duration-fast) var(--ease-standard),
+    text-decoration-color var(--duration-fast) var(--ease-standard);
 }
 
 a:hover {
@@ -131,12 +131,12 @@ input:focus-visible {
   height: var(--social-hit-size);
   color: var(--color-text-muted);
   text-decoration: none;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   transition:
-    color 160ms ease,
-    background-color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
 }
 
 .social-icon-link:hover {
@@ -176,10 +176,10 @@ input:focus-visible {
   text-decoration: none;
   box-shadow: var(--shadow-sm);
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease,
-    color 160ms ease,
-    transform 160ms ease;
+    border-color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    transform var(--duration-fast) var(--ease-standard);
 }
 
 .control-pill:hover {
