@@ -1,38 +1,45 @@
-// @ts-check
+export type SearchField =
+  | "title"
+  | "category"
+  | "tags"
+  | "date"
+  | "description"
+  | "excerpt"
+  | "content";
 
-/**
- * @typedef {"title" | "category" | "tags" | "date" | "description" | "excerpt" | "content"} SearchField
- */
+export type SearchFieldIndex = {
+  normalized: string;
+  tokens: string[];
+};
 
-/**
- * @typedef {object} SearchFieldIndex
- * @property {string} normalized
- * @property {string[]} tokens
- */
+export type SearchDocument = {
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  url: string;
+  date: string;
+  dateLabel: string;
+  excerpt: string;
+  content: string;
+};
 
-/**
- * @typedef {object} SearchDocument
- * @property {string} title
- * @property {string} description
- * @property {string} category
- * @property {string[]} tags
- * @property {string} url
- * @property {string} date
- * @property {string} dateLabel
- * @property {string} excerpt
- * @property {string} content
- */
+export type SearchIndexDocument = SearchDocument & {
+  position: number;
+  search: Record<SearchField, SearchFieldIndex>;
+};
 
-/**
- * @typedef {SearchDocument & { position: number; search: Record<SearchField, SearchFieldIndex> }} SearchIndexDocument
- */
+export type RankedSearchDocument = SearchIndexDocument & { score: number };
 
-/**
- * @typedef {SearchIndexDocument & { score: number }} RankedSearchDocument
- */
-
-/** @type {SearchField[]} */
-const SEARCH_FIELDS = ["title", "category", "tags", "date", "description", "excerpt", "content"];
+const SEARCH_FIELDS: SearchField[] = [
+  "title",
+  "category",
+  "tags",
+  "date",
+  "description",
+  "excerpt",
+  "content"
+];
 
 const PREFIX_MIN_LENGTH = 2;
 const SUBSTRING_MIN_LENGTH = 4;
@@ -42,10 +49,8 @@ const DEFAULT_RESULT_LIMIT = 8;
  * Readers usually remember a post by title, tag, or a rough date before they
  * remember exact prose, so the ranking deliberately favors editorial metadata.
  * Every weight is data so the ordering stays explicit and testable.
- *
- * @type {Record<SearchField, number>}
  */
-export const FIELD_WEIGHTS = {
+export const FIELD_WEIGHTS: Record<SearchField, number> = {
   title: 24,
   category: 20,
   tags: 18,
@@ -55,19 +60,11 @@ export const FIELD_WEIGHTS = {
   content: 2
 };
 
-/**
- * How a single query token scores against one field.
- *
- * @type {{ exact: number; prefix: number; substring: number }}
- */
+/** How a single query token scores against one field. */
 export const TOKEN_MATCH_SCORES = { exact: 8, prefix: 5, substring: 2 };
 
-/**
- * Bonus when the query tokens appear adjacent, in order, inside a field.
- *
- * @type {Record<SearchField, number>}
- */
-export const ADJACENT_MATCH_BONUSES = {
+/** Bonus when the query tokens appear adjacent, in order, inside a field. */
+export const ADJACENT_MATCH_BONUSES: Record<SearchField, number> = {
   title: 120,
   category: 100,
   tags: 90,
@@ -77,23 +74,19 @@ export const ADJACENT_MATCH_BONUSES = {
   content: 16
 };
 
-/**
- * Bonus when a whole field equals the query, or, for dates, contains it.
- *
- * @type {Array<{ field: SearchField; kind: "equals" | "contains"; bonus: number }>}
- */
-export const EXACT_MATCH_RULES = [
+/** Bonus when a whole field equals the query, or, for dates, contains it. */
+export const EXACT_MATCH_RULES: Array<{
+  field: SearchField;
+  kind: "equals" | "contains";
+  bonus: number;
+}> = [
   { field: "title", kind: "equals", bonus: 220 },
   { field: "category", kind: "equals", bonus: 190 },
   { field: "tags", kind: "equals", bonus: 180 },
   { field: "date", kind: "contains", bonus: 140 }
 ];
 
-/**
- * @param {string | null | undefined} value
- * @returns {string}
- */
-export function normalizeSearchValue(value) {
+export function normalizeSearchValue(value: string | null | undefined) {
   return `${value ?? ""}`
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -103,20 +96,12 @@ export function normalizeSearchValue(value) {
     .trim();
 }
 
-/**
- * @param {string} value
- * @returns {string[]}
- */
-export function splitSearchTokens(value) {
+export function splitSearchTokens(value: string) {
   const normalized = normalizeSearchValue(value);
   return normalized ? normalized.split(" ") : [];
 }
 
-/**
- * @param {string | null | undefined} value
- * @returns {SearchFieldIndex}
- */
-export function buildSearchFieldIndex(value) {
+export function buildSearchFieldIndex(value: string | null | undefined): SearchFieldIndex {
   const normalized = normalizeSearchValue(value);
   return {
     normalized,
@@ -124,12 +109,7 @@ export function buildSearchFieldIndex(value) {
   };
 }
 
-/**
- * @param {SearchFieldIndex} field
- * @param {string} token
- * @returns {number}
- */
-function scoreFieldToken(field, token) {
+function scoreFieldToken(field: SearchFieldIndex, token: string) {
   if (!field.normalized || !token) return 0;
 
   if (field.tokens.includes(token)) {
@@ -153,12 +133,7 @@ function scoreFieldToken(field, token) {
   return 0;
 }
 
-/**
- * @param {SearchFieldIndex} field
- * @param {string[]} queryTokens
- * @returns {boolean}
- */
-function hasAdjacentExactTokens(field, queryTokens) {
+function hasAdjacentExactTokens(field: SearchFieldIndex, queryTokens: string[]) {
   if (!field.tokens.length || queryTokens.length <= 1) return false;
 
   for (let index = 0; index <= field.tokens.length - queryTokens.length; index += 1) {
@@ -174,13 +149,12 @@ function hasAdjacentExactTokens(field, queryTokens) {
 /**
  * Search should feel deterministic for known posts, not "fuzzy" in a way that
  * buries exact title/tag/date matches under random body-text noise.
- *
- * @param {SearchIndexDocument} item
- * @param {string} normalizedQuery
- * @param {string[]} queryTokens
- * @returns {number}
  */
-export function scoreSearchDocument(item, normalizedQuery, queryTokens) {
+export function scoreSearchDocument(
+  item: SearchIndexDocument,
+  normalizedQuery: string,
+  queryTokens: string[]
+) {
   let score = 0;
 
   for (const token of queryTokens) {
@@ -218,13 +192,11 @@ export function scoreSearchDocument(item, normalizedQuery, queryTokens) {
   return score;
 }
 
-/**
- * @param {SearchIndexDocument[]} items
- * @param {string} query
- * @param {number} [limit]
- * @returns {RankedSearchDocument[]}
- */
-export function searchDocuments(items, query, limit = DEFAULT_RESULT_LIMIT) {
+export function searchDocuments(
+  items: SearchIndexDocument[],
+  query: string,
+  limit = DEFAULT_RESULT_LIMIT
+): RankedSearchDocument[] {
   const normalizedQuery = normalizeSearchValue(query);
   const queryTokens = splitSearchTokens(query);
 

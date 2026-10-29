@@ -13,15 +13,15 @@ import {
   buildSearchFieldIndex,
   type SearchDocument,
   type SearchIndexDocument
-} from "./search-ranking.js";
+} from "./search-ranking";
 
 export type {
   RankedSearchDocument,
   SearchDocument,
   SearchFieldIndex,
   SearchIndexDocument
-} from "./search-ranking.js";
-export { searchDocuments } from "./search-ranking.js";
+} from "./search-ranking";
+export { searchDocuments } from "./search-ranking";
 
 export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");
