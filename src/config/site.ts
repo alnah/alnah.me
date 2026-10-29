@@ -75,7 +75,7 @@ export const SITE = {
   description:
     "Notes de travail et réflexion générales sur l'enseignement du Français Langue Étrangère (FLE) et les technologies.",
   defaultSocialImage: '/og-default.jpg',
-  socialImageAlt: "Image avec un symbole circulaire dans lequel est écrit AN, sous-titré par alnah.me, centré sur un fond chaud.",
+  socialImageAlt: "Image avec un symbole circulaire dans lequel est écrit an, sous-titré par alnah.me, centré sur un fond clair.",
   xHandle: '@_alnah',
   author: {
     name: 'Alexis Nahan',

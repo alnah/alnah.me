@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="100%" height="100%" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-    <rect x="0" y="0" width="64" height="64" style="fill:white;"/>
-    <g transform="matrix(1,0,0,1,32.558594,43.397461)">
-        <text x="-24.031px" y="0px" style="font-family:'Helvetica';font-size:44px;fill:rgb(136,83,47);">a<tspan x="-0.44px " y="0px ">n</tspan></text>
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="alnah">
+  <rect width="64" height="64" fill="#ffffff" />
+  <g fill="#212529">
+      <path transform="translate(5.91 43.85) scale(0.044000 -0.044000)" d="M490 0Q443 0 417.5 23.5Q392 47 387 89L382 89Q368 41 327 14.5Q286 -12 226 -12Q148 -12 102 29Q56 70 56 143Q56 299 285 299L376 299L376 333Q376 382 352 407Q328 432 274 432Q225 432 195 413Q165 394 144 364L71 426Q95 469 148.5 498.5Q202 528 287 528Q389 528 446.5 480.5Q504 433 504 339L504 96L565 96L565 0ZM269 76Q315 76 345.5 97.5Q376 119 376 156L376 225L288 225Q183 225 183 159L183 139Q183 108 206 92Q229 76 269 76Z" />
+      <path transform="translate(32.31 43.85) scale(0.044000 -0.044000)" d="M75 0L75 516L203 516L203 425L208 425Q225 467 260.5 497.5Q296 528 359 528Q435 528 482.5 477.5Q530 427 530 333L530 0L402 0L402 315Q402 427 305 427Q285 427 267 422Q249 417 234.5 406.5Q220 396 211.5 381Q203 366 203 345L203 0Z" />
+  </g>
 </svg>
