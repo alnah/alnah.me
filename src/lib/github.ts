@@ -536,8 +536,8 @@ async function fetchLatestRepoCommit(repo: GitHubRepo, token: string): Promise<R
   return {
     date: typeof date === "string" ? date : "",
     summary: message
-      ? `Latest commit in ${repo.full_name}: ${message}.`
-      : `Recent work landed in ${repo.full_name}.`,
+      ? `Dernier commit sur ${repo.full_name} : ${message}.`
+      : `Activité récente sur ${repo.full_name}.`,
     url: typeof url === "string" ? url : null
   };
 }
