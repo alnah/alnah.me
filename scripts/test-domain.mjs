@@ -6,7 +6,7 @@ import {
   isPublishedData,
   resolvePublicationDate
 } from "../src/lib/publication.ts";
-import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.js";
+import { buildSearchFieldIndex, searchDocuments } from "../src/lib/search-ranking.ts";
 import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.js";
 
 const now = new Date("2026-06-15T00:00:00Z");
