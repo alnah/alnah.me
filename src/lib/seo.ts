@@ -64,11 +64,14 @@ export function buildSeo({
 }: SeoInput) {
   const canonicalUrl = absoluteUrl(canonicalPath);
   const resolvedImage = resolveSocialImage(image ?? SITE.defaultSocialImage);
+  const isDefaultSocialImage = resolvedImage === absoluteUrl(SITE.defaultSocialImage);
 
   return {
     canonicalUrl,
     description,
     image: resolvedImage,
+    imageHeight: isDefaultSocialImage ? 630 : undefined,
+    imageWidth: isDefaultSocialImage ? 1200 : undefined,
     title: pageTitle(title),
     twitterCard: resolvedImage ? "summary_large_image" : "summary",
     type
