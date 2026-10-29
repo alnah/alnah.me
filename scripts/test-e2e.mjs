@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import matter from "gray-matter";
-import { stripFrontmatter } from "../src/lib/post-files.js";
+import { stripFrontmatter } from "../src/lib/post-files.ts";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import {
   assertFile,
