@@ -111,8 +111,8 @@ available; otherwise the section is hidden.
 
 - `make dev` and `make dev-lan` derive a token from the authenticated `gh` CLI
   when neither `GITHUB_TOKEN` nor `GH_TOKEN` is set, and never write it to disk.
-- Alternatively, copy `.env.example` to `.env` (gitignored) and set
-  `GITHUB_TOKEN`. Astro loads it into `process.env` for `dev` and `build`.
+- Alternatively, copy `.env.example` to `.env` and set `GITHUB_TOKEN`. Astro
+  loads it into `process.env` for `dev` and `build`.
 
 ## Styles
 
