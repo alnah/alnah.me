@@ -79,8 +79,10 @@ async function startStaticServer() {
 function firstUsefulToken(title) {
   return (
     title
-      .split(/\s+/)
-      .map((token) => token.replace(/[^A-Za-z0-9]/g, ""))
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
       .find((token) => token.length >= 4) || title
   );
 }
