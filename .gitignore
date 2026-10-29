@@ -33,6 +33,7 @@ node_modules/
 public/LICENSE
 public/LICENSES/
 public/raw/
+public/_redirects
 
 # Test artifacts
 coverage/
