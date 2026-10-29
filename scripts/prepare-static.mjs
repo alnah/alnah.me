@@ -4,7 +4,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { buildAliasRedirects, findMarkdownFiles, getPublishedMarkdownEntries, stripFrontmatter } from "../src/lib/post-files.js";
-import { buildLegacyRedirectLines } from "../src/lib/legacy-redirects.js";
+import { buildLegacyRedirectLines } from "../src/lib/legacy-redirects.ts";
 
 const cwd = process.cwd();
 const contentRoot = path.join(cwd, "src/content/posts");
