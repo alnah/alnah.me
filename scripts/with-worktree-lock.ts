@@ -8,16 +8,27 @@ const lockWaitMs = 100;
 const lockTimeoutMs = 5 * 60 * 1000;
 const staleLockMs = 15 * 60 * 1000;
 
-function worktreeLockPath(cwd) {
+type LockOwner = {
+  pid: number;
+  cwd?: string;
+  command?: string[];
+  createdAt?: string;
+};
+
+function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
+  return typeof error === "object" && error !== null && "code" in error;
+}
+
+function worktreeLockPath(cwd: string) {
   const digest = createHash("sha256").update(cwd).digest("hex").slice(0, 12);
   return path.join(os.tmpdir(), `alnah-me-worktree-${digest}.lock`);
 }
 
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+function wait(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
-async function readLockOwner(lockPath) {
+async function readLockOwner(lockPath: string): Promise<LockOwner | null> {
   try {
     const raw = await fs.readFile(path.join(lockPath, "owner.json"), "utf8");
     const parsed = JSON.parse(raw);
@@ -27,7 +38,7 @@ async function readLockOwner(lockPath) {
   }
 }
 
-function isProcessAlive(pid) {
+function isProcessAlive(pid: number) {
   if (!Number.isInteger(pid) || pid <= 0) {
     return false;
   }
@@ -37,17 +48,17 @@ function isProcessAlive(pid) {
     return true;
   } catch (error) {
     // EPERM means the process exists but is owned by another user.
-    return error && typeof error === "object" && error.code === "EPERM";
+    return isErrnoException(error) && error.code === "EPERM";
   }
 }
 
-async function removeLockIfStale(lockPath) {
+async function removeLockIfStale(lockPath: string) {
   let stats;
 
   try {
     stats = await fs.stat(lockPath);
   } catch (error) {
-    if (error && typeof error === "object" && error.code === "ENOENT") {
+    if (isErrnoException(error) && error.code === "ENOENT") {
       return false;
     }
 
@@ -71,7 +82,7 @@ async function removeLockIfStale(lockPath) {
   return false;
 }
 
-async function acquireLock(lockPath) {
+async function acquireLock(lockPath: string) {
   const deadline = Date.now() + lockTimeoutMs;
 
   while (true) {
@@ -93,7 +104,7 @@ async function acquireLock(lockPath) {
       );
       return;
     } catch (error) {
-      if (!(error && typeof error === "object" && error.code === "EEXIST")) {
+      if (!(isErrnoException(error) && error.code === "EEXIST")) {
         throw error;
       }
 
@@ -112,8 +123,8 @@ async function acquireLock(lockPath) {
   }
 }
 
-function runCommand(command, args) {
-  return new Promise((resolve, reject) => {
+function runCommand(command: string, args: string[]) {
+  return new Promise<number>((resolve, reject) => {
     const child = spawn(command, args, {
       cwd: process.cwd(),
       env: process.env,
@@ -135,7 +146,7 @@ function runCommand(command, args) {
 const [command, ...args] = process.argv.slice(2);
 
 if (!command) {
-  console.error("Usage: node scripts/with-worktree-lock.mjs <command> [args...]");
+  console.error("Usage: node scripts/with-worktree-lock.ts <command> [args...]");
   process.exit(1);
 }
 

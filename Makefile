@@ -30,7 +30,7 @@ GITHUB_TOKEN_FALLBACK = if [ -z "$$GITHUB_TOKEN" ] && [ -z "$$GH_TOKEN" ] && ! g
 	check-css verify test-unit test-domain test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
 
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
-WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.mjs
+WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.ts
 
 help: ## Show available developer targets
 	@printf "alnah.me developer commands\n\n"
