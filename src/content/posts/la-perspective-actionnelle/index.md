@@ -28,7 +28,7 @@ J'aime utiliser cette perspective pédagogique dans mes cours vu qu'elle change 
 
 ## Les méthodes traditionnelles étaient limitées
 
-L'approche communicative, qui domine depuis les années 1980, a introduit l'interaction en classe avec des jeux de rôles ou des dialogues. Toutefois, dans ce cadre, l'interaction est restée un exercice un peu scolaire : un apprenant joue un client qui demande des informations à un autre qui fait le vendeur pendant dix minutes... Et puis le cours passe à autre chose !
+L'approche communicative, qui domine depuis les années 1980, a introduit l'interaction en classe avec des jeux de rôles ou des dialogues. Dans les faits, l'interaction est restée un exercice un peu scolaire : un apprenant joue un client qui demande des informations à un autre qui fait le vendeur pendant dix minutes... Et puis le cours passe à autre chose !
 
 Si on enseigne la grammaire ou le vocabulaire avant de faire naître le besoin de les utiliser, l'apprenant accumule des règles sans qu'il puisse comprendre dans quelles situations elles sont utiles. Au lieu d'apprendre pour l'examen du semestre, ou pire, d'apprendre des règles en soi, l'apprenant devrait apprendre parce qu'il en a besoin pour agir dans un contexte de communication en français.
 
