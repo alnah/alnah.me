@@ -14,7 +14,7 @@ tags:
 
 # Qu'est-ce que la perspective actionnelle ?
 
-*L'article explique ce qu'est la perspective actionnelle, pourquoi elle surpasse les méthodes traditionnelles, et comment elle change le rôle de l'enseignant et de l'apprenant.*
+*En quoi consiste la perspective actionnelle, pourquoi elle surpasse les méthodes traditionnelles, et comment elle change le rôle de l'enseignant et de l'apprenant ?*
 
 ## L'enseignement du FLE a évolué sous l'influence du CECRL
 
