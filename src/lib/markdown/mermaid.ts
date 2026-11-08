@@ -1,22 +1,7 @@
-import type { HastNode, HastPluginDefinition } from "satteri";
-
-type HastElement = Extract<HastNode, { type: "element" }>;
+import type { HastPluginDefinition } from "satteri";
+import { classList, type HastElement } from "./hast";
 
 const NON_WHITESPACE = /\S/;
-
-function classList(node: HastElement): string[] {
-  const value: unknown = node.properties?.className;
-
-  if (Array.isArray(value)) {
-    return value.map(String);
-  }
-
-  if (typeof value === "string") {
-    return value.split(/\s+/).filter(Boolean);
-  }
-
-  return [];
-}
 
 /**
  * Return the single `code.language-mermaid` child of a `pre`, or null when the

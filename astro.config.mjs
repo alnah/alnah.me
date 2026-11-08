@@ -1,7 +1,7 @@
 import { defineConfig, passthroughImageService } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import sitemap from "@astrojs/sitemap";
-import { mermaid } from "./src/lib/markdown/mermaid";
+import { markdownHastPlugins } from "./src/lib/markdown/plugins";
 
 export default defineConfig({
   site: "https://alnah.me",
@@ -11,7 +11,7 @@ export default defineConfig({
     service: passthroughImageService()
   },
   markdown: {
-    processor: satteri({ hastPlugins: [mermaid()] }),
+    processor: satteri({ hastPlugins: markdownHastPlugins() }),
     syntaxHighlight: {
       type: "shiki",
       excludeLangs: ["math", "mermaid"]

@@ -92,4 +92,13 @@ assert.ok(!homeHtml.includes("fonts.googleapis.com"), "Home should not use third
 
 assert.ok(Array.isArray(searchIndex), "Search index should be an array");
 
+assertIncludes(aboutHtml, 'class="external-link"', "external link class");
+assertIncludes(aboutHtml, 'target="_blank" rel="noopener"', "external link new tab");
+assertIncludes(aboutHtml, 'class="external-link-icon"', "external link icon");
+assertIncludes(aboutHtml, "ouvre dans un nouvel onglet)", "external link accessible name");
+assert.ok(
+  !homeHtml.includes('class="external-link"'),
+  "internal-only pages must not mark links as external"
+);
+
 console.log("test:acceptance passed");

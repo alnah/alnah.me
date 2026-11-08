@@ -176,4 +176,19 @@
     border: 0;
     border-radius: calc(var(--radius-md) - 2px);
   }
+
+  /* Decorative arrow on external links. `inline-block` keeps the link
+   * underline off the glyph; the accessible name announces the new tab. */
+  .external-link-icon {
+    display: inline-block;
+    margin-left: 0.18em;
+    line-height: 1;
+    vertical-align: -0.2em;
+  }
+
+  .external-link-icon svg {
+    display: block;
+    width: 0.65em;
+    height: 0.65em;
+  }
 }

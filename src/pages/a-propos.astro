@@ -7,6 +7,7 @@ import NewsletterSignup from "../components/NewsletterSignup.astro";
 import profileImage from "../assets/profile.jpeg";
 import { SITE } from "../config/site";
 import { getPageContent } from "../lib/content";
+import { markdownHastPlugins } from "../lib/markdown/plugins";
 import { resolveEntryTitle } from "../lib/document-title";
 import { buildProfilePageSchema } from "../lib/seo";
 
@@ -38,7 +39,9 @@ if (!beforePortrait || afterPortrait === undefined) {
   throw new Error("About page is missing the portrait marker for photo placement");
 }
 
-const markdownProcessor = await createSatteriMarkdownProcessor();
+const markdownProcessor = await createSatteriMarkdownProcessor({
+  hastPlugins: markdownHastPlugins()
+});
 const { code: beforePortraitHtml } = await markdownProcessor.render(beforePortrait);
 const { code: afterPortraitHtml } = await markdownProcessor.render(afterPortrait);
 const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
