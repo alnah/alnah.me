@@ -77,7 +77,25 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function computeFitScale(natural: DOMRect, viewport: HTMLElement): number {
+type NaturalSize = {
+  width: number;
+  height: number;
+};
+
+function readNaturalSize(svg: SVGSVGElement): NaturalSize {
+  const width = Number(svg.getAttribute("width"));
+  const height = Number(svg.getAttribute("height"));
+
+  if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
+    return { width, height };
+  }
+
+  const rect = svg.getBoundingClientRect();
+
+  return { width: rect.width, height: rect.height };
+}
+
+function computeFitScale(natural: NaturalSize, viewport: HTMLElement): number {
   if (!natural.width || !natural.height) {
     return 1;
   }
@@ -261,6 +279,7 @@ export function createDiagramDialog(): DiagramDialog {
   }
 
   function handleClose(): void {
+    panzoom?.resetStyle();
     panzoom?.destroy();
     panzoom = null;
 
@@ -270,7 +289,13 @@ export function createDiagramDialog(): DiagramDialog {
 
     currentSvg = null;
     home = null;
-    refs?.stage.replaceChildren();
+
+    if (refs) {
+      refs.stage.replaceChildren();
+      refs.stage.style.removeProperty("transform");
+      refs.stage.style.removeProperty("transition");
+    }
+
     document.documentElement.style.overflow = "";
   }
 
@@ -327,14 +352,18 @@ export function createDiagramDialog(): DiagramDialog {
 
     svg.removeAttribute("style");
     elements.stage.replaceChildren(svg);
+    elements.stage.style.removeProperty("transform");
     elements.dialog.setAttribute("aria-label", input.title ?? "Diagramme");
+    elements.dialog.dataset.ready = "false";
     elements.dialog.showModal();
     document.documentElement.style.overflow = "hidden";
 
     const factory = await loadPanzoomFactory();
-    const natural = svg.getBoundingClientRect();
+    const natural = readNaturalSize(svg);
     fitScale = computeFitScale(natural, elements.viewport);
     minScale = Math.max(0.05, fitScale / 2);
+    const startX = (elements.viewport.clientWidth - natural.width) / (2 * fitScale);
+    const startY = (elements.viewport.clientHeight - natural.height) / (2 * fitScale);
 
     // No `contain`: panzoom caps the max scale at the fit scale when contained,
     // which blocks zooming in. Centering is passed as the reset position.
@@ -342,8 +371,8 @@ export function createDiagramDialog(): DiagramDialog {
       maxScale: MAX_SCALE,
       minScale,
       startScale: fitScale,
-      startX: (elements.viewport.clientWidth - natural.width) / (2 * fitScale),
-      startY: (elements.viewport.clientHeight - natural.height) / (2 * fitScale),
+      startX,
+      startY,
       canvas: true,
       cursor: "grab",
       panOnlyWhenZoomed: true,
@@ -351,9 +380,17 @@ export function createDiagramDialog(): DiagramDialog {
       animate: !prefersReducedMotion()
     });
 
+    // Apply the reset position before revealing, so the first paint is already
+    // centered instead of the natural-size SVG jumping into place.
+    panzoom.pan(startX, startY, { animate: false, force: true });
     elements.stage.addEventListener("panzoomchange", updateScale);
     updateScale();
-    elements.viewport.focus();
+
+    // Reveal one frame after the pan rAF so the fitted transform is painted.
+    requestAnimationFrame(() => {
+      elements.dialog.dataset.ready = "true";
+      elements.viewport.focus();
+    });
   }
 
   function close(): void {

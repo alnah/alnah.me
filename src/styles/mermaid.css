@@ -157,6 +157,11 @@
     touch-action: none;
   }
 
+  /* Keep the natural-size SVG out of sight until the fitted transform is set. */
+  .mermaid-dialog:not([data-ready="true"]) .mermaid-dialog__viewport {
+    visibility: hidden;
+  }
+
   .mermaid-dialog__viewport:active {
     cursor: grabbing;
   }
