@@ -1,5 +1,33 @@
 export type ThemeReader = (token: string) => string;
-export type MermaidThemeVariables = Record<string, string | boolean>;
+
+/**
+ * Subset of Mermaid `theme: "base"` variables the site sets. Keys are closed
+ * so a typo fails the type check instead of silently falling back to Mermaid's
+ * default.
+ */
+export type MermaidThemeVariables = {
+  dropShadow: string;
+  nodeShadow: boolean;
+  background: string;
+  mainBkg: string;
+  primaryColor: string;
+  primaryTextColor: string;
+  primaryBorderColor: string;
+  secondaryColor: string;
+  secondaryTextColor: string;
+  secondaryBorderColor: string;
+  tertiaryColor: string;
+  tertiaryTextColor: string;
+  tertiaryBorderColor: string;
+  nodeBorder: string;
+  lineColor: string;
+  textColor: string;
+  titleColor: string;
+  clusterBkg: string;
+  clusterBorder: string;
+  edgeLabelBackground: string;
+  labelBackground: string;
+};
 
 /**
  * Bind a token reader to one element so callers can read several CSS custom
