@@ -2,23 +2,12 @@
 
 Static Astro source for alnah.me.
 
-## Structure
+## Documentation
 
-- `src/content/`
-  Markdown posts and pages
-- `src/pages/`
-  routes such as home, articles, categories, tags, about, privacy, RSS,
-  `robots.txt`, and `index.json`
-- `src/components/`
-  UI components
-- `src/layouts/`
-  page and post layouts
-- `src/assets/`
-  local assets
-- `public/`
-  static files and generated publish artifacts
-- `scripts/`
-  build and verification scripts
+- [Structure](docs/structure.md): project layout and where to change titles
+- [Diagrams](docs/diagrams.md): Mermaid authoring contract and implementation
+- [Development](docs/development.md): setup, commands, GitHub activity
+- [Styles](docs/styles.md): cascade layers and component styles
 
 ## Writing posts
 
@@ -62,111 +51,5 @@ cover: ./cover.jpg
 - `category` is required; one of `construire`, `outils`, `enseigner`, `travailler`, `penser`
 - `draft: false` means the post is public
 
-### Diagrams
-
-Write diagrams as `mermaid` fenced code blocks. Every diagram must carry an
-`accTitle` (short name) and an `accDescr` (long description), because Mermaid
-turns them into the SVG accessible name and description. `prepare-static`
-fails the build when either is missing, with the file and line.
-
-````md
-```mermaid
-flowchart TD
-  accTitle: Parcours de connexion
-  accDescr: Le visiteur clique sur connexion, passe par OAuth, puis le jeton est validé.
-  A[Visiteur] --> B{Compte ?}
-```
-````
-
-`accDescr` can span several lines with braces:
-
-````md
-```mermaid
-sequenceDiagram
-  accTitle: Échange client serveur
-  accDescr {
-    Le client envoie une requête.
-    Le serveur répond avec un jeton.
-  }
-  Client->>Serveur: Requête
-```
-````
-
-State what the diagram shows in the surrounding text, so readers who cannot
-see the graphic get the same information. See the WAI Complex Images tutorial
-for the two-part alternative: a short name and a long description.
-
-In the article, the diagram renders inline. An expand button opens a
-fullscreen view with zoom, pan, keyboard controls, source copy, and SVG
-download. Copies and exports carry the attribution: diagram title, author,
-blog, article date, and the CC BY 4.0 license.
-
-## Changing titles and branding
-
-Where to change site, page, and post titles:
-
-- Global site name and author metadata:
-  - `src/config/site.ts`
-- How page titles are formatted in the browser tab:
-  - `src/lib/seo.ts`
-- Post titles:
-  - `src/content/posts/<slug>/index.md`
-  - keep the YAML `title` and the Markdown `# H1` identical
-- Standalone content pages such as `About` and `Privacy`:
-  - `src/content/pages/a-propos.md`
-  - `src/content/pages/confidentialite.md`
-- System pages such as home, archive, categories, tags, and `404`:
-  - `src/pages/index.astro`
-  - `src/pages/articles/[...page].astro`
-  - `src/pages/categories/index.astro`
-  - `src/pages/categories/[category].astro`
-  - `src/pages/etiquettes/[tag].astro`
-  - `src/pages/404.astro`
-
-## Development
-
-Requires Node >= 23.6.0 (see `.nvmrc`); `make doctor` enforces it.
-
-Quick start:
-
-```bash
-make install
-make dev
-```
-
-Useful commands:
-
-```bash
-make help
-make build
-make preview
-make verify
-```
-
-### GitHub activity locally
-
-The About page renders its GitHub activity section only when live data is
-available; otherwise the section is hidden.
-
-- `make dev` and `make dev-lan` derive a token from the authenticated `gh` CLI
-  when neither `GITHUB_TOKEN` nor `GH_TOKEN` is set, and never write it to disk.
-- Alternatively, copy `.env.example` to `.env` and set `GITHUB_TOKEN`. Astro
-  loads it into `process.env` for `dev` and `build`.
-
-## Styles
-
-CSS lives in `src/styles/` and is organized in cascade layers, declared once in
-`global.css`:
-
-- `tokens.css`: design tokens, split into primitives and semantic roles, plus
-  the dark theme.
-- `reset.css`: element resets.
-- `base.css`: document defaults and focus styles.
-- `layout.css`: page containers and the reading column.
-- `primitives.css`: shared UI primitives such as control pills, social rows and
-  category pills.
-- `prose.css`: rendered Markdown typography.
-- `utilities.css`: single-purpose helpers.
-
-Component styles stay scoped in `.astro` `<style>` blocks and, being unlayered,
-always win over the layered global styles.
+Diagrams use a dedicated accessibility contract, documented in
+[docs/diagrams.md](docs/diagrams.md).
