@@ -1,0 +1,54 @@
+import assert from "node:assert/strict";
+import { canonicalPostPath, normalizeAlias } from "../../src/lib/aliases.ts";
+import {
+  extractLeadingMarkdownTitle,
+  stripLeadingMarkdownTitle,
+  validateMarkdownTitle
+} from "../../src/lib/document-title.ts";
+import { stripFrontmatter } from "../../src/lib/post-files.ts";
+
+/** Aliases, frontmatter, and the H1 title contract. */
+export function testDocuments(): void {
+  const sampleMarkdown = `---
+title: "Compounding Through Clarity"
+date: 2026-03-10
+---
+
+# Compounding Through Clarity
+
+First paragraph.
+
+## Why do this now?
+
+Because readable systems compound.`;
+  const strippedSampleMarkdown = stripFrontmatter(sampleMarkdown);
+
+  assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/");
+  assert.equal(normalizeAlias("/articles/old-slug"), "/articles/old-slug/");
+  assert.equal(canonicalPostPath("search-that-stays-local"), "/articles/search-that-stays-local/");
+  assert.throws(() => normalizeAlias("../bad"), /Invalid alias path/);
+  assert.throws(() => normalizeAlias("/bad path"), /Invalid alias path/);
+
+  assert.equal(extractLeadingMarkdownTitle(strippedSampleMarkdown), "Compounding Through Clarity");
+  assert.equal(
+    validateMarkdownTitle(strippedSampleMarkdown, "Compounding Through Clarity"),
+    "Compounding Through Clarity"
+  );
+  assert.throws(
+    () => validateMarkdownTitle("# Wrong Title", "Expected Title"),
+    /frontmatter title "Expected Title" but leading H1 "Wrong Title"/
+  );
+  assert.throws(
+    () => validateMarkdownTitle("No heading here", "Expected Title", { requireLeadingTitle: true }),
+    /missing a leading H1 matching "Expected Title"/
+  );
+  assert.equal(
+    stripLeadingMarkdownTitle(strippedSampleMarkdown),
+    `First paragraph.\n\n## Why do this now?\n\nBecause readable systems compound.`
+  );
+
+  assert.equal(
+    stripFrontmatter(sampleMarkdown),
+    `# Compounding Through Clarity\n\nFirst paragraph.\n\n## Why do this now?\n\nBecause readable systems compound.`
+  );
+}
