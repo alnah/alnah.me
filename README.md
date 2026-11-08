@@ -62,6 +62,45 @@ cover: ./cover.jpg
 - `category` is required; one of `construire`, `outils`, `enseigner`, `travailler`, `penser`
 - `draft: false` means the post is public
 
+### Diagrams
+
+Write diagrams as `mermaid` fenced code blocks. Every diagram must carry an
+`accTitle` (short name) and an `accDescr` (long description), because Mermaid
+turns them into the SVG accessible name and description. `prepare-static`
+fails the build when either is missing, with the file and line.
+
+````md
+```mermaid
+flowchart TD
+  accTitle: Parcours de connexion
+  accDescr: Le visiteur clique sur connexion, passe par OAuth, puis le jeton est validé.
+  A[Visiteur] --> B{Compte ?}
+```
+````
+
+`accDescr` can span several lines with braces:
+
+````md
+```mermaid
+sequenceDiagram
+  accTitle: Échange client serveur
+  accDescr {
+    Le client envoie une requête.
+    Le serveur répond avec un jeton.
+  }
+  Client->>Serveur: Requête
+```
+````
+
+State what the diagram shows in the surrounding text, so readers who cannot
+see the graphic get the same information. See the WAI Complex Images tutorial
+for the two-part alternative: a short name and a long description.
+
+In the article, the diagram renders inline. An expand button opens a
+fullscreen view with zoom, pan, keyboard controls, source copy, and SVG
+download. Copies and exports carry the attribution: diagram title, author,
+blog, article date, and the CC BY 4.0 license.
+
 ## Changing titles and branding
 
 Where to change site, page, and post titles:
