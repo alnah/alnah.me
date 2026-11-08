@@ -16,6 +16,16 @@ make preview
 make verify
 ```
 
+## Markdown pipeline
+
+`src/lib/markdown/plugins.ts` is the single list of hast plugins applied to
+Markdown: Mermaid fences and external link marking. The About page renders its
+fragments with the same list, so ad hoc renders match the Astro pipeline.
+
+External links open in a new tab with `rel="noopener"`, carry an accessible
+name that announces the new tab, and show a corner-up arrow. Internal links,
+anchors, and `mailto:` or `tel:` targets are untouched.
+
 ## GitHub activity locally
 
 The About page renders its GitHub activity section only when live data is
