@@ -83,7 +83,7 @@ function mountFigure(pre: HTMLPreElement, dialog: DiagramDialog): void {
     const svg = pre.querySelector("svg");
 
     if (svg) {
-      void dialog.open({ svg, title: diagramTitle(svg) });
+      void dialog.open({ svg, title: diagramTitle(svg), source: sources.get(pre) ?? "" });
     }
   });
 

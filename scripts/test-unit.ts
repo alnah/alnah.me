@@ -12,6 +12,7 @@ import {
 } from "../src/lib/content/mermaid.ts";
 import { describeDiagramRole } from "../src/components/mermaid/labels.ts";
 import { buildThemeVariables } from "../src/components/mermaid/theme.ts";
+import { buildCopyText, diagramFileName } from "../src/components/mermaid/export-svg.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 
 const sampleMarkdown = `---
@@ -136,5 +137,24 @@ assert.ok(
 assert.equal(describeDiagramRole("flowchart-v2"), "diagramme de flux");
 assert.equal(describeDiagramRole("sequenceDiagram"), "diagramme de séquence");
 assert.equal(describeDiagramRole("unknown-key"), "diagramme");
+
+assert.equal(diagramFileName("Parcours de connexion"), "parcours-de-connexion.svg");
+assert.equal(diagramFileName("Échange client/serveur"), "echange-client-serveur.svg");
+assert.equal(diagramFileName("***"), "diagramme.svg");
+
+const copyText = buildCopyText("flowchart TD\n  A --> B", {
+  title: "Parcours",
+  author: "Alexis Nahan (alnah)",
+  siteName: "alnah.me",
+  siteUrl: "https://alnah.me",
+  pageUrl: "https://alnah.me/articles/essai/",
+  date: "2026-12-01",
+  licenseName: "CC BY 4.0",
+  licenseUrl: "https://creativecommons.org/licenses/by/4.0/"
+});
+assert.ok(copyText.includes("Alexis Nahan (alnah)"));
+assert.ok(copyText.includes("https://alnah.me/articles/essai/ (2026-12-01)"));
+assert.ok(copyText.includes("CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)"));
+assert.ok(copyText.includes("```mermaid"));
 
 console.log("test:unit passed");

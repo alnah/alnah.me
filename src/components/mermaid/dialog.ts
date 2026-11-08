@@ -1,8 +1,11 @@
 import type { PanzoomObject } from "@panzoom/panzoom";
+import { readAttribution } from "./attribution";
+import { buildAttributedSvg, buildCopyText, diagramFileName } from "./export-svg";
 
 export type DiagramDialogInput = {
   svg: SVGSVGElement;
   title: string | null;
+  source: string;
 };
 
 export type DiagramDialog = {
@@ -26,6 +29,8 @@ const ICON_ZOOM_IN = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none
 const ICON_ZOOM_OUT = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.7" y2="16.7"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>`;
 const ICON_FIT = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M16 3h3a2 2 0 0 1 2 2v3"></path><path d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg>`;
 const ICON_CLOSE = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+const ICON_COPY = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+const ICON_DOWNLOAD = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`;
 const ICON_PAN_UP = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 15 12 9 18 15"></polyline></svg>`;
 const ICON_PAN_DOWN = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
 const ICON_PAN_LEFT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 6 9 12 15 18"></polyline></svg>`;
@@ -39,6 +44,8 @@ const DIALOG_MARKUP = `
     <output class="mermaid-dialog__scale" aria-live="polite">100 %</output>
     <button type="button" class="mermaid-dialog__control" data-mermaid-action="zoom-in" aria-label="Zoomer">${ICON_ZOOM_IN}</button>
     <button type="button" class="mermaid-dialog__control" data-mermaid-action="reset" aria-label="Ajuster à l'écran">${ICON_FIT}</button>
+    <button type="button" class="mermaid-dialog__control" data-mermaid-action="copy" aria-label="Copier la source du diagramme">${ICON_COPY}</button>
+    <button type="button" class="mermaid-dialog__control" data-mermaid-action="download" aria-label="Télécharger le diagramme en SVG">${ICON_DOWNLOAD}</button>
     <div class="mermaid-dialog__pan">
       <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-left" aria-label="Déplacer vers la gauche">${ICON_PAN_LEFT}</button>
       <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-up" aria-label="Déplacer vers le haut">${ICON_PAN_UP}</button>
@@ -88,7 +95,61 @@ export function createDiagramDialog(): DiagramDialog {
   let panzoom: PanzoomObject | null = null;
   let home: { parent: Node; next: Node | null } | null = null;
   let currentSvg: SVGSVGElement | null = null;
+  let currentTitle: string | null = null;
+  let currentSource = "";
   let fitScale = 1;
+  let statusTimer = 0;
+
+  function announce(message: string): void {
+    if (!refs) {
+      return;
+    }
+
+    refs.status.textContent = message;
+    window.clearTimeout(statusTimer);
+    statusTimer = window.setTimeout(() => {
+      if (refs) {
+        refs.status.textContent = "";
+      }
+    }, 2000);
+  }
+
+  async function copySource(): Promise<void> {
+    if (!currentSource) {
+      return;
+    }
+
+    const text = buildCopyText(currentSource, readAttribution(currentTitle));
+
+    try {
+      await navigator.clipboard.writeText(text);
+      announce("Source copiée");
+    } catch (error) {
+      announce("Copie impossible");
+      console.error("Mermaid copy failed:", error);
+    }
+  }
+
+  function downloadSvg(): void {
+    if (!currentSvg) {
+      return;
+    }
+
+    const attribution = readAttribution(currentTitle);
+    const style = getComputedStyle(document.documentElement);
+    const markup = buildAttributedSvg(currentSvg, attribution, {
+      background: style.getPropertyValue("--color-bg").trim() || "#ffffff",
+      foreground: style.getPropertyValue("--color-text").trim() || "#000000"
+    });
+    const blob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = diagramFileName(attribution.title);
+    anchor.click();
+    URL.revokeObjectURL(url);
+    announce("SVG téléchargé");
+  }
 
   function updateScale(): void {
     if (!refs || !panzoom) {
@@ -118,6 +179,12 @@ export function createDiagramDialog(): DiagramDialog {
         break;
       case "reset":
         panzoom.reset();
+        break;
+      case "copy":
+        void copySource();
+        break;
+      case "download":
+        downloadSvg();
         break;
       case "pan-up":
         panBy(0, PAN_STEP);
@@ -238,6 +305,8 @@ export function createDiagramDialog(): DiagramDialog {
 
     home = parent ? { parent, next: svg.nextSibling } : null;
     currentSvg = svg;
+    currentTitle = input.title;
+    currentSource = input.source;
 
     svg.removeAttribute("style");
     elements.stage.replaceChildren(svg);
