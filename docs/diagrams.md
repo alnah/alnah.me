@@ -28,22 +28,10 @@ sequenceDiagram
 ```
 ````
 
-State what the diagram shows in the surrounding text, so readers who cannot
-see the graphic get the same information. See the WAI Complex Images tutorial
-for the two-part alternative: a short name and a long description.
+Describe the diagram in the surrounding text. See the
+[WAI Complex Images tutorial](https://www.w3.org/WAI/tutorials/images/complex/).
 
-In the article, the diagram renders inline. An expand button opens a
-fullscreen view with zoom, pan, keyboard controls, source copy, and SVG
-download. Copies and exports carry the attribution: diagram title, author,
-blog, article date, and the CC BY 4.0 license.
+Copies and exports are attributed: title, author, blog, date, CC BY 4.0.
 
-## Implementation
-
-- `src/lib/markdown/mermaid.ts`: Sätteri hast plugin. Turns
-  `pre > code.language-mermaid` into `pre.mermaid`. `astro.config.mjs` must
-  keep `mermaid` in `markdown.syntaxHighlight.excludeLangs`.
-- `src/lib/content/mermaid.ts`: fence scanner and accessibility contract,
-  enforced by `scripts/prepare-static.ts`.
-- `src/components/mermaid.client.ts` and `src/components/mermaid/`: client
-  renderer, theme mapping, labels, dialog, and export.
-- `src/styles/mermaid.css`: figure and dialog styles.
+Keep `mermaid` in `markdown.syntaxHighlight.excludeLangs` in
+`astro.config.mjs`.

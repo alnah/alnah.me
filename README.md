@@ -1,13 +1,12 @@
 # alnah.me
 
-Static Astro source for alnah.me.
-
 ## Documentation
 
-- [Structure](docs/structure.md): project layout and where to change titles
-- [Diagrams](docs/diagrams.md): Mermaid authoring contract and implementation
-- [Development](docs/development.md): setup, commands, GitHub activity
-- [Styles](docs/styles.md): cascade layers and component styles
+- [Structure](docs/structure.md)
+- [Titles](docs/titles.md)
+- [Diagrams](docs/diagrams.md)
+- [Development](docs/development.md)
+- [Styles](docs/styles.md)
 
 ## Writing posts
 
@@ -28,8 +27,6 @@ tags:
 ---
 
 # Post Title
-
-Content in Markdown format...
 ```
 
 Optional frontmatter:
@@ -45,11 +42,7 @@ cover: ./cover.jpg
 ---
 ```
 
-- the Markdown body must start with a leading `# H1`
-- the H1 must match the frontmatter `title`
+- the body must start with a `# H1` matching the frontmatter `title`
 - `description` is the summary used for feeds, cards, and search previews
-- `category` is required; one of `construire`, `outils`, `enseigner`, `travailler`, `penser`
+- `category` is required; allowed values live in `src/lib/content/taxonomy.ts`
 - `draft: false` means the post is public
-
-Diagrams use a dedicated accessibility contract, documented in
-[docs/diagrams.md](docs/diagrams.md).

@@ -3,6 +3,7 @@
 CSS lives in `src/styles/` and is organized in cascade layers, declared once in
 `global.css`:
 
+- `fonts.css`: font faces and subsets.
 - `tokens.css`: design tokens, split into primitives and semantic roles, plus
   the dark theme.
 - `reset.css`: element resets.

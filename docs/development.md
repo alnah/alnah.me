@@ -2,14 +2,12 @@
 
 Requires Node >= 23.6.0 (see `.nvmrc`); `make doctor` enforces it.
 
-Quick start:
-
 ```bash
 make install
 make dev
 ```
 
-Useful commands:
+Commands:
 
 ```bash
 make help
