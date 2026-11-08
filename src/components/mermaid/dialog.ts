@@ -41,6 +41,34 @@ const PAN_STEP = 60;
 const MAX_SCALE = 8;
 const ZOOM_STEP = Math.exp(0.3);
 
+type DiagramAction =
+  | "zoom-in"
+  | "zoom-out"
+  | "reset"
+  | "copy"
+  | "download"
+  | "pan-up"
+  | "pan-down"
+  | "pan-left"
+  | "pan-right"
+  | "close";
+
+/** Keyboard shortcuts mapped to the same actions as the toolbar buttons. */
+const KEY_ACTIONS: Record<string, DiagramAction> = {
+  "+": "zoom-in",
+  "=": "zoom-in",
+  Add: "zoom-in",
+  "-": "zoom-out",
+  _: "zoom-out",
+  Subtract: "zoom-out",
+  "0": "reset",
+  Home: "reset",
+  ArrowUp: "pan-up",
+  ArrowDown: "pan-down",
+  ArrowLeft: "pan-left",
+  ArrowRight: "pan-right"
+};
+
 const DIALOG_MARKUP = `
   <div class="mermaid-dialog__toolbar">
     <button type="button" class="mermaid-dialog__control" data-mermaid-action="zoom-out" aria-label="Dézoomer">${zoomOutIcon}</button>
@@ -201,81 +229,32 @@ export function createDiagramDialog(): DiagramDialog {
     panzoom?.pan(x, y, { relative: true });
   }
 
-  function handleAction(action: string): void {
-    if (!panzoom || !refs) {
-      return;
-    }
+  const actions: Record<DiagramAction, () => void> = {
+    "zoom-in": () => zoomBy(ZOOM_STEP),
+    "zoom-out": () => zoomBy(1 / ZOOM_STEP),
+    reset: () => panzoom?.reset(),
+    copy: () => void copySource(),
+    download: () => downloadSvg(),
+    "pan-up": () => panBy(0, PAN_STEP),
+    "pan-down": () => panBy(0, -PAN_STEP),
+    "pan-left": () => panBy(PAN_STEP, 0),
+    "pan-right": () => panBy(-PAN_STEP, 0),
+    close: () => refs?.dialog.close()
+  };
 
-    switch (action) {
-      case "zoom-in":
-        zoomBy(ZOOM_STEP);
-        break;
-      case "zoom-out":
-        zoomBy(1 / ZOOM_STEP);
-        break;
-      case "reset":
-        panzoom.reset();
-        break;
-      case "copy":
-        void copySource();
-        break;
-      case "download":
-        downloadSvg();
-        break;
-      case "pan-up":
-        panBy(0, PAN_STEP);
-        break;
-      case "pan-down":
-        panBy(0, -PAN_STEP);
-        break;
-      case "pan-left":
-        panBy(PAN_STEP, 0);
-        break;
-      case "pan-right":
-        panBy(-PAN_STEP, 0);
-        break;
-      case "close":
-        refs.dialog.close();
-        break;
-    }
+  function runAction(action: string): void {
+    const run = actions[action as DiagramAction];
+    run?.();
   }
 
   function handleKeydown(event: KeyboardEvent): void {
-    if (!panzoom) {
+    const action = KEY_ACTIONS[event.key];
+
+    if (!action) {
       return;
     }
 
-    switch (event.key) {
-      case "+":
-      case "=":
-      case "Add":
-        zoomBy(ZOOM_STEP);
-        break;
-      case "-":
-      case "_":
-      case "Subtract":
-        zoomBy(1 / ZOOM_STEP);
-        break;
-      case "0":
-      case "Home":
-        panzoom.reset();
-        break;
-      case "ArrowUp":
-        panBy(0, PAN_STEP);
-        break;
-      case "ArrowDown":
-        panBy(0, -PAN_STEP);
-        break;
-      case "ArrowLeft":
-        panBy(PAN_STEP, 0);
-        break;
-      case "ArrowRight":
-        panBy(-PAN_STEP, 0);
-        break;
-      default:
-        return;
-    }
-
+    runAction(action);
     event.preventDefault();
   }
 
@@ -324,7 +303,7 @@ export function createDiagramDialog(): DiagramDialog {
       const action = target?.closest<HTMLElement>("[data-mermaid-action]")?.dataset.mermaidAction;
 
       if (action) {
-        handleAction(action);
+        runAction(action);
       }
     });
     dialog.addEventListener("close", handleClose);
