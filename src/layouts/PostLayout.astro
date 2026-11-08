@@ -2,7 +2,7 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, getPostCategoryMeta, readingTimeFromText, resolvePublicationDate, type PostEntry } from "../lib/content";
+import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content";
 import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title";
 
@@ -12,7 +12,7 @@ interface Props {
 
 const { entry } = Astro.props;
 const documentTitle = resolveEntryTitle(entry);
-const readingTime = readingTimeFromText(stripLeadingMarkdownTitle(entry.body ?? ""));
+const readingTime = readingTimeFromMarkdown(stripLeadingMarkdownTitle(entry.body ?? ""));
 const publicationDate = resolvePublicationDate(entry.data);
 const canonicalPath = `/articles/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;

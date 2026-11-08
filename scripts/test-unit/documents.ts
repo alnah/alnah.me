@@ -6,6 +6,7 @@ import {
   validateMarkdownTitle
 } from "../../src/lib/document-title.ts";
 import { stripFrontmatter } from "../../src/lib/post-files.ts";
+import { readingTimeFromMarkdown } from "../../src/lib/content/format.ts";
 
 /** Aliases, frontmatter, and the H1 title contract. */
 export function testDocuments(): void {
@@ -51,4 +52,9 @@ Because readable systems compound.`;
     stripFrontmatter(sampleMarkdown),
     `# Compounding Through Clarity\n\nFirst paragraph.\n\n## Why do this now?\n\nBecause readable systems compound.`
   );
+
+  const mermaidFence = ["```mermaid", "flowchart TD", `  ${"mot ".repeat(400)}`, "```"].join("\n");
+  assert.equal(readingTimeFromMarkdown(mermaidFence), 1, "a fence is not prose");
+  assert.equal(readingTimeFromMarkdown("mot ".repeat(220)), 1);
+  assert.equal(readingTimeFromMarkdown("mot ".repeat(221)), 2);
 }

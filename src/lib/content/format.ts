@@ -39,6 +39,11 @@ export function markdownToPlainText(markdown: string) {
     .trim();
 }
 
+/** Reading time from visible text only: fences and code are not prose. */
+export function readingTimeFromMarkdown(markdown: string) {
+  return readingTimeFromText(markdownToPlainText(markdown));
+}
+
 export function searchDateText(date: Date) {
   const year = String(date.getUTCFullYear());
   const monthNumber = String(date.getUTCMonth() + 1);
