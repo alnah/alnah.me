@@ -1,7 +1,6 @@
 import { createDiagramDialog, type DiagramDialog } from "./dialog";
 import { expandIcon } from "./icons";
-import { localiseRoleDescription, readTheme, renderDiagram } from "./render";
-import type { MermaidTheme } from "./theme";
+import { configureMermaid, localiseRoleDescription, readTheme, renderDiagram } from "./render";
 
 /** Fence bodies are captured before Mermaid replaces the pre content. */
 const sources = new WeakMap<HTMLPreElement, string>();
@@ -18,7 +17,8 @@ export function registerMermaidDiagrams(): void {
   let theme = readTheme(document.documentElement);
 
   const renderAll = async (): Promise<void> => {
-    await Promise.all(diagrams.map((pre) => renderDiagramInto(pre, theme, dialog)));
+    await configureMermaid(theme);
+    await Promise.all(diagrams.map((pre) => renderDiagramInto(pre, dialog)));
   };
 
   const observer = new MutationObserver(() => {
@@ -35,16 +35,12 @@ export function registerMermaidDiagrams(): void {
   void renderAll();
 }
 
-async function renderDiagramInto(
-  pre: HTMLPreElement,
-  theme: MermaidTheme,
-  dialog: DiagramDialog
-): Promise<void> {
+async function renderDiagramInto(pre: HTMLPreElement, dialog: DiagramDialog): Promise<void> {
   const source = sources.get(pre) ?? pre.textContent ?? "";
   sources.set(pre, source);
 
   try {
-    pre.innerHTML = await renderDiagram(source, theme);
+    pre.innerHTML = await renderDiagram(source);
 
     const svg = pre.querySelector("svg");
 

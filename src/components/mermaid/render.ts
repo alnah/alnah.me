@@ -32,10 +32,10 @@ export function localiseRoleDescription(svg: SVGSVGElement): void {
 }
 
 /**
- * Render one fence body to an SVG string. `useMaxWidth` is off so the SVG
- * carries its natural size, which the dialog needs to compute a fit scale.
+ * Apply the site theme to Mermaid. Called once per theme before rendering a
+ * batch of diagrams.
  */
-export async function renderDiagram(source: string, theme: MermaidTheme): Promise<string> {
+export async function configureMermaid(theme: MermaidTheme): Promise<void> {
   const mermaid = await loadMermaid();
 
   mermaid.initialize({
@@ -51,6 +51,15 @@ export async function renderDiagram(source: string, theme: MermaidTheme): Promis
     state: { useMaxWidth: false },
     er: { useMaxWidth: false }
   });
+}
+
+/**
+ * Render one fence body to an SVG string. `useMaxWidth` is off (see
+ * `configureMermaid`) so the SVG carries its natural size, which the dialog
+ * needs to compute a fit scale.
+ */
+export async function renderDiagram(source: string): Promise<string> {
+  const mermaid = await loadMermaid();
 
   diagramId += 1;
   const id = `mermaid-diagram-${diagramId}`;
