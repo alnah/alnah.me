@@ -1,5 +1,5 @@
 import { describeDiagramRole } from "./labels";
-import { buildThemeVariables, type MermaidTheme } from "./theme";
+import { buildThemeVariables, createTokenReader, type MermaidTheme } from "./theme";
 
 export type { MermaidTheme };
 
@@ -14,8 +14,7 @@ export function loadMermaid(): Promise<typeof import("mermaid").default> {
 
 /** Read the live theme from the site tokens. */
 export function readTheme(root: HTMLElement): MermaidTheme {
-  const style = getComputedStyle(root);
-  const readVar = (token: string) => style.getPropertyValue(token).trim();
+  const readVar = createTokenReader(root);
 
   return {
     fontFamily: readVar("--font-body") || "sans-serif",

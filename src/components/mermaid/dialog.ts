@@ -1,6 +1,7 @@
 import type { PanzoomObject } from "@panzoom/panzoom";
 import { readAttribution } from "./attribution";
 import { buildAttributedSvg, buildCopyText, diagramFileName } from "./export-svg";
+import { createTokenReader } from "./theme";
 import {
   closeIcon,
   copyIcon,
@@ -200,10 +201,10 @@ export function createDiagramDialog(): DiagramDialog {
     }
 
     const attribution = readAttribution(currentTitle);
-    const style = getComputedStyle(document.documentElement);
+    const readVar = createTokenReader(document.documentElement);
     const markup = buildAttributedSvg(currentSvg, attribution, {
-      background: style.getPropertyValue("--color-bg").trim() || "#ffffff",
-      foreground: style.getPropertyValue("--color-text").trim() || "#000000"
+      background: readVar("--color-bg") || "#ffffff",
+      foreground: readVar("--color-text") || "#000000"
     });
     const blob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
     const url = URL.createObjectURL(blob);

@@ -1,6 +1,16 @@
 export type ThemeReader = (token: string) => string;
 export type MermaidThemeVariables = Record<string, string | boolean>;
 
+/**
+ * Bind a token reader to one element so callers can read several CSS custom
+ * properties without repeating `getComputedStyle`.
+ */
+export function createTokenReader(root: HTMLElement): ThemeReader {
+  const style = getComputedStyle(root);
+
+  return (token) => style.getPropertyValue(token).trim();
+}
+
 /** Convert a `#rgb` or `#rrggbb` token to `rgba()` so the filter stays portable. */
 function withAlpha(color: string, alpha: number): string {
   const match = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(color.trim());
