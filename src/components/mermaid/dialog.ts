@@ -1,7 +1,10 @@
 import type { PanzoomObject } from "@panzoom/panzoom";
-import { readAttribution } from "./attribution";
-import { buildAttributedSvg, buildCopyText, diagramFileName } from "./export-svg";
-import { createTokenReader } from "./theme";
+import {
+  copyDiagramSource,
+  downloadDiagramSvg,
+  type DiagramExport,
+  type ExportFeedback
+} from "./export-actions";
 import {
   closeIcon,
   copyIcon,
@@ -179,41 +182,16 @@ export function createDiagramDialog(): DiagramDialog {
     }, 2000);
   }
 
-  async function copySource(): Promise<void> {
-    if (!currentSource) {
-      return;
+  const feedback: ExportFeedback = {
+    success: announce,
+    failure: (message, error) => {
+      announce(message);
+      console.error("Mermaid export failed:", error);
     }
+  };
 
-    const text = buildCopyText(currentSource, readAttribution(currentTitle));
-
-    try {
-      await navigator.clipboard.writeText(text);
-      announce("Source copiée");
-    } catch (error) {
-      announce("Copie impossible");
-      console.error("Mermaid copy failed:", error);
-    }
-  }
-
-  function downloadSvg(): void {
-    if (!currentSvg) {
-      return;
-    }
-
-    const attribution = readAttribution(currentTitle);
-    const readVar = createTokenReader(document.documentElement);
-    const markup = buildAttributedSvg(currentSvg, attribution, {
-      background: readVar("--color-bg") || "#ffffff",
-      foreground: readVar("--color-text") || "#000000"
-    });
-    const blob = new Blob([markup], { type: "image/svg+xml;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = diagramFileName(attribution.title);
-    anchor.click();
-    URL.revokeObjectURL(url);
-    announce("SVG téléchargé");
+  function exportContext(): DiagramExport | null {
+    return currentSvg ? { svg: currentSvg, title: currentTitle, source: currentSource } : null;
   }
 
   function updateScale(): void {
@@ -234,8 +212,20 @@ export function createDiagramDialog(): DiagramDialog {
     "zoom-in": () => zoomBy(ZOOM_STEP),
     "zoom-out": () => zoomBy(1 / ZOOM_STEP),
     reset: () => panzoom?.reset(),
-    copy: () => void copySource(),
-    download: () => downloadSvg(),
+    copy: () => {
+      const diagram = exportContext();
+
+      if (diagram) {
+        void copyDiagramSource(diagram, feedback);
+      }
+    },
+    download: () => {
+      const diagram = exportContext();
+
+      if (diagram) {
+        downloadDiagramSvg(diagram, feedback);
+      }
+    },
     "pan-up": () => panBy(0, PAN_STEP),
     "pan-down": () => panBy(0, -PAN_STEP),
     "pan-left": () => panBy(PAN_STEP, 0),
