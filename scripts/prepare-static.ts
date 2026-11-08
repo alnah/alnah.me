@@ -147,49 +147,49 @@ async function copyLicenseFiles() {
 }
 
 /**
- * The site now treats the Markdown document itself as the editorial source of
- * truth, so we validate titles before any build artifact is written.
+ * Walk every Markdown file below `rootDir` and run one contract per file. The
+ * contract receives the body without frontmatter, the frontmatter title, and
+ * the display label, and throws to make a violation fatal before any build
+ * artifact is written.
  */
-async function validateMarkdownTitleContract(rootDir: string) {
+async function validateMarkdownFiles(
+  rootDir: string,
+  validate: (body: string, title: string, label: string) => void
+) {
   const files = await findMarkdownFiles(rootDir);
 
   await Promise.all(
     files.map(async (file) => {
+      const label = path.relative(cwd, file);
       const markdown = await fs.readFile(file, "utf8");
       const { data } = matter(markdown);
 
-      validateMarkdownTitle(stripFrontmatter(markdown), String(data.title ?? ""), {
-        label: path.relative(cwd, file),
-        requireLeadingTitle: true
-      });
+      validate(stripFrontmatter(markdown), String(data.title ?? ""), label);
     })
   );
+}
+
+/** The Markdown document itself is the editorial source of truth for the title. */
+function validateTitleContract(body: string, title: string, label: string) {
+  validateMarkdownTitle(body, title, { label, requireLeadingTitle: true });
 }
 
 /**
  * A diagram without a name and a description is an empty graphic for
- * assistive technologies, so the violation is fatal before any artifact is
- * written.
+ * assistive technologies.
  */
-async function validateMermaidAccessibilityContract(rootDir: string) {
-  const files = await findMarkdownFiles(rootDir);
+function validateMermaidContract(body: string, _title: string, label: string) {
+  const errors = mermaidAccessibilityErrors(body);
 
-  await Promise.all(
-    files.map(async (file) => {
-      const markdown = await fs.readFile(file, "utf8");
-      const errors = mermaidAccessibilityErrors(stripFrontmatter(markdown));
-
-      if (errors.length > 0) {
-        throw new Error(`${path.relative(cwd, file)}: ${errors.join("; ")}`);
-      }
-    })
-  );
+  if (errors.length > 0) {
+    throw new Error(`${label}: ${errors.join("; ")}`);
+  }
 }
 
-await validateMarkdownTitleContract(contentRoot);
-await validateMarkdownTitleContract(pagesRoot);
-await validateMermaidAccessibilityContract(contentRoot);
-await validateMermaidAccessibilityContract(pagesRoot);
+await validateMarkdownFiles(contentRoot, validateTitleContract);
+await validateMarkdownFiles(pagesRoot, validateTitleContract);
+await validateMarkdownFiles(contentRoot, validateMermaidContract);
+await validateMarkdownFiles(pagesRoot, validateMermaidContract);
 const publishedEntries = await getPublishedMarkdownEntries(contentRoot);
 await copyFileAtomically(licenseSource, licenseTarget);
 await copyLicenseFiles();
