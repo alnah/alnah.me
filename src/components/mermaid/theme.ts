@@ -1,6 +1,28 @@
 export type ThemeReader = (token: string) => string;
 export type MermaidThemeVariables = Record<string, string | boolean>;
 
+/** Convert a `#rgb` or `#rrggbb` token to `rgba()` so the filter stays portable. */
+function withAlpha(color: string, alpha: number): string {
+  const match = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(color.trim());
+
+  if (!match) {
+    return color;
+  }
+
+  const hex =
+    match[1].length === 3
+      ? match[1]
+          .split("")
+          .map((digit) => digit + digit)
+          .join("")
+      : match[1];
+  const red = Number.parseInt(hex.slice(0, 2), 16);
+  const green = Number.parseInt(hex.slice(2, 4), 16);
+  const blue = Number.parseInt(hex.slice(4, 6), 16);
+
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+}
+
 export type MermaidTheme = {
   fontFamily: string;
   variables: MermaidThemeVariables;
@@ -13,9 +35,10 @@ export type MermaidTheme = {
  */
 export function buildThemeVariables(readVar: ThemeReader): MermaidThemeVariables {
   return {
-    // The base theme ships a light gray drop shadow that reads as a glow on
-    // dark backgrounds. Node fill and border already carry the elevation.
-    dropShadow: "none",
+    // The base theme ships a light gray blurred shadow that reads as a glow on
+    // dark backgrounds. Replace it with a short, vertical, blur-free shadow
+    // under the nodes: light comes from above, so the shadow sits below.
+    dropShadow: `drop-shadow(0 2px 0 ${withAlpha(readVar("--color-shade"), 0.2)})`,
     nodeShadow: false,
     background: readVar("--color-bg"),
     mainBkg: readVar("--color-surface-strong"),

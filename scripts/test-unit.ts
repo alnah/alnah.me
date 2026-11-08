@@ -123,7 +123,8 @@ const tokenValues: Record<string, string> = {
   "--color-surface-strong": "#e9ecef",
   "--color-text": "#212529",
   "--color-text-muted": "#6c757d",
-  "--color-border": "#dee2e6"
+  "--color-border": "#dee2e6",
+  "--color-shade": "#000000"
 };
 const themeVariables = buildThemeVariables((token) => tokenValues[token] ?? "");
 
@@ -136,7 +137,7 @@ assert.ok(
   ),
   "mermaid variables must be solid colors"
 );
-assert.equal(themeVariables.dropShadow, "none");
+assert.equal(themeVariables.dropShadow, "drop-shadow(0 2px 0 rgba(0, 0, 0, 0.2))");
 assert.equal(themeVariables.nodeShadow, false);
 assert.equal(describeDiagramRole("flowchart-v2"), "diagramme de flux");
 assert.equal(describeDiagramRole("sequenceDiagram"), "diagramme de séquence");
