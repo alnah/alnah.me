@@ -77,6 +77,19 @@
     outline-offset: 2px;
   }
 
+  /* Clickable diagram nodes get the same hover and focus cue as prose links. */
+  :is(.mermaid-figure, .mermaid-dialog__stage) svg a:is(:hover, :focus-visible) :is(.nodeLabel, text) {
+    text-decoration: underline;
+    text-decoration-color: var(--color-accent-strong);
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+  }
+
+  /* SVG does not render box-shadow, so the focus ring is a filter instead. */
+  :is(.mermaid-figure, .mermaid-dialog__stage) svg a:focus-visible .node {
+    filter: drop-shadow(0 0 2px var(--color-focus-ring));
+  }
+
   .mermaid-dialog {
     width: 100vw;
     max-width: 100vw;
