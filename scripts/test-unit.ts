@@ -12,7 +12,8 @@ import {
 } from "../src/lib/content/mermaid.ts";
 import { describeDiagramRole } from "../src/components/mermaid/labels.ts";
 import { buildThemeVariables } from "../src/components/mermaid/theme.ts";
-import { buildCopyText, diagramFileName } from "../src/components/mermaid/export-svg.ts";
+import { buildCopyText } from "../src/components/mermaid/copy-text.ts";
+import { diagramFileName } from "../src/components/mermaid/export-svg.ts";
 import { computeFitScale } from "../src/components/mermaid/viewport.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 

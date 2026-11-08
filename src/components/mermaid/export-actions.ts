@@ -1,5 +1,6 @@
 import { readAttribution } from "./attribution";
-import { buildAttributedSvg, buildCopyText, diagramFileName } from "./export-svg";
+import { buildCopyText } from "./copy-text";
+import { buildAttributedSvg, diagramFileName } from "./export-svg";
 import { createTokenReader } from "./theme";
 
 export type DiagramExport = {
