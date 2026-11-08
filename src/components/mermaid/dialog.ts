@@ -37,6 +37,8 @@ const ICON_PAN_LEFT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="non
 const ICON_PAN_RIGHT = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>`;
 
 const PAN_STEP = 60;
+const MAX_SCALE = 8;
+const ZOOM_STEP = Math.exp(0.3);
 
 const DIALOG_MARKUP = `
   <div class="mermaid-dialog__toolbar">
@@ -86,7 +88,7 @@ function computeFitScale(natural: DOMRect, viewport: HTMLElement): number {
     (viewport.clientHeight - padding) / natural.height
   );
 
-  return Math.min(8, Math.max(0.25, scale));
+  return Math.min(8, Math.max(0.05, scale));
 }
 
 /** One dialog per page, created on first use and reused afterwards. */
@@ -98,7 +100,22 @@ export function createDiagramDialog(): DiagramDialog {
   let currentTitle: string | null = null;
   let currentSource = "";
   let fitScale = 1;
+  let minScale = 0.05;
   let statusTimer = 0;
+
+  function zoomBy(factor: number): void {
+    if (!panzoom || !refs) {
+      return;
+    }
+
+    const next = Math.min(MAX_SCALE, Math.max(minScale, panzoom.getScale() * factor));
+    const rect = refs.viewport.getBoundingClientRect();
+
+    panzoom.zoomToPoint(next, {
+      clientX: rect.left + rect.width / 2,
+      clientY: rect.top + rect.height / 2
+    });
+  }
 
   function announce(message: string): void {
     if (!refs) {
@@ -172,10 +189,10 @@ export function createDiagramDialog(): DiagramDialog {
 
     switch (action) {
       case "zoom-in":
-        panzoom.zoomIn();
+        zoomBy(ZOOM_STEP);
         break;
       case "zoom-out":
-        panzoom.zoomOut();
+        zoomBy(1 / ZOOM_STEP);
         break;
       case "reset":
         panzoom.reset();
@@ -213,12 +230,12 @@ export function createDiagramDialog(): DiagramDialog {
       case "+":
       case "=":
       case "Add":
-        panzoom.zoomIn();
+        zoomBy(ZOOM_STEP);
         break;
       case "-":
       case "_":
       case "Subtract":
-        panzoom.zoomOut();
+        zoomBy(1 / ZOOM_STEP);
         break;
       case "0":
       case "Home":
@@ -317,30 +334,21 @@ export function createDiagramDialog(): DiagramDialog {
     const factory = await loadPanzoomFactory();
     const natural = svg.getBoundingClientRect();
     fitScale = computeFitScale(natural, elements.viewport);
+    minScale = Math.max(0.05, fitScale / 2);
 
+    // No `contain`: panzoom caps the max scale at the fit scale when contained,
+    // which blocks zooming in. Centering is passed as the reset position.
     panzoom = factory(elements.stage, {
-      maxScale: 8,
-      minScale: 0.25,
+      maxScale: MAX_SCALE,
+      minScale,
       startScale: fitScale,
-      contain: "inside",
+      startX: (elements.viewport.clientWidth - natural.width) / (2 * fitScale),
+      startY: (elements.viewport.clientHeight - natural.height) / (2 * fitScale),
+      canvas: true,
       cursor: "grab",
       panOnlyWhenZoomed: true,
       touchAction: "none",
       animate: !prefersReducedMotion()
-    });
-
-    // Panzoom measures the element before the start scale is painted, so the
-    // centering pan waits one frame and uses pan coordinates (pre-scale).
-    requestAnimationFrame(() => {
-      if (!panzoom) {
-        return;
-      }
-
-      panzoom.pan(
-        (elements.viewport.clientWidth - natural.width) / (2 * fitScale),
-        (elements.viewport.clientHeight - natural.height) / (2 * fitScale),
-        { force: true }
-      );
     });
 
     elements.stage.addEventListener("panzoomchange", updateScale);
