@@ -10,6 +10,8 @@ import {
   findMermaidFences,
   mermaidAccessibilityErrors
 } from "../src/lib/content/mermaid.ts";
+import { describeDiagramRole } from "../src/components/mermaid/labels.ts";
+import { buildThemeVariables } from "../src/components/mermaid/theme.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 
 const sampleMarkdown = `---
@@ -113,5 +115,26 @@ assert.deepEqual(mermaidAccessibilityErrors(blockDescrFence), []);
 assert.equal(mermaidAccessibilityErrors(undocumentedFence).length, 2);
 assert.match(mermaidAccessibilityErrors(missingDescrFence)[0], /missing accDescr/);
 assert.equal(mermaidAccessibilityErrors(missingDescrFence).length, 1);
+
+const tokenValues: Record<string, string> = {
+  "--color-bg": "#ffffff",
+  "--color-surface": "#f8f9fa",
+  "--color-surface-strong": "#e9ecef",
+  "--color-text": "#212529",
+  "--color-text-muted": "#6c757d",
+  "--color-border": "#dee2e6"
+};
+const themeVariables = buildThemeVariables((token) => tokenValues[token] ?? "");
+
+assert.equal(themeVariables.mainBkg, "#e9ecef");
+assert.equal(themeVariables.lineColor, "#6c757d");
+assert.equal(themeVariables.clusterBorder, "#dee2e6");
+assert.ok(
+  !Object.values(themeVariables).some((value) => value.includes("color-mix")),
+  "mermaid variables must be solid colors"
+);
+assert.equal(describeDiagramRole("flowchart-v2"), "diagramme de flux");
+assert.equal(describeDiagramRole("sequenceDiagram"), "diagramme de séquence");
+assert.equal(describeDiagramRole("unknown-key"), "diagramme");
 
 console.log("test:unit passed");
