@@ -18,6 +18,12 @@
     text-align: left;
   }
 
+  /* Italic-only paragraphs next to a figure or a table are captions. */
+  .prose p:has(> em:only-child):has(+ :is(.mermaid-figure, pre.mermaid, table)),
+  .prose :is(.mermaid-figure, pre.mermaid, table) + p:has(> em:only-child) {
+    text-align: right;
+  }
+
   .archive-intro {
     max-width: var(--width-reading);
     margin-inline: auto;
