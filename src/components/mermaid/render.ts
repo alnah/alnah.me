@@ -1,13 +1,11 @@
 import { describeDiagramRole } from "./labels";
 import { buildThemeVariables, createTokenReader, type MermaidTheme } from "./theme";
 
-export type { MermaidTheme };
-
 let mermaidPromise: Promise<typeof import("mermaid").default> | null = null;
 let diagramId = 0;
 
 /** Lazy-load and memoize Mermaid. Nothing is fetched on pages without a diagram. */
-export function loadMermaid(): Promise<typeof import("mermaid").default> {
+function loadMermaid(): Promise<typeof import("mermaid").default> {
   mermaidPromise ??= import("mermaid").then((module) => module.default);
   return mermaidPromise;
 }
