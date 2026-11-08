@@ -1,8 +1,7 @@
 import { createDiagramDialog, type DiagramDialog } from "./dialog";
+import { expandIcon } from "./icons";
 import { localiseRoleDescription, readTheme, renderDiagram } from "./render";
 import type { MermaidTheme } from "./theme";
-
-const EXPAND_ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>`;
 
 /** Fence bodies are captured before Mermaid replaces the pre content. */
 const sources = new WeakMap<HTMLPreElement, string>();
@@ -78,7 +77,7 @@ function mountFigure(pre: HTMLPreElement, dialog: DiagramDialog): void {
   button.type = "button";
   button.className = "mermaid-expand";
   button.setAttribute("aria-label", "Agrandir le diagramme");
-  button.innerHTML = EXPAND_ICON;
+  button.innerHTML = expandIcon;
   button.addEventListener("click", () => {
     const svg = pre.querySelector("svg");
 
