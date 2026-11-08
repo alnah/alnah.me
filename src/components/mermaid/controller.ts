@@ -47,12 +47,17 @@ async function renderDiagramInto(pre: HTMLPreElement, dialog: DiagramDialog): Pr
 
     if (svg) {
       localiseRoleDescription(svg);
-      markExternalDiagramLinks(svg);
     }
 
     pre.dataset.processed = "true";
     delete pre.dataset.error;
     mountFigure(pre, dialog);
+
+    // After mounting: the figure CSS sets the displayed width, which the icon
+    // scale is measured against.
+    if (svg) {
+      markExternalDiagramLinks(svg);
+    }
   } catch (error) {
     // Keep the fence source visible: a broken diagram must not disappear.
     pre.dataset.processed = "true";
