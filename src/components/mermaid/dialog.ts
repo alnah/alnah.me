@@ -43,6 +43,7 @@ type DialogRefs = {
 };
 
 const PAN_STEP = 60;
+const DRAG_THRESHOLD = 6;
 const ZOOM_STEP = Math.exp(0.3);
 
 type DiagramAction =
@@ -121,6 +122,8 @@ export function createDiagramDialog(): DiagramDialog {
   let fitScale = 1;
   let minScale = MIN_SCALE;
   let statusTimer = 0;
+  let dragOrigin: { x: number; y: number } | null = null;
+  let suppressClick = false;
 
   function zoomBy(factor: number): void {
     if (!panzoom || !refs) {
@@ -273,6 +276,39 @@ export function createDiagramDialog(): DiagramDialog {
         panzoom?.zoomWithWheel(event);
       },
       { passive: false }
+    );
+    viewport.addEventListener("pointerdown", (event) => {
+      dragOrigin = { x: event.clientX, y: event.clientY };
+      suppressClick = false;
+    });
+    viewport.addEventListener("pointermove", (event) => {
+      if (
+        dragOrigin &&
+        Math.hypot(event.clientX - dragOrigin.x, event.clientY - dragOrigin.y) > DRAG_THRESHOLD
+      ) {
+        suppressClick = true;
+      }
+    });
+    viewport.addEventListener("pointerup", () => {
+      dragOrigin = null;
+    });
+    viewport.addEventListener("pointercancel", () => {
+      dragOrigin = null;
+    });
+    viewport.addEventListener(
+      "click",
+      (event) => {
+        // A drag that started on a link moves the diagram; only a real click
+        // follows the link. Keyboard clicks have no pointer movement (detail 0).
+        if (!suppressClick || event.detail === 0) {
+          return;
+        }
+
+        suppressClick = false;
+        event.preventDefault();
+        event.stopPropagation();
+      },
+      { capture: true }
     );
 
     refs = { dialog, viewport, stage, scale, status };
