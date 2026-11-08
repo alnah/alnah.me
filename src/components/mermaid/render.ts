@@ -54,7 +54,13 @@ export async function renderDiagram(source: string, theme: MermaidTheme): Promis
   });
 
   diagramId += 1;
-  const { svg } = await mermaid.render(`mermaid-diagram-${diagramId}`, source);
+  const id = `mermaid-diagram-${diagramId}`;
 
-  return svg;
+  try {
+    const { svg } = await mermaid.render(id, source);
+    return svg;
+  } finally {
+    // Mermaid appends a `d<id>` scratch node and leaves it behind on failure.
+    document.getElementById(`d${id}`)?.remove();
+  }
 }

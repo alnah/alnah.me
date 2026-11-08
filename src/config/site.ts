@@ -94,6 +94,10 @@ export const SITE = {
   },
   repoUrl: 'https://github.com/alnah/alnah.me',
   reuseUrl: '/LICENSE',
+  license: {
+    name: 'CC BY 4.0',
+    url: 'https://creativecommons.org/licenses/by/4.0/',
+  },
   contacts: validateContacts([
     {
       id: 'github',

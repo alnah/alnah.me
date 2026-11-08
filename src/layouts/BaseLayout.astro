@@ -49,6 +49,9 @@ const isHomePage = canonicalPath === "/";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={seo.description} />
     <meta name="author" content={SITE.author.name} />
+    <meta name="author:alias" content={SITE.author.alias} />
+    <link rel="license" href={SITE.license.url} />
+    <meta name="license" content={SITE.license.name} />
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
     <link rel="canonical" href={seo.canonicalUrl} />
     <link
@@ -99,5 +102,8 @@ const isHomePage = canonicalPath === "/";
       <Footer reuseUrl={reuseUrl} />
     </div>
     <Analytics />
+    <script>
+      import "../components/mermaid.client";
+    </script>
   </body>
 </html>

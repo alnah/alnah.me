@@ -5,7 +5,7 @@ type HastElement = Extract<HastNode, { type: "element" }>;
 const NON_WHITESPACE = /\S/;
 
 function classList(node: HastElement): string[] {
-  const value = node.properties?.className;
+  const value: unknown = node.properties?.className;
 
   if (Array.isArray(value)) {
     return value.map(String);
