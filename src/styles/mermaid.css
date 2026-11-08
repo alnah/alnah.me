@@ -39,6 +39,12 @@
     text-decoration: underline;
   }
 
+  /* Mermaid centres node and cluster labels; the prose paragraph rule must
+   * not left-align them. */
+  :is(.mermaid-figure, .mermaid-dialog__stage) svg .nodeLabel p {
+    text-align: center;
+  }
+
   .mermaid-expand {
     position: absolute;
     top: var(--space-2);
