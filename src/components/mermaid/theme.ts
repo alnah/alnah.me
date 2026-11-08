@@ -1,5 +1,5 @@
 export type ThemeReader = (token: string) => string;
-export type MermaidThemeVariables = Record<string, string>;
+export type MermaidThemeVariables = Record<string, string | boolean>;
 
 export type MermaidTheme = {
   fontFamily: string;
@@ -13,6 +13,10 @@ export type MermaidTheme = {
  */
 export function buildThemeVariables(readVar: ThemeReader): MermaidThemeVariables {
   return {
+    // The base theme ships a light gray drop shadow that reads as a glow on
+    // dark backgrounds. Node fill and border already carry the elevation.
+    dropShadow: "none",
+    nodeShadow: false,
     background: readVar("--color-bg"),
     mainBkg: readVar("--color-surface-strong"),
     primaryColor: readVar("--color-surface-strong"),

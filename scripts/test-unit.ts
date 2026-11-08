@@ -131,9 +131,13 @@ assert.equal(themeVariables.mainBkg, "#e9ecef");
 assert.equal(themeVariables.lineColor, "#6c757d");
 assert.equal(themeVariables.clusterBorder, "#dee2e6");
 assert.ok(
-  !Object.values(themeVariables).some((value) => value.includes("color-mix")),
+  !Object.values(themeVariables).some(
+    (value) => typeof value === "string" && value.includes("color-mix")
+  ),
   "mermaid variables must be solid colors"
 );
+assert.equal(themeVariables.dropShadow, "none");
+assert.equal(themeVariables.nodeShadow, false);
 assert.equal(describeDiagramRole("flowchart-v2"), "diagramme de flux");
 assert.equal(describeDiagramRole("sequenceDiagram"), "diagramme de séquence");
 assert.equal(describeDiagramRole("unknown-key"), "diagramme");
