@@ -162,6 +162,13 @@
     visibility: hidden;
   }
 
+  /* Without panzoom, scroll the natural-size diagram instead of cropping it. */
+  .mermaid-dialog[data-error="true"] .mermaid-dialog__viewport {
+    overflow: auto;
+    cursor: default;
+    touch-action: pan-x pan-y;
+  }
+
   .mermaid-dialog__viewport:active {
     cursor: grabbing;
   }

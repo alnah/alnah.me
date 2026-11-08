@@ -294,36 +294,47 @@ export function createDiagramDialog(): DiagramDialog {
     elements.stage.style.removeProperty("transform");
     elements.dialog.setAttribute("aria-label", input.title ?? "Diagramme");
     elements.dialog.dataset.ready = "false";
+    delete elements.dialog.dataset.error;
     elements.dialog.showModal();
     document.documentElement.style.overflow = "hidden";
 
-    const factory = await loadPanzoomFactory();
-    const natural = readNaturalSize(svg);
-    fitScale = computeFitScale(natural, elements.viewport);
-    minScale = Math.max(MIN_SCALE, fitScale / 2);
-    const startX = (elements.viewport.clientWidth - natural.width) / (2 * fitScale);
-    const startY = (elements.viewport.clientHeight - natural.height) / (2 * fitScale);
+    try {
+      const factory = await loadPanzoomFactory();
+      const natural = readNaturalSize(svg);
+      fitScale = computeFitScale(natural, elements.viewport);
+      minScale = Math.max(MIN_SCALE, fitScale / 2);
+      const startX = (elements.viewport.clientWidth - natural.width) / (2 * fitScale);
+      const startY = (elements.viewport.clientHeight - natural.height) / (2 * fitScale);
 
-    // No `contain`: panzoom caps the max scale at the fit scale when contained,
-    // which blocks zooming in. Centering is passed as the reset position.
-    panzoom = factory(elements.stage, {
-      maxScale: MAX_SCALE,
-      minScale,
-      startScale: fitScale,
-      startX,
-      startY,
-      canvas: true,
-      cursor: "grab",
-      panOnlyWhenZoomed: true,
-      touchAction: "none",
-      animate: !prefersReducedMotion()
-    });
+      // No `contain`: panzoom caps the max scale at the fit scale when contained,
+      // which blocks zooming in. Centering is passed as the reset position.
+      panzoom = factory(elements.stage, {
+        maxScale: MAX_SCALE,
+        minScale,
+        startScale: fitScale,
+        startX,
+        startY,
+        canvas: true,
+        cursor: "grab",
+        panOnlyWhenZoomed: true,
+        touchAction: "none",
+        animate: !prefersReducedMotion()
+      });
 
-    // Apply the reset position before revealing, so the first paint is already
-    // centered instead of the natural-size SVG jumping into place.
-    panzoom.pan(startX, startY, { animate: false, force: true });
-    elements.stage.addEventListener("panzoomchange", updateScale);
-    updateScale();
+      // Apply the reset position before revealing, so the first paint is already
+      // centered instead of the natural-size SVG jumping into place.
+      panzoom.pan(startX, startY, { animate: false, force: true });
+      elements.stage.addEventListener("panzoomchange", updateScale);
+      updateScale();
+    } catch (error) {
+      // Keep the diagram reachable at its natural size instead of a blank modal.
+      console.error("Mermaid dialog failed to open:", error);
+      elements.dialog.dataset.error = "true";
+      elements.dialog.dataset.ready = "true";
+      elements.viewport.focus();
+      announce("Zoom indisponible");
+      return;
+    }
 
     // Reveal one frame after the pan rAF so the fitted transform is painted.
     requestAnimationFrame(() => {
