@@ -45,6 +45,12 @@
     text-align: center;
   }
 
+  /* Italic-only paragraphs next to a diagram are captions: right-aligned. */
+  .prose p:has(> em:only-child):has(+ :is(.mermaid-figure, pre.mermaid)),
+  .prose :is(.mermaid-figure, pre.mermaid) + p:has(> em:only-child) {
+    text-align: right;
+  }
+
   .mermaid-expand {
     position: absolute;
     top: var(--space-2);
