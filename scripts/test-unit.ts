@@ -13,6 +13,7 @@ import {
 import { describeDiagramRole } from "../src/components/mermaid/labels.ts";
 import { buildThemeVariables } from "../src/components/mermaid/theme.ts";
 import { buildCopyText, diagramFileName } from "../src/components/mermaid/export-svg.ts";
+import { computeFitScale } from "../src/components/mermaid/viewport.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
 
 const sampleMarkdown = `---
@@ -142,6 +143,17 @@ assert.equal(themeVariables.nodeShadow, false);
 assert.equal(describeDiagramRole("flowchart-v2"), "diagramme de flux");
 assert.equal(describeDiagramRole("sequenceDiagram"), "diagramme de séquence");
 assert.equal(describeDiagramRole("unknown-key"), "diagramme");
+
+assert.equal(computeFitScale({ width: 0, height: 0 }, { clientWidth: 800, clientHeight: 600 }), 1);
+assert.equal(
+  computeFitScale({ width: 1000, height: 1000 }, { clientWidth: 848, clientHeight: 648 }),
+  0.6
+);
+assert.equal(computeFitScale({ width: 1, height: 1 }, { clientWidth: 848, clientHeight: 648 }), 8);
+assert.equal(
+  computeFitScale({ width: 1_000_000, height: 1_000_000 }, { clientWidth: 848, clientHeight: 648 }),
+  0.05
+);
 
 assert.equal(diagramFileName("Parcours de connexion"), "parcours-de-connexion.svg");
 assert.equal(diagramFileName("Échange client/serveur"), "echange-client-serveur.svg");

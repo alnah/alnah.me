@@ -17,6 +17,7 @@ import {
   zoomInIcon,
   zoomOutIcon
 } from "./icons";
+import { computeFitScale, MAX_SCALE, MIN_SCALE, readNaturalSize } from "./viewport";
 
 export type DiagramDialogInput = {
   svg: SVGSVGElement;
@@ -42,7 +43,6 @@ type DialogRefs = {
 };
 
 const PAN_STEP = 60;
-const MAX_SCALE = 8;
 const ZOOM_STEP = Math.exp(0.3);
 
 type DiagramAction =
@@ -110,38 +110,6 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-type NaturalSize = {
-  width: number;
-  height: number;
-};
-
-function readNaturalSize(svg: SVGSVGElement): NaturalSize {
-  const width = Number(svg.getAttribute("width"));
-  const height = Number(svg.getAttribute("height"));
-
-  if (Number.isFinite(width) && width > 0 && Number.isFinite(height) && height > 0) {
-    return { width, height };
-  }
-
-  const rect = svg.getBoundingClientRect();
-
-  return { width: rect.width, height: rect.height };
-}
-
-function computeFitScale(natural: NaturalSize, viewport: HTMLElement): number {
-  if (!natural.width || !natural.height) {
-    return 1;
-  }
-
-  const padding = 48;
-  const scale = Math.min(
-    (viewport.clientWidth - padding) / natural.width,
-    (viewport.clientHeight - padding) / natural.height
-  );
-
-  return Math.min(8, Math.max(0.05, scale));
-}
-
 /** One dialog per page, created on first use and reused afterwards. */
 export function createDiagramDialog(): DiagramDialog {
   let refs: DialogRefs | null = null;
@@ -151,7 +119,7 @@ export function createDiagramDialog(): DiagramDialog {
   let currentTitle: string | null = null;
   let currentSource = "";
   let fitScale = 1;
-  let minScale = 0.05;
+  let minScale = MIN_SCALE;
   let statusTimer = 0;
 
   function zoomBy(factor: number): void {
@@ -332,7 +300,7 @@ export function createDiagramDialog(): DiagramDialog {
     const factory = await loadPanzoomFactory();
     const natural = readNaturalSize(svg);
     fitScale = computeFitScale(natural, elements.viewport);
-    minScale = Math.max(0.05, fitScale / 2);
+    minScale = Math.max(MIN_SCALE, fitScale / 2);
     const startX = (elements.viewport.clientWidth - natural.width) / (2 * fitScale);
     const startY = (elements.viewport.clientHeight - natural.height) / (2 * fitScale);
 
