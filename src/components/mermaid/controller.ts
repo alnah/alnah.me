@@ -1,4 +1,5 @@
 import { createDiagramDialog, type DiagramDialog } from "./dialog";
+import { markExternalDiagramLinks } from "./external-links";
 import { expandIcon } from "./icons";
 import { configureMermaid, localiseRoleDescription, readTheme, renderDiagram } from "./render";
 
@@ -46,6 +47,7 @@ async function renderDiagramInto(pre: HTMLPreElement, dialog: DiagramDialog): Pr
 
     if (svg) {
       localiseRoleDescription(svg);
+      markExternalDiagramLinks(svg);
     }
 
     pre.dataset.processed = "true";
