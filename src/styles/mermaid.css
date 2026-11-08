@@ -33,6 +33,12 @@
     height: auto;
   }
 
+  /* Mermaid `click` links wrap the whole node in an SVG anchor; SVG links are
+   * not underlined by default, so mark the label like an inline link. */
+  :is(.mermaid-figure, .mermaid-dialog__stage) svg a .nodeLabel {
+    text-decoration: underline;
+  }
+
   .mermaid-expand {
     position: absolute;
     top: var(--space-2);
