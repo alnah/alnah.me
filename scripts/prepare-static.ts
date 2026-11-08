@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
+import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid.ts";
 import {
   buildAliasRedirects,
   findMarkdownFiles,
@@ -165,8 +166,30 @@ async function validateMarkdownTitleContract(rootDir: string) {
   );
 }
 
+/**
+ * A diagram without a name and a description is an empty graphic for
+ * assistive technologies, so the violation is fatal before any artifact is
+ * written.
+ */
+async function validateMermaidAccessibilityContract(rootDir: string) {
+  const files = await findMarkdownFiles(rootDir);
+
+  await Promise.all(
+    files.map(async (file) => {
+      const markdown = await fs.readFile(file, "utf8");
+      const errors = mermaidAccessibilityErrors(stripFrontmatter(markdown));
+
+      if (errors.length > 0) {
+        throw new Error(`${path.relative(cwd, file)}: ${errors.join("; ")}`);
+      }
+    })
+  );
+}
+
 await validateMarkdownTitleContract(contentRoot);
 await validateMarkdownTitleContract(pagesRoot);
+await validateMermaidAccessibilityContract(contentRoot);
+await validateMermaidAccessibilityContract(pagesRoot);
 const publishedEntries = await getPublishedMarkdownEntries(contentRoot);
 await copyFileAtomically(licenseSource, licenseTarget);
 await copyLicenseFiles();
