@@ -2,7 +2,7 @@
 title: "Le CECRL est plus qu'une simple grille de niveaux"
 date: 2026-11-06
 draft: false
-description: "Le CECRL est souvent réduit à sa grille d'auto-évaluation qui va du A1 au C2. Néanmoins, il contient un schéma descriptif, autrement dit, un modèle, très utile pour mettre en œuvre la perspective actionnelle."
+description: "Le CECRL est un cadre de travail pédagogique très structurant pour mettre en œuvre la perspective actionnelle."
 category: enseigner
 tags:
   - cecrl
