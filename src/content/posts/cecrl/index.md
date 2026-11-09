@@ -27,7 +27,7 @@ Comme cet article est un guide pour vous orienter dans le CECRL, j'utiliserai la
 
 ## Le CECRL retient la perspective actionnelle
 
-Le chapitre 2 du CECRL de 2001 présente la perspective actionnelle. Si vous ne la connaissez pas, commencez par lire [mon article à son sujet](/articles/la-perspective-actionnelle/). De plus, le chapitre 2 introduit le schéma descriptif. Ce modèle présente les caractéristiques de l'usage et de l'apprentissage d'une langue. Vous pouvez cliquer en haut à droite du diagramme pour l'élargir.
+Le chapitre 2 du CECRL de 2001 présente la perspective actionnelle. Si vous ne la connaissez pas, commencez par lire [mon article à son sujet](/articles/perspective-actionnelle/). De plus, le chapitre 2 introduit le schéma descriptif. Ce modèle présente les caractéristiques de l'usage et de l'apprentissage d'une langue. Vous pouvez cliquer en haut à droite du diagramme pour l'élargir.
 
 _Le schéma descriptif du CECRL_
 

@@ -2,6 +2,8 @@
 title: "Qu'est-ce que la perspective actionnelle ?"
 date: 2026-10-29
 draft: false
+aliases:
+  - /articles/la-perspective-actionnelle/
 description: "La perspective actionnelle du CECRL fait de l'apprenant un acteur social qui réalise des tâches concrètes en français guidé par l'enseignant."
 category: enseigner
 tags:
