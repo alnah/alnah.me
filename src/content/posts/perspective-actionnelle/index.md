@@ -48,7 +48,21 @@ La langue devient un moyen d'agir à l'intérieur de la société. Lire, écoute
 
 La tâche est le composant central de la perspective actionnelle. C'est un projet avec un objectif qui demande de trouver une solution dans un contexte donné. Les stratégies pour résoudre le problème mobilisent le français, les autres connaissances et le savoir-faire de l'apprenant. La tâche dépasse l'exercice scolaire.
 
-Prenons un exemple : « planifier une randonnée dans les Alpes avec un groupe d'amis ». Cette tâche finale se décompose en sous-tâches. Par exemple, on peut définir un budget pour le week-end, négocier la date du départ et du retour avec ses amis, comparer et réserver des billets de train et un logement, présenter l'itinéraire de la randonnée. Tout ça est beaucoup plus que conjuguer des verbes du champ lexical de la randonnée au futur simple.
+Prenons un exemple : « Planifier une randonnée dans les Alpes avec un groupe d'amis sur WhatsApp. » Cette tâche finale se décompose en sous-tâches. Par exemple, on peut définir un budget pour le week-end, négocier la date du départ et du retour avec ses amis, comparer et réserver des billets de train et un logement, présenter l'itinéraire de la randonnée. Tout ça est beaucoup plus que conjuguer des verbes du champ lexical de la randonnée au futur simple.
+
+_Tâche finale et sous-tâches_
+
+```mermaid
+%%{init: {"flowchart": {"wrappingWidth": 320}}}%%
+flowchart LR
+  accTitle: Tâche finale et sous-tâches d'une randonnée
+  accDescr: Diagramme représentant la tâche finale et ses sous-tâches.
+  TM["<b>Planifier une randonnée dans les Alpes avec un groupe d'amis sur WhatsApp</b>"]
+  TM --> TE1["Définir un budget pour le week-end"]
+  TM --> TE2["Négocier la date du départ et du retour avec ses amis"]
+  TM --> TE3["Comparer et réserver des billets de train et un logement"]
+  TM --> TE4["Présenter l'itinéraire de la randonnée"]
+```
 
 L'apprenant utilise la grammaire et le vocabulaire qu'il connaît, ainsi que ses capacités de lecture et d'écoute. Il s'organise, emploie les codes de politesse, utilise des sites web ou des applications pour réaliser la tâche finale. Il développe des tactiques et des stratégies pour gérer les difficultés qui se présentent à lui. Il devient ainsi l'acteur de la tâche. L'enseignant peut lui transmettre le vocabulaire ou la grammaire pour faciliter la réalisation de la tâche. La tâche fait apparaître le besoin de maîtriser le français.
 
