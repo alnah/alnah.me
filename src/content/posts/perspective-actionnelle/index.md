@@ -4,7 +4,7 @@ date: 2026-10-29
 draft: false
 aliases:
   - /articles/la-perspective-actionnelle/
-description: "La perspective actionnelle du CECRL fait de l'apprenant un acteur social qui réalise des tâches concrètes en français guidé par l'enseignant."
+description: "La perspective actionnelle fait de l'apprenant un acteur social qui réalise des tâches concrètes en français, tout en étant guidé par l'enseignant."
 category: enseigner
 tags:
   - cecrl
