@@ -4,7 +4,7 @@
     font-size: var(--font-size-base);
     line-height: var(--line-height-relaxed);
     background:
-      radial-gradient(circle at top left, color-mix(in srgb, var(--color-surface-strong) 52%, transparent) 0, transparent 34%),
+      radial-gradient(circle 120rem at top left, color-mix(in srgb, var(--color-surface-strong) 52%, transparent) 0, transparent 34%),
       linear-gradient(180deg, color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)) 0, var(--color-bg) 22rem);
     color: var(--color-text);
     -webkit-font-smoothing: antialiased;
