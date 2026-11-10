@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 import http from "node:http";
 import { chromium, devices, type Page } from "playwright";
+import type { SearchIndexDocument } from "../src/lib/search-ranking.ts";
+import { readJson } from "./test-helpers.ts";
 
 const rootDir = process.cwd();
 const distDir = path.join(rootDir, "dist");
@@ -101,8 +103,8 @@ async function assertNoHorizontalOverflow(page: Page, label: string) {
   assert.equal(overflow, 0, `${label} should not overflow horizontally (got ${overflow}px)`);
 }
 
-const searchIndex = JSON.parse(fs.readFileSync(path.join(distDir, "index.json"), "utf8"));
-const targetPost = searchIndex.find((item: any) => item?.title && item?.url);
+const searchIndex = readJson<SearchIndexDocument[]>("dist/index.json");
+const targetPost = searchIndex.find((item) => item?.title && item?.url);
 const server = await startStaticServer();
 const browser = await chromium.launch();
 

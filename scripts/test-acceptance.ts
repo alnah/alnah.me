@@ -5,7 +5,7 @@ import {
   executableInlineScriptHashes,
   readFile,
   readJson
-} from "./checks.ts";
+} from "./test-helpers.ts";
 
 const requiredFiles = [
   "dist/index.html",

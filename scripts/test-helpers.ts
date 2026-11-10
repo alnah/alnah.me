@@ -25,8 +25,8 @@ export function assertIncludes(text: string, expected: string, label: string) {
   assert.ok(text.includes(expected), `Expected ${label} to include: ${expected}`);
 }
 
-export function readJson(relativePath: string): any {
-  return JSON.parse(readFile(relativePath));
+export function readJson<T = unknown>(relativePath: string): T {
+  return JSON.parse(readFile(relativePath)) as T;
 }
 
 export function htmlFiles(dir = distDir): string[] {

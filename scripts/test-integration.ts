@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { normalizeAlias } from "../src/lib/aliases.ts";
 import { serializeJsonForHtmlScript } from "../src/lib/script-safe.ts";
+import type { SearchIndexDocument } from "../src/lib/search-ranking.ts";
 import {
   assertIncludes,
   assertInternalLinks,
@@ -8,10 +9,10 @@ import {
   readFile,
   readJson,
   representativePostPath
-} from "./checks.ts";
+} from "./test-helpers.ts";
 
 const rssXml = readFile("dist/rss.xml");
-const searchIndex = readJson("dist/index.json");
+const searchIndex = readJson<SearchIndexDocument[]>("dist/index.json");
 const aboutHtml = readFile("dist/a-propos/index.html");
 const representativePath = representativePostPath();
 
