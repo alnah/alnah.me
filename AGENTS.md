@@ -111,9 +111,9 @@ Public: `public/`; static assets and generated publish artifacts.
 ### Important boundaries
 
 Astro app: use `TypeScript`.
-Build helpers: use `.js` / `.mjs`.
-Boundary: keep the split intentional.
-Churn: do not move files between TS and JS without clear payoff.
+Build helpers: use `TypeScript` too; Node runs them directly through native type stripping.
+Boundary: keep the split intentional between `src/` and `scripts/`.
+Churn: do not move files between the two without clear payoff.
 
 ### Layout model
 
@@ -173,11 +173,11 @@ Schema rule: do not introduce `public` or `summary` unless the content schema ch
 
 ## Build system
 
-Prepare script: `scripts/prepare-static.mjs`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
-Acceptance: `scripts/test-acceptance.mjs`.
-Integration: `scripts/test-integration.mjs`.
-E2E: `scripts/test-e2e.mjs`.
-Verify: `scripts/verify.mjs`.
+Prepare script: `scripts/prepare-static.ts`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
+Acceptance: `scripts/test-acceptance.ts`.
+Integration: `scripts/test-integration.ts`.
+E2E: `scripts/test-e2e.ts`.
+Verify: `scripts/verify.ts`.
 
 ## Deployment
 
