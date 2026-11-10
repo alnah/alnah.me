@@ -5,6 +5,7 @@ import {
   getPostCategoryMeta,
   isPostCategory,
   POST_CATEGORIES,
+  summarizeTags,
   type PostCategory
 } from "./taxonomy";
 
@@ -50,17 +51,7 @@ export async function getPostsByCategory(categorySlug: string) {
 
 export async function getTags() {
   const posts = await getPublishedPosts();
-  const tags = new Map<string, number>();
-
-  for (const post of posts) {
-    for (const tag of post.data.tags) {
-      tags.set(tag, (tags.get(tag) ?? 0) + 1);
-    }
-  }
-
-  return [...tags.entries()]
-    .map(([label, count]) => ({ label, count, slug: slugify(label) }))
-    .sort((left, right) => left.label.localeCompare(right.label));
+  return summarizeTags(posts.map((post) => post.data.tags));
 }
 
 /**

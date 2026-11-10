@@ -1,3 +1,5 @@
+import { slugify } from "./format.ts";
+
 export const POST_CATEGORIES = [
   'construire',
   'outiller',
@@ -38,6 +40,55 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
 
 export function isPostCategory(value: string): value is PostCategory {
   return POST_CATEGORIES.includes(value as PostCategory);
+}
+
+export type TagSummary = {
+  label: string;
+  count: number;
+  slug: string;
+};
+
+/**
+ * Merge tags by slug so spelling variants ("Pédagogie", "pedagogie") share a
+ * single archive. The label is the most frequent variant, ties keep the first
+ * seen, and the count is the number of distinct posts carrying the tag.
+ */
+export function summarizeTags(tagLists: string[][]): TagSummary[] {
+  const bySlug = new Map<string, { labels: Map<string, number>; count: number }>();
+
+  for (const tags of tagLists) {
+    const slugsInPost = new Set<string>();
+
+    for (const label of tags) {
+      const slug = slugify(label);
+      const entry = bySlug.get(slug) ?? { labels: new Map<string, number>(), count: 0 };
+
+      entry.labels.set(label, (entry.labels.get(label) ?? 0) + 1);
+
+      if (!slugsInPost.has(slug)) {
+        entry.count += 1;
+        slugsInPost.add(slug);
+      }
+
+      bySlug.set(slug, entry);
+    }
+  }
+
+  return [...bySlug.entries()]
+    .map(([slug, entry]) => {
+      let label = "";
+      let bestCount = -1;
+
+      for (const [candidate, count] of entry.labels) {
+        if (count > bestCount) {
+          label = candidate;
+          bestCount = count;
+        }
+      }
+
+      return { label, count: entry.count, slug };
+    })
+    .sort((left, right) => left.label.localeCompare(right.label));
 }
 
 export function getPostCategoryMeta(category: PostCategory) {

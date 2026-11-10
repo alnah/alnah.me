@@ -26,7 +26,9 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/categories/project-updates/", to: "/categories/" },
   { from: "/categories/tutorials/", to: "/categories/" },
   { from: "/categories/outils", to: "/categories/outiller/" },
-  { from: "/categories/outils/", to: "/categories/outiller/" }
+  { from: "/categories/outils/", to: "/categories/outiller/" },
+  { from: "/etiquettes/p-dagogie", to: "/etiquettes/pedagogie/" },
+  { from: "/etiquettes/p-dagogie/", to: "/etiquettes/pedagogie/" }
 ];
 
 export function buildLegacyRedirectLines() {
