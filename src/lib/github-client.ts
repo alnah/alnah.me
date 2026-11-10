@@ -4,7 +4,7 @@ import type {
   GitHubPublicEvent,
   GitHubRepo,
   RecentActivityItem
-} from "./github.ts";
+} from "./github-types.ts";
 
 const GITHUB_GRAPHQL_ENDPOINT = "https://api.github.com/graphql";
 const GITHUB_REST_ENDPOINT = "https://api.github.com";

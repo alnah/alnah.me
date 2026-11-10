@@ -50,7 +50,7 @@ const DEFAULT_RESULT_LIMIT = 8;
  * remember exact prose, so the ranking deliberately favors editorial metadata.
  * Every weight is data so the ordering stays explicit and testable.
  */
-export const FIELD_WEIGHTS: Record<SearchField, number> = {
+const FIELD_WEIGHTS: Record<SearchField, number> = {
   title: 24,
   category: 20,
   tags: 18,
@@ -61,10 +61,10 @@ export const FIELD_WEIGHTS: Record<SearchField, number> = {
 };
 
 /** How a single query token scores against one field. */
-export const TOKEN_MATCH_SCORES = { exact: 8, prefix: 5, substring: 2 };
+const TOKEN_MATCH_SCORES = { exact: 8, prefix: 5, substring: 2 };
 
 /** Bonus when the query tokens appear adjacent, in order, inside a field. */
-export const ADJACENT_MATCH_BONUSES: Record<SearchField, number> = {
+const ADJACENT_MATCH_BONUSES: Record<SearchField, number> = {
   title: 120,
   category: 100,
   tags: 90,
@@ -75,7 +75,7 @@ export const ADJACENT_MATCH_BONUSES: Record<SearchField, number> = {
 };
 
 /** Bonus when a whole field equals the query, or, for dates, contains it. */
-export const EXACT_MATCH_RULES: Array<{
+const EXACT_MATCH_RULES: Array<{
   field: SearchField;
   kind: "equals" | "contains";
   bonus: number;
@@ -86,7 +86,7 @@ export const EXACT_MATCH_RULES: Array<{
   { field: "date", kind: "contains", bonus: 140 }
 ];
 
-export function normalizeSearchValue(value: string | null | undefined) {
+function normalizeSearchValue(value: string | null | undefined) {
   return `${value ?? ""}`
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -96,7 +96,7 @@ export function normalizeSearchValue(value: string | null | undefined) {
     .trim();
 }
 
-export function splitSearchTokens(value: string) {
+function splitSearchTokens(value: string) {
   const normalized = normalizeSearchValue(value);
   return normalized ? normalized.split(" ") : [];
 }

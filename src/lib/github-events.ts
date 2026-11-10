@@ -1,4 +1,4 @@
-import type { GitHubPublicEvent, RecentActivityItem } from "./github.ts";
+import type { GitHubPublicEvent, RecentActivityItem } from "./github-types.ts";
 
 /**
  * Pure mapping from GitHub public events to the recent-activity items shown on

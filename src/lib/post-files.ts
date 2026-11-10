@@ -66,7 +66,7 @@ export function stripFrontmatter(markdown: string) {
   return matter(markdown).content.replace(/^\n+/, "");
 }
 
-export function parseMarkdownPost(markdown: string, slug: string) {
+function parseMarkdownPost(markdown: string, slug: string) {
   const { data } = matter(markdown);
 
   return {
@@ -77,7 +77,7 @@ export function parseMarkdownPost(markdown: string, slug: string) {
   };
 }
 
-export async function readMarkdownPost(file: string) {
+async function readMarkdownPost(file: string) {
   const markdown = await fs.readFile(file, "utf8");
   const slug = path.basename(path.dirname(file));
 

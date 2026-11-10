@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { GitHubPublicEvent, RecentActivityItem } from "../src/lib/github.ts";
+import type { GitHubPublicEvent, RecentActivityItem } from "../src/lib/github-types.ts";
 import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.ts";
 import { buildAliasRedirects, buildRawAliasRedirects } from "../src/lib/post-files.ts";
 import {

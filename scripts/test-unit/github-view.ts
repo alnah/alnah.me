@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { GitHubActivityData } from "../../src/lib/github.ts";
+import type { GitHubActivityData } from "../../src/lib/github-types.ts";
 import {
   buildGitHubActivityView,
   formatContributionTitle,

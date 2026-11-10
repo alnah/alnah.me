@@ -1,4 +1,4 @@
-export type LegacyRedirect = {
+type LegacyRedirect = {
   from: string;
   to: string;
 };
@@ -8,7 +8,7 @@ export type LegacyRedirect = {
  * revive whole sections without shadowing the current taxonomy routes, so the
  * fixed `/categories/*` paths stay untouched.
  */
-export const LEGACY_REDIRECTS: LegacyRedirect[] = [
+const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/about", to: "/a-propos/" },
   { from: "/about/", to: "/a-propos/" },
   { from: "/privacy/", to: "/confidentialite/" },

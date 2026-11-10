@@ -11,11 +11,11 @@ import {
 
 export type PostEntry = CollectionEntry<"posts">;
 
-export function isPublished(post: PostEntry) {
+function isPublished(post: PostEntry) {
   return isPublishedData(post.data);
 }
 
-export function sortPosts(posts: PostEntry[]) {
+function sortPosts(posts: PostEntry[]) {
   return [...posts].sort((left, right) => {
     const leftDate = resolvePublicationDate(left.data).getTime();
     const rightDate = resolvePublicationDate(right.data).getTime();
