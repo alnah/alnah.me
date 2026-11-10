@@ -65,19 +65,29 @@ export function executableInlineScriptHashes(relativePath: string) {
 
 export function representativePostPath(): string | null {
   const postsDir = path.join(distDir, "articles");
-  if (!fs.existsSync(postsDir)) {
-    return null;
-  }
-  const entries = fs.readdirSync(postsDir, { withFileTypes: true });
-  const postDir = entries.find(
-    (entry) => entry.isDirectory() && entry.name !== "2"
-  );
+  const rawPostsDir = path.join(distDir, "raw", "posts");
 
-  if (!postDir) {
+  if (!fs.existsSync(postsDir) || !fs.existsSync(rawPostsDir)) {
     return null;
   }
 
-  return path.join(postsDir, postDir.name, "index.html");
+  // Raw exports only exist for published posts, so pagination directories
+  // such as /articles/2/ never qualify as a representative post.
+  const slugs = fs
+    .readdirSync(rawPostsDir)
+    .filter((name) => name.endsWith(".md"))
+    .map((name) => name.slice(0, -".md".length))
+    .sort();
+
+  for (const slug of slugs) {
+    const candidate = path.join(postsDir, slug, "index.html");
+
+    if (fs.existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
 }
 
 function hrefMatches(html: string) {
