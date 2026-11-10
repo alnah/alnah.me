@@ -18,7 +18,10 @@ const contentRoot = path.join(cwd, "src/content/posts");
 const pagesRoot = path.join(cwd, "src/content/pages");
 const redirectsPath = path.join(cwd, "public/_redirects");
 const licenseSource = path.join(cwd, "LICENSE");
-const licenseTarget = path.join(cwd, "public/LICENSE");
+const licenseTarget = path.join(cwd, "public/LICENSE.txt");
+// The extensionless path served as application/octet-stream; drop the stale
+// artifact left behind by older builds once the .txt copy is in place.
+const legacyLicenseTarget = path.join(cwd, "public/LICENSE");
 const licensesSourceDir = path.join(cwd, "LICENSES");
 const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
@@ -192,9 +195,10 @@ await validateMarkdownFiles(contentRoot, validateMermaidContract);
 await validateMarkdownFiles(pagesRoot, validateMermaidContract);
 const publishedEntries = await getPublishedMarkdownEntries(contentRoot);
 await copyFileAtomically(licenseSource, licenseTarget);
+await fs.rm(legacyLicenseTarget, { force: true });
 await copyLicenseFiles();
 await writeFileAtomically(redirectsPath, await buildRedirectLines(publishedEntries));
 await writeRawMarkdown(publishedEntries);
 console.log(
-  "prepare-static: wrote public/_redirects, public/LICENSE, public/LICENSES, and public/raw/posts"
+  "prepare-static: wrote public/_redirects, public/LICENSE.txt, public/LICENSES, and public/raw/posts"
 );

@@ -12,6 +12,7 @@ export const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/about", to: "/a-propos/" },
   { from: "/about/", to: "/a-propos/" },
   { from: "/privacy/", to: "/confidentialite/" },
+  { from: "/LICENSE", to: "/LICENSE.txt" },
   { from: "/posts", to: "/articles/" },
   { from: "/posts/", to: "/articles/" },
   { from: "/posts/*", to: "/articles/" },

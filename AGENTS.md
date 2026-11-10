@@ -93,7 +93,7 @@ Prepare: if content rendering, search, metadata, or build artifacts change, also
 Visual QA: if visual layout changes, capture desktop, `iPhone SE`, and tablet-sized screenshots.
 Diffs: prefer minimal diffs.
 Commits: keep atomic and reviewable.
-Generated files: never commit `dist/`, `.astro/`, `public/LICENSE`, `public/LICENSES/`, `public/raw/`.
+Generated files: never commit `dist/`, `.astro/`, `public/LICENSE.txt`, `public/LICENSES/`, `public/raw/`.
 Scratch docs: never commit `docs/nocommit-*`.
 
 ## Architecture
@@ -173,7 +173,7 @@ Schema rule: do not introduce `public` or `summary` unless the content schema ch
 
 ## Build system
 
-Prepare script: `scripts/prepare-static.mjs`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` and `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
+Prepare script: `scripts/prepare-static.mjs`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
 Acceptance: `scripts/test-acceptance.mjs`.
 Integration: `scripts/test-integration.mjs`.
 E2E: `scripts/test-e2e.mjs`.

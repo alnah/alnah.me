@@ -111,4 +111,4 @@ pw-shot-local: doctor ## Capture a local screenshot (set PW_PATH and optionally 
 	@$(MAKE) --no-print-directory pw-shot PW_URL=http://$(HOST):$(PORT)$(PW_PATH) PW_OUT="$(PW_OUT)" PW_DEVICE="$(PW_DEVICE)" PW_BROWSER="$(PW_BROWSER)" PW_COLOR_SCHEME="$(PW_COLOR_SCHEME)" PW_WAIT_FOR_SELECTOR="$(PW_WAIT_FOR_SELECTOR)" PW_WAIT_FOR_TIMEOUT="$(PW_WAIT_FOR_TIMEOUT)" PW_FULL_PAGE="$(PW_FULL_PAGE)"
 
 clean: ## Remove generated build artifacts
-	@rm -rf dist .astro node_modules/.astro public/LICENSE public/LICENSES public/raw
+	@rm -rf dist .astro node_modules/.astro public/LICENSE public/LICENSE.txt public/LICENSES public/raw

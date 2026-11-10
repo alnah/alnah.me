@@ -93,7 +93,7 @@ export const SITE = {
     photoAlt: "Portrait d'Alexis Nahan",
   },
   repoUrl: 'https://github.com/alnah/alnah.me',
-  reuseUrl: '/LICENSE',
+  reuseUrl: '/LICENSE.txt',
   license: {
     name: 'CC BY 4.0',
     url: 'https://creativecommons.org/licenses/by/4.0/',

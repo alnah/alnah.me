@@ -14,7 +14,7 @@ const requiredFiles = [
   "dist/sitemap-index.xml",
   "dist/robots.txt",
   "dist/_redirects",
-  "dist/LICENSE",
+  "dist/LICENSE.txt",
   "dist/LICENSES/BSD-3-Clause.txt",
   "dist/LICENSES/CC-BY-4.0.txt",
   "dist/a-propos/index.html",
@@ -30,7 +30,7 @@ const aboutHtml = readFile("dist/a-propos/index.html");
 const redirects = readFile("dist/_redirects");
 const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");
-const license = readFile("dist/LICENSE");
+const license = readFile("dist/LICENSE.txt");
 const bsdLicense = readFile("dist/LICENSES/BSD-3-Clause.txt");
 const ccLicense = readFile("dist/LICENSES/CC-BY-4.0.txt");
 const searchIndex = readJson("dist/index.json");
@@ -59,6 +59,7 @@ assertIncludes(redirects, "/about/ /a-propos/ 301", "_redirects legacy about");
 assertIncludes(redirects, "/privacy/ /confidentialite/ 301", "_redirects legacy privacy");
 assertIncludes(redirects, "/posts/* /articles/ 301", "_redirects legacy posts");
 assertIncludes(redirects, "/tags/* /articles/ 301", "_redirects legacy tags");
+assertIncludes(redirects, "/LICENSE /LICENSE.txt 301", "_redirects license text");
 assertIncludes(headers, "Content-Security-Policy:", "_headers CSP");
 assert.ok(cspLine, "_headers should include a CSP line");
 assert.ok(

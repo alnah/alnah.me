@@ -31,6 +31,7 @@ dist/
 .astro/
 node_modules/
 public/LICENSE
+public/LICENSE.txt
 public/LICENSES/
 public/raw/
 public/_redirects
