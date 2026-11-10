@@ -6,7 +6,7 @@ import GitHubActivity from "../components/GitHubActivity.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import profileImage from "../assets/profile.jpeg";
 import { SITE } from "../config/site.ts";
-import { getPageContent } from "../lib/content.ts";
+import { getPageContent } from "../lib/content/index.ts";
 import { markdownHastPlugins } from "../lib/markdown/plugins.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
 import { buildProfilePageSchema } from "../lib/seo.ts";

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
-import { getCategories } from "../../lib/content.ts";
+import { getCategories } from "../../lib/content/index.ts";
 
 const categories = await getCategories();
 ---

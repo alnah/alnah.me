@@ -2,7 +2,7 @@ import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site.ts";
-import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content.ts";
+import { getPostCategoryMeta, getPublishedPosts, resolvePublicationDate } from "../lib/content/index.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
 
 export async function GET(context: APIContext) {

@@ -4,7 +4,7 @@ import PostList from "../../components/PostList.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import { SITE } from "../../config/site.ts";
-import { getPublishedPosts, type PostEntry } from "../../lib/content.ts";
+import { getPublishedPosts, type PostEntry } from "../../lib/content/index.ts";
 
 type ArchivePage = {
   data: PostEntry[];

@@ -5,7 +5,7 @@ import { diagramFileName } from "../../src/components/mermaid/export-svg.ts";
 import { describeDiagramRole } from "../../src/components/mermaid/labels.ts";
 import { buildThemeVariables } from "../../src/components/mermaid/theme.ts";
 import { computeFitScale } from "../../src/components/mermaid/viewport.ts";
-import { findMermaidFences, mermaidAccessibilityErrors } from "../../src/lib/content/mermaid.ts";
+import { findMermaidFences, mermaidAccessibilityErrors } from "../../src/lib/content/mermaid-contract.ts";
 
 /** Fence contract, theme mapping, fit math, labels, and export. */
 export function testMermaid(): void {

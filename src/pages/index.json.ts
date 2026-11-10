@@ -1,4 +1,4 @@
-import { getPublishedPosts } from "../lib/content.ts";
+import { getPublishedPosts } from "../lib/content/index.ts";
 import { createSearchDocument } from "../lib/search.ts";
 
 export async function GET() {

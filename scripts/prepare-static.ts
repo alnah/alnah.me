@@ -4,7 +4,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { isErrnoException } from "../src/lib/errno.ts";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
-import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid.ts";
+import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid-contract.ts";
 import {
   buildAliasRedirects,
   buildRawAliasRedirects,
