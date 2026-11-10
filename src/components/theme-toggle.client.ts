@@ -1,3 +1,5 @@
+import { isEditableTarget } from "../lib/editable-target";
+
 type ThemeMode = "system" | "dark" | "light";
 
 const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
@@ -54,14 +56,8 @@ mediaQuery.addEventListener("change", () => {
 });
 
 document.addEventListener("keydown", (event) => {
-  const target = event.target;
-  const isEditable =
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement ||
-    (target instanceof HTMLElement && target.isContentEditable);
-
   if (
-    isEditable ||
+    isEditableTarget(event.target) ||
     event.defaultPrevented ||
     event.altKey ||
     event.ctrlKey ||

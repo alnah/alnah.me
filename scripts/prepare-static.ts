@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import { isErrnoException } from "../src/lib/errno.ts";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid.ts";
 import {
@@ -27,10 +28,6 @@ const licensesSourceDir = path.join(cwd, "LICENSES");
 const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
 const tempFilePrefix = ".prepare-static-";
-
-function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
-  return typeof error === "object" && error !== null && "code" in error;
-}
 
 function createTempFilePath(targetPath: string) {
   return path.join(

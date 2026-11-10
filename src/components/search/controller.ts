@@ -1,3 +1,4 @@
+import { isEditableTarget } from "../../lib/editable-target";
 import { searchDocuments } from "../../lib/search";
 import { loadSearchIndex } from "./index-store";
 import { createResultsRenderer } from "./results";
@@ -16,14 +17,6 @@ const dialogs: SearchDialogController[] = [];
 const EMPTY_RESULTS_MESSAGE = "Aucun article correspondant pour le moment.";
 const UNAVAILABLE_MESSAGE =
   "L'index de recherche est indisponible. Vous pouvez toujours parcourir les articles.";
-
-function isEditableTarget(target: EventTarget | null) {
-  return (
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement ||
-    (target instanceof HTMLElement && target.isContentEditable)
-  );
-}
 
 function closeOtherDialogs(current: SearchDialogController) {
   for (const dialog of dialogs) {

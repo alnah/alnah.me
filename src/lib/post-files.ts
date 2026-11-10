@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { canonicalPostPath, normalizeAlias } from "./aliases.ts";
+import { isErrnoException } from "./errno.ts";
 import { isPublishedData, type PublicationData } from "./publication.ts";
 
 type RawFrontmatter = Record<string, unknown>;
@@ -19,10 +20,6 @@ export type AliasSourceEntry = {
   slug: string;
   aliases: unknown[];
 };
-
-function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
-  return typeof error === "object" && error !== null && "code" in error;
-}
 
 export async function findMarkdownFiles(dir: string): Promise<string[]> {
   let entries;

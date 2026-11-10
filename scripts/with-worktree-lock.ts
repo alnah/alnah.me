@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { isErrnoException } from "../src/lib/errno.ts";
 
 const lockWaitMs = 100;
 const lockTimeoutMs = 5 * 60 * 1000;
@@ -14,10 +15,6 @@ type LockOwner = {
   command?: string[];
   createdAt?: string;
 };
-
-function isErrnoException(error: unknown): error is NodeJS.ErrnoException {
-  return typeof error === "object" && error !== null && "code" in error;
-}
 
 function worktreeLockPath(cwd: string) {
   const digest = createHash("sha256").update(cwd).digest("hex").slice(0, 12);
