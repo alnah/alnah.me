@@ -2,6 +2,8 @@
 title: "Le CECRL est plus qu'une simple grille de niveaux"
 date: 2026-11-06
 draft: false
+aliases:
+  - /articles/le-cecrl/
 description: "Le CECRL est un cadre de travail pédagogique très structurant pour mettre en œuvre la perspective actionnelle."
 category: enseigner
 tags:
