@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import type { GitHubPublicEvent, RecentActivityItem } from "../src/lib/github.ts";
 import { dedupeRecentActivity, toRecentActivity } from "../src/lib/github-events.ts";
-import { buildAliasRedirects } from "../src/lib/post-files.ts";
+import { buildAliasRedirects, buildRawAliasRedirects } from "../src/lib/post-files.ts";
 import {
   isAfter,
   isBefore,
@@ -90,6 +90,21 @@ assert.throws(
     ]),
   /Alias collision/,
   "two posts cannot claim the same alias"
+);
+assert.deepEqual(
+  buildRawAliasRedirects([["/articles/old/", "/articles/new/"]]),
+  [["/raw/posts/old.md", "/raw/posts/new.md"]],
+  "a renamed post redirects its raw export"
+);
+assert.deepEqual(
+  buildRawAliasRedirects([["/reuse-notes/", "/articles/a/"]]),
+  [],
+  "non-article aliases create no raw redirect"
+);
+assert.deepEqual(
+  buildRawAliasRedirects([["/articles/a/", "/articles/a/"]]),
+  [],
+  "a self alias creates no raw redirect"
 );
 
 const EMPTY_SEARCH_FIELDS: Record<SearchField, string> = {

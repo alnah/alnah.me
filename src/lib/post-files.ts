@@ -127,3 +127,27 @@ export function buildAliasRedirects(
 
   return [...aliases.entries()].sort(([left], [right]) => left.localeCompare(right));
 }
+
+/**
+ * Reuse exports follow their post slug. When a post is renamed, its alias
+ * keeps the article URL alive; the old raw export must redirect too, so
+ * shared download links keep working.
+ */
+export function buildRawAliasRedirects(
+  aliasRedirects: Array<[string, string]>
+): Array<[string, string]> {
+  const rawRedirects: Array<[string, string]> = [];
+
+  for (const [alias, target] of aliasRedirects) {
+    const aliasSlug = alias.match(/^\/articles\/([^/]+)\/$/)?.[1];
+    const targetSlug = target.match(/^\/articles\/([^/]+)\/$/)?.[1];
+
+    if (!aliasSlug || !targetSlug || aliasSlug === targetSlug) {
+      continue;
+    }
+
+    rawRedirects.push([`/raw/posts/${aliasSlug}.md`, `/raw/posts/${targetSlug}.md`]);
+  }
+
+  return rawRedirects;
+}

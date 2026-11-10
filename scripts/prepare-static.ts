@@ -6,6 +6,7 @@ import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid.ts";
 import {
   buildAliasRedirects,
+  buildRawAliasRedirects,
   findMarkdownFiles,
   getPublishedMarkdownEntries,
   stripFrontmatter,
@@ -98,8 +99,10 @@ async function pruneDirectoryFiles(dirPath: string, expectedFileNames: Set<strin
 
 async function buildRedirectLines(entries: MarkdownPostEntry[]) {
   const lines: string[] = [];
+  const aliasRedirects = buildAliasRedirects(entries);
+  const rawRedirects = buildRawAliasRedirects(aliasRedirects);
 
-  for (const [alias, target] of buildAliasRedirects(entries)) {
+  for (const [alias, target] of [...aliasRedirects, ...rawRedirects]) {
     lines.push(`${alias} ${target} 301`);
   }
 

@@ -60,6 +60,12 @@ assertIncludes(redirects, "/privacy/ /confidentialite/ 301", "_redirects legacy 
 assertIncludes(redirects, "/posts/* /articles/ 301", "_redirects legacy posts");
 assertIncludes(redirects, "/tags/* /articles/ 301", "_redirects legacy tags");
 assertIncludes(redirects, "/LICENSE /LICENSE.txt 301", "_redirects license text");
+assertIncludes(redirects, "/articles/le-cecrl/ /articles/cecrl/ 301", "_redirects CECRL alias");
+assertIncludes(
+  redirects,
+  "/raw/posts/la-perspective-actionnelle.md /raw/posts/perspective-actionnelle.md 301",
+  "_redirects renamed raw export"
+);
 assertIncludes(headers, "Content-Security-Policy:", "_headers CSP");
 assert.ok(cspLine, "_headers should include a CSP line");
 assert.ok(
