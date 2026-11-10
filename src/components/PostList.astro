@@ -21,7 +21,7 @@ const {
   {posts.map((post) => (
     <article class="post-list-item">
       <p class="post-list-category">
-        <a class="category-pill" href={`/categories/${post.data.category}/`}>
+        <a class="category-pill" href={`/categories/${getPostCategoryMeta(post.data.category).slug}/`}>
           {getPostCategoryMeta(post.data.category).label}
         </a>
       </p>

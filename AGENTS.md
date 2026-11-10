@@ -147,7 +147,7 @@ Content in Markdown format...
 ```
 
 Optional fields: `lastmod`, `aliases`, `publishDate`, `expiryDate`, `cover`.
-Category: required; one of `construire`, `outils`, `enseigner`, `travailler`, `penser` (`src/lib/content/taxonomy.ts`).
+Category: required; one of `construire`, `outiller`, `enseigner`, `travailler`, `penser` (`src/lib/content/taxonomy.ts`).
 Tags: required; at least one.
 
 Title contract: Markdown must start with a leading `# H1`.
