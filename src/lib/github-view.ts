@@ -39,12 +39,14 @@ function shortMonth(name: string) {
 const dayLabelFormat = new Intl.DateTimeFormat('fr-FR', {
   month: 'short',
   day: 'numeric',
-  year: 'numeric'
+  year: 'numeric',
+  timeZone: 'UTC'
 });
 
 const eventDateFormat = new Intl.DateTimeFormat('fr-FR', {
   month: 'short',
-  day: 'numeric'
+  day: 'numeric',
+  timeZone: 'UTC'
 });
 
 export function formatContributionTitle(date: string, count: number) {
