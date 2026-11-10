@@ -83,6 +83,10 @@ assertIncludes(headers, "X-Frame-Options: DENY", "_headers frame deny");
 assertIncludes(headers, "Cross-Origin-Resource-Policy: same-origin", "_headers CORP");
 assertIncludes(headers, "/rss.xml", "_headers rss section");
 assertIncludes(headers, "X-Robots-Tag: noindex", "_headers index noindex");
+const rssHeaderSection = headers
+  .split("\n\n")
+  .find((section) => section.startsWith("/rss.xml"));
+assert.ok(rssHeaderSection?.includes("X-Robots-Tag: noindex"), "_headers rss noindex");
 assertIncludes(headers, "/LICENSES/*", "_headers license section");
 assertIncludes(headers, "/raw/posts/*", "_headers raw posts section");
 assertIncludes(headers, "X-Robots-Tag: noindex", "_headers raw posts noindex");
