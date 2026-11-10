@@ -1,5 +1,5 @@
-import { describeDiagramRole } from "./labels";
-import { buildThemeVariables, createTokenReader, type MermaidTheme } from "./theme";
+import { describeDiagramRole } from "./labels.ts";
+import { buildThemeVariables, createTokenReader, type MermaidTheme } from "./theme.ts";
 
 let mermaidPromise: Promise<typeof import("mermaid").default> | null = null;
 let diagramId = 0;

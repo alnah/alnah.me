@@ -1,7 +1,7 @@
 import type { HastPluginDefinition } from "satteri";
-import { SITE } from "../../config/site";
-import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../links";
-import { classList, type HastElement } from "./hast";
+import { SITE } from "../../config/site.ts";
+import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../links.ts";
+import { classList, type HastElement } from "./hast.ts";
 
 const EXTERNAL_LINK_CLASS = "external-link";
 const EXTERNAL_ICON_CLASS = "external-link-icon";

@@ -1,5 +1,5 @@
-import { getPublishedPosts } from "../lib/content";
-import { createSearchDocument } from "../lib/search";
+import { getPublishedPosts } from "../lib/content.ts";
+import { createSearchDocument } from "../lib/search.ts";
 
 export async function GET() {
   const posts = await getPublishedPosts();

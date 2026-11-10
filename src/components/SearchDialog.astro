@@ -1,5 +1,5 @@
 ---
-import { pageIdSuffix } from "../lib/dom-id";
+import { pageIdSuffix } from "../lib/dom-id.ts";
 
 const searchDomId = pageIdSuffix(Astro.url.pathname);
 const searchInputId = `search-input-${searchDomId}`;

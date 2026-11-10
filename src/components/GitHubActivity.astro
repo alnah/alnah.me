@@ -1,13 +1,13 @@
 ---
-import { SITE } from "../config/site";
-import { getGitHubActivity } from "../lib/github";
+import { SITE } from "../config/site.ts";
+import { getGitHubActivity } from "../lib/github.ts";
 import {
   buildGitHubActivityView,
   formatContributionTitle,
   formatEventDate,
   formatMonthStyle,
   formatWeekdayStyle
-} from "../lib/github-view";
+} from "../lib/github-view.ts";
 
 const activity = await getGitHubActivity(SITE.githubActivity);
 const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = buildGitHubActivityView(activity);

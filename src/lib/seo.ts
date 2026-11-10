@@ -1,6 +1,6 @@
 import profileImage from "../assets/profile.jpeg";
-import { SITE, SOCIAL_CONTACT_IDS } from "../config/site";
-import { serializeJsonForHtmlScript } from "./script-safe";
+import { SITE, SOCIAL_CONTACT_IDS } from "../config/site.ts";
+import { serializeJsonForHtmlScript } from "./script-safe.ts";
 
 interface SeoInput {
   canonicalPath: string;

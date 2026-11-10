@@ -1,4 +1,4 @@
-import { isEditableTarget } from "../lib/editable-target";
+import { isEditableTarget } from "../lib/editable-target.ts";
 
 type ThemeMode = "system" | "dark" | "light";
 

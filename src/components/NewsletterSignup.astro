@@ -1,6 +1,6 @@
 ---
-import { NEWSLETTER } from "../config/newsletter";
-import { pageIdSuffix } from "../lib/dom-id";
+import { NEWSLETTER } from "../config/newsletter.ts";
+import { pageIdSuffix } from "../lib/dom-id.ts";
 
 const signupDomId = pageIdSuffix(Astro.url.pathname);
 const emailInputId = `newsletter-email-${signupDomId}`;

@@ -2,9 +2,9 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content";
-import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title";
+import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content.ts";
+import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo.ts";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 
 interface Props {
   entry: PostEntry;

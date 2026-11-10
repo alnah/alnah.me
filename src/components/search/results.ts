@@ -1,4 +1,4 @@
-import type { SearchIndexDocument } from "../../lib/search";
+import type { SearchIndexDocument } from "../../lib/search.ts";
 
 export type ResultsRenderer = {
   setExpanded: (isOpen: boolean) => void;

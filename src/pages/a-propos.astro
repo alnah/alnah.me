@@ -5,11 +5,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import GitHubActivity from "../components/GitHubActivity.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import profileImage from "../assets/profile.jpeg";
-import { SITE } from "../config/site";
-import { getPageContent } from "../lib/content";
-import { markdownHastPlugins } from "../lib/markdown/plugins";
-import { resolveEntryTitle } from "../lib/document-title";
-import { buildProfilePageSchema } from "../lib/seo";
+import { SITE } from "../config/site.ts";
+import { getPageContent } from "../lib/content.ts";
+import { markdownHastPlugins } from "../lib/markdown/plugins.ts";
+import { resolveEntryTitle } from "../lib/document-title.ts";
+import { buildProfilePageSchema } from "../lib/seo.ts";
 
 const page = await getPageContent("a-propos");
 

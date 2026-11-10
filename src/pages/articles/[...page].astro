@@ -3,8 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 import PostList from '../../components/PostList.astro'
 import NewsletterSignup from '../../components/NewsletterSignup.astro'
 import ArchiveIntro from '../../components/ArchiveIntro.astro'
-import { SITE } from '../../config/site'
-import { getPublishedPosts, type PostEntry } from '../../lib/content'
+import { SITE } from '../../config/site.ts'
+import { getPublishedPosts, type PostEntry } from '../../lib/content.ts'
 
 type ArchivePage = {
   data: PostEntry[]

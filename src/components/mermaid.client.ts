@@ -1,3 +1,3 @@
-import { registerMermaidDiagrams } from "./mermaid/controller";
+import { registerMermaidDiagrams } from "./mermaid/controller.ts";
 
 registerMermaidDiagrams();

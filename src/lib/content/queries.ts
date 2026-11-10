@@ -1,13 +1,13 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { isPublishedData, resolvePublicationDate } from "../publication";
-import { slugify } from "./format";
+import { isPublishedData, resolvePublicationDate } from "../publication.ts";
+import { slugify } from "./format.ts";
 import {
   getPostCategoryMeta,
   isPostCategory,
   POST_CATEGORIES,
   summarizeTags,
   type PostCategory
-} from "./taxonomy";
+} from "./taxonomy.ts";
 
 export type PostEntry = CollectionEntry<"posts">;
 

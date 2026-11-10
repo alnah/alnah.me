@@ -1,6 +1,6 @@
 import type { HastPluginDefinition } from "satteri";
-import { externalLinks } from "./external-links";
-import { mermaid } from "./mermaid";
+import { externalLinks } from "./external-links.ts";
+import { mermaid } from "./mermaid.ts";
 
 /**
  * Hast plugins shared by the Astro Markdown pipeline and ad hoc renders such

@@ -1,4 +1,4 @@
-import type { GitHubActivityData } from "./github";
+import type { GitHubActivityData } from "./github.ts";
 
 type WeekdayLabel = {
   label: string;

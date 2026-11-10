@@ -1,7 +1,7 @@
-import { readAttribution } from "./attribution";
-import { buildCopyText } from "./copy-text";
-import { buildAttributedSvg, diagramFileName } from "./export-svg";
-import { createTokenReader } from "./theme";
+import { readAttribution } from "./attribution.ts";
+import { buildCopyText } from "./copy-text.ts";
+import { buildAttributedSvg, diagramFileName } from "./export-svg.ts";
+import { createTokenReader } from "./theme.ts";
 
 export type DiagramExport = {
   svg: SVGSVGElement;

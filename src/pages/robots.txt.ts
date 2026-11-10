@@ -1,4 +1,4 @@
-import { SITE } from "../config/site";
+import { SITE } from "../config/site.ts";
 
 export function GET() {
   const sitemapUrl = new URL("/sitemap-index.xml", SITE.siteUrl).toString();

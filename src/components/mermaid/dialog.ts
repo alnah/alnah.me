@@ -4,7 +4,7 @@ import {
   downloadDiagramSvg,
   type DiagramExport,
   type ExportFeedback
-} from "./export-actions";
+} from "./export-actions.ts";
 import {
   closeIcon,
   copyIcon,
@@ -16,8 +16,8 @@ import {
   panUpIcon,
   zoomInIcon,
   zoomOutIcon
-} from "./icons";
-import { computeFitScale, MAX_SCALE, MIN_SCALE, readNaturalSize } from "./viewport";
+} from "./icons.ts";
+import { computeFitScale, MAX_SCALE, MIN_SCALE, readNaturalSize } from "./viewport.ts";
 
 export type DiagramDialogInput = {
   svg: SVGSVGElement;

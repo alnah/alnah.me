@@ -1,5 +1,5 @@
 import type { HastPluginDefinition } from "satteri";
-import { classList, type HastElement } from "./hast";
+import { classList, type HastElement } from "./hast.ts";
 
 const NON_WHITESPACE = /\S/;
 

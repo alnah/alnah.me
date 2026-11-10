@@ -1,4 +1,4 @@
-import type { DiagramAttribution } from "./attribution";
+import type { DiagramAttribution } from "./attribution.ts";
 
 /** Mermaid source plus an attribution comment, ready for the clipboard. */
 export function buildCopyText(source: string, attribution: DiagramAttribution): string {

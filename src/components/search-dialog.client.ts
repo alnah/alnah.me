@@ -1,3 +1,3 @@
-import { registerSearchDialogs } from "./search/controller";
+import { registerSearchDialogs } from "./search/controller.ts";
 
 registerSearchDialogs();

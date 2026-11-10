@@ -6,7 +6,7 @@ import {
   getCategories,
   getPostsByCategory,
   isPostCategory
-} from "../../lib/content";
+} from "../../lib/content.ts";
 
 export async function getStaticPaths() {
   const categories = await getCategories();

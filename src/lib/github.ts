@@ -1,12 +1,12 @@
-import type { GitHubActivityConfig } from "../config/site";
+import type { GitHubActivityConfig } from "../config/site.ts";
 import {
   fetchContributionCalendar,
   fetchLatestRepoCommit,
   fetchOwnedRepos,
   fetchPublicEvents,
   getGitHubToken
-} from "./github-client";
-import { dedupeRecentActivity, toRecentActivity } from "./github-events";
+} from "./github-client.ts";
+import { dedupeRecentActivity, toRecentActivity } from "./github-events.ts";
 
 const RECENT_ACTIVITY_LIMIT = 5;
 

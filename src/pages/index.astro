@@ -2,8 +2,8 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
-import { getPublishedPosts } from "../lib/content";
-import { buildWebsiteSchema } from "../lib/seo";
+import { getPublishedPosts } from "../lib/content.ts";
+import { buildWebsiteSchema } from "../lib/seo.ts";
 
 const posts = (await getPublishedPosts()).slice(0, 4);
 ---

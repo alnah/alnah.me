@@ -1,7 +1,7 @@
 import { defineConfig, passthroughImageService } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import sitemap from "@astrojs/sitemap";
-import { markdownHastPlugins } from "./src/lib/markdown/plugins";
+import { markdownHastPlugins } from "./src/lib/markdown/plugins.ts";
 
 export default defineConfig({
   site: "https://alnah.me",

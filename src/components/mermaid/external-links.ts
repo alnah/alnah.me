@@ -1,6 +1,6 @@
-import { SITE } from "../../config/site";
-import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../../lib/links";
-import { createTokenReader } from "./theme";
+import { SITE } from "../../config/site.ts";
+import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../../lib/links.ts";
+import { createTokenReader } from "./theme.ts";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const XLINK_NS = "http://www.w3.org/1999/xlink";

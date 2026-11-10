@@ -1,7 +1,7 @@
-import { isEditableTarget } from "../../lib/editable-target";
-import { searchDocuments } from "../../lib/search";
-import { loadSearchIndex } from "./index-store";
-import { createResultsRenderer } from "./results";
+import { isEditableTarget } from "../../lib/editable-target.ts";
+import { searchDocuments } from "../../lib/search.ts";
+import { loadSearchIndex } from "./index-store.ts";
+import { createResultsRenderer } from "./results.ts";
 
 export type SearchDialogController = {
   root: HTMLElement;

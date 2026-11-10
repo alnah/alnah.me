@@ -1,4 +1,4 @@
-import { buildSearchIndex, type SearchIndexDocument } from "../../lib/search";
+import { buildSearchIndex, type SearchIndexDocument } from "../../lib/search.ts";
 
 let searchIndexPromise: Promise<SearchIndexDocument[]> | null = null;
 

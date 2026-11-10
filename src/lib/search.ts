@@ -4,24 +4,24 @@ import {
   formatIsoDate,
   markdownToPlainText,
   searchDateText
-} from "./content/format";
-import type { PostEntry } from "./content/queries";
-import { getPostCategoryMeta } from "./content/taxonomy";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title";
-import { resolvePublicationDate } from "./publication";
+} from "./content/format.ts";
+import type { PostEntry } from "./content/queries.ts";
+import { getPostCategoryMeta } from "./content/taxonomy.ts";
+import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.ts";
+import { resolvePublicationDate } from "./publication.ts";
 import {
   buildSearchFieldIndex,
   type SearchDocument,
   type SearchIndexDocument
-} from "./search-ranking";
+} from "./search-ranking.ts";
 
 export type {
   RankedSearchDocument,
   SearchDocument,
   SearchFieldIndex,
   SearchIndexDocument
-} from "./search-ranking";
-export { searchDocuments } from "./search-ranking";
+} from "./search-ranking.ts";
+export { searchDocuments } from "./search-ranking.ts";
 
 export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");

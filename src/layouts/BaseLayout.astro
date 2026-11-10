@@ -3,8 +3,8 @@ import "../styles/global.css";
 import Analytics from "../components/Analytics.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { SITE } from "../config/site";
-import { buildSeo } from "../lib/seo";
+import { SITE } from "../config/site.ts";
+import { buildSeo } from "../lib/seo.ts";
 
 interface Props {
   canonicalPath?: string;
@@ -106,7 +106,7 @@ const isHomePage = canonicalPath === "/";
     </div>
     <Analytics />
     <script>
-      import "../components/mermaid.client";
+      import "../components/mermaid.client.ts";
     </script>
   </body>
 </html>

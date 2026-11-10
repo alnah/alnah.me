@@ -1,7 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { POST_CATEGORIES } from "./lib/content/taxonomy";
+import { POST_CATEGORIES } from "./lib/content/taxonomy.ts";
 
 const posts = defineCollection({
   loader: glob({

@@ -1,7 +1,7 @@
-import { createDiagramDialog, type DiagramDialog } from "./dialog";
-import { markExternalDiagramLinks } from "./external-links";
-import { expandIcon } from "./icons";
-import { configureMermaid, localiseRoleDescription, readTheme, renderDiagram } from "./render";
+import { createDiagramDialog, type DiagramDialog } from "./dialog.ts";
+import { markExternalDiagramLinks } from "./external-links.ts";
+import { expandIcon } from "./icons.ts";
+import { configureMermaid, localiseRoleDescription, readTheme, renderDiagram } from "./render.ts";
 
 /** Fence bodies are captured before Mermaid replaces the pre content. */
 const sources = new WeakMap<HTMLPreElement, string>();
