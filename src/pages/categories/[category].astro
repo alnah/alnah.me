@@ -25,6 +25,7 @@ const posts = isPostCategory(category.slug)
 <BaseLayout
   title={`Articles classés dans ${category.label}`}
   description={category.description}
+  noindex={category.count === 0}
 >
   <section class="archive-shell content-band">
     <ArchiveIntro

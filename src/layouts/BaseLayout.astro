@@ -17,6 +17,7 @@ interface Props {
   type?: "article" | "website";
   schemaJson?: string;
   reuseUrl?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -29,7 +30,8 @@ const {
   modifiedTime,
   type = "website",
   schemaJson,
-  reuseUrl
+  reuseUrl,
+  noindex = false
 } = Astro.props;
 
 const seo = buildSeo({
@@ -54,6 +56,7 @@ const isHomePage = canonicalPath === "/";
     <meta name="license" content={SITE.license.name} />
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
     <link rel="canonical" href={seo.canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link
       rel="alternate"
       type="application/rss+xml"
