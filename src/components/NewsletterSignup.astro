@@ -1,9 +1,11 @@
 ---
 import { NEWSLETTER } from "../config/newsletter";
+import { pageIdSuffix } from "../lib/dom-id";
 
-const emailInputId = `newsletter-email-${crypto.randomUUID()}`;
-const titleId = `newsletter-title-${crypto.randomUUID()}`;
-const legalId = `newsletter-legal-${crypto.randomUUID()}`;
+const signupDomId = pageIdSuffix(Astro.url.pathname);
+const emailInputId = `newsletter-email-${signupDomId}`;
+const titleId = `newsletter-title-${signupDomId}`;
+const legalId = `newsletter-legal-${signupDomId}`;
 ---
 
 <section class="signup-panel surface-panel" aria-labelledby={titleId}>

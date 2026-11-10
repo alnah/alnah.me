@@ -1,5 +1,7 @@
 ---
-const searchDomId = crypto.randomUUID();
+import { pageIdSuffix } from "../lib/dom-id";
+
+const searchDomId = pageIdSuffix(Astro.url.pathname);
 const searchInputId = `search-input-${searchDomId}`;
 const searchResultsId = `search-results-${searchDomId}`;
 ---
