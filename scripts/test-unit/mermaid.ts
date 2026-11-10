@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { buildCopyText } from "../../src/components/mermaid/copy-text.ts";
+import { createDragGuard } from "../../src/components/mermaid/drag.ts";
 import { diagramFileName } from "../../src/components/mermaid/export-svg.ts";
 import { describeDiagramRole } from "../../src/components/mermaid/labels.ts";
 import { buildThemeVariables } from "../../src/components/mermaid/theme.ts";
@@ -119,4 +120,15 @@ export function testMermaid(): void {
   assert.ok(copyText.includes("https://alnah.me/articles/essai/ (2026-12-01)"));
   assert.ok(copyText.includes("CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)"));
   assert.ok(copyText.includes("```mermaid"));
+
+  const dragGuard = createDragGuard(6);
+  dragGuard.start(10, 10);
+  dragGuard.move(12, 13);
+  assert.equal(dragGuard.consumesClick(1), false, "a short move keeps the click");
+  dragGuard.move(30, 10);
+  assert.equal(dragGuard.consumesClick(1), true, "a drag swallows the click");
+  assert.equal(dragGuard.consumesClick(1), false, "the guard consumes a drag once");
+  dragGuard.start(0, 0);
+  dragGuard.move(50, 0);
+  assert.equal(dragGuard.consumesClick(0), false, "a keyboard click passes through");
 }

@@ -1,23 +1,12 @@
-import type { PanzoomObject } from "@panzoom/panzoom";
+import { createDragGuard } from "./drag.ts";
+import { DIALOG_MARKUP, KEY_ACTIONS, type DiagramAction } from "./dialog-markup.ts";
 import {
   copyDiagramSource,
   downloadDiagramSvg,
   type DiagramExport,
   type ExportFeedback
 } from "./export-actions.ts";
-import {
-  closeIcon,
-  copyIcon,
-  downloadIcon,
-  fitIcon,
-  panDownIcon,
-  panLeftIcon,
-  panRightIcon,
-  panUpIcon,
-  zoomInIcon,
-  zoomOutIcon
-} from "./icons.ts";
-import { computeFitScale, MAX_SCALE, MIN_SCALE, readNaturalSize } from "./viewport.ts";
+import { startPanzoomSession, type PanzoomSession } from "./panzoom-session.ts";
 
 export type DiagramDialogInput = {
   svg: SVGSVGElement;
@@ -32,8 +21,6 @@ export type DiagramDialog = {
   close(): void;
 };
 
-type PanzoomFactory = typeof import("@panzoom/panzoom").default;
-
 type DialogRefs = {
   dialog: HTMLDialogElement;
   viewport: HTMLElement;
@@ -46,98 +33,16 @@ const PAN_STEP = 60;
 const DRAG_THRESHOLD = 6;
 const ZOOM_STEP = Math.exp(0.3);
 
-type DiagramAction =
-  | "zoom-in"
-  | "zoom-out"
-  | "reset"
-  | "copy"
-  | "download"
-  | "pan-up"
-  | "pan-down"
-  | "pan-left"
-  | "pan-right"
-  | "close";
-
-/** Keyboard shortcuts mapped to the same actions as the toolbar buttons. */
-const KEY_ACTIONS: Record<string, DiagramAction> = {
-  "+": "zoom-in",
-  "=": "zoom-in",
-  Add: "zoom-in",
-  "-": "zoom-out",
-  _: "zoom-out",
-  Subtract: "zoom-out",
-  "0": "reset",
-  Home: "reset",
-  ArrowUp: "pan-up",
-  ArrowDown: "pan-down",
-  ArrowLeft: "pan-left",
-  ArrowRight: "pan-right"
-};
-
-const DIALOG_MARKUP = `
-  <div class="mermaid-dialog__toolbar">
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="zoom-out" aria-label="Dézoomer">${zoomOutIcon}</button>
-    <output class="mermaid-dialog__scale" aria-live="polite">100 %</output>
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="zoom-in" aria-label="Zoomer">${zoomInIcon}</button>
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="reset" aria-label="Ajuster à l'écran">${fitIcon}</button>
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="copy" aria-label="Copier la source du diagramme">${copyIcon}</button>
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="download" aria-label="Télécharger le diagramme en SVG">${downloadIcon}</button>
-    <div class="mermaid-dialog__pan">
-      <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-left" aria-label="Déplacer vers la gauche">${panLeftIcon}</button>
-      <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-up" aria-label="Déplacer vers le haut">${panUpIcon}</button>
-      <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-down" aria-label="Déplacer vers le bas">${panDownIcon}</button>
-      <button type="button" class="mermaid-dialog__control" data-mermaid-action="pan-right" aria-label="Déplacer vers la droite">${panRightIcon}</button>
-    </div>
-    <button type="button" class="mermaid-dialog__control" data-mermaid-action="close" aria-label="Fermer">${closeIcon}</button>
-  </div>
-  <div class="mermaid-dialog__viewport" tabindex="0" role="group" aria-label="Diagramme. Utilisez la molette, les flèches ou les boutons pour naviguer.">
-    <div class="mermaid-dialog__stage"></div>
-  </div>
-  <p class="visually-hidden" data-mermaid-status aria-live="polite"></p>
-`;
-
-let panzoomFactory: PanzoomFactory | null = null;
-
-async function loadPanzoomFactory(): Promise<PanzoomFactory> {
-  if (!panzoomFactory) {
-    const module = await import("@panzoom/panzoom");
-    panzoomFactory = module.default;
-  }
-
-  return panzoomFactory;
-}
-
-function prefersReducedMotion(): boolean {
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
 /** One dialog per page, created on first use and reused afterwards. */
 export function createDiagramDialog(): DiagramDialog {
   let refs: DialogRefs | null = null;
-  let panzoom: PanzoomObject | null = null;
+  let session: PanzoomSession | null = null;
   let home: { parent: Node; next: Node | null } | null = null;
   let currentSvg: SVGSVGElement | null = null;
   let currentTitle: string | null = null;
   let currentSource = "";
-  let fitScale = 1;
-  let minScale = MIN_SCALE;
   let statusTimer = 0;
-  let dragOrigin: { x: number; y: number } | null = null;
-  let suppressClick = false;
-
-  function zoomBy(factor: number): void {
-    if (!panzoom || !refs) {
-      return;
-    }
-
-    const next = Math.min(MAX_SCALE, Math.max(minScale, panzoom.getScale() * factor));
-    const rect = refs.viewport.getBoundingClientRect();
-
-    panzoom.zoomToPoint(next, {
-      clientX: rect.left + rect.width / 2,
-      clientY: rect.top + rect.height / 2
-    });
-  }
+  const dragGuard = createDragGuard(DRAG_THRESHOLD);
 
   function announce(message: string): void {
     if (!refs) {
@@ -165,24 +70,19 @@ export function createDiagramDialog(): DiagramDialog {
     return currentSvg ? { svg: currentSvg, title: currentTitle, source: currentSource } : null;
   }
 
-  function updateScale(): void {
-    if (!refs || !panzoom) {
+  function updateScale(scale: number, fitScale: number): void {
+    if (!refs) {
       return;
     }
 
-    const scale = panzoom.getScale();
     refs.scale.value = `${Math.round(scale * 100)} %`;
     refs.dialog.dataset.zoomed = scale > fitScale + 0.01 ? "true" : "false";
   }
 
-  function panBy(x: number, y: number): void {
-    panzoom?.pan(x, y, { relative: true });
-  }
-
   const actions: Record<DiagramAction, () => void> = {
-    "zoom-in": () => zoomBy(ZOOM_STEP),
-    "zoom-out": () => zoomBy(1 / ZOOM_STEP),
-    reset: () => panzoom?.reset(),
+    "zoom-in": () => session?.zoomBy(ZOOM_STEP),
+    "zoom-out": () => session?.zoomBy(1 / ZOOM_STEP),
+    reset: () => session?.reset(),
     copy: () => {
       const diagram = exportContext();
 
@@ -197,10 +97,10 @@ export function createDiagramDialog(): DiagramDialog {
         downloadDiagramSvg(diagram, feedback);
       }
     },
-    "pan-up": () => panBy(0, PAN_STEP),
-    "pan-down": () => panBy(0, -PAN_STEP),
-    "pan-left": () => panBy(PAN_STEP, 0),
-    "pan-right": () => panBy(-PAN_STEP, 0),
+    "pan-up": () => session?.panBy(0, PAN_STEP),
+    "pan-down": () => session?.panBy(0, -PAN_STEP),
+    "pan-left": () => session?.panBy(PAN_STEP, 0),
+    "pan-right": () => session?.panBy(-PAN_STEP, 0),
     close: () => refs?.dialog.close()
   };
 
@@ -221,9 +121,8 @@ export function createDiagramDialog(): DiagramDialog {
   }
 
   function handleClose(): void {
-    panzoom?.resetStyle();
-    panzoom?.destroy();
-    panzoom = null;
+    session?.destroy();
+    session = null;
 
     if (currentSvg && home) {
       home.parent.insertBefore(currentSvg, home.next);
@@ -273,38 +172,31 @@ export function createDiagramDialog(): DiagramDialog {
     viewport.addEventListener(
       "wheel",
       (event) => {
-        panzoom?.zoomWithWheel(event);
+        session?.zoomWithWheel(event);
       },
       { passive: false }
     );
     viewport.addEventListener("pointerdown", (event) => {
-      dragOrigin = { x: event.clientX, y: event.clientY };
-      suppressClick = false;
+      dragGuard.start(event.clientX, event.clientY);
     });
     viewport.addEventListener("pointermove", (event) => {
-      if (
-        dragOrigin &&
-        Math.hypot(event.clientX - dragOrigin.x, event.clientY - dragOrigin.y) > DRAG_THRESHOLD
-      ) {
-        suppressClick = true;
-      }
+      dragGuard.move(event.clientX, event.clientY);
     });
     viewport.addEventListener("pointerup", () => {
-      dragOrigin = null;
+      dragGuard.end();
     });
     viewport.addEventListener("pointercancel", () => {
-      dragOrigin = null;
+      dragGuard.end();
     });
     viewport.addEventListener(
       "click",
       (event) => {
         // A drag that started on a link moves the diagram; only a real click
         // follows the link. Keyboard clicks have no pointer movement (detail 0).
-        if (!suppressClick || event.detail === 0) {
+        if (!dragGuard.consumesClick(event.detail)) {
           return;
         }
 
-        suppressClick = false;
         event.preventDefault();
         event.stopPropagation();
       },
@@ -335,33 +227,7 @@ export function createDiagramDialog(): DiagramDialog {
     document.documentElement.style.overflow = "hidden";
 
     try {
-      const factory = await loadPanzoomFactory();
-      const natural = readNaturalSize(svg);
-      fitScale = computeFitScale(natural, elements.viewport);
-      minScale = Math.max(MIN_SCALE, fitScale / 2);
-      const startX = (elements.viewport.clientWidth - natural.width) / (2 * fitScale);
-      const startY = (elements.viewport.clientHeight - natural.height) / (2 * fitScale);
-
-      // No `contain`: panzoom caps the max scale at the fit scale when contained,
-      // which blocks zooming in. Centering is passed as the reset position.
-      panzoom = factory(elements.stage, {
-        maxScale: MAX_SCALE,
-        minScale,
-        startScale: fitScale,
-        startX,
-        startY,
-        canvas: true,
-        cursor: "grab",
-        panOnlyWhenZoomed: true,
-        touchAction: "none",
-        animate: !prefersReducedMotion()
-      });
-
-      // Apply the reset position before revealing, so the first paint is already
-      // centered instead of the natural-size SVG jumping into place.
-      panzoom.pan(startX, startY, { animate: false, force: true });
-      elements.stage.addEventListener("panzoomchange", updateScale);
-      updateScale();
+      session = await startPanzoomSession(elements.stage, elements.viewport, svg, updateScale);
     } catch (error) {
       // Keep the diagram reachable at its natural size instead of a blank modal.
       console.error("Mermaid dialog failed to open:", error);
