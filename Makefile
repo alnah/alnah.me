@@ -8,9 +8,6 @@ NVM_DIR ?= $(HOME)/.nvm
 NVM_SH ?= $(NVM_DIR)/nvm.sh
 HOST ?= 127.0.0.1
 PORT ?= 4321
-REQUIRED_NODE_MAJOR ?= 23
-REQUIRED_NODE_MINOR ?= 6
-REQUIRED_NODE_PATCH ?= 0
 PW_BROWSER ?= chromium
 PW_DEVICE ?=
 PW_COLOR_SCHEME ?=
@@ -38,7 +35,7 @@ help: ## Show available developer targets
 
 doctor: ## Check that local tooling matches the project baseline
 	@$(USE_PROJECT_NODE) command -v $(NODE) >/dev/null || { echo "Node is not available."; exit 1; }
-	@$(USE_PROJECT_NODE) $(NODE) -e 'const [major, minor, patch] = process.versions.node.split(".").map(Number); const req = [$(REQUIRED_NODE_MAJOR), $(REQUIRED_NODE_MINOR), $(REQUIRED_NODE_PATCH)]; const ok = major > req[0] || (major === req[0] && (minor > req[1] || (minor === req[1] && patch >= req[2]))); if (!ok) { console.error(`Node $${process.versions.node} is too old. Need >= $(REQUIRED_NODE_MAJOR).$(REQUIRED_NODE_MINOR).$(REQUIRED_NODE_PATCH).`); process.exit(1); }'
+	@$(USE_PROJECT_NODE) $(NODE) -e 'const fs = require("node:fs"); const minimum = JSON.parse(fs.readFileSync("package.json", "utf8")).engines.node.replace(/^>=/, ""); const req = minimum.split(".").map(Number); const [major, minor, patch] = process.versions.node.split(".").map(Number); const ok = major > req[0] || (major === req[0] && (minor > req[1] || (minor === req[1] && patch >= req[2]))); if (!ok) { console.error(`Node $${process.versions.node} is too old. Need >= $${minimum}.`); process.exit(1); }'
 	@$(USE_PROJECT_NODE) $(NPM) --version >/dev/null
 	@$(USE_PROJECT_NODE) printf "node=%s npm=%s\n" "$$($(NODE) --version)" "$$($(NPM) --version)"
 

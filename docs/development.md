@@ -1,6 +1,7 @@
 # Development
 
-Requires Node >= 23.6.0 (see `.nvmrc`); `make doctor` enforces it.
+Requires Node >= 23.6.0 (`engines` in `package.json`). `.nvmrc` pins the
+development version; `make doctor` enforces the minimum.
 
 ```bash
 make install

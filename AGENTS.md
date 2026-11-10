@@ -55,11 +55,11 @@ Changes: favor small, testable changes over redesigns.
 ## Development targets
 
 Command style: prefer the `Makefile` over ad hoc commands.
-Node baseline: `.nvmrc`.
-Make behavior: `make` tries to load the Node baseline through `nvm`.
+Node: `.nvmrc` pins the development version; `package.json` `engines` sets the minimum.
+Make behavior: `make` tries to load the pinned Node version through `nvm`.
 
 Help: `make help`; show available targets.
-Doctor: `make doctor`; verify Node and npm versions.
+Doctor: `make doctor`; verify Node meets the `engines` minimum and npm is available.
 Install: `make install`; install dependencies with `npm ci`.
 Prepare: `make prepare-static`; generate `_redirects`, raw Markdown exports, and license copies.
 Dev: `make dev`; start Astro on localhost.
