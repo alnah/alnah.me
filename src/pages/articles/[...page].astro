@@ -1,31 +1,31 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import PostList from '../../components/PostList.astro'
-import NewsletterSignup from '../../components/NewsletterSignup.astro'
-import ArchiveIntro from '../../components/ArchiveIntro.astro'
-import { SITE } from '../../config/site.ts'
-import { getPublishedPosts, type PostEntry } from '../../lib/content.ts'
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import NewsletterSignup from "../../components/NewsletterSignup.astro";
+import ArchiveIntro from "../../components/ArchiveIntro.astro";
+import { SITE } from "../../config/site.ts";
+import { getPublishedPosts, type PostEntry } from "../../lib/content.ts";
 
 type ArchivePage = {
-  data: PostEntry[]
-  currentPage: number
-  lastPage: number
+  data: PostEntry[];
+  currentPage: number;
+  lastPage: number;
   url: {
-    prev?: string
-    next?: string
-  }
-}
+    prev?: string;
+    next?: string;
+  };
+};
 
 type Paginate = (
   items: PostEntry[],
   options: { pageSize: number }
 ) => Array<{
-  params: Record<string, string | undefined>
-  props: { page: ArchivePage }
-}>
+  params: Record<string, string | undefined>;
+  props: { page: ArchivePage };
+}>;
 
 export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
-  const posts = await getPublishedPosts()
+  const posts = await getPublishedPosts();
 
   if (posts.length === 0) {
     return [
@@ -36,17 +36,17 @@ export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
             data: [],
             currentPage: 1,
             lastPage: 1,
-            url: {},
-          },
-        },
-      },
-    ]
+            url: {}
+          }
+        }
+      }
+    ];
   }
 
-  return paginate(posts, { pageSize: SITE.postPageSize })
+  return paginate(posts, { pageSize: SITE.postPageSize });
 }
 
-const { page } = Astro.props as { page: ArchivePage }
+const { page } = Astro.props as { page: ArchivePage };
 ---
 
 <BaseLayout title="Articles" description="Archive des articles du blog d'Alexis Nahan">
@@ -67,11 +67,11 @@ const { page } = Astro.props as { page: ArchivePage }
           <div class="archive-pagination">
             <nav
               class:list={[
-                'pagination eyebrow',
+                "pagination eyebrow",
                 {
-                  'pagination--leading-label': !page.url.prev,
-                  'pagination--trailing-label': !page.url.next,
-                },
+                  "pagination--leading-label": !page.url.prev,
+                  "pagination--trailing-label": !page.url.next
+                }
               ]}
               aria-label="Pagination des articles"
             >
