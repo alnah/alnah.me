@@ -18,7 +18,9 @@ const requiredFiles = [
   "dist/LICENSES/BSD-3-Clause.txt",
   "dist/LICENSES/CC-BY-4.0.txt",
   "dist/a-propos/index.html",
-  "dist/confidentialite/index.html"
+  "dist/confidentialite/index.html",
+  "dist/articles/perspective-actionnelle/index.html",
+  "dist/raw/posts/perspective-actionnelle.md"
 ];
 
 for (const file of requiredFiles) {
@@ -27,6 +29,9 @@ for (const file of requiredFiles) {
 
 const homeHtml = readFile("dist/index.html");
 const aboutHtml = readFile("dist/a-propos/index.html");
+const perspectiveHtml = readFile("dist/articles/perspective-actionnelle/index.html");
+const perspectiveRaw = readFile("dist/raw/posts/perspective-actionnelle.md");
+const cecrlHtml = readFile("dist/articles/cecrl/index.html");
 const redirects = readFile("dist/_redirects");
 const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");
@@ -48,6 +53,30 @@ assertIncludes(homeHtml, 'Me contacter par', 'home contact label');
 assertIncludes(aboutHtml, 'Me suivre sur', 'about social label');
 assertIncludes(aboutHtml, 'Me contacter par', 'about contact label');
 assertIncludes(homeHtml, 'href="https://alnah.me/rss.xml"', "home RSS href");
+
+assertIncludes(perspectiveHtml, "data-footnotes", "post footnotes section");
+assertIncludes(perspectiveHtml, 'role="doc-endnotes"', "post footnotes role");
+assertIncludes(perspectiveHtml, 'class="footnote-ref"', "post footnote marker");
+assertIncludes(perspectiveHtml, 'aria-label="Note 1"', "post footnote marker label");
+assertIncludes(
+  perspectiveHtml,
+  'aria-label="Retour au texte, note 1"',
+  "post footnote backlink label"
+);
+assertIncludes(perspectiveHtml, 'class="footnote-backref-icon"', "post footnote backlink icon");
+assert.ok(
+  !perspectiveHtml.includes("Footnotes") && !perspectiveHtml.includes(">Notes<"),
+  "post footnotes should not render a visible or hidden heading"
+);
+assertIncludes(perspectiveRaw, "[^puren]: Christian Puren", "raw post footnote definition");
+assert.ok(
+  !perspectiveRaw.includes("## Références"),
+  "raw post footnotes should not add a repeated heading"
+);
+assert.ok(
+  !cecrlHtml.includes("data-footnotes"),
+  "posts without footnotes should not render the section"
+);
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),
