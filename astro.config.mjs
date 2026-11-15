@@ -6,6 +6,7 @@ import { markdownHastPlugins } from "./src/lib/markdown/plugins.ts";
 export default defineConfig({
   site: "https://alnah.me",
   output: "static",
+  cacheDir: "./.astro/cache",
   integrations: [sitemap()],
   image: {
     service: passthroughImageService()
