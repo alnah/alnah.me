@@ -73,10 +73,8 @@ assert.ok(
   !perspectiveRaw.includes("## Références"),
   "raw post footnotes should not add a repeated heading"
 );
-assert.ok(
-  !cecrlHtml.includes("data-footnotes"),
-  "posts without footnotes should not render the section"
-);
+assertIncludes(cecrlHtml, "data-footnotes", "CECRL post footnotes section");
+assertIncludes(cecrlHtml, 'aria-label="Note 2"', "CECRL volume footnote marker");
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),
