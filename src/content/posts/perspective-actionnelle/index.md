@@ -16,7 +16,7 @@ tags:
 
 # Qu'est-ce que la perspective actionnelle ?
 
-*En quoi consiste la perspective actionnelle, pourquoi elle surpasse les méthodes traditionnelles, et comment elle change le rôle de l'enseignant et de l'apprenant ?*
+*En quoi consiste la perspective actionnelle, pourquoi elle surpasse les méthodes traditionnelles, et comment elle change le rôle de l'enseignant ?*
 
 ## L'enseignement du FLE a évolué sous l'influence du CECRL
 
@@ -76,7 +76,7 @@ C'est une relation par laquelle chacun est un acteur qui œuvre pour mener à bi
 
 La fonction de l'enseignant est de faciliter le projet de l'apprenant.[^enseignant] Il doit éviter de figer sa posture dans celle de l'instructeur qui transmet un savoir normé sur la langue. Écouter un enseignant expliquer une règle de grammaire sans avoir l'opportunité d'agir est fastidieux et peu efficace. L'apprenant peut découvrir les règles avec un support adapté à son niveau, ou dans une langue intermédiaire, afin de les utiliser dans le but de réaliser la tâche.
 
-L'enseignant doit éviter la todo-list du genre : « D'abord, observez la carte numérique. Ensuite, écrivez l'itinéraire de randonnée en utilisant les prépositions de lieu. Enfin, lisez-le à votre professeur. » Il vaut mieux une tâche actionnelle avec un contexte : « Vous êtes la personne qui propose un itinéraire de randonnée à votre groupe d'amis. Utilisez l'application Wikiloc pour chercher une randonnée dans les Alpes. Pensez aux débutants du groupe pour choisir la randonnée ! Puis, envoyez un message vocal à votre groupe d'amis sur WhatsApp pour présenter Wikiloc et l'itinéraire que vous trouverez intéressant. Indiquez les points de passage et les refuges. Répondez aux questions de vos amis sur les détails de la randonnée. »
+L'enseignant doit éviter la todo-list du genre : « D'abord, observez la carte numérique. Ensuite, écrivez l'itinéraire de randonnée en utilisant les prépositions de lieu. Enfin, lisez-le à votre professeur. » Il vaut mieux une tâche actionnelle avec un contexte. Voici un exemple de consigne : « Vous êtes la personne qui propose un itinéraire de randonnée à votre groupe d'amis. Utilisez l'application Wikiloc pour chercher une randonnée dans les Alpes. Pensez aux débutants du groupe pour choisir la randonnée ! Puis, envoyez un message vocal à votre groupe d'amis sur WhatsApp pour présenter Wikiloc et l'itinéraire que vous trouverez intéressant. Indiquez les points de passage et les refuges. Répondez aux questions de vos amis sur les détails de la randonnée. »
 
 Au final, l'enseignant est l'expert de la langue, mais aussi scénariste et acteur. Il crée le scénario pédagogique et y participe. Ce changement de posture demande une certaine flexibilité mentale, mais il rend aussi le travail d'enseignant plus divertissant et plus efficace pour l'apprenant.
 
@@ -92,7 +92,7 @@ En revanche, la perspective actionnelle a quelques limites.
 
 Ces problèmes ne sont pas insurmontables. Même si la perspective actionnelle est évidemment plus exigeante, elle est surtout efficace et gratifiante pour l'apprenant comme pour l'enseignant.
 
-Dans mes prochains articles, je continuerai de présenter quelques idées et des outils pédagogiques ou technologiques pour faciliter l'application de la perspective actionnelle. Si vous enseignez le FLE, ou si vous apprenez le français, écrivez-moi. Je suis toujours curieux de connaître les expériences des autres.
+Dans mes prochains articles, je continuerai de présenter quelques idées et des outils pédagogiques ou technologiques pour faciliter l'application de la perspective actionnelle. Si vous enseignez le FLE, écrivez-moi. Je suis toujours curieux de connaître les expériences des autres.
 
 [^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2. [Consulter](https://rm.coe.int/16802fc3a8#page=15).
 
