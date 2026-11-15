@@ -94,6 +94,6 @@ Ces problèmes ne sont pas insurmontables. Même si la perspective actionnelle e
 
 Dans mes prochains articles, je continuerai de présenter quelques idées et des outils pédagogiques ou technologiques pour faciliter l'application de la perspective actionnelle. Si vous enseignez le FLE, ou si vous apprenez le français, écrivez-moi. Je suis toujours curieux de connaître les expériences des autres.
 
-[^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2, p. 15. [Lire en ligne](https://rm.coe.int/16802fc3a8#page=15).
+[^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2, p. 15. [Consulter](https://rm.coe.int/16802fc3a8#page=15).
 
-[^puren]: Christian Puren, « De l'approche communicative à la perspective actionnelle », *Le Français dans le Monde* n°347, 2006, PDF p. 6. [Lire en ligne](https://www.christianpuren.com/mes-travaux/2006g/).
+[^puren]: Christian Puren, « De l'approche communicative à la perspective actionnelle », *Le Français dans le Monde* n°347, 2006, PDF p. 6. [Consulter](https://www.christianpuren.com/mes-travaux/2006g/).
