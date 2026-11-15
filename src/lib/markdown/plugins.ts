@@ -1,5 +1,6 @@
 import type { HastPluginDefinition } from "satteri";
 import { externalLinks } from "./external-links.ts";
+import { footnotes } from "./footnotes.ts";
 import { mermaid } from "./mermaid.ts";
 
 /**
@@ -7,5 +8,5 @@ import { mermaid } from "./mermaid.ts";
  * as the About page fragments, so both behave the same.
  */
 export function markdownHastPlugins(): HastPluginDefinition[] {
-  return [mermaid(), externalLinks()];
+  return [mermaid(), externalLinks(), footnotes()];
 }
