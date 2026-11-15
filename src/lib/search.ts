@@ -3,6 +3,7 @@ import {
   formatDate,
   formatIsoDate,
   markdownToPlainText,
+  resolvePostDate,
   searchDateText
 } from "./content/format.ts";
 import type { PostEntry } from "./content/queries.ts";
@@ -27,6 +28,7 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");
   const content = markdownToPlainText(contentBody);
   const publicationDate = resolvePublicationDate(post.data);
+  const postDate = resolvePostDate(publicationDate, post.data.lastmod);
 
   return {
     title: resolveEntryTitle(post),
@@ -36,23 +38,37 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
     url: `/articles/${post.id}/`,
     date: formatIsoDate(publicationDate),
     dateLabel: formatDate(publicationDate),
+    updated: postDate.isUpdated ? formatIsoDate(postDate.date) : undefined,
+    updatedLabel: postDate.isUpdated ? postDate.label : undefined,
     excerpt: excerptFromMarkdown(contentBody),
     content
   };
 }
 
-function buildExpandedDateSearchText(item: Pick<SearchDocument, "date" | "dateLabel">) {
-  if (!item.date) {
-    return item.dateLabel ?? "";
+function expandDateText(iso: string | undefined, label: string | undefined) {
+  if (!iso) {
+    return label ?? "";
   }
 
-  const parsedDate = new Date(`${item.date}T00:00:00Z`);
+  const parsedDate = new Date(`${iso}T00:00:00Z`);
 
   if (Number.isNaN(parsedDate.getTime())) {
-    return `${item.date} ${item.dateLabel ?? ""}`.trim();
+    return `${iso} ${label ?? ""}`.trim();
   }
 
-  return `${item.date} ${item.dateLabel ?? ""} ${searchDateText(parsedDate)}`.trim();
+  return `${iso} ${label ?? ""} ${searchDateText(parsedDate)}`.trim();
+}
+
+function buildExpandedDateSearchText(
+  item: Pick<SearchDocument, "date" | "dateLabel" | "updated" | "updatedLabel">
+) {
+  return [
+    expandDateText(item.date, item.dateLabel),
+    expandDateText(item.updated, item.updatedLabel)
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
 }
 
 export function buildSearchIndex(items: SearchDocument[]): SearchIndexDocument[] {

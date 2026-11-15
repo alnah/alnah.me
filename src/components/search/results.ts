@@ -27,6 +27,7 @@ function buildResultItem(item: SearchIndexDocument, index: number, idPrefix: str
   const category = document.createElement("span");
   const tags = document.createElement("span");
   const tagList = item.tags ?? [];
+  const dateLabel = item.updatedLabel || item.dateLabel;
 
   listItem.dataset.searchResultItem = "";
   link.href = item.url;
@@ -39,18 +40,18 @@ function buildResultItem(item: SearchIndexDocument, index: number, idPrefix: str
   date.dataset.searchResultDate = "";
   category.dataset.searchResultCategory = "";
   tags.dataset.searchResultTags = "";
-  date.textContent = item.dateLabel;
+  date.textContent = dateLabel;
   category.textContent = item.category;
   tags.textContent = tagList.map((tag) => `#${tag}`).join(" ");
 
   link.append(title);
 
-  if (item.dateLabel || item.category || tagList.length > 0) {
-    if (item.dateLabel) {
+  if (dateLabel || item.category || tagList.length > 0) {
+    if (dateLabel) {
       meta.append(date);
     }
 
-    if (item.dateLabel && item.category) {
+    if (dateLabel && item.category) {
       meta.append(createDivider());
     }
 
@@ -58,7 +59,7 @@ function buildResultItem(item: SearchIndexDocument, index: number, idPrefix: str
       meta.append(category);
     }
 
-    if ((item.dateLabel || item.category) && tagList.length > 0) {
+    if ((dateLabel || item.category) && tagList.length > 0) {
       meta.append(createDivider());
     }
 

@@ -20,6 +20,8 @@ export type SearchDocument = {
   url: string;
   date: string;
   dateLabel: string;
+  updated?: string;
+  updatedLabel?: string;
   excerpt: string;
   content: string;
 };
