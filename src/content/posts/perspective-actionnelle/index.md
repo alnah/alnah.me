@@ -1,6 +1,7 @@
 ---
 title: "Qu'est-ce que la perspective actionnelle ?"
 date: 2026-10-29
+lastmod: 2026-11-15
 draft: false
 aliases:
   - /articles/la-perspective-actionnelle/
