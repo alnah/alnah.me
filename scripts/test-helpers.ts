@@ -29,6 +29,14 @@ export function readJson<T = unknown>(relativePath: string): T {
   return JSON.parse(readFile(relativePath)) as T;
 }
 
+export function readJsonLd(html: string): Record<string, unknown>[] {
+  return [
+    ...html.matchAll(
+      /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g
+    )
+  ].map((match) => JSON.parse(match[1]) as Record<string, unknown>);
+}
+
 export function readPngDimensions(relativePath: string) {
   const buffer = fs.readFileSync(assertFile(relativePath));
   assert.equal(

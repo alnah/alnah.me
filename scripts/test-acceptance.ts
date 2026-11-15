@@ -5,6 +5,7 @@ import {
   executableInlineScriptHashes,
   readFile,
   readJson,
+  readJsonLd,
   readPngDimensions
 } from "./test-helpers.ts";
 
@@ -49,6 +50,26 @@ const cspLine = headers
   .split("\n")
   .find((line) => line.trimStart().startsWith("Content-Security-Policy:"));
 
+const websiteSchema = readJsonLd(homeHtml)[0] as {
+  "@id"?: string;
+  inLanguage?: string;
+};
+assert.equal(websiteSchema["@id"], "https://alnah.me/#website", "website schema id");
+assert.equal(websiteSchema.inLanguage, "fr-FR", "website schema language");
+
+const profileSchema = readJsonLd(aboutHtml)[0] as {
+  "@type"?: string;
+  inLanguage?: string;
+  mainEntity?: { "@id"?: string };
+};
+assert.equal(profileSchema["@type"], "ProfilePage", "profile page type");
+assert.equal(profileSchema.inLanguage, "fr-FR", "profile page language");
+assert.equal(
+  profileSchema.mainEntity?.["@id"],
+  "https://alnah.me/#person",
+  "profile person id"
+);
+
 for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail"]) {
   assertIncludes(homeHtml, `aria-label="${label}"`, `home contact icon ${label}`);
   assertIncludes(aboutHtml, `aria-label="${label}"`, `about contact icon ${label}`);
@@ -90,6 +111,60 @@ assertIncludes(
   '"image":"https://alnah.me/og/articles/perspective-actionnelle.png"',
   "post schema image"
 );
+
+const postSchema = readJsonLd(perspectiveHtml)[0] as {
+  "@id"?: string;
+  inLanguage?: string;
+  author?: {
+    "@id"?: string;
+    jobTitle?: string;
+    knowsAbout?: string[];
+    sameAs?: string[];
+  };
+  isPartOf?: { "@id"?: string; name?: string };
+  license?: string;
+  copyrightYear?: number;
+  copyrightHolder?: { "@id"?: string };
+};
+assert.equal(
+  postSchema["@id"],
+  "https://alnah.me/articles/perspective-actionnelle/#article",
+  "post schema id"
+);
+assert.equal(postSchema.inLanguage, "fr-FR", "post schema language");
+assert.equal(postSchema.author?.["@id"], "https://alnah.me/#person", "post author id");
+assert.equal(
+  postSchema.author?.jobTitle,
+  "Professeur de français langue étrangère et développeur logiciel",
+  "post author job title"
+);
+assert.deepEqual(
+  postSchema.author?.knowsAbout,
+  [
+    "Français langue étrangère (FLE)",
+    "Didactique des langues",
+    "Ingénierie pédagogique",
+    "Technologies éducatives"
+  ],
+  "post author knowsAbout"
+);
+assert.equal(postSchema.isPartOf?.["@id"], "https://alnah.me/#blog", "post isPartOf blog");
+assert.equal(postSchema.isPartOf?.name, "Le FLE et la tech", "blog name");
+assert.equal(
+  postSchema.license,
+  "https://creativecommons.org/licenses/by/4.0/",
+  "post license"
+);
+assert.equal(
+  postSchema.copyrightYear,
+  new Date().getFullYear(),
+  "post copyright year"
+);
+assert.equal(
+  postSchema.copyrightHolder?.["@id"],
+  "https://alnah.me/#person",
+  "post copyright holder"
+);
 assertIncludes(
   perspectiveHtml,
   'aria-label="Retour au texte, note 1"',
@@ -101,6 +176,16 @@ assert.ok(
   "post footnotes should not render a visible or hidden heading"
 );
 assertIncludes(perspectiveRaw, "[^puren]: Christian Puren", "raw post footnote definition");
+assertIncludes(
+  perspectiveRaw,
+  `© ${new Date().getFullYear()} [Alexis Nahan](https://alnah.me/a-propos/)`,
+  "raw post copyright"
+);
+assertIncludes(
+  perspectiveRaw,
+  "[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)",
+  "raw post license"
+);
 assert.ok(
   !perspectiveRaw.includes("## Références"),
   "raw post footnotes should not add a repeated heading"
