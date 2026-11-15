@@ -1,5 +1,5 @@
 ---
-title: "Le CECRL est plus qu'une simple grille de niveaux"
+title: "Le CECRL, guide illustré des niveaux et descripteurs en FLE"
 date: 2026-11-06
 draft: false
 aliases:
@@ -15,7 +15,7 @@ tags:
   - pédagogie
 ---
 
-# Le CECRL est plus qu'une simple grille de niveaux
+# Le CECRL, guide illustré des niveaux et descripteurs en FLE
 
 _Le CECRL propose une échelle descriptive détaillée des capacités d'un apprenant à un niveau donné. Ces descripteurs, qui suivent la perspective actionnelle, sont très pratiques pour les apprenants et les enseignants._
 
