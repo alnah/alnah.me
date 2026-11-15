@@ -4,7 +4,7 @@ date: 2026-11-06
 draft: false
 aliases:
   - /articles/le-cecrl/
-description: "Le CECRL est un cadre de travail pédagogique très structurant pour mettre en œuvre la perspective actionnelle."
+description: "Ce guide illustré du CECRL vous accompagne à travers les niveaux A1 à C2 et les descripteurs pour comprendre la perspective actionnelle et son usage en FLE."
 category: enseigner
 tags:
   - cecrl
