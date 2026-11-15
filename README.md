@@ -5,6 +5,7 @@
 - [Structure](docs/structure.md)
 - [Titles](docs/titles.md)
 - [Diagrams](docs/diagrams.md)
+- [Social images](docs/social-images.md)
 - [Development](docs/development.md)
 - [Styles](docs/styles.md)
 
