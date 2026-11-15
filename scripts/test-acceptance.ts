@@ -4,7 +4,8 @@ import {
   assertIncludes,
   executableInlineScriptHashes,
   readFile,
-  readJson
+  readJson,
+  readPngDimensions
 } from "./test-helpers.ts";
 
 const requiredFiles = [
@@ -20,7 +21,9 @@ const requiredFiles = [
   "dist/a-propos/index.html",
   "dist/confidentialite/index.html",
   "dist/articles/perspective-actionnelle/index.html",
-  "dist/raw/posts/perspective-actionnelle.md"
+  "dist/raw/posts/perspective-actionnelle.md",
+  "dist/og/articles/perspective-actionnelle.png",
+  "dist/og/articles/cecrl.png"
 ];
 
 for (const file of requiredFiles) {
@@ -58,6 +61,31 @@ assertIncludes(perspectiveHtml, "data-footnotes", "post footnotes section");
 assertIncludes(perspectiveHtml, 'role="doc-endnotes"', "post footnotes role");
 assertIncludes(perspectiveHtml, 'class="footnote-ref"', "post footnote marker");
 assertIncludes(perspectiveHtml, 'aria-label="Note 1"', "post footnote marker label");
+for (const slug of ["perspective-actionnelle", "cecrl"]) {
+  const dimensions = readPngDimensions(`dist/og/articles/${slug}.png`);
+  assert.equal(dimensions.width, 1200, `${slug} og image width`);
+  assert.equal(dimensions.height, 630, `${slug} og image height`);
+}
+assertIncludes(
+  perspectiveHtml,
+  'property="og:image" content="https://alnah.me/og/articles/perspective-actionnelle.png"',
+  "post og:image"
+);
+assertIncludes(
+  perspectiveHtml,
+  'property="og:image:width" content="1200"',
+  "post og:image width"
+);
+assertIncludes(
+  perspectiveHtml,
+  'property="og:image:height" content="630"',
+  "post og:image height"
+);
+assertIncludes(
+  perspectiveHtml,
+  '"image":"https://alnah.me/og/articles/perspective-actionnelle.png"',
+  "post schema image"
+);
 assertIncludes(
   perspectiveHtml,
   'aria-label="Retour au texte, note 1"',
@@ -75,6 +103,11 @@ assert.ok(
 );
 assertIncludes(cecrlHtml, "data-footnotes", "CECRL post footnotes section");
 assertIncludes(cecrlHtml, 'aria-label="Note 2"', "CECRL volume footnote marker");
+assertIncludes(
+  cecrlHtml,
+  'property="og:image" content="https://alnah.me/og/articles/cecrl.png"',
+  "CECRL og:image"
+);
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),

@@ -29,6 +29,20 @@ export function readJson<T = unknown>(relativePath: string): T {
   return JSON.parse(readFile(relativePath)) as T;
 }
 
+export function readPngDimensions(relativePath: string) {
+  const buffer = fs.readFileSync(assertFile(relativePath));
+  assert.equal(
+    buffer.subarray(1, 4).toString("ascii"),
+    "PNG",
+    `${relativePath} is not a PNG`
+  );
+
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20)
+  };
+}
+
 export function htmlFiles(dir = distDir): string[] {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   return entries.flatMap((entry) => {

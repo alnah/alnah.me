@@ -6,6 +6,7 @@ import { testMermaid } from "./test-unit/mermaid.ts";
 import { testFootnotes } from "./test-unit/footnotes.ts";
 import { testSeo } from "./test-unit/seo.ts";
 import { testTaxonomy } from "./test-unit/taxonomy.ts";
+import { testTextFit } from "./test-unit/text-fit.ts";
 
 testDocuments();
 testGitHubView();
@@ -15,5 +16,6 @@ testMermaid();
 await testFootnotes();
 testSeo();
 testTaxonomy();
+testTextFit();
 
 console.log("test:unit passed");

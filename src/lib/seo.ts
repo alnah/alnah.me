@@ -85,7 +85,7 @@ export function buildBlogPostingSchema({
     mainEntityOfPage: canonicalUrl,
     url: canonicalUrl,
     ...(category ? { articleSection: category } : {}),
-    ...(image ? { image } : {}),
+    ...(image ? { image: absoluteUrl(image) } : {}),
     ...(tags?.length ? { keywords: tags.join(", ") } : {}),
     author: buildPersonEntity(),
     publisher: buildPersonEntity()

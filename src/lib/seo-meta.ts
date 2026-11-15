@@ -4,6 +4,8 @@ export interface SeoInput {
   canonicalPath: string;
   description: string;
   image?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   title?: string;
   type?: "article" | "website";
 }
@@ -46,6 +48,8 @@ export function buildSeo({
   canonicalPath,
   description,
   image,
+  imageWidth,
+  imageHeight,
   title,
   type = "website"
 }: SeoInput) {
@@ -57,8 +61,8 @@ export function buildSeo({
     canonicalUrl,
     description,
     image: resolvedImage,
-    imageHeight: isDefaultSocialImage ? 630 : undefined,
-    imageWidth: isDefaultSocialImage ? 1200 : undefined,
+    imageHeight: imageHeight ?? (isDefaultSocialImage ? 630 : undefined),
+    imageWidth: imageWidth ?? (isDefaultSocialImage ? 1200 : undefined),
     title: pageTitle(title),
     twitterCard: resolvedImage ? "summary_large_image" : "summary",
     type

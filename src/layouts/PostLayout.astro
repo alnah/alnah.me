@@ -3,7 +3,7 @@ import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
 import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
-import { buildBlogPostingSchema, resolveSocialImage } from "../lib/seo.ts";
+import { buildBlogPostingSchema } from "../lib/seo.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 
 interface Props {
@@ -16,10 +16,8 @@ const readingTime = readingTimeFromMarkdown(stripLeadingMarkdownTitle(entry.body
 const publicationDate = resolvePublicationDate(entry.data);
 const canonicalPath = `/articles/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
-const socialImage = resolveSocialImage(entry.data.cover?.src, entry.id);
-const socialImageAlt = entry.data.cover
-  ? `Image de couverture pour ${documentTitle}.`
-  : undefined;
+const socialImage = `/og/articles/${entry.id}.png`;
+const socialImageAlt = `Image de partage pour ${documentTitle}.`;
 const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
@@ -39,6 +37,8 @@ const schemaJson = buildBlogPostingSchema({
   canonicalPath={canonicalPath}
   image={socialImage}
   imageAlt={socialImageAlt}
+  imageWidth={1200}
+  imageHeight={630}
   modifiedTime={(entry.data.lastmod ?? publicationDate).toISOString()}
   publishedTime={publicationDate.toISOString()}
   schemaJson={schemaJson}

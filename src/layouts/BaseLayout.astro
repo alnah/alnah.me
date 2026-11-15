@@ -12,6 +12,8 @@ interface Props {
   description?: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   publishedTime?: string;
   modifiedTime?: string;
   type?: "article" | "website";
@@ -26,6 +28,8 @@ const {
   description = SITE.description,
   image,
   imageAlt = SITE.socialImageAlt,
+  imageWidth,
+  imageHeight,
   publishedTime,
   modifiedTime,
   type = "website",
@@ -38,6 +42,8 @@ const seo = buildSeo({
   canonicalPath,
   description,
   image,
+  imageWidth,
+  imageHeight,
   title,
   type
 });
