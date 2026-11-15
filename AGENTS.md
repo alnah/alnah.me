@@ -146,7 +146,7 @@ tags:
 Content in Markdown format...
 ```
 
-Optional fields: `lastmod`, `aliases`, `publishDate`, `expiryDate`, `cover`.
+Optional fields: `lastmod`, `aliases`, `publishDate`, `expiryDate`.
 Category: required; one of `construire`, `outiller`, `enseigner`, `travailler`, `penser` (`src/lib/content/taxonomy.ts`).
 Tags: required; at least one.
 

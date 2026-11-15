@@ -38,7 +38,6 @@ aliases:
   - /old-post/
 publishDate: 2026-03-01
 expiryDate: 2026-12-31
-cover: ./cover.jpg
 ---
 ```
 

@@ -8,20 +8,18 @@ const posts = defineCollection({
     base: "./src/content/posts",
     pattern: "**/*.md"
   }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string().min(1),
-      date: z.coerce.date(),
-      draft: z.boolean(),
-      description: z.string().min(1),
-      category: z.enum(POST_CATEGORIES),
-      tags: z.array(z.string().min(1)).min(1),
-      lastmod: z.coerce.date().optional(),
-      aliases: z.array(z.string().min(1)).optional(),
-      publishDate: z.coerce.date().optional(),
-      expiryDate: z.coerce.date().optional(),
-      cover: image().optional()
-    })
+  schema: z.object({
+    title: z.string().min(1),
+    date: z.coerce.date(),
+    draft: z.boolean(),
+    description: z.string().min(1),
+    category: z.enum(POST_CATEGORIES),
+    tags: z.array(z.string().min(1)).min(1),
+    lastmod: z.coerce.date().optional(),
+    aliases: z.array(z.string().min(1)).optional(),
+    publishDate: z.coerce.date().optional(),
+    expiryDate: z.coerce.date().optional()
+  })
 });
 
 const pages = defineCollection({
