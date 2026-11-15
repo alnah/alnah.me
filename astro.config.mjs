@@ -11,6 +11,12 @@ export default defineConfig({
   image: {
     service: passthroughImageService()
   },
+  vite: {
+    build: {
+      // Mermaid emits large lazy chunks (ELK layout, shared renderer) above Vite's default 500 kB limit.
+      chunkSizeWarningLimit: 1600
+    }
+  },
   markdown: {
     processor: satteri({ hastPlugins: markdownHastPlugins() }),
     syntaxHighlight: {
