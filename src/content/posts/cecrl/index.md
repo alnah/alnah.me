@@ -17,9 +17,9 @@ tags:
 
 # Le CECRL, guide illustré des niveaux et descripteurs en FLE
 
-_Le CECRL propose une échelle descriptive détaillée des capacités d'un apprenant à un niveau donné. Ces descripteurs, qui suivent la perspective actionnelle, sont très pratiques pour les apprenants et les enseignants._
+_Le CECRL propose une échelle descriptive détaillée des capacités d'un apprenant à un niveau donné. Ces descripteurs, qui suivent la perspective actionnelle, sont très pratiques pour les enseignants._
 
-Le Cadre européen commun de référence pour les langues (CECRL)[^cecrl] a été publié en 2001 par le Conseil de l'Europe. De nombreux enseignants de français langue étrangère (FLE) utilisent [sa grille d'auto-évaluation](https://rm.coe.int/CoERMPublicCommonSearchServices/DisplayDCTMContent?documentId=090000168045bb57). Elle couvre les niveaux du A1 au C2. Elle est divisée en cinq colonnes : écouter, lire, converser, s'exprimer et écrire. Bon nombre d'apprenants savent se référer aux niveaux du CECRL, grâce aux enseignants et aux certifications officielles de langue française. Pourtant, ils connaissent rarement le contenu de cette grille. Côté enseignant, la grille d'auto-évaluation est fréquemment utilisée comme un résumé du CECRL. Côté apprenant, elle est trop souvent méconnue.
+Le Cadre européen commun de référence pour les langues (CECRL)[^cecrl] a été publié en 2001 par le Conseil de l'Europe. De nombreux enseignants de français langue étrangère (FLE) utilisent [sa grille d'auto-évaluation](https://rm.coe.int/CoERMPublicCommonSearchServices/DisplayDCTMContent?documentId=090000168045bb57). Elle couvre les niveaux du A1 au C2. Elle est divisée en cinq colonnes : écouter, lire, converser, s'exprimer et écrire. Bon nombre d'apprenants savent se référer aux niveaux du CECRL, grâce aux enseignants et aux certifications officielles de langue française. Pourtant, ils connaissent rarement le contenu de cette grille. Côté enseignant, la grille d'auto-évaluation est fréquemment utilisée comme un résumé du CECRL.
 
 Toutefois, le CECRL est un excellent cadre de travail. Les enseignants peuvent l'utiliser pour élaborer des programmes, des manuels ou des tests, et il est utile aux apprenants pour étudier le FLE ou préparer des examens. À noter que le CECRL dépasse largement l'évaluation standardisée par les tests. Bien qu'il soit souvent associé à ce type d'évaluation très normée, il décrit tout ce que les apprenants doivent savoir faire pour communiquer, en utilisant une échelle de niveaux pour chaque activité langagière. C'est une référence bien plus riche que la grille d'auto-évaluation.
 
@@ -95,7 +95,7 @@ Avec ce schéma descriptif, le CECRL fait le choix d'abandonner le modèle des q
 
 ## Le CECRL définit des niveaux communs de référence
 
-Dans le CECRL, chacun des paramètres du schéma descriptif est décrit par niveaux. Les niveaux vont du A1 au C2. Si vous êtes apprenant ou enseignant, vous devez déjà connaître ces niveaux.
+Dans le CECRL, chacun des paramètres du schéma descriptif est décrit par niveaux. Les niveaux vont du A1 au C2. Si vous enseignez le FLE, vous connaissez déjà ces niveaux.
 
 _Les niveaux communs de référence_
 
