@@ -5,7 +5,7 @@ description: "J'aide les enseignants et les organisations à enseigner le Franç
 
 # À propos
 
-J'aide les enseignants et les organisations à enseigner le Français Langue Étrangère (FLE) à l'aide des technologies. Je m'appelle Alexis Nahan, mon pseudonyme public est `alnah`. Je suis professeur de FLE et développeur.
+J'aide les enseignants et les organisations à enseigner le Français Langue Étrangère (FLE) à l'aide des technologies. Je m'appelle Alexis Nahan, mon pseudonyme public est `alnah`. Je suis professeur de FLE et développeur logiciel.
 
 ## Ce que je partage
 
