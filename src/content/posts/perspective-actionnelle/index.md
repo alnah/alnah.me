@@ -22,9 +22,9 @@ tags:
 
 Le Cadre européen commun de référence pour les langues (CECRL) existe depuis 2001. Il a redéfini les objectifs de l'enseignement des langues en Europe, notamment le français langue étrangère (FLE). Toutefois, dans la plupart des écoles de langue, des centres de formation pour professionnels ou des plateformes d'enseignement en ligne, la grammaire sans contexte reste la norme.
 
-Pourtant, le CECRL[^cecrl] propose une autre philosophie plus efficace :
+Pourtant, le CECRL propose une autre philosophie plus efficace :
 
-> « La perspective privilégiée ici est de type actionnel, en ce qu'elle considère avant tout l'usager et l'apprenant comme des acteurs sociaux ayant à accomplir des tâches qui ne sont pas seulement langagières, dans des circonstances et un environnement donnés, à l'intérieur d'un domaine particulier. »
+> « La perspective privilégiée ici est de type actionnel, en ce qu'elle considère avant tout l'usager et l'apprenant comme des acteurs sociaux ayant à accomplir des tâches qui ne sont pas seulement langagières, dans des circonstances et un environnement donnés, à l'intérieur d'un domaine particulier. »[^cecrl]
 
 J'aime utiliser cette perspective pédagogique dans mes cours vu qu'elle change la dynamique de la classe. Elle est très différente des approches traditionnelles.
 
@@ -40,7 +40,7 @@ En réalité, il faudrait changer la place de la grammaire et du vocabulaire dan
 
 ### L'apprenant est un acteur social
 
-La frontière entre l'usager de la langue et l'apprenant s'efface. Les tâches qu'un apprenant réalise en cours doivent se rapprocher le plus possible de ce qu'un utilisateur de la langue fait dans la vraie vie. L'apprenant devient un acteur social : une personne qui utilise la langue pour s'intégrer, collaborer, partager son avis ou résoudre des problèmes avec d'autres.
+Le CECRL considère l'usager de la langue et l'apprenant comme des acteurs sociaux. Les tâches qu'un apprenant réalise en cours doivent se rapprocher le plus possible de ce qu'un utilisateur de la langue fait dans la vraie vie. L'apprenant agit alors comme un acteur social : une personne qui utilise la langue pour s'intégrer, collaborer, partager son avis ou résoudre des problèmes avec d'autres.
 
 La langue devient un moyen d'agir à l'intérieur de la société. Lire, écouter, écrire ou parler n'est plus le but de l'apprentissage. C'est le moyen d'arriver à un résultat concret, dans un contexte privé ou public, personnel, académique ou professionnel. La grammaire, le vocabulaire et la prononciation sont importants étant donné qu'ils répondent aux besoins d'une situation spécifique. Dans mon quotidien d'enseignant, je vois qu'avec la perspective actionnelle, mes étudiants s'engagent plus dans les tâches. Et je me divertis plus quand j'enseigne : aucune séance ne ressemble à une autre.
 
@@ -74,7 +74,7 @@ C'est une relation par laquelle chacun est un acteur qui œuvre pour mener à bi
 
 ### Le rôle de l'enseignant est de s'adapter
 
-La fonction de l'enseignant est de faciliter le projet de l'apprenant. Il doit éviter de figer sa posture dans celle de l'instructeur qui transmet un savoir normé sur la langue. Écouter un enseignant expliquer une règle de grammaire sans avoir l'opportunité d'agir est fastidieux et peu efficace. L'apprenant peut découvrir les règles avec un support adapté à son niveau, ou dans une langue intermédiaire, afin de les utiliser dans le but de réaliser la tâche.
+La fonction de l'enseignant est de faciliter le projet de l'apprenant.[^enseignant] Il doit éviter de figer sa posture dans celle de l'instructeur qui transmet un savoir normé sur la langue. Écouter un enseignant expliquer une règle de grammaire sans avoir l'opportunité d'agir est fastidieux et peu efficace. L'apprenant peut découvrir les règles avec un support adapté à son niveau, ou dans une langue intermédiaire, afin de les utiliser dans le but de réaliser la tâche.
 
 L'enseignant doit éviter la todo-list du genre : « D'abord, observez la carte numérique. Ensuite, écrivez l'itinéraire de randonnée en utilisant les prépositions de lieu. Enfin, lisez-le à votre professeur. » Il vaut mieux une tâche actionnelle avec un contexte : « Vous êtes la personne qui propose un itinéraire de randonnée à votre groupe d'amis. Utilisez l'application Wikiloc pour chercher une randonnée dans les Alpes. Pensez aux débutants du groupe pour choisir la randonnée ! Puis, envoyez un message vocal à votre groupe d'amis sur WhatsApp pour présenter Wikiloc et l'itinéraire que vous trouverez intéressant. Indiquez les points de passage et les refuges. Répondez aux questions de vos amis sur les détails de la randonnée. »
 
@@ -94,6 +94,8 @@ Ces problèmes ne sont pas insurmontables. Même si la perspective actionnelle e
 
 Dans mes prochains articles, je continuerai de présenter quelques idées et des outils pédagogiques ou technologiques pour faciliter l'application de la perspective actionnelle. Si vous enseignez le FLE, ou si vous apprenez le français, écrivez-moi. Je suis toujours curieux de connaître les expériences des autres.
 
-[^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2, p. 15. [Consulter](https://rm.coe.int/16802fc3a8#page=15).
+[^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2. [Consulter](https://rm.coe.int/16802fc3a8#page=15).
 
-[^puren]: Christian Puren, « De l'approche communicative à la perspective actionnelle », *Le Français dans le Monde* n°347, 2006, PDF p. 6. [Consulter](https://www.christianpuren.com/mes-travaux/2006g/).
+[^puren]: Christian Puren, « De l'approche communicative à la perspective actionnelle », *Le Français dans le Monde* n°347, 2006, PDF. [Consulter](https://www.christianpuren.com/mes-travaux/2006g/).
+
+[^enseignant]: Virginie Privas-Bréauté, « D' “enseignant” à “facilitateur d'apprentissage” : retracer les contours de la profession d'enseignant de langues vivantes », 2013. [Consulter](https://shs.hal.science/halshs-01071474).
