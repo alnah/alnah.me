@@ -6,6 +6,7 @@ import {
   type SearchFieldIndex,
   type SearchIndexDocument
 } from "../../src/lib/search-ranking.ts";
+import { buildSearchIndex } from "../../src/lib/search.ts";
 
 const EMPTY_SEARCH_FIELDS: Record<SearchField, string> = {
   title: "",
@@ -77,4 +78,26 @@ export function testSearch(): void {
     indexDocument({ title: `recherche ${index}` }, index)
   );
   assert.equal(searchDocuments(manyMatches, "recherche").length, 8, "results are limited to 8");
+
+  const [updatedIndex] = buildSearchIndex([
+    {
+      title: "mise à jour",
+      description: "mise à jour",
+      category: "Enseigner",
+      tags: [],
+      url: "/articles/updated/",
+      date: "2026-11-06",
+      dateLabel: "6 nov. 2026",
+      updated: "2026-11-15",
+      updatedLabel: "Mis à jour le 15 nov. 2026",
+      excerpt: "",
+      content: ""
+    }
+  ]);
+
+  assert.equal(
+    searchDocuments([updatedIndex], "15 nov 2026").length,
+    1,
+    "an updated date is searchable"
+  );
 }

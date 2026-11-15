@@ -41,7 +41,9 @@ const robots = readFile("dist/robots.txt");
 const license = readFile("dist/LICENSE.txt");
 const bsdLicense = readFile("dist/LICENSES/BSD-3-Clause.txt");
 const ccLicense = readFile("dist/LICENSES/CC-BY-4.0.txt");
-const searchIndex = readJson("dist/index.json");
+const searchIndex = readJson<
+  Array<{ url: string; updated?: string; updatedLabel?: string }>
+>("dist/index.json");
 const inlineScriptHashes = executableInlineScriptHashes("dist/index.html");
 const cspLine = headers
   .split("\n")
@@ -61,6 +63,8 @@ assertIncludes(perspectiveHtml, "data-footnotes", "post footnotes section");
 assertIncludes(perspectiveHtml, 'role="doc-endnotes"', "post footnotes role");
 assertIncludes(perspectiveHtml, 'class="footnote-ref"', "post footnote marker");
 assertIncludes(perspectiveHtml, 'aria-label="Note 1"', "post footnote marker label");
+assertIncludes(perspectiveHtml, 'datetime="2026-11-15"', "post updated datetime");
+assertIncludes(perspectiveHtml, "Mis à jour le 15 nov. 2026", "post updated label");
 for (const slug of ["perspective-actionnelle", "cecrl"]) {
   const dimensions = readPngDimensions(`dist/og/articles/${slug}.png`);
   assert.equal(dimensions.width, 1200, `${slug} og image width`);
@@ -103,11 +107,23 @@ assert.ok(
 );
 assertIncludes(cecrlHtml, "data-footnotes", "CECRL post footnotes section");
 assertIncludes(cecrlHtml, 'aria-label="Note 2"', "CECRL volume footnote marker");
+assertIncludes(cecrlHtml, 'datetime="2026-11-15"', "CECRL updated datetime");
+assertIncludes(cecrlHtml, "Mis à jour le 15 nov. 2026", "CECRL updated label");
 assertIncludes(
   cecrlHtml,
   'property="og:image" content="https://alnah.me/og/articles/cecrl.png"',
   "CECRL og:image"
 );
+
+for (const slug of ["cecrl", "perspective-actionnelle"]) {
+  const item = searchIndex.find((entry) => entry.url === `/articles/${slug}/`);
+  assert.equal(item?.updated, "2026-11-15", `${slug} search updated date`);
+  assert.equal(
+    item?.updatedLabel,
+    "Mis à jour le 15 nov. 2026",
+    `${slug} search updated label`
+  );
+}
 
 assert.ok(
   !redirects.includes("https://www.alnah.me/* https://alnah.me/:splat 301"),

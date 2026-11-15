@@ -56,6 +56,11 @@ assert.ok(
   /<generator>Astro v\d+\.\d+\.\d+ with @astrojs\/rss<\/generator>/.test(rssXml),
   "RSS generator should reflect the installed Astro version"
 );
+assertIncludes(
+  rssXml,
+  "<lastBuildDate>Sun, 15 Nov 2026 00:00:00 GMT</lastBuildDate>",
+  "RSS lastBuildDate uses the latest content date"
+);
 
 if (searchIndex.length > 0) {
   assertIncludes(rssXml, "<link>https://alnah.me/articles/", "RSS canonical links");
@@ -74,6 +79,10 @@ for (const item of searchIndex) {
   assert.ok(item.url?.startsWith('/articles/'), 'Search item URL should point to a post');
   assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.date), "Search item missing ISO date");
   assert.ok(item.dateLabel, "Search item missing human date label");
+  if (item.updated) {
+    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.updated), "Search item updated date should be ISO");
+    assert.ok(item.updatedLabel, "Search item missing updated label");
+  }
   assert.ok(item.excerpt, "Search item missing excerpt");
   assert.ok(item.content, "Search item missing searchable content");
 }

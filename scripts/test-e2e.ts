@@ -43,6 +43,8 @@ if (representativePath) {
   );
 
   assertIncludes(postHtml, "min de lecture", "reading time");
+  assertIncludes(postHtml, "Mis à jour le", "updated date");
+  assertIncludes(postHtml, 'datetime="2026-11-15"', "updated datetime");
   assertIncludes(postHtml, "Tous les articles", "post footer all posts link");
   assertIncludes(postHtml, "Partager cet article sur", "share block");
   assertIncludes(postHtml, `/raw/posts/${representativeSlug}.md`, "raw reuse link");

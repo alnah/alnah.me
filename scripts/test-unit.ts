@@ -7,6 +7,7 @@ import { testFootnotes } from "./test-unit/footnotes.ts";
 import { testSeo } from "./test-unit/seo.ts";
 import { testTaxonomy } from "./test-unit/taxonomy.ts";
 import { testTextFit } from "./test-unit/text-fit.ts";
+import { testPostDate } from "./test-unit/post-date.ts";
 
 testDocuments();
 testGitHubView();
@@ -17,5 +18,6 @@ await testFootnotes();
 testSeo();
 testTaxonomy();
 testTextFit();
+testPostDate();
 
 console.log("test:unit passed");
