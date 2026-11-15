@@ -22,7 +22,7 @@ tags:
 
 Le Cadre européen commun de référence pour les langues (CECRL) existe depuis 2001. Il a redéfini les objectifs de l'enseignement des langues en Europe, notamment le français langue étrangère (FLE). Toutefois, dans la plupart des écoles de langue, des centres de formation pour professionnels ou des plateformes d'enseignement en ligne, la grammaire sans contexte reste la norme.
 
-Pourtant, le CECRL propose une autre philosophie plus efficace :
+Pourtant, le CECRL[^cecrl] propose une autre philosophie plus efficace :
 
 > « La perspective privilégiée ici est de type actionnel, en ce qu'elle considère avant tout l'usager et l'apprenant comme des acteurs sociaux ayant à accomplir des tâches qui ne sont pas seulement langagières, dans des circonstances et un environnement donnés, à l'intérieur d'un domaine particulier. »
 
@@ -30,7 +30,7 @@ J'aime utiliser cette perspective pédagogique dans mes cours vu qu'elle change 
 
 ## Les méthodes traditionnelles étaient limitées
 
-L'approche communicative, qui domine depuis les années 1980, a introduit l'interaction en classe avec des jeux de rôles ou des dialogues. Dans les faits, l'interaction est restée un exercice un peu scolaire : un apprenant joue un client qui demande des informations à un autre qui fait le vendeur pendant dix minutes... Et puis le cours passe à autre chose !
+L'approche communicative, qui domine depuis les années 1980, a introduit l'interaction en classe avec des jeux de rôles ou des dialogues.[^puren] Dans les faits, l'interaction est restée un exercice un peu scolaire : un apprenant joue un client qui demande des informations à un autre qui fait le vendeur pendant dix minutes... Et puis le cours passe à autre chose !
 
 Si on enseigne la grammaire ou le vocabulaire avant de faire naître le besoin de les utiliser, l'apprenant accumule des règles sans qu'il puisse comprendre dans quelles situations elles sont utiles. Au lieu d'apprendre pour l'examen du semestre, ou pire, d'apprendre des règles en soi, l'apprenant devrait apprendre parce qu'il en a besoin pour agir dans un contexte de communication en français.
 
@@ -93,3 +93,7 @@ En revanche, la perspective actionnelle a quelques limites.
 Ces problèmes ne sont pas insurmontables. Même si la perspective actionnelle est évidemment plus exigeante, elle est surtout efficace et gratifiante pour l'apprenant comme pour l'enseignant.
 
 Dans mes prochains articles, je continuerai de présenter quelques idées et des outils pédagogiques ou technologiques pour faciliter l'application de la perspective actionnelle. Si vous enseignez le FLE, ou si vous apprenez le français, écrivez-moi. Je suis toujours curieux de connaître les expériences des autres.
+
+[^cecrl]: Cadre européen commun de référence pour les langues, chapitre 2, p. 15. [Lire en ligne](https://rm.coe.int/16802fc3a8#page=15).
+
+[^puren]: Christian Puren, « De l'approche communicative à la perspective actionnelle », *Le Français dans le Monde* n°347, 2006, PDF p. 6. [Lire en ligne](https://www.christianpuren.com/mes-travaux/2006g/).
