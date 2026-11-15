@@ -9,7 +9,7 @@ J'aide les enseignants et les organisations à enseigner le Français Langue Ét
 
 ## Ce que je partage
 
-Sur mon blog, vous trouverez des idées et des ressources à l'intersection de l'architecture pédagogique et de l'ingénierie logicielle. Mon [contenu](https://alnah.me) et mes [outils open-source](https://github.com/alnah) sont gratuits pour qui veut apprendre à son rythme. Je propose aussi des services commerciaux pour les enseignants et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer des nouvelles technologies dans leur écosystème. [Vous pouvez m'écrire](mailto:contact@alnah.me) pour plus d'informations à ce sujet.
+Sur mon blog, vous trouverez des idées et des ressources à l'intersection de l'ingénierie pédagogique et de l'ingénierie logicielle. Mon [contenu](https://alnah.me) et mes [outils open-source](https://github.com/alnah) sont gratuits pour qui veut apprendre à son rythme. Je propose aussi des services commerciaux pour les enseignants et les organisations qui ont besoin de résultats plus directs, ou d'aide pour intégrer des nouvelles technologies dans leur écosystème. [Vous pouvez m'écrire](mailto:contact@alnah.me) pour plus d'informations à ce sujet.
 
 ## Mon approche
 
