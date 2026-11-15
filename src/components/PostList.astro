@@ -1,5 +1,5 @@
 ---
-import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
+import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 
 interface Props {
@@ -18,7 +18,11 @@ const {
 ---
 
 <div class="post-list">
-  {posts.map((post) => (
+  {posts.map((post) => {
+    const publicationDate = resolvePublicationDate(post.data);
+    const postDate = resolvePostDate(publicationDate, post.data.lastmod);
+
+    return (
     <article class="post-list-item">
       <p class="post-list-category">
         <a class="category-pill" href={`/categories/${getPostCategoryMeta(post.data.category).slug}/`}>
@@ -26,7 +30,7 @@ const {
         </a>
       </p>
       <p class="eyebrow post-list-meta">
-        <span>{formatDate(resolvePublicationDate(post.data))}</span>
+        <time datetime={formatIsoDate(postDate.date)}>{postDate.label}</time>
         {
           showReadingTime && (
             <>
@@ -41,7 +45,8 @@ const {
         <p>{post.data.description}</p>
       </div>
     </article>
-  ))}
+    );
+  })}
   {
     ctaHref && ctaLabel && (
       <div class="post-list-cta">
@@ -72,6 +77,7 @@ const {
     gap: var(--space-2);
     align-items: center;
     flex-wrap: wrap;
+    text-transform: none;
   }
 
   .post-list-copy h3 {

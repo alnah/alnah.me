@@ -19,6 +19,35 @@ export function formatDate(date: Date) {
   }).format(date);
 }
 
+export type PostDate = {
+  date: Date;
+  label: string;
+  isUpdated: boolean;
+};
+
+/**
+ * Resolve the displayed date. An update only replaces the publication date
+ * when lastmod is strictly later. Equal or earlier values are ignored.
+ */
+export function resolvePostDate(
+  publicationDate: Date,
+  lastmod?: Date
+): PostDate {
+  if (lastmod && lastmod.getTime() > publicationDate.getTime()) {
+    return {
+      date: lastmod,
+      label: `Mis à jour le ${formatDate(lastmod)}`,
+      isUpdated: true
+    };
+  }
+
+  return {
+    date: publicationDate,
+    label: formatDate(publicationDate),
+    isUpdated: false
+  };
+}
+
 export function formatIsoDate(date: Date) {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, "0");

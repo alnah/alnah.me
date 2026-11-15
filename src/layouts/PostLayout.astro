@@ -2,7 +2,7 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
+import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
 import { buildBlogPostingSchema } from "../lib/seo.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 
@@ -14,6 +14,7 @@ const { entry } = Astro.props;
 const documentTitle = resolveEntryTitle(entry);
 const readingTime = readingTimeFromMarkdown(stripLeadingMarkdownTitle(entry.body ?? ""));
 const publicationDate = resolvePublicationDate(entry.data);
+const postDate = resolvePostDate(publicationDate, entry.data.lastmod);
 const canonicalPath = `/articles/${entry.id}/`;
 const reuseUrl = `/raw/posts/${entry.id}.md`;
 const socialImage = `/og/articles/${entry.id}.png`;
@@ -22,7 +23,7 @@ const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
   category: categoryMeta.label,
-  dateModified: entry.data.lastmod,
+  dateModified: postDate.date,
   datePublished: publicationDate,
   description: entry.data.description,
   image: socialImage,
@@ -39,7 +40,7 @@ const schemaJson = buildBlogPostingSchema({
   imageAlt={socialImageAlt}
   imageWidth={1200}
   imageHeight={630}
-  modifiedTime={(entry.data.lastmod ?? publicationDate).toISOString()}
+  modifiedTime={postDate.date.toISOString()}
   publishedTime={publicationDate.toISOString()}
   schemaJson={schemaJson}
   reuseUrl={reuseUrl}
@@ -52,7 +53,7 @@ const schemaJson = buildBlogPostingSchema({
           <a class="category-pill" href={`/categories/${categoryMeta.slug}/`}>{categoryMeta.label}</a>
         </p>
         <p class="eyebrow post-meta">
-          <span>{formatDate(publicationDate)}</span>
+          <time datetime={formatIsoDate(postDate.date)}>{postDate.label}</time>
           <span aria-hidden="true">·</span>
           <span>{readingTime} min de lecture</span>
         </p>
@@ -87,6 +88,7 @@ const schemaJson = buildBlogPostingSchema({
     align-items: center;
     margin-bottom: var(--space-4);
     flex-wrap: wrap;
+    text-transform: none;
   }
 
   .post-category {
