@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
+import { SITE } from "../src/config/site.ts";
 import { isErrnoException } from "../src/lib/errno.ts";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid-contract.ts";
@@ -28,6 +29,8 @@ const licensesSourceDir = path.join(cwd, "LICENSES");
 const licensesTargetDir = path.join(cwd, "public/LICENSES");
 const rawPostsRoot = path.join(cwd, "public/raw/posts");
 const tempFilePrefix = ".prepare-static-";
+const currentYear = new Date().getFullYear();
+const rawAttribution = `© ${currentYear} [${SITE.author.name}](${new URL(SITE.aboutPath, SITE.siteUrl).toString()}) · [${SITE.license.name}](${SITE.license.url})`;
 
 function createTempFilePath(targetPath: string) {
   return path.join(
@@ -113,7 +116,7 @@ async function writeRawMarkdown(entries: MarkdownPostEntry[]) {
 
   const rawPostFiles = entries.map((entry) => ({
     fileName: `${entry.slug}.md`,
-    content: entry.bodyMarkdown
+    content: `${entry.bodyMarkdown.trimEnd()}\n\n---\n\n${rawAttribution}\n`
   }));
 
   await Promise.all(

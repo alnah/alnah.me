@@ -8,22 +8,28 @@ interface Props {
 
 const { reuseUrl = SITE.reuseUrl } = Astro.props;
 const isPostFooter = reuseUrl !== SITE.reuseUrl;
+const currentYear = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="content-band footer-inner section-rule">
     <div class="footer-copy">
-      {
-        isPostFooter && (
-          <>
-            <a href={reuseUrl}>Réutiliser cet article</a>
-            <span aria-hidden="true">·</span>
-          </>
-        )
-      }
-      <a href={SITE.reuseUrl}>CC BY 4.0 / BSD 3-Clause</a>
-      <span aria-hidden="true">·</span>
-      <a href={SITE.repoUrl} target="_blank" rel="noreferrer">github.com/alnah/alnah.me</a>
+      <p class="footer-copyright">
+        <a href={SITE.aboutPath}>© {currentYear} {SITE.author.name}</a>
+      </p>
+      <div class="footer-links">
+        {
+          isPostFooter && (
+            <>
+              <a href={reuseUrl}>Réutiliser cet article</a>
+              <span aria-hidden="true">·</span>
+            </>
+          )
+        }
+        <a href={SITE.reuseUrl}>CC BY 4.0 / BSD 3-Clause</a>
+        <span aria-hidden="true">·</span>
+        <a href={SITE.repoUrl} target="_blank" rel="noreferrer">github.com/alnah/alnah.me</a>
+      </div>
     </div>
     <ContactLinks variant="footer" />
   </div>
@@ -40,18 +46,33 @@ const isPostFooter = reuseUrl !== SITE.reuseUrl;
     display: flex;
     justify-content: space-between;
     gap: var(--space-5);
-    align-items: baseline;
+    align-items: start;
     padding-top: var(--space-5);
   }
 
   .footer-copy {
+    display: grid;
+    gap: var(--space-2);
+    align-content: start;
+    font-family: var(--font-body);
+    font-size: inherit;
+    line-height: var(--line-height-normal);
+  }
+
+  .footer-copyright {
+    display: flex;
+    align-items: center;
+    min-height: 2rem;
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .footer-links {
     display: flex;
     gap: var(--space-3);
     flex-wrap: wrap;
     align-items: center;
-    font-family: var(--font-body);
-    font-size: inherit;
-    line-height: var(--line-height-normal);
+    min-height: 2rem;
   }
 
   .site-footer a {
@@ -93,6 +114,13 @@ const isPostFooter = reuseUrl !== SITE.reuseUrl;
       align-items: center;
       justify-items: center;
       width: 100%;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: var(--space-2);
+      justify-items: center;
+      min-height: 0;
     }
 
     .footer-copy span[aria-hidden="true"] {
