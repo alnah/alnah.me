@@ -35,7 +35,12 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@resvg/resvg-js": "^2.6.2",
     "playwright": "^1.64.1",
+    "satori": "^0.63.2",
     "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "fflate": "^0.8.3"
   }
 }
