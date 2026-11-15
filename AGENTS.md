@@ -219,7 +219,7 @@ Posts: load from `src/content/posts/**`.
 Pages: load from `src/content/pages/**`.
 Schema: `src/content.config.ts`.
 Categories: fixed taxonomy in `src/lib/content/taxonomy.ts`.
-Publication: `src/lib/publication.js`.
+Publication: `src/lib/publication.ts`.
 Raw exports: generate only for published posts.
 Aliases: generate redirects from frontmatter `aliases`.
 Site metadata: centralize contact links and site metadata in `src/config/site.ts`.
