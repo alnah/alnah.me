@@ -78,6 +78,7 @@ function validateContacts(contacts: readonly ContactLink[]) {
 export const SITE = {
   title: 'Alexis Nahan',
   alternateName: 'alnah',
+  blogTitle: 'Le FLE et la tech',
   siteUrl: 'https://alnah.me',
   aboutPath: '/a-propos/',
   description:
@@ -91,6 +92,15 @@ export const SITE = {
     email: 'contact@alnah.me',
     intro: "Le FLE et la tech",
     photoAlt: "Portrait d'Alexis Nahan",
+    jobTitle: 'Professeur de français langue étrangère et développeur logiciel',
+    description:
+      "J'aide les enseignants et les organisations à enseigner le FLE à l'aide des technologies.",
+    knowsAbout: [
+      'Français langue étrangère (FLE)',
+      'Didactique des langues',
+      'Ingénierie pédagogique',
+      'Technologies éducatives',
+    ],
   },
   repoUrl: 'https://github.com/alnah/alnah.me',
   reuseUrl: '/LICENSE.txt',
