@@ -1,6 +1,7 @@
 ---
 title: "Le CECRL, guide illustré des niveaux et descripteurs en FLE"
 date: 2026-11-06
+lastmod: 2026-11-15
 draft: false
 aliases:
   - /articles/le-cecrl/
