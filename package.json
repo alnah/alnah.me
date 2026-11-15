@@ -9,7 +9,7 @@
   "scripts": {
     "prepare:static": "node scripts/prepare-static.ts",
     "predev": "npm run prepare:static",
-    "dev": "astro dev",
+    "dev": "astro dev --force",
     "prebuild": "npm run prepare:static",
     "postbuild": "node scripts/generate-headers.ts",
     "build": "rm -rf dist .astro && astro build",
