@@ -12,48 +12,35 @@ const { variant = 'hero' } = Astro.props;
 const contactIds: readonly ContactId[] = ['email'];
 const socialItems = SITE.contacts.filter((contact) => SOCIAL_CONTACT_IDS.includes(contact.id));
 const contactItems = SITE.contacts.filter((contact) => contactIds.includes(contact.id));
+const rows = [
+  { id: 'social', label: 'Me suivre sur', items: socialItems },
+  { id: 'contact', label: 'Me contacter par', items: contactItems }
+];
+const orderedRows = variant === 'footer' ? [...rows].reverse() : rows;
 ---
 
 <div class="contact-links" data-variant={variant} aria-label="Liens de contact">
-  {socialItems.length > 0 && (
-    <div class="social-row">
-      <span class="social-row-label">Me suivre sur</span>
-      <div class="social-links-list">
-        {socialItems.map((contact) => (
-          <a
-            class="social-icon-link"
-            href={contact.href}
-            aria-label={contact.label}
-            title={contact.label}
-            target={contact.href.startsWith("/") ? undefined : "_blank"}
-            rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
-          >
-            <SocialIcon icon={contact.id as ContactId} />
-          </a>
-        ))}
+  {orderedRows.map((row) => (
+    row.items.length > 0 && (
+      <div class="social-row" data-row={row.id}>
+        <span class="social-row-label">{row.label}</span>
+        <div class="social-links-list">
+          {row.items.map((contact) => (
+            <a
+              class="social-icon-link"
+              href={contact.href}
+              aria-label={contact.label}
+              title={contact.label}
+              target={contact.href.startsWith("/") ? undefined : "_blank"}
+              rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
+            >
+              <SocialIcon icon={contact.id as ContactId} />
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-  )}
-
-  {contactItems.length > 0 && (
-    <div class="social-row">
-      <span class="social-row-label">Me contacter par</span>
-      <div class="social-links-list">
-        {contactItems.map((contact) => (
-          <a
-            class="social-icon-link"
-            href={contact.href}
-            aria-label={contact.label}
-            title={contact.label}
-            target={contact.href.startsWith("/") ? undefined : "_blank"}
-            rel={contact.href.startsWith("/") ? undefined : "noreferrer"}
-          >
-            <SocialIcon icon={contact.id as ContactId} />
-          </a>
-        ))}
-      </div>
-    </div>
-  )}
+    )
+  ))}
 </div>
 
 <style>
