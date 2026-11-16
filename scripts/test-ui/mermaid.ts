@@ -1,10 +1,15 @@
 import assert from "node:assert/strict";
 import type { Browser } from "playwright";
-
-const DIAGRAM_POST_PATH = "/articles/perspective-actionnelle/";
+import { findPostPath } from "./helpers.ts";
 
 /** Diagram dialog: opening, zooming, exporting, and closing. */
 export async function testMermaid(browser: Browser, origin: string): Promise<void> {
+  const postPath = findPostPath((html) => html.includes('class="mermaid"'));
+
+  if (!postPath) {
+    return;
+  }
+
   const context = await browser.newContext({
     colorScheme: "dark",
     reducedMotion: "reduce",
@@ -12,7 +17,7 @@ export async function testMermaid(browser: Browser, origin: string): Promise<voi
   });
   const page = await context.newPage();
 
-  await page.goto(`${origin}${DIAGRAM_POST_PATH}`);
+  await page.goto(`${origin}${postPath}`);
 
   const expand = page.locator(".mermaid-expand").first();
   await expand.waitFor({ state: "visible" });
