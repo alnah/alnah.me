@@ -152,7 +152,7 @@ function hasAdjacentExactTokens(field: SearchFieldIndex, queryTokens: string[]) 
  * Search should feel deterministic for known posts, not "fuzzy" in a way that
  * buries exact title/tag/date matches under random body-text noise.
  */
-export function scoreSearchDocument(
+function scoreSearchDocument(
   item: SearchIndexDocument,
   normalizedQuery: string,
   queryTokens: string[]

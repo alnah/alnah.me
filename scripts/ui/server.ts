@@ -40,13 +40,13 @@ function resolveDistAsset(pathname: string) {
   return requestedPath;
 }
 
-export type StaticServer = {
+type StaticServer = {
   origin: string;
   close(): Promise<void>;
 };
 
 /** Serve the built site on an ephemeral port for the UI checks. */
-export async function startStaticServer(port = 0): Promise<StaticServer> {
+async function startStaticServer(port = 0): Promise<StaticServer> {
   const server = http.createServer((request, response) => {
     const assetPath = resolveDistAsset(request.url || "/");
 

@@ -122,10 +122,10 @@ export const PUBLISHED_CATEGORIES: PostCategory[] = POST_CATEGORIES.filter(
   (category) => !EMPTY_CATEGORY_PATHS.has(categoryPath(category))
 );
 
-export const PUBLISHED_TAGS = summarizeTags(PUBLISHED_POSTS.map((post) => post.tags));
+const PUBLISHED_TAGS = summarizeTags(PUBLISHED_POSTS.map((post) => post.tags));
 
 /** Pages that are route files rather than content entries. */
-export const STATIC_PAGE_PATHS = [
+const STATIC_PAGE_PATHS = [
   "/",
   "/a-propos/",
   "/confidentialite/",
@@ -133,7 +133,7 @@ export const STATIC_PAGE_PATHS = [
   CATEGORIES_INDEX_PATH
 ];
 
-export const SITE_URL = SITE.siteUrl;
+const SITE_URL = SITE.siteUrl;
 
 export function absoluteUrl(pathname: string) {
   return new URL(pathname, SITE_URL).toString();

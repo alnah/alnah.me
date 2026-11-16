@@ -26,7 +26,7 @@ export function firstUsefulToken(title: string) {
 }
 
 /** Posts that exist in the build, as public paths. */
-export function builtPostPaths(): string[] {
+function builtPostPaths(): string[] {
   const articlesDir = path.join(process.cwd(), "dist", "articles");
   return fs
     .readdirSync(articlesDir, { withFileTypes: true })

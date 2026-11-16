@@ -26,7 +26,7 @@ function closeOtherDialogs(current: SearchDialogController) {
   }
 }
 
-export function createSearchDialog(root: HTMLElement): SearchDialogController | null {
+function createSearchDialog(root: HTMLElement): SearchDialogController | null {
   const trigger = root.querySelector<HTMLElement>("[data-search-trigger]");
   const form = root.querySelector<HTMLFormElement>("[data-search-form]");
   const input = root.querySelector<HTMLInputElement>("[data-search-input]");
