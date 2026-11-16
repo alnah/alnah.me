@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import {
   isAfter,
   isBefore,
@@ -7,7 +8,7 @@ import {
 } from "../../src/lib/publication.ts";
 
 /** Publication windows: draft, publishDate, and expiryDate. */
-export function testPublication(): void {
+test('publication: windows and dates', () => {
   const now = new Date("2026-06-15T00:00:00Z");
   const past = new Date("2026-01-01T00:00:00Z");
   const future = new Date("2026-12-01T00:00:00Z");
@@ -47,4 +48,4 @@ export function testPublication(): void {
     true,
     "post inside the publication window is published"
   );
-}
+});

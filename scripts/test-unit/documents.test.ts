@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { canonicalPostPath, normalizeAlias } from "../../src/lib/aliases.ts";
 import {
   extractLeadingMarkdownTitle,
@@ -9,7 +10,7 @@ import { stripFrontmatter } from "../../src/lib/post-files.ts";
 import { readingTimeFromMarkdown } from "../../src/lib/content/format.ts";
 
 /** Aliases, frontmatter, and the H1 title contract. */
-export function testDocuments(): void {
+test('documents: markdown titles', () => {
   const sampleMarkdown = `---
 title: "Compounding Through Clarity"
 date: 2026-03-10
@@ -57,4 +58,4 @@ Because readable systems compound.`;
   assert.equal(readingTimeFromMarkdown(mermaidFence), 1, "a fence is not prose");
   assert.equal(readingTimeFromMarkdown("mot ".repeat(220)), 1);
   assert.equal(readingTimeFromMarkdown("mot ".repeat(221)), 2);
-}
+});

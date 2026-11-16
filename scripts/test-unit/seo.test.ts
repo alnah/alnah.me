@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import {
   absoluteUrl,
   buildSeo,
@@ -7,7 +8,7 @@ import {
 } from "../../src/lib/seo-meta.ts";
 
 /** Page titles, canonical URLs, and social image resolution. */
-export function testSeo(): void {
+test('seo: titles, canonical, and social images', () => {
   assert.equal(pageTitle(), "Alexis Nahan");
   assert.equal(pageTitle("Alexis Nahan"), "Alexis Nahan");
   assert.equal(pageTitle("Articles"), "Articles - Alexis Nahan");
@@ -47,4 +48,4 @@ export function testSeo(): void {
   assert.equal(customImage.image, "https://alnah.me/custom.png");
   assert.equal(customImage.imageWidth, undefined);
   assert.equal(customImage.imageHeight, undefined);
-}
+});

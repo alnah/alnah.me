@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import type { GitHubActivityData } from "../../src/lib/github-types.ts";
 import {
   buildGitHubActivityView,
@@ -9,7 +10,7 @@ import {
 } from "../../src/lib/github-view.ts";
 
 /** Contribution calendar and activity view model. */
-export function testGitHubView(): void {
+test('github view: activity rendering', () => {
   const activity = {
     hasLiveData: true,
     profileUrl: "https://github.com/alnah",
@@ -46,4 +47,4 @@ export function testGitHubView(): void {
   assert.equal(view.recentItems.length, 3, "recent activity defaults to three items");
   assert.equal(view.weekdayLabels.length, 3);
   assert.equal(buildGitHubActivityView(activity, 1).recentItems.length, 1);
-}
+});

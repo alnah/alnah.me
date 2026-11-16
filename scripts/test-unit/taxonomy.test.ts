@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { slugify } from "../../src/lib/content/format.ts";
 import {
   getPostCategoryMeta,
@@ -8,7 +9,7 @@ import {
 } from "../../src/lib/content/taxonomy.ts";
 
 /** The category key is the URL slug, so it must match the displayed name. */
-export function testTaxonomy(): void {
+test('taxonomy: categories and tags', () => {
   for (const category of POST_CATEGORIES) {
     const { label } = POST_CATEGORY_META[category];
 
@@ -40,4 +41,4 @@ export function testTaxonomy(): void {
     ["abc", "zebre"],
     "tags are sorted by label"
   );
-}
+});

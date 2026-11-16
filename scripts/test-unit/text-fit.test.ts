@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { truncateText } from "../../src/lib/text-fit.ts";
 
-export function testTextFit() {
+test('text fit: truncation', () => {
   assert.equal(truncateText("short", 10), "short");
   assert.equal(truncateText("  short  ", 10), "short");
   assert.equal(truncateText("a b c d", 5), "a b…");
@@ -18,4 +19,4 @@ export function testTextFit() {
       `truncateText should respect maxLength ${maxLength}`
     );
   }
-}
+});

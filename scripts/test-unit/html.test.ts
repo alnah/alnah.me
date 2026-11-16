@@ -1,9 +1,10 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { pageIdSuffix } from "../../src/lib/dom-id.ts";
 import { serializeJsonForHtmlScript } from "../../src/lib/script-safe.ts";
 
 /** JSON embedded in HTML script tags and stable per-page DOM ids. */
-export function testHtml(): void {
+test('html: JSON safety and DOM ids', () => {
   const serialized = serializeJsonForHtmlScript({
     title: '</script><script>alert("xss")</script>',
     ampersand: "R&D"
@@ -16,4 +17,4 @@ export function testHtml(): void {
   assert.equal(pageIdSuffix("/"), "home", "the home page gets a stable id");
   assert.equal(pageIdSuffix("/articles/hello/"), "articles-hello", "path separators collapse");
   assert.equal(pageIdSuffix("/a b/"), "a-b", "spaces collapse to a dash");
-}
+});

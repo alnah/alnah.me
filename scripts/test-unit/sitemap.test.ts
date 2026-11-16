@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import {
   buildEmptyCategoryPaths,
   buildSitemapMetadata
@@ -18,7 +19,7 @@ function isoDate(value: string) {
   return new Date(`${value}T00:00:00Z`).toISOString();
 }
 
-export function testSitemap(): void {
+test('sitemap: empty categories and lastmod', () => {
   assert.deepEqual(
     sortedPaths([]),
     POST_CATEGORIES.map(categoryPath).sort(),
@@ -130,4 +131,4 @@ export function testSitemap(): void {
     undated.emptyCategoryPaths.has("/categories/enseigner/"),
     "posts without a category do not populate categories"
   );
-}
+});

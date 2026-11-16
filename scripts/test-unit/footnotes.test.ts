@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { createSatteriMarkdownProcessor } from "@astrojs/markdown-satteri";
 import { footnotes } from "../../src/lib/markdown/footnotes.ts";
 
-export async function testFootnotes(): Promise<void> {
+test('footnotes: rendered notes', async () => {
   const processor = await createSatteriMarkdownProcessor({
     hastPlugins: [footnotes()]
   });
@@ -28,4 +29,4 @@ export async function testFootnotes(): Promise<void> {
     /aria-label="Retour au texte, note 1-2"/,
     "repeated references keep distinct backlink labels"
   );
-}
+});

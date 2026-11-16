@@ -14,8 +14,8 @@
     "postbuild": "node scripts/generate-headers.ts",
     "build": "rm -rf dist .astro && astro build",
     "preview": "astro preview",
-    "test:unit": "node scripts/test-unit.ts",
-    "test:domain": "node scripts/test-domain.ts",
+    "test:unit": "node --test scripts/test-unit/*.test.ts",
+    "test:domain": "node --test scripts/test-domain/*.test.ts",
     "test:build": "npm run build && node scripts/test-build.ts",
     "test:ui": "npm run build && node scripts/test-ui.ts",
     "verify": "npm run build && astro check && node scripts/verify.ts"

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { dedupeRecentActivity, toRecentActivity } from "../../src/lib/github-events.ts";
 import type { GitHubPublicEvent, RecentActivityItem } from "../../src/lib/github-types.ts";
 
@@ -17,7 +18,7 @@ function toActivity(event: GitHubPublicEvent): RecentActivityItem {
 }
 
 /** GitHub event mapping and dedupe. */
-export function testGitHubEvents(): void {
+test('github: event mapping', () => {
   assert.equal(toRecentActivity({ type: "PushEvent" }), null, "an event without a repo is ignored");
   assert.equal(
     toRecentActivity(githubEvent({ type: "UnknownEvent" })),
@@ -84,4 +85,4 @@ export function testGitHubEvents(): void {
     1,
     "identical activity items are deduped"
   );
-}
+});

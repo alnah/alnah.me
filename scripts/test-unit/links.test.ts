@@ -1,8 +1,9 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { classifyLink, externalLinkAttributes, NEW_TAB_NOTE } from "../../src/lib/links.ts";
 
 /** External link classification and the new-tab attributes. */
-export function testLinks(): void {
+test('links: external link attributes', () => {
   const origin = "https://alnah.me";
 
   assert.equal(classifyLink("https://example.com/a", origin), "external");
@@ -20,4 +21,4 @@ export function testLinks(): void {
   assert.equal(attributes?.ariaLabel, `Exemple${NEW_TAB_NOTE}`);
   assert.equal(externalLinkAttributes("/articles/", origin, "Articles"), null);
   assert.equal(externalLinkAttributes("mailto:x@y.z", origin, "Écrire"), null);
-}
+});

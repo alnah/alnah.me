@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { formatDate, resolvePostDate } from "../../src/lib/content/format.ts";
 
-export function testPostDate() {
+test('post date: displayed dates', () => {
   const published = new Date("2026-11-06T00:00:00Z");
   const updated = new Date("2026-11-15T00:00:00Z");
   const earlier = new Date("2026-11-01T00:00:00Z");
@@ -19,4 +20,4 @@ export function testPostDate() {
   assert.equal(resolvePostDate(published, published).isUpdated, false);
   assert.equal(resolvePostDate(published, earlier).isUpdated, false);
   assert.equal(resolvePostDate(published, earlier).label, formatDate(published));
-}
+});

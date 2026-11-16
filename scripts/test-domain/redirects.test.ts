@@ -1,10 +1,11 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { buildAliasRedirects, buildRawAliasRedirects } from "../../src/lib/post-files.ts";
 import { buildLegacyRedirectLines } from "../../src/lib/legacy-redirects.ts";
 import { normalizeAlias } from "../../src/lib/aliases.ts";
 
 /** Alias redirects and the raw export redirects derived from them. */
-export function testRedirects(): void {
+test('redirects: aliases and legacy paths', () => {
   assert.deepEqual(
     buildLegacyRedirectLines([]).filter((line) => line.startsWith("/categories/outils ")),
     ["/categories/outils /categories/ 301"],
@@ -74,4 +75,4 @@ export function testRedirects(): void {
     [],
     "a self alias creates no raw redirect"
   );
-}
+});

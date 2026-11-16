@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import {
   buildSearchFieldIndex,
   searchDocuments,
@@ -43,7 +44,7 @@ function indexDocument(
 }
 
 /** Search tokenization and ranking. */
-export function testSearch(): void {
+test('search: tokenization and ranking', () => {
   assert.deepEqual(
     searchDocuments([indexDocument({ title: "recherche" })], "   "),
     [],
@@ -100,4 +101,4 @@ export function testSearch(): void {
     1,
     "an updated date is searchable"
   );
-}
+});

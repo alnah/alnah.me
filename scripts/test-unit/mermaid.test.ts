@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import test from "node:test";
 import { buildCopyText } from "../../src/components/mermaid/copy-text.ts";
 import { createDragGuard } from "../../src/components/mermaid/drag.ts";
 import { diagramFileName } from "../../src/components/mermaid/export-svg.ts";
@@ -8,7 +9,7 @@ import { computeFitScale } from "../../src/components/mermaid/viewport.ts";
 import { findMermaidFences, mermaidAccessibilityErrors } from "../../src/lib/content/mermaid-contract.ts";
 
 /** Fence contract, theme mapping, fit math, labels, and export. */
-export function testMermaid(): void {
+test('mermaid: source contract', () => {
   const validMermaidFence = [
     "```mermaid",
     "flowchart TD",
@@ -131,4 +132,4 @@ export function testMermaid(): void {
   dragGuard.start(0, 0);
   dragGuard.move(50, 0);
   assert.equal(dragGuard.consumesClick(0), false, "a keyboard click passes through");
-}
+});
