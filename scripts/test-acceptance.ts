@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { SITE } from "../src/config/site.ts";
+import { SITE, SOCIAL_CONTACT_IDS } from "../src/config/site.ts";
 import { formatDate, formatIsoDate } from "../src/lib/content/format.ts";
 import {
   absoluteUrl,
@@ -50,8 +50,6 @@ const redirects = readFile("dist/_redirects");
 const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");
 const license = readFile("dist/LICENSE.txt");
-const bsdLicense = readFile("dist/LICENSES/BSD-3-Clause.txt");
-const ccLicense = readFile("dist/LICENSES/CC-BY-4.0.txt");
 const searchIndex = readJson<
   Array<{ url: string; updated?: string; updatedLabel?: string }>
 >("dist/index.json");
@@ -76,7 +74,7 @@ assert.equal(websiteSchema.inLanguage, "fr-FR", "website schema language");
 const profileSchema = readJsonLd(aboutHtml)[0] as {
   "@type"?: string;
   inLanguage?: string;
-  mainEntity?: { "@id"?: string };
+  mainEntity?: { "@id"?: string; sameAs?: string[] };
 };
 assert.equal(profileSchema["@type"], "ProfilePage", "profile page type");
 assert.equal(profileSchema.inLanguage, "fr-FR", "profile page language");
@@ -85,10 +83,17 @@ assert.equal(
   absoluteUrl("/#person"),
   "profile person id"
 );
+assert.deepEqual(
+  profileSchema.mainEntity?.sameAs,
+  SOCIAL_CONTACT_IDS.map(
+    (id) => SITE.contacts.find((contact) => contact.id === id)?.href
+  ),
+  "profile sameAs follows the configured social contacts"
+);
 
-for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail"]) {
-  assertIncludes(homeHtml, `aria-label="${label}"`, `home contact icon ${label}`);
-  assertIncludes(aboutHtml, `aria-label="${label}"`, `about contact icon ${label}`);
+for (const contact of SITE.contacts) {
+  assertIncludes(homeHtml, `aria-label="${contact.label}"`, `home contact icon ${contact.label}`);
+  assertIncludes(aboutHtml, `aria-label="${contact.label}"`, `about contact icon ${contact.label}`);
 }
 assertIncludes(homeHtml, "Me suivre sur", "home social label");
 assertIncludes(homeHtml, "Me contacter par", "home contact label");
@@ -97,11 +102,6 @@ assertIncludes(aboutHtml, "Me contacter par", "about contact label");
 assertIncludes(homeHtml, `href="${absoluteUrl("/rss.xml")}"`, "home RSS href");
 
 for (const { post, html, raw } of posts) {
-  assertIncludes(html, "data-footnotes", `${post.slug} footnotes section`);
-  assertIncludes(html, 'role="doc-endnotes"', `${post.slug} footnotes role`);
-  assertIncludes(html, 'class="footnote-ref"', `${post.slug} footnote marker`);
-  assertIncludes(html, 'class="footnote-backref-icon"', `${post.slug} backlink icon`);
-
   const ogImage = absoluteUrl(post.socialImagePath);
   assertIncludes(html, `property="og:image" content="${ogImage}"`, `${post.slug} og:image`);
   assertIncludes(html, '"image":"' + ogImage + '"', `${post.slug} schema image`);
@@ -146,6 +146,8 @@ for (const { post, html, raw } of posts) {
   );
   assert.equal(postSchema.inLanguage, "fr-FR", `${post.slug} schema language`);
   assert.equal(postSchema.author?.["@id"], absoluteUrl("/#person"), `${post.slug} author id`);
+  assert.equal(postSchema.author?.jobTitle, SITE.author.jobTitle, `${post.slug} author job title`);
+  assert.deepEqual(postSchema.author?.knowsAbout, SITE.author.knowsAbout, `${post.slug} author topics`);
   assert.equal(postSchema.isPartOf?.["@id"], absoluteUrl("/#blog"), `${post.slug} isPartOf blog`);
   assert.equal(postSchema.isPartOf?.name, SITE.blogTitle, `${post.slug} blog name`);
   assert.equal(postSchema.license, SITE.license.url, `${post.slug} license`);
@@ -167,21 +169,6 @@ for (const { post, html, raw } of posts) {
     searchItem?.updatedLabel,
     post.isUpdated ? `Mis à jour le ${formatDate(post.lastmod)}` : undefined,
     `${post.slug} search updated label`
-  );
-}
-
-// Editorial canaries kept until the content assertions are removed.
-const noted = posts.find(({ html }) => html.includes("data-footnotes"));
-if (noted) {
-  assertIncludes(noted.html, 'aria-label="Note 1"', "post footnote marker label");
-  assertIncludes(noted.html, 'aria-label="Retour au texte, note 1"', "post footnote backlink label");
-  const puren = posts.find(({ raw }) => raw.includes("[^puren]"));
-  if (puren) {
-    assertIncludes(puren.raw, "[^puren]: Christian Puren", "raw post footnote definition");
-  }
-  assert.ok(
-    !noted.raw.includes("## Références"),
-    "raw post footnotes should not add a repeated heading"
   );
 }
 
@@ -295,11 +282,19 @@ for (const htmlPath of htmlFiles()) {
     `${path.relative(process.cwd(), htmlPath)} must stay indexable`
   );
 }
-assertIncludes(license, `Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>`, "LICENSE");
-assertIncludes(license, "LICENSES/BSD-3-Clause.txt", "LICENSE BSD pointer");
-assertIncludes(license, "LICENSES/CC-BY-4.0.txt", "LICENSE CC pointer");
-assertIncludes(bsdLicense, "BSD 3-Clause License", "BSD license file");
-assertIncludes(ccLicense, "Attribution 4.0 International", "CC license file");
+assert.equal(license, readFile("LICENSE"), "LICENSE is copied byte for byte");
+assert.deepEqual(
+  fs.readdirSync("dist/LICENSES").sort(),
+  fs.readdirSync("LICENSES").sort(),
+  "LICENSES directory is copied as a whole"
+);
+for (const name of fs.readdirSync("LICENSES")) {
+  assert.equal(
+    readFile(`dist/LICENSES/${name}`),
+    readFile(`LICENSES/${name}`),
+    `${name} is copied byte for byte`
+  );
+}
 assert.ok(!homeHtml.includes("fonts.googleapis.com"), "Home should not use third-party Google Fonts");
 
 assert.ok(Array.isArray(searchIndex), "Search index should be an array");
