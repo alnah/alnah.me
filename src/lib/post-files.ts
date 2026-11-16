@@ -2,26 +2,25 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 import { normalizeAlias } from "./aliases.ts";
+import { POST_SCHEMA, type PostFrontmatter } from "./content/schema.ts";
 import { isErrnoException } from "./errno.ts";
+import { isPublishedData } from "./publication.ts";
 import { postPath, postSlugFromPath, rawPostPath } from "./site-paths.ts";
-import { isPublishedData, type PublicationData } from "./publication.ts";
-
-type RawFrontmatter = Record<string, unknown>;
 
 export type MarkdownPostEntry = {
   file: string;
   markdown: string;
   slug: string;
-  aliases: unknown[];
-  category?: string;
+  aliases: string[];
+  category: PostFrontmatter["category"];
   tags: string[];
   bodyMarkdown: string;
-  postData: PublicationData;
+  postData: PostFrontmatter;
 };
 
 export type AliasSourceEntry = {
   slug: string;
-  aliases: unknown[];
+  aliases: string[];
 };
 
 export async function findMarkdownFiles(dir: string): Promise<string[]> {
@@ -52,16 +51,6 @@ export async function findMarkdownFiles(dir: string): Promise<string[]> {
   return files.flat();
 }
 
-function normalizePublicationData(data: RawFrontmatter): PublicationData {
-  return {
-    ...data,
-    date: data.date ? new Date(String(data.date)) : undefined,
-    lastmod: data.lastmod ? new Date(String(data.lastmod)) : undefined,
-    publishDate: data.publishDate ? new Date(String(data.publishDate)) : undefined,
-    expiryDate: data.expiryDate ? new Date(String(data.expiryDate)) : undefined
-  };
-}
-
 /**
  * Raw "reuse this post" exports should stay readable and pasteable. Stripping
  * frontmatter keeps the reusable document focused on the article itself.
@@ -71,17 +60,16 @@ export function stripFrontmatter(markdown: string) {
 }
 
 function parseMarkdownPost(markdown: string, slug: string) {
-  const { data } = matter(markdown);
+  const parsed = matter(markdown);
+  const data = POST_SCHEMA.parse(parsed.data);
 
   return {
     slug,
-    aliases: Array.isArray(data.aliases) ? data.aliases : [],
-    category: typeof data.category === "string" ? data.category : undefined,
-    tags: Array.isArray(data.tags)
-      ? data.tags.filter((tag): tag is string => typeof tag === "string")
-      : [],
-    bodyMarkdown: stripFrontmatter(markdown),
-    postData: normalizePublicationData(data)
+    aliases: data.aliases ?? [],
+    category: data.category,
+    tags: data.tags,
+    bodyMarkdown: parsed.content.replace(/^\n+/, ""),
+    postData: data
   };
 }
 
@@ -105,7 +93,7 @@ export async function getMarkdownEntries(contentRoot: string) {
 export async function getPublishedMarkdownEntries(contentRoot: string) {
   const entries = await getMarkdownEntries(contentRoot);
 
-  return entries.filter((entry) => entry.postData.date && isPublishedData(entry.postData));
+  return entries.filter((entry) => isPublishedData(entry.postData));
 }
 
 /**
@@ -121,7 +109,7 @@ export function buildAliasRedirects(
     const canonicalTarget = postPath(entry.slug);
 
     for (const rawAlias of entry.aliases) {
-      const alias = typeof rawAlias === "string" ? normalizeAlias(rawAlias) : "";
+      const alias = normalizeAlias(rawAlias);
       if (!alias || alias === canonicalTarget) {
         continue;
       }

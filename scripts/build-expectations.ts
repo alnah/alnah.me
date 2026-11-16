@@ -1,9 +1,7 @@
 import path from "node:path";
-import matter from "gray-matter";
 import { SITE } from "../src/config/site.ts";
 import { resolvePostDate, slugify } from "../src/lib/content/format.ts";
 import {
-  isPostCategory,
   POST_CATEGORIES,
   summarizeTags,
   type PostCategory
@@ -50,43 +48,19 @@ export type ExpectedPost = {
   socialImagePath: string;
 };
 
-type Frontmatter = {
-  title?: string;
-  description?: string;
-  category?: string;
-};
-
 const contentRoot = path.join(process.cwd(), "src/content/posts");
 
-function frontmatterOf(entry: MarkdownPostEntry): Frontmatter {
-  return matter(entry.markdown).data as Frontmatter;
-}
-
 function expectedPost(entry: MarkdownPostEntry): ExpectedPost {
-  const frontmatter = frontmatterOf(entry);
-  const date = entry.postData.date;
-
-  if (!date) {
-    throw new Error(`Published post without date: ${entry.slug}`);
-  }
-
-  if (!frontmatter.category || !isPostCategory(frontmatter.category)) {
-    throw new Error(`Post with an unknown category: ${entry.slug}`);
-  }
-
-  if (!frontmatter.title || !frontmatter.description) {
-    throw new Error(`Post missing title or description: ${entry.slug}`);
-  }
-
-  const publicationDate = resolvePublicationDate({ ...entry.postData, date });
+  const { title, description, category, date } = entry.postData;
+  const publicationDate = resolvePublicationDate(entry.postData);
   const display = resolvePostDate(publicationDate, entry.postData.lastmod);
   const lastmod = latestOf([publicationDate, entry.postData.lastmod]) ?? publicationDate;
 
   return {
     slug: entry.slug,
-    title: frontmatter.title,
-    description: frontmatter.description,
-    category: frontmatter.category,
+    title,
+    description,
+    category,
     tags: entry.tags,
     tagSlugs: [...new Set(entry.tags.map(slugify))],
     date,
@@ -101,9 +75,7 @@ function expectedPost(entry: MarkdownPostEntry): ExpectedPost {
 }
 
 const entries = await getMarkdownEntries(contentRoot);
-const publishedEntries = entries.filter(
-  (entry) => entry.postData.date && isPublishedData(entry.postData)
-);
+const publishedEntries = entries.filter((entry) => isPublishedData(entry.postData));
 
 export const PUBLISHED_POSTS: ExpectedPost[] = publishedEntries
   .map(expectedPost)

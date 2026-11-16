@@ -36,11 +36,6 @@ test('redirects: aliases and legacy paths', () => {
     "alias equal to the canonical path is skipped"
   );
   assert.deepEqual(
-    buildAliasRedirects([{ slug: "a", aliases: [42, "old-a"] }]),
-    [["/old-a/", "/articles/a/"]],
-    "non-string aliases are ignored"
-  );
-  assert.deepEqual(
     buildAliasRedirects([
       { slug: "b", aliases: ["z-old"] },
       { slug: "a", aliases: ["a-old"] }

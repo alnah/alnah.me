@@ -6,6 +6,7 @@ import { SITE } from "../src/config/site.ts";
 import { isErrnoException } from "../src/lib/errno.ts";
 import { validateMarkdownTitle } from "../src/lib/document-title.ts";
 import { mermaidAccessibilityErrors } from "../src/lib/content/mermaid-contract.ts";
+import { PAGE_SCHEMA, POST_SCHEMA } from "../src/lib/content/schema.ts";
 import {
   buildAliasRedirects,
   buildRawAliasRedirects,
@@ -106,9 +107,7 @@ async function buildRedirectLines(entries: MarkdownPostEntry[]) {
     lines.push(`${alias} ${target} 301`);
   }
 
-  const publishedCategories = entries
-    .map((entry) => entry.category)
-    .filter((category): category is string => Boolean(category));
+  const publishedCategories = entries.map((entry) => entry.category);
 
   lines.push(...buildLegacyRedirectLines(publishedCategories));
 
@@ -164,7 +163,8 @@ async function copyLicenseFiles() {
  */
 async function validateMarkdownFiles(
   rootDir: string,
-  validate: (body: string, title: string, label: string) => void
+  validate: (body: string, title: string, label: string) => void,
+  schema?: { parse(data: unknown): unknown }
 ) {
   const files = await findMarkdownFiles(rootDir);
 
@@ -173,6 +173,13 @@ async function validateMarkdownFiles(
       const label = path.relative(cwd, file);
       const markdown = await fs.readFile(file, "utf8");
       const { data } = matter(markdown);
+
+      try {
+        schema?.parse(data);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`${label}: ${message}`);
+      }
 
       validate(stripFrontmatter(markdown), String(data.title ?? ""), label);
     })
@@ -196,8 +203,8 @@ function validateMermaidContract(body: string, _title: string, label: string) {
   }
 }
 
-await validateMarkdownFiles(contentRoot, validateTitleContract);
-await validateMarkdownFiles(pagesRoot, validateTitleContract);
+await validateMarkdownFiles(contentRoot, validateTitleContract, POST_SCHEMA);
+await validateMarkdownFiles(pagesRoot, validateTitleContract, PAGE_SCHEMA);
 await validateMarkdownFiles(contentRoot, validateMermaidContract);
 await validateMarkdownFiles(pagesRoot, validateMermaidContract);
 const publishedEntries = await getPublishedMarkdownEntries(contentRoot);

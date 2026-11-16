@@ -1,25 +1,13 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
-import { z } from "astro/zod";
-import { POST_CATEGORIES } from "./lib/content/taxonomy.ts";
+import { PAGE_SCHEMA, POST_SCHEMA } from "./lib/content/schema.ts";
 
 const posts = defineCollection({
   loader: glob({
     base: "./src/content/posts",
     pattern: "**/*.md"
   }),
-  schema: z.object({
-    title: z.string().min(1),
-    date: z.coerce.date(),
-    draft: z.boolean(),
-    description: z.string().min(1),
-    category: z.enum(POST_CATEGORIES),
-    tags: z.array(z.string().min(1)).min(1),
-    lastmod: z.coerce.date().optional(),
-    aliases: z.array(z.string().min(1)).optional(),
-    publishDate: z.coerce.date().optional(),
-    expiryDate: z.coerce.date().optional()
-  })
+  schema: POST_SCHEMA
 });
 
 const pages = defineCollection({
@@ -27,10 +15,7 @@ const pages = defineCollection({
     base: "./src/content/pages",
     pattern: "**/*.md"
   }),
-  schema: z.object({
-    title: z.string().min(1),
-    description: z.string().min(1).optional()
-  })
+  schema: PAGE_SCHEMA
 });
 
 export const collections = {
