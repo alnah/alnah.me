@@ -25,6 +25,7 @@ Vars: always from data.
 Bools: always from state/question.
 Functions: always from action.
 Classes/Types: always from the thing.
+Types: `type` aliases for object shapes; `interface Props` only in Astro components.
 Constants: always from the fixed value.
 Collections: always in plural.
 Events: always name from the event or effect.
@@ -69,8 +70,10 @@ Preview: `make preview`; preview the built site on localhost.
 Preview LAN: `make preview-lan`.
 Check: `make check`.
 Astro check: `make astro-check`.
+Check CSS: `make check-css`; verify CSS conventions (tokens, breakpoints, no `!important`).
 Verify: `make verify`.
 Unit: `make test-unit`; pure helper checks without a rebuild.
+Domain: `make test-domain`; domain invariant checks without a rebuild.
 Build: `make test-build`.
 UI: `make test-ui`; Playwright smoke for search, theme, and mobile overflow (needs `make pw-install`).
 Clean: `make clean`.
