@@ -57,14 +57,6 @@ export function formatEventDate(date: string) {
   return eventDateFormat.format(new Date(date));
 }
 
-export function formatMonthStyle(start: number, span: number) {
-  return `grid-column:${start} / span ${span};`;
-}
-
-export function formatWeekdayStyle(row: number) {
-  return `grid-row:${row};`;
-}
-
 /**
  * The component should render a stable view model, not carry layout math. That
  * keeps visual tuning separate from the correctness of the GitHub data slice.

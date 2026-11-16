@@ -4,9 +4,7 @@ import { getGitHubActivity } from "../lib/github.ts";
 import {
   buildGitHubActivityView,
   formatContributionTitle,
-  formatEventDate,
-  formatMonthStyle,
-  formatWeekdayStyle
+  formatEventDate
 } from "../lib/github-view.ts";
 
 const activity = await getGitHubActivity(SITE.githubActivity);
@@ -31,14 +29,19 @@ const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = bu
             <div class="calendar-months">
               <div class="month-label-track">
                 {monthColumns.map((month) => (
-                  <span style={formatMonthStyle(month.start, month.span)}>{month.label}</span>
+                  <span
+                    class="month-label"
+                    style={`--month-start: ${month.start}; --month-span: ${month.span};`}
+                  >{month.label}</span>
                 ))}
               </div>
             </div>
             <div class="calendar-body">
               <div class="weekday-labels" aria-hidden="true">
                 {weekdayLabels.map((item) => (
-                  <span style={formatWeekdayStyle(item.row)}>{item.label}</span>
+                  <span class="weekday-label" style={`--weekday-row: ${item.row};`}>
+                    {item.label}
+                  </span>
                 ))}
               </div>
               <div class="calendar-weeks">
@@ -164,6 +167,7 @@ const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = bu
 
   .month-label-track > span {
     grid-row: 1;
+    grid-column: var(--month-start) / span var(--month-span);
     white-space: nowrap;
     text-align: left;
     overflow: visible;
@@ -198,6 +202,7 @@ const { monthColumns, recentItems, visibleWeeks, weekCount, weekdayLabels } = bu
   }
 
   .weekday-labels > span {
+    grid-row: var(--weekday-row);
     display: flex;
     align-items: center;
     justify-content: flex-end;

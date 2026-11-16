@@ -4,9 +4,7 @@ import type { GitHubActivityData } from "../../src/lib/github-types.ts";
 import {
   buildGitHubActivityView,
   formatContributionTitle,
-  formatEventDate,
-  formatMonthStyle,
-  formatWeekdayStyle
+  formatEventDate
 } from "../../src/lib/github-view.ts";
 
 /** Contribution calendar and activity view model. */
@@ -34,8 +32,6 @@ test('github view: activity rendering', () => {
   assert.equal(formatContributionTitle("2026-01-02", 1), "1 contribution le 2 janv. 2026");
   assert.equal(formatContributionTitle("2026-01-02", 3), "3 contributions le 2 janv. 2026");
   assert.equal(formatEventDate("2026-01-02"), "2 janv.");
-  assert.equal(formatMonthStyle(1, 4), "grid-column:1 / span 4;");
-  assert.equal(formatWeekdayStyle(2), "grid-row:2;");
 
   const view = buildGitHubActivityView(activity);
 
