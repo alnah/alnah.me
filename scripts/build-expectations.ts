@@ -155,9 +155,3 @@ export function expectedSitemapPaths(pageSize = SITE.postPageSize) {
 
   return paths;
 }
-
-export function expectedSitemapUrls() {
-  return [...expectedSitemapPaths()].map(absoluteUrl).sort();
-}
-
-export { isPublishedData };

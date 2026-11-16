@@ -49,11 +49,6 @@ export function htmlPathToUrlPath(file: string) {
   return `/${relative.split(path.sep).join("/")}`;
 }
 
-export function readAbsoluteFile(absolutePath: string) {
-  assert.ok(fs.existsSync(absolutePath), `Missing required file: ${absolutePath}`);
-  return fs.readFileSync(absolutePath, "utf8");
-}
-
 export function assertIncludes(text: string, expected: string, label: string) {
   assert.ok(text.includes(expected), `Expected ${label} to include: ${expected}`);
 }
