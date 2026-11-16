@@ -106,7 +106,11 @@ async function buildRedirectLines(entries: MarkdownPostEntry[]) {
     lines.push(`${alias} ${target} 301`);
   }
 
-  lines.push(...buildLegacyRedirectLines());
+  const publishedCategories = entries
+    .map((entry) => entry.category)
+    .filter((category): category is string => Boolean(category));
+
+  lines.push(...buildLegacyRedirectLines(publishedCategories));
 
   return `${lines.join("\n")}\n`;
 }

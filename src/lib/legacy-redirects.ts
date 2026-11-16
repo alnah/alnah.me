@@ -32,6 +32,17 @@ const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/etiquettes/p-dagogie/", to: "/etiquettes/pedagogie/" }
 ];
 
-export function buildLegacyRedirectLines() {
-  return LEGACY_REDIRECTS.map(({ from, to }) => `${from} ${to} 301`);
+/**
+ * A retired category alias must not chain into an archive that does not exist
+ * yet. While the category is empty, it lands on the category index instead.
+ */
+export function buildLegacyRedirectLines(publishedCategories: readonly string[] = []) {
+  const populated = new Set(publishedCategories);
+
+  return LEGACY_REDIRECTS.map(({ from, to }) => {
+    const category = to.match(/^\/categories\/([^/]+)\/$/)?.[1];
+    const target = category && !populated.has(category) ? "/categories/" : to;
+
+    return `${from} ${target} 301`;
+  });
 }

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
+import { SITE } from "../src/config/site.ts";
 
 export const rootDir = process.cwd();
 export const distDir = path.join(rootDir, "dist");
@@ -14,6 +15,37 @@ export function assertFile(relativePath: string) {
 
 export function readFile(relativePath: string) {
   return fs.readFileSync(assertFile(relativePath), "utf8");
+}
+
+/** One `_headers` block, matched on its selector line. */
+export function headerSection(headers: string, selector: string) {
+  for (const block of headers.split("\n\n")) {
+    const lines = block
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith("#"));
+
+    if (lines[0] === selector) {
+      return block;
+    }
+  }
+
+  return "";
+}
+
+/** Map a built HTML file to its public URL path. */
+export function htmlPathToUrlPath(file: string) {
+  const relative = path.relative(distDir, file);
+
+  if (relative === "index.html") {
+    return "/";
+  }
+
+  if (relative.endsWith(`${path.sep}index.html`)) {
+    return `/${relative.slice(0, -"index.html".length).split(path.sep).join("/")}`;
+  }
+
+  return `/${relative.split(path.sep).join("/")}`;
 }
 
 export function readAbsoluteFile(absolutePath: string) {
@@ -112,30 +144,43 @@ export function representativePostPath(): string | null {
   return null;
 }
 
+/** Navigation targets only: canonical and alternate links are metadata. */
 function hrefMatches(html: string) {
   const withoutScripts = html.replace(/<script[\s\S]*?<\/script>/g, "");
   return [
-    ...withoutScripts.matchAll(/href="([^"]+)"/g),
-    ...withoutScripts.matchAll(/href='([^']+)'/g)
+    ...withoutScripts.matchAll(/<a\b[^>]*?href="([^"]+)"/g),
+    ...withoutScripts.matchAll(/<a\b[^>]*?href='([^']+)'/g)
   ]
     .map((match) => match[1])
     .filter((href) => !href.includes("${"));
 }
 
-function resolveInternalHref(href: string): string | null {
+/** Absolute links to the site itself are internal and must be checked too. */
+function internalPathname(href: string) {
+  if (/^https?:\/\//.test(href)) {
+    const url = new URL(href);
+    return url.origin === new URL(SITE.siteUrl).origin ? url.pathname || "/" : null;
+  }
+
   if (
     !href ||
     href.startsWith("#") ||
     href.startsWith("mailto:") ||
     href.startsWith("tel:") ||
-    href.startsWith("javascript:") ||
-    /^https?:\/\//.test(href)
+    href.startsWith("javascript:")
   ) {
     return null;
   }
 
-  const [pathname] = href.split(/[?#]/);
-  const normalized = pathname || "/";
+  return href.split(/[?#]/)[0] || "/";
+}
+
+function resolveInternalHref(href: string): string | null {
+  const normalized = internalPathname(href);
+
+  if (!normalized) {
+    return null;
+  }
 
   if (normalized === "/") {
     return path.join(distDir, "index.html");

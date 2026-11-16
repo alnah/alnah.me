@@ -6,14 +6,19 @@ import { formatDate, formatIsoDate } from "../src/lib/content/format.ts";
 import {
   absoluteUrl,
   EMPTY_CATEGORY_PATHS,
+  expectedSitemapPaths,
   PUBLISHED_CATEGORIES,
-  PUBLISHED_POSTS
+  PUBLISHED_POSTS,
+  UNPUBLISHED_POST_SLUGS
 } from "./build-expectations.ts";
 import {
   assertFile,
   assertIncludes,
+  assertInternalLinks,
   executableInlineScriptHashes,
+  headerSection,
   htmlFiles,
+  htmlPathToUrlPath,
   readFile,
   readJson,
   readJsonLd,
@@ -256,17 +261,28 @@ assertIncludes(headers, "Permissions-Policy:", "_headers permissions policy");
 assertIncludes(headers, "Strict-Transport-Security:", "_headers HSTS");
 assertIncludes(headers, "X-Frame-Options: DENY", "_headers frame deny");
 assertIncludes(headers, "Cross-Origin-Resource-Policy: same-origin", "_headers CORP");
-assertIncludes(headers, "/rss.xml", "_headers rss section");
-assertIncludes(headers, "X-Robots-Tag: noindex", "_headers index noindex");
-const rssHeaderSection = headers
-  .split("\n\n")
-  .find((section) => section.startsWith("/rss.xml"));
-assert.ok(rssHeaderSection?.includes("X-Robots-Tag: noindex"), "_headers rss noindex");
+assertIncludes(
+  headerSection(headers, "/*.html"),
+  "Cache-Control: public, max-age=0, must-revalidate",
+  "_headers html cache policy"
+);
+assertIncludes(
+  headerSection(headers, "/rss.xml"),
+  "X-Robots-Tag: noindex",
+  "_headers rss noindex"
+);
+assertIncludes(
+  headerSection(headers, "/index.json"),
+  "X-Robots-Tag: noindex",
+  "_headers search index noindex"
+);
+assertIncludes(
+  headerSection(headers, "/raw/posts/*"),
+  "X-Robots-Tag: noindex",
+  "_headers raw posts noindex"
+);
 assertIncludes(headers, "/LICENSES/*", "_headers license section");
-assertIncludes(headers, "/raw/posts/*", "_headers raw posts section");
-assertIncludes(headers, "X-Robots-Tag: noindex", "_headers raw posts noindex");
-assertIncludes(headers, "/raw/posts/:slug.md", "_headers raw posts canonical section");
-assertIncludes(headers, 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
+assertIncludes(headerSection(headers, "/raw/posts/:slug.md"), 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
 assertIncludes(robots, `Sitemap: ${absoluteUrl("/sitemap-index.xml")}`, "robots sitemap");
 assertIncludes(robots, "Disallow: /cdn-cgi/", "robots cdn-cgi disallow");
 assertIncludes(
@@ -332,6 +348,110 @@ for (const emptyCategoryPath of EMPTY_CATEGORY_PATHS) {
     `the category index must not link the empty category ${slug}`
   );
 }
+
+// Every built page must be advertised exactly once, and every advertised URL
+// must exist. The sitemap and the file tree are two views of the same site.
+const builtPagePaths = new Set(
+  htmlFiles()
+    .filter((file) => path.basename(file) !== "404.html")
+    .map(htmlPathToUrlPath)
+);
+const sitemapPaths = new Set(
+  [...sitemapLastmods.keys()].map((loc) => new URL(loc).pathname)
+);
+assert.deepEqual(
+  [...sitemapPaths].sort(),
+  [...builtPagePaths].sort(),
+  "the sitemap lists every indexable page and nothing else"
+);
+assert.deepEqual(
+  [...sitemapPaths].sort(),
+  [...expectedSitemapPaths()].sort(),
+  "the sitemap matches the derived expectations"
+);
+
+// Every published post owns exactly one raw export, social image, search
+// document, and feed item.
+assert.deepEqual(
+  fs.readdirSync(path.join(process.cwd(), "dist/raw/posts")).sort(),
+  PUBLISHED_POSTS.map((post) => `${post.slug}.md`).sort(),
+  "raw exports match the published posts"
+);
+assert.deepEqual(
+  fs.readdirSync(path.join(process.cwd(), "dist/og/articles")).sort(),
+  PUBLISHED_POSTS.map((post) => `${post.slug}.png`).sort(),
+  "social images match the published posts"
+);
+assert.deepEqual(
+  searchIndex.map((item) => item.url).sort(),
+  PUBLISHED_POSTS.map((post) => post.url).sort(),
+  "search documents match the published posts"
+);
+const rssLinks = [...readFile("dist/rss.xml").matchAll(/<item>[\s\S]*?<link>([^<]+)<\/link>/g)]
+  .map((match) => match[1])
+  .sort();
+assert.deepEqual(
+  rssLinks,
+  PUBLISHED_POSTS.map((post) => absoluteUrl(post.url)).sort(),
+  "feed items match the published posts"
+);
+
+// Redirects must land on something that exists.
+for (const line of redirects.split("\n").filter(Boolean)) {
+  const [from, to] = line.split(/\s+/);
+
+  if (!to || /^https?:\/\//.test(to) || to.includes("*") || to.includes(":")) {
+    continue;
+  }
+
+  const target = to.endsWith("/")
+    ? path.join(process.cwd(), "dist", to, "index.html")
+    : path.join(process.cwd(), "dist", to.replace(/^\//, ""));
+
+  assert.ok(fs.existsSync(target), `redirect target exists: ${from} -> ${to}`);
+}
+
+// Drafts must leave no trace in the build.
+for (const slug of UNPUBLISHED_POST_SLUGS) {
+  assert.ok(
+    !fs.existsSync(path.join(process.cwd(), `dist/articles/${slug}/index.html`)),
+    `draft ${slug} must not produce a page`
+  );
+  assert.ok(
+    !fs.existsSync(path.join(process.cwd(), `dist/raw/posts/${slug}.md`)),
+    `draft ${slug} must not produce a raw export`
+  );
+  assert.ok(
+    !fs.existsSync(path.join(process.cwd(), `dist/og/articles/${slug}.png`)),
+    `draft ${slug} must not produce a social image`
+  );
+  assert.ok(
+    !sitemapPaths.has(`/articles/${slug}/`),
+    `draft ${slug} must not be in the sitemap`
+  );
+  assert.ok(
+    !searchIndex.some((item) => item.url === `/articles/${slug}/`),
+    `draft ${slug} must not be searchable`
+  );
+  assert.ok(
+    !rssLinks.includes(absoluteUrl(`/articles/${slug}/`)),
+    `draft ${slug} must not be in the feed`
+  );
+}
+
+// Duplicate ids break anchors and accessibility.
+for (const file of htmlFiles()) {
+  const ids = [...readFile(path.relative(process.cwd(), file)).matchAll(/ id="([^"]+)"/g)].map(
+    (match) => match[1]
+  );
+  assert.equal(
+    new Set(ids).size,
+    ids.length,
+    `${path.relative(process.cwd(), file)} must not contain duplicate ids`
+  );
+}
+
+assertInternalLinks();
 
 // Sitemap contract: no indexable URL is noindex, and no built page is noindex.
 for (const htmlPath of htmlFiles()) {

@@ -1,8 +1,25 @@
 import assert from "node:assert/strict";
 import { buildAliasRedirects, buildRawAliasRedirects } from "../../src/lib/post-files.ts";
+import { buildLegacyRedirectLines } from "../../src/lib/legacy-redirects.ts";
 
 /** Alias redirects and the raw export redirects derived from them. */
 export function testRedirects(): void {
+  assert.deepEqual(
+    buildLegacyRedirectLines([]).filter((line) => line.startsWith("/categories/outils ")),
+    ["/categories/outils /categories/ 301"],
+    "a retired category alias falls back to the index while the category is empty"
+  );
+  assert.deepEqual(
+    buildLegacyRedirectLines(["outiller"]).filter((line) =>
+      line.startsWith("/categories/outils ")
+    ),
+    ["/categories/outils /categories/outiller/ 301"],
+    "the retired alias reaches the archive once the category is populated"
+  );
+  assert.ok(
+    buildLegacyRedirectLines().includes("/sitemap.xml /sitemap-index.xml 301"),
+    "the conventional sitemap path redirects to the index"
+  );
   assert.deepEqual(
     buildAliasRedirects([{ slug: "a", aliases: ["old-a"] }]),
     [["/old-a/", "/articles/a/"]],
