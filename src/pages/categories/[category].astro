@@ -4,12 +4,15 @@ import PostList from "../../components/PostList.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import {
   getCategories,
-  getPostsByCategory,
-  isPostCategory
+  getPostsByCategory
 } from "../../lib/content/index.ts";
 
+/**
+ * An archive with no post is not a page: it would be a thin, empty duplicate
+ * of `/categories/`. The category reappears as soon as one post is published.
+ */
 export async function getStaticPaths() {
-  const categories = await getCategories();
+  const categories = (await getCategories()).filter((category) => category.count > 0);
   return categories.map((category) => ({
     params: { category: category.slug },
     props: { category }
@@ -17,15 +20,12 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.props;
-const posts = isPostCategory(category.slug)
-  ? await getPostsByCategory(category.slug)
-  : [];
+const posts = await getPostsByCategory(category.slug);
 ---
 
 <BaseLayout
   title={`Articles classés dans ${category.label}`}
   description={category.description}
-  noindex={category.count === 0}
 >
   <section class="archive-shell content-band">
     <ArchiveIntro
@@ -35,12 +35,6 @@ const posts = isPostCategory(category.slug)
     >
       <p>{category.count} article(s) classé(s) dans cette catégorie.</p>
     </ArchiveIntro>
-    {
-      posts.length > 0 ? (
-        <PostList posts={posts} showReadingTime />
-      ) : (
-        <p class="empty-state">Aucun article publié dans cette catégorie pour le moment.</p>
-      )
-    }
+    <PostList posts={posts} showReadingTime />
   </section>
 </BaseLayout>

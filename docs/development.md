@@ -46,6 +46,7 @@ would add a second source of truth.
 
 The sitemap only lists URLs that are 200, canonical, and indexable:
 
-- empty category archives are excluded (`src/lib/sitemap.ts`);
+- empty category archives are not generated (404) and are excluded from the
+  sitemap (`src/lib/sitemap.ts`);
 - `lastmod` comes from the post frontmatter (`lastmod`, else `date`), never from
   the build; archive URLs inherit the newest date of the posts they list.

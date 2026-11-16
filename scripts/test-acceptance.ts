@@ -5,6 +5,7 @@ import {
   assertFile,
   assertIncludes,
   executableInlineScriptHashes,
+  htmlFiles,
   readFile,
   readJson,
   readJsonLd,
@@ -300,6 +301,27 @@ for (const entry of sitemapEntries) {
   if (entry.includes("<loc>https://alnah.me/articles/")) {
     assertIncludes(entry, "<lastmod>", "every listed post carries a lastmod");
   }
+}
+
+// Empty archives are not pages: they must not exist and must not be linked.
+for (const emptyCategory of ["construire", "outiller", "penser", "travailler"]) {
+  assert.ok(
+    !fs.existsSync(path.join(process.cwd(), `dist/categories/${emptyCategory}/index.html`)),
+    `empty category ${emptyCategory} must not be generated`
+  );
+  assert.ok(
+    !readFile("dist/categories/index.html").includes(`/categories/${emptyCategory}/`),
+    `the category index must not link the empty category ${emptyCategory}`
+  );
+}
+assertFile("dist/categories/enseigner/index.html");
+
+// Sitemap contract: no indexable URL is noindex, and no built page is noindex.
+for (const htmlPath of htmlFiles()) {
+  assert.ok(
+    !readFile(path.relative(process.cwd(), htmlPath)).includes("noindex"),
+    `${path.relative(process.cwd(), htmlPath)} must stay indexable`
+  );
 }
 assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");
 assertIncludes(license, "LICENSES/BSD-3-Clause.txt", "LICENSE BSD pointer");

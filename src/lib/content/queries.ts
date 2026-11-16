@@ -55,8 +55,9 @@ export async function getTags() {
 }
 
 /**
- * The taxonomy is fixed; empty categories are still returned so their URLs
- * stay stable and the index stays complete.
+ * The taxonomy is fixed; empty categories are still returned so callers decide
+ * visibility. Archive routes and the sitemap skip categories with no post: an
+ * empty archive is not a page.
  */
 export async function getCategories() {
   const posts = await getPublishedPosts();
