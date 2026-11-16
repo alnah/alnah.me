@@ -34,6 +34,11 @@ export function headerSection(headers: string, selector: string) {
   return "";
 }
 
+/** Astro's static redirect pages: meta refresh plus noindex. */
+export function isRedirectHtml(html: string) {
+  return /<meta[^>]+http-equiv=["']refresh["']/i.test(html);
+}
+
 /** Map a built HTML file to its public URL path. */
 export function htmlPathToUrlPath(file: string) {
   const relative = path.relative(distDir, file);

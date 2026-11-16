@@ -32,17 +32,31 @@ const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/etiquettes/p-dagogie/", to: "/etiquettes/pedagogie/" }
 ];
 
+/** Cloudflare splat rules have no Astro equivalent: dynamic source to static
+ * destination is rejected by `redirects`, so they stay file-based. */
+export function isSplatRedirect(from: string): boolean {
+  return from.includes("*");
+}
+
 /**
  * A retired category alias must not chain into an archive that does not exist
  * yet. While the category is empty, it lands on the category index instead.
  */
-export function buildLegacyRedirectLines(publishedCategories: readonly string[] = []) {
+export function legacyRedirectTargets(
+  publishedCategories: readonly string[] = []
+): Array<[string, string]> {
   const populated = new Set(publishedCategories);
 
   return LEGACY_REDIRECTS.map(({ from, to }) => {
     const category = to.match(/^\/categories\/([^/]+)\/$/)?.[1];
     const target = category && !populated.has(category) ? "/categories/" : to;
 
-    return `${from} ${target} 301`;
+    return [from, target];
   });
+}
+
+export function buildLegacyRedirectLines(publishedCategories: readonly string[] = []) {
+  return legacyRedirectTargets(publishedCategories).map(
+    ([from, to]) => `${from} ${to} 301`
+  );
 }

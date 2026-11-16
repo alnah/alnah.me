@@ -22,15 +22,23 @@ export function checkRedirects({ redirects }: BuiltSite): void {
     "/sitemap.xml /sitemap-index.xml 301",
     "_redirects sitemap alias"
   );
+  const sitemapAlias = path.join(process.cwd(), "dist/sitemap.xml");
   assert.ok(
-    !fs.existsSync(path.join(process.cwd(), "dist/sitemap.xml")),
+    !fs.existsSync(sitemapAlias) || fs.statSync(sitemapAlias).isDirectory(),
     "/sitemap.xml must stay a redirect, not a duplicated sitemap file"
   );
-  // Redirects must land on something that exists.
+  // Redirects must land on something that exists, and Astro must replay every
+  // concrete rule as a static meta-refresh page.
   for (const line of redirects.split("\n").filter(Boolean)) {
     const [from, to] = line.split(/\s+/);
 
-    if (!to || /^https?:\/\//.test(to) || to.includes("*") || to.includes(":")) {
+    if (
+      !to ||
+      /^https?:\/\//.test(to) ||
+      from.includes("*") ||
+      to.includes("*") ||
+      to.includes(":")
+    ) {
       continue;
     }
 
@@ -39,5 +47,17 @@ export function checkRedirects({ redirects }: BuiltSite): void {
       : path.join(process.cwd(), "dist", to.replace(/^\//, ""));
 
     assert.ok(fs.existsSync(target), `redirect target exists: ${from} -> ${to}`);
+
+    const redirectPage = path.join(
+      process.cwd(),
+      "dist",
+      from.replace(/^\//, ""),
+      "index.html"
+    );
+    assert.ok(fs.existsSync(redirectPage), `redirect page exists: ${from}`);
+    assert.ok(
+      fs.readFileSync(redirectPage, "utf8").includes(`url=${to}`),
+      `redirect page points to ${to}: ${from}`
+    );
   }
 }

@@ -8,7 +8,13 @@ import {
   PUBLISHED_CATEGORIES,
   PUBLISHED_POSTS
 } from "../build-expectations.ts";
-import { assertFile, htmlFiles, htmlPathToUrlPath, readFile } from "../test-helpers.ts";
+import {
+  assertFile,
+  htmlFiles,
+  htmlPathToUrlPath,
+  isRedirectHtml,
+  readFile
+} from "../test-helpers.ts";
 
 /** Sitemap dates, category archives, and the built-page parity. */
 export function checkSitemapEntries(): void {
@@ -66,6 +72,7 @@ export function checkSitemapEntries(): void {
   const builtPagePaths = new Set(
     htmlFiles()
       .filter((file) => path.basename(file) !== "404.html")
+      .filter((file) => !isRedirectHtml(readFile(path.relative(process.cwd(), file))))
       .map(htmlPathToUrlPath)
   );
   const sitemapPaths = new Set(

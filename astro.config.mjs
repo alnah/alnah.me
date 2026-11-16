@@ -2,8 +2,13 @@ import path from "node:path";
 import { defineConfig, passthroughImageService } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import sitemap from "@astrojs/sitemap";
+import { isSplatRedirect, legacyRedirectTargets } from "./src/lib/legacy-redirects.ts";
 import { markdownHastPlugins } from "./src/lib/markdown/plugins.ts";
-import { getPublishedMarkdownEntries } from "./src/lib/post-files.ts";
+import {
+  buildAliasRedirects,
+  buildRawAliasRedirects,
+  getPublishedMarkdownEntries
+} from "./src/lib/post-files.ts";
 import { buildSitemapMetadata } from "./src/lib/sitemap.ts";
 import { SITE } from "./src/config/site.ts";
 
@@ -23,10 +28,23 @@ const sitemapMetadata = buildSitemapMetadata(
   { pageSize: SITE.postPageSize }
 );
 
+// Same 301s as public/_redirects, replayed by dev and preview: concrete
+// sources only, splat rules stay file-based. Cloudflare keeps `_redirects` as
+// the edge authority; these pages are the static fallback.
+const aliasRedirects = buildAliasRedirects(publishedPosts);
+const redirects = Object.fromEntries([
+  ...aliasRedirects,
+  ...buildRawAliasRedirects(aliasRedirects),
+  ...legacyRedirectTargets(publishedPosts.map(({ category }) => category)).filter(
+    ([from]) => !isSplatRedirect(from)
+  )
+]);
+
 export default defineConfig({
   site: "https://alnah.me",
   output: "static",
   cacheDir: "./.astro/cache",
+  redirects,
   integrations: [
     sitemap({
       // Empty category archives are noindex placeholders; the sitemap only
