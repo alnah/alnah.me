@@ -12,6 +12,8 @@ export type MarkdownPostEntry = {
   markdown: string;
   slug: string;
   aliases: unknown[];
+  category?: string;
+  tags: string[];
   bodyMarkdown: string;
   postData: PublicationData;
 };
@@ -72,6 +74,10 @@ function parseMarkdownPost(markdown: string, slug: string) {
   return {
     slug,
     aliases: Array.isArray(data.aliases) ? data.aliases : [],
+    category: typeof data.category === "string" ? data.category : undefined,
+    tags: Array.isArray(data.tags)
+      ? data.tags.filter((tag): tag is string => typeof tag === "string")
+      : [],
     bodyMarkdown: stripFrontmatter(markdown),
     postData: normalizePublicationData(data)
   };

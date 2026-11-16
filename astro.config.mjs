@@ -1,13 +1,29 @@
+import path from "node:path";
 import { defineConfig, passthroughImageService } from "astro/config";
 import { satteri } from "@astrojs/markdown-satteri";
 import sitemap from "@astrojs/sitemap";
 import { markdownHastPlugins } from "./src/lib/markdown/plugins.ts";
+import { getPublishedMarkdownEntries } from "./src/lib/post-files.ts";
+import { buildEmptyCategoryPaths } from "./src/lib/sitemap.ts";
+
+// The sitemap contract is checked at config load: only published Markdown
+// decides which category archives exist.
+const publishedPosts = await getPublishedMarkdownEntries(
+  path.join(process.cwd(), "src/content/posts")
+);
+const emptyCategoryPaths = buildEmptyCategoryPaths(publishedPosts);
 
 export default defineConfig({
   site: "https://alnah.me",
   output: "static",
   cacheDir: "./.astro/cache",
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      // Empty category archives are noindex placeholders; the sitemap only
+      // lists URLs that are 200, canonical, and indexable.
+      filter: (page) => !emptyCategoryPaths.has(new URL(page).pathname)
+    })
+  ],
   image: {
     service: passthroughImageService()
   },

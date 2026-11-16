@@ -255,6 +255,23 @@ assertIncludes(headers, "/raw/posts/:slug.md", "_headers raw posts canonical sec
 assertIncludes(headers, 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
 assertIncludes(robots, "Sitemap: https://alnah.me/sitemap-index.xml", "robots sitemap");
 assertIncludes(robots, "Disallow: /cdn-cgi/", "robots cdn-cgi disallow");
+
+const sitemapXml = readFile("dist/sitemap-0.xml");
+const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+  (match) => match[1]
+);
+// Fixture contract: these categories currently have no published post. Their
+// archive is a noindex placeholder, so the sitemap must not advertise them.
+for (const emptyCategory of ["construire", "outiller", "penser", "travailler"]) {
+  assert.ok(
+    !sitemapUrls.includes(`https://alnah.me/categories/${emptyCategory}/`),
+    `sitemap must not advertise the empty category ${emptyCategory}`
+  );
+}
+assert.ok(
+  sitemapUrls.includes("https://alnah.me/categories/enseigner/"),
+  "sitemap must advertise populated categories"
+);
 assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");
 assertIncludes(license, "LICENSES/BSD-3-Clause.txt", "LICENSE BSD pointer");
 assertIncludes(license, "LICENSES/CC-BY-4.0.txt", "LICENSE CC pointer");
