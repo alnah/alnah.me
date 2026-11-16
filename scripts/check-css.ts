@@ -11,7 +11,10 @@ const srcDir = path.join(rootDir, "src");
 const stylesDir = path.join(srcDir, "styles");
 const tokensFile = path.join(stylesDir, "tokens.css");
 
-const allowedBreakpoints = new Set(["360", "480", "720", "900", "901"]);
+const tokensCss = fs.readFileSync(tokensFile, "utf8");
+const allowedBreakpoints = new Set(
+  [...tokensCss.matchAll(/--breakpoint-[\w-]+:\s*(\d+)px/g)].map((match) => match[1])
+);
 const rawColorPattern = /#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(|\b(?:white|black)\b(?!-)/;
 const breakpointPattern = /@media[^{]*?\((?:min|max)-width:\s*(\d+)px\)/g;
 

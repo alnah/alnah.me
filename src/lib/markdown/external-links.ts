@@ -1,10 +1,8 @@
 import type { HastPluginDefinition } from "satteri";
 import { SITE } from "../../config/site.ts";
+import { EXTERNAL_ICON_CLASS, EXTERNAL_LINK_CLASS } from "../dom-hooks.ts";
 import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../links.ts";
 import { classList, type HastElement } from "./hast.ts";
-
-const EXTERNAL_LINK_CLASS = "external-link";
-const EXTERNAL_ICON_CLASS = "external-link-icon";
 
 /** Decorative arrow that marks a link opening in a new tab. */
 function externalLinkIcon(): HastElement {

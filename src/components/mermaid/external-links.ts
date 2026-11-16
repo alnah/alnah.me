@@ -1,10 +1,14 @@
 import { SITE } from "../../config/site.ts";
+import {
+  EXTERNAL_ICON_CLASS,
+  MERMAID_EXTERNAL_ICON_CLASS
+} from "../../lib/dom-hooks.ts";
 import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../../lib/links.ts";
 import { createTokenReader } from "./theme.ts";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const XLINK_NS = "http://www.w3.org/1999/xlink";
-const ICON_CLASS = "mermaid-external-icon";
+const ICON_CLASS = MERMAID_EXTERNAL_ICON_CLASS;
 const ICON_SIZE_PX = 7;
 const ICON_INSET_PX = 4;
 /** The shared paths draw inside a 24 box, spanning 4..20 on both axes. */
@@ -51,7 +55,7 @@ function svgIcon(stroke: string): SVGGElement {
 /** Corner-up arrow for an HTML label, sized like the prose icon. */
 function htmlIcon(): HTMLSpanElement {
   const span = document.createElement("span");
-  span.className = "external-link-icon";
+  span.className = EXTERNAL_ICON_CLASS;
   span.setAttribute("aria-hidden", "true");
 
   const svg = document.createElementNS(SVG_NS, "svg");

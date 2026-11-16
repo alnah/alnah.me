@@ -1,3 +1,4 @@
+import { MERMAID_DIALOG_CLASS } from "../../lib/dom-hooks.ts";
 import { createDragGuard } from "./drag.ts";
 import { DIALOG_MARKUP, KEY_ACTIONS, type DiagramAction } from "./dialog-markup.ts";
 import {
@@ -146,7 +147,7 @@ export function createDiagramDialog(): DiagramDialog {
     }
 
     const dialog = document.createElement("dialog");
-    dialog.className = "mermaid-dialog";
+    dialog.className = MERMAID_DIALOG_CLASS;
     dialog.innerHTML = DIALOG_MARKUP;
     document.body.appendChild(dialog);
 

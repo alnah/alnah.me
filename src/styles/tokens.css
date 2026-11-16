@@ -48,6 +48,13 @@
   --duration-fast: 160ms;
   --ease-standard: ease;
 
+  /* Breakpoint registry: scripts/check-css.ts reads the allowed widths here. */
+  --breakpoint-narrow: 360px;
+  --breakpoint-phone: 480px;
+  --breakpoint-compact: 720px;
+  --breakpoint-stack: 900px;
+  --breakpoint-desktop: 901px;
+
   --control-height: 2.625rem;
   --control-min-width: 5.75rem;
   --shortcut-height: 1.2rem;

@@ -1,11 +1,12 @@
 import type { HastPluginDefinition } from "satteri";
+import {
+  FOOTNOTE_BACKREF_CLASS,
+  FOOTNOTE_ICON_CLASS,
+  FOOTNOTE_LABEL_ID,
+  FOOTNOTE_REF_CLASS
+} from "../dom-hooks.ts";
 import { BACKLINK_ICON_PATHS } from "../links.ts";
 import { classList, type HastElement } from "./hast.ts";
-
-const FOOTNOTE_REF_CLASS = "footnote-ref";
-const FOOTNOTE_BACKREF_CLASS = "footnote-backref";
-const FOOTNOTE_ICON_CLASS = "footnote-backref-icon";
-const FOOTNOTE_LABEL_ID = "footnote-label";
 const BACKLINK_LABEL_PATTERN = /^Back to reference (.+)$/;
 
 function meaningfulChildren(node: HastElement) {

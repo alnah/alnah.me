@@ -1,4 +1,5 @@
 import type { HastPluginDefinition } from "satteri";
+import { MERMAID_SOURCE_CLASS } from "../dom-hooks.ts";
 import { classList, type HastElement } from "./hast.ts";
 
 const NON_WHITESPACE = /\S/;
@@ -60,7 +61,7 @@ export function mermaid(): HastPluginDefinition {
         return {
           type: "element",
           tagName: "pre",
-          properties: { className: ["mermaid"] },
+          properties: { className: [MERMAID_SOURCE_CLASS] },
           children: [{ type: "text", value: ctx.textContent(code) }]
         };
       }
