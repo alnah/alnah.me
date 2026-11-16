@@ -95,9 +95,14 @@ async function readMarkdownPost(file: string) {
   };
 }
 
-export async function getPublishedMarkdownEntries(contentRoot: string) {
+/** Every Markdown post on disk, published or not. */
+export async function getMarkdownEntries(contentRoot: string) {
   const files = await findMarkdownFiles(contentRoot);
-  const entries = await Promise.all(files.map((file) => readMarkdownPost(file)));
+  return Promise.all(files.map((file) => readMarkdownPost(file)));
+}
+
+export async function getPublishedMarkdownEntries(contentRoot: string) {
+  const entries = await getMarkdownEntries(contentRoot);
 
   return entries.filter((entry) => entry.postData.date && isPublishedData(entry.postData));
 }
