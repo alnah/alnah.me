@@ -115,6 +115,9 @@ Astro app: use `TypeScript`.
 Build helpers: use `TypeScript` too; Node runs them directly through native type stripping.
 Boundary: keep the split intentional between `src/` and `scripts/`.
 Churn: do not move files between the two without clear payoff.
+Route paths: `src/lib/site-paths.ts`; canonical URL spelling for generated routes.
+Frontmatter schema: `src/lib/content/schema.ts`; shared by Astro collections and build scripts.
+Class hooks: `src/lib/dom-hooks.ts`; shared by Markdown plugins, client scripts, and styles.
 
 ### Layout model
 
@@ -170,12 +173,12 @@ summary: Brief description for feeds
 
 Mapping: `public: yes` -> `draft: false`.
 Mapping: `summary` -> `description`.
-Schema rule: do not introduce `public` or `summary` unless the content schema changes first.
+Schema rule: do not introduce `public` or `summary` unless `src/lib/content/schema.ts` changes first.
 
 ## Build system
 
-Prepare script: `scripts/prepare-static.ts`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
-Build: `scripts/test-build.ts`, driven by `scripts/build-expectations.ts`.
+Prepare script: `scripts/prepare-static.ts`; validate frontmatter and Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
+Build checks: `scripts/test-build.ts` entrypoint, checks under `scripts/test-build/`, expectations from `scripts/build-expectations.ts`.
 Verify: `scripts/verify.ts`.
 
 ## Deployment
@@ -188,6 +191,7 @@ Analytics token: `PUBLIC_CF_WEB_ANALYTICS_TOKEN`.
 Beacon: `src/components/Analytics.astro`.
 Redirect rule: configure `www -> apex` in Cloudflare, not in `public/_redirects`.
 Reason: Cloudflare's Pages guidance uses Bulk Redirects for cross-host `www` redirects; `public/_redirects` handles in-site paths.
+In-site redirects: `public/_redirects` is the edge authority; concrete rules are mirrored in `astro.config.mjs` `redirects` so dev and preview replay them. Splats stay file-based.
 
 ## Frontend features
 
