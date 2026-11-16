@@ -263,9 +263,14 @@ assertIncludes(
   '<link rel="sitemap" href="/sitemap-index.xml">',
   "head sitemap link"
 );
+assertIncludes(
+  redirects,
+  "/sitemap.xml /sitemap-index.xml 301",
+  "_redirects sitemap alias"
+);
 assert.ok(
   !fs.existsSync(path.join(process.cwd(), "dist/sitemap.xml")),
-  "/sitemap.xml stays unaliased: the index is the single sitemap entrypoint"
+  "/sitemap.xml must stay a redirect, not a duplicated sitemap file"
 );
 
 const sitemapXml = readFile("dist/sitemap-0.xml");

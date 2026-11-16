@@ -40,9 +40,9 @@ available; otherwise the section is hidden.
 ## Sitemaps
 
 `@astrojs/sitemap` emits `sitemap-index.xml` and `sitemap-0.xml`. `robots.txt`
-and the `<link rel="sitemap">` tag point to the index. `/sitemap.xml` is
-intentionally not aliased: no crawler needs it, and a redirect or a second file
-would add a second source of truth.
+and the `<link rel="sitemap">` tag point to the index. `/sitemap.xml` is the
+conventional path audits and tools probe, so it 301s to the index: one
+canonical entrypoint, no duplicated sitemap file.
 
 The sitemap only lists URLs that are 200, canonical, and indexable:
 

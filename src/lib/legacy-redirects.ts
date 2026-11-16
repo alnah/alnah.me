@@ -20,6 +20,7 @@ const LEGACY_REDIRECTS: LegacyRedirect[] = [
   { from: "/tags/", to: "/articles/" },
   { from: "/tags/*", to: "/articles/" },
   { from: "/index.xml", to: "/rss.xml" },
+  { from: "/sitemap.xml", to: "/sitemap-index.xml" },
   { from: "/categories/best-practices/", to: "/categories/" },
   { from: "/categories/deep-dives/", to: "/categories/" },
   { from: "/categories/opinions/", to: "/categories/" },
