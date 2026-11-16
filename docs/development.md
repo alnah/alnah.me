@@ -55,5 +55,9 @@ The sitemap only lists URLs that are 200, canonical, and indexable:
 
 - `scripts/build-expectations.ts` derives what the build must contain from the
   Markdown, the taxonomy, and the site config.
-- `scripts/test-build.ts` checks the built site against those expectations.
-- Unit and domain checks stay independent from the build.
+- `scripts/test-build.ts` checks the built site against those expectations,
+  reading pages through `scripts/page-dom.ts` instead of matching raw HTML.
+- Unit and domain checks run with `node:test` (`*.test.ts`), independent from
+  the build.
+- UI checks run with Playwright Test (`playwright.config.ts`, `scripts/ui/`),
+  on desktop and device projects.

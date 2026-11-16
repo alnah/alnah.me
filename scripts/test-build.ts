@@ -12,6 +12,17 @@ import {
   UNPUBLISHED_POST_SLUGS
 } from "./build-expectations.ts";
 import {
+  anchorHrefs,
+  attr,
+  byTag,
+  elements,
+  hasClass,
+  jsonLd,
+  normalizeText,
+  parsePage,
+  textContent
+} from "./page-dom.ts";
+import {
   assertFile,
   assertIncludes,
   assertInternalLinks,
@@ -21,23 +32,8 @@ import {
   htmlPathToUrlPath,
   readFile,
   readJson,
-  readJsonLd,
   readPngDimensions
 } from "./test-helpers.ts";
-
-/** Typographic punctuation and whitespace must not decide a text comparison. */
-function normalizeText(value: string) {
-  return value
-    .replace(/[\u2018\u2019\u02BC]/g, "'")
-    .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[\u00A0\u202F]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function textOf(html: string) {
-  return normalizeText(html.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;/g, " "));
-}
 
 const requiredFiles = [
   "dist/index.html",
@@ -89,20 +85,36 @@ const cspLine = headers
   .split("\n")
   .find((line) => line.trimStart().startsWith("Content-Security-Policy:"));
 
-const posts = PUBLISHED_POSTS.map((post) => ({
-  post,
-  html: readFile(`dist/articles/${post.slug}/index.html`),
-  raw: readFile(`dist${post.rawPath}`)
-}));
+const home = parsePage(homeHtml);
+const about = parsePage(aboutHtml);
+const posts = PUBLISHED_POSTS.map((post) => {
+  const html = readFile(`dist/articles/${post.slug}/index.html`);
 
-const websiteSchema = readJsonLd(homeHtml)[0] as {
+  return {
+    post,
+    raw: readFile(`dist${post.rawPath}`),
+    dom: parsePage(html)
+  };
+});
+
+/** Meta tag content by attribute (`property` or `name`). */
+function metaContent(doc: ReturnType<typeof parsePage>, key: string, value: string) {
+  const tag = byTag(doc, "meta").find((meta) => attr(meta, key) === value);
+  return tag ? attr(tag, "content") : undefined;
+}
+
+function anchorFor(doc: ReturnType<typeof parsePage>, href: string) {
+  return byTag(doc, "a").find((anchor) => attr(anchor, "href") === href);
+}
+
+const websiteSchema = jsonLd(home)[0] as {
   "@id"?: string;
   inLanguage?: string;
 };
 assert.equal(websiteSchema["@id"], absoluteUrl("/#website"), "website schema id");
 assert.equal(websiteSchema.inLanguage, "fr-FR", "website schema language");
 
-const profileSchema = readJsonLd(aboutHtml)[0] as {
+const profileSchema = jsonLd(about)[0] as {
   "@type"?: string;
   inLanguage?: string;
   mainEntity?: { "@id"?: string; sameAs?: string[] };
@@ -122,25 +134,49 @@ assert.deepEqual(
   "profile sameAs follows the configured social contacts"
 );
 
-for (const contact of SITE.contacts) {
-  assertIncludes(homeHtml, `aria-label="${contact.label}"`, `home contact icon ${contact.label}`);
-  assertIncludes(aboutHtml, `aria-label="${contact.label}"`, `about contact icon ${contact.label}`);
-}
-assertIncludes(homeHtml, "Me suivre sur", "home social label");
-assertIncludes(homeHtml, "Me contacter par", "home contact label");
-assertIncludes(aboutHtml, "Me suivre sur", "about social label");
-assertIncludes(aboutHtml, "Me contacter par", "about contact label");
-assertIncludes(homeHtml, `href="${absoluteUrl("/rss.xml")}"`, "home RSS href");
+const ariaLabels = (doc: ReturnType<typeof parsePage>) =>
+  new Set(
+    elements(doc, (element) => attr(element, "aria-label") !== undefined).map(
+      (element) => attr(element, "aria-label")
+    )
+  );
 
-for (const { post, html, raw } of posts) {
-  assertIncludes(html, `<link rel="canonical" href="${absoluteUrl(post.url)}">`, `${post.slug} canonical link`);
-  assertIncludes(html, 'property="og:type" content="article"', `${post.slug} og:type`);
-  assertIncludes(html, '<meta name="twitter:card" content="summary', `${post.slug} twitter card`);
-  assertIncludes(html, '"@type":"BlogPosting"', `${post.slug} BlogPosting schema`);
-  assertIncludes(html, "min de lecture", `${post.slug} reading time`);
-  assertIncludes(html, "Tous les articles", `${post.slug} all posts link`);
-  assertIncludes(html, "Partager cet article sur", `${post.slug} share block`);
-  assertIncludes(html, post.rawPath, `${post.slug} raw reuse link`);
+for (const contact of SITE.contacts) {
+  assert.ok(
+    ariaLabels(home).has(contact.label),
+    `home contact icon ${contact.label}`
+  );
+  assert.ok(
+    ariaLabels(about).has(contact.label),
+    `about contact icon ${contact.label}`
+  );
+}
+assert.match(normalizeText(textContent(home)), /Me suivre sur/);
+assert.match(normalizeText(textContent(home)), /Me contacter par/);
+assert.match(normalizeText(textContent(about)), /Me suivre sur/);
+assert.match(normalizeText(textContent(about)), /Me contacter par/);
+const rssLink = byTag(home, "link").find(
+  (link) => attr(link, "type") === "application/rss+xml"
+);
+assert.ok(rssLink, "home declares its RSS feed");
+assert.equal(attr(rssLink, "href"), absoluteUrl("/rss.xml"), "home RSS href");
+for (const marker of ["data-search-trigger", "data-search-root", "data-theme-toggle"]) {
+  assert.ok(
+    elements(home, (element) => attr(element, marker) !== undefined).length > 0,
+    `home exposes ${marker}`
+  );
+}
+
+for (const { post, raw, dom } of posts) {
+  const canonical = byTag(dom, "link").find((link) => attr(link, "rel") === "canonical");
+  assert.ok(canonical, `${post.slug} canonical link`);
+  assert.equal(attr(canonical, "href"), absoluteUrl(post.url), `${post.slug} canonical link`);
+  assert.equal(metaContent(dom, "property", "og:type"), "article", `${post.slug} og:type`);
+  assert.match(metaContent(dom, "name", "twitter:card") ?? "", /^summary/, `${post.slug} twitter card`);
+  assert.match(normalizeText(textContent(dom)), /\d+ min de lecture/, `${post.slug} reading time`);
+  assert.ok(anchorFor(dom, "/articles/"), `${post.slug} all posts link`);
+  assert.match(normalizeText(textContent(dom)), /Partager cet article sur/, `${post.slug} share block`);
+  assert.ok(anchorHrefs(dom).includes(post.rawPath), `${post.slug} raw reuse link`);
 
   for (const platform of [
     "twitter.com/intent/tweet",
@@ -150,14 +186,16 @@ for (const { post, html, raw } of posts) {
     "t.me/share/url",
     "mailto:"
   ]) {
-    assertIncludes(html, platform, `${post.slug} share link ${platform}`);
+    assert.ok(
+      anchorHrefs(dom).some((href) => href.includes(platform)),
+      `${post.slug} share link ${platform}`
+    );
   }
 
   const ogImage = absoluteUrl(post.socialImagePath);
-  assertIncludes(html, `property="og:image" content="${ogImage}"`, `${post.slug} og:image`);
-  assertIncludes(html, '"image":"' + ogImage + '"', `${post.slug} schema image`);
-  assertIncludes(html, 'property="og:image:width" content="1200"', `${post.slug} og:image width`);
-  assertIncludes(html, 'property="og:image:height" content="630"', `${post.slug} og:image height`);
+  assert.equal(metaContent(dom, "property", "og:image"), ogImage, `${post.slug} og:image`);
+  assert.equal(metaContent(dom, "property", "og:image:width"), "1200", `${post.slug} og:image width`);
+  assert.equal(metaContent(dom, "property", "og:image:height"), "630", `${post.slug} og:image height`);
 
   const dimensions = readPngDimensions(`dist${post.socialImagePath}`);
   assert.equal(dimensions.width, 1200, `${post.slug} og image width`);
@@ -171,17 +209,20 @@ for (const { post, html, raw } of posts) {
 
   if (post.isUpdated) {
     const isoDate = formatIsoDate(post.displayDate);
-    assertIncludes(html, `datetime="${isoDate}"`, `${post.slug} updated datetime`);
-    assertIncludes(
-      html,
-      `Mis à jour le ${formatDate(post.displayDate)}`,
+    const time = byTag(dom, "time").find((element) => attr(element, "datetime") === isoDate);
+    assert.ok(time, `${post.slug} updated datetime`);
+    assert.match(
+      normalizeText(textContent(dom)),
+      new RegExp(`Mis à jour le ${formatDate(post.displayDate)}`),
       `${post.slug} updated label`
     );
   }
 
-  const postSchema = readJsonLd(html)[0] as {
+  const postSchema = jsonLd(dom)[0] as {
+    "@type"?: string;
     "@id"?: string;
     inLanguage?: string;
+    image?: string;
     author?: {
       "@id"?: string;
       jobTitle?: string;
@@ -193,11 +234,9 @@ for (const { post, html, raw } of posts) {
     copyrightYear?: number;
     copyrightHolder?: { "@id"?: string };
   };
-  assert.equal(
-    postSchema["@id"],
-    absoluteUrl(`${post.url}#article`),
-    `${post.slug} schema id`
-  );
+  assert.equal(postSchema["@type"], "BlogPosting", `${post.slug} BlogPosting schema`);
+  assert.equal(postSchema["@id"], absoluteUrl(`${post.url}#article`), `${post.slug} schema id`);
+  assert.equal(postSchema.image, ogImage, `${post.slug} schema image`);
   assert.equal(postSchema.inLanguage, "fr-FR", `${post.slug} schema language`);
   assert.equal(postSchema.author?.["@id"], absoluteUrl("/#person"), `${post.slug} author id`);
   assert.equal(postSchema.author?.jobTitle, SITE.author.jobTitle, `${post.slug} author job title`);
@@ -229,39 +268,38 @@ for (const { post, html, raw } of posts) {
 
 // Canaries: every published post must render its title and a real body, and
 // every footnote reference must resolve to a note in the same page.
-for (const { post, html } of posts) {
-  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? "";
-  assert.equal(textOf(h1), normalizeText(post.title), `${post.slug} renders its title`);
+for (const { post, dom } of posts) {
+  const h1 = byTag(dom, "h1")[0];
+  assert.ok(h1, `${post.slug} renders an H1`);
+  assert.equal(normalizeText(textContent(h1)), normalizeText(post.title), `${post.slug} renders its title`);
 
-  const article = html.match(/<article[^>]*>([\s\S]*?)<\/article>/)?.[1] ?? "";
+  const article = byTag(dom, "article")[0];
+  assert.ok(article, `${post.slug} renders an article`);
   assert.ok(
-    textOf(article).split(" ").filter(Boolean).length >= 100,
+    normalizeText(textContent(article)).split(" ").filter(Boolean).length >= 100,
     `${post.slug} renders a non-empty body`
   );
 
-  const notes = html.match(/<section[^>]*data-footnotes[\s\S]*?<\/section>/)?.[0] ?? "";
+  const notes = elements(dom, (element) => attr(element, "data-footnotes") !== undefined)[0];
   const noteIds = new Set(
-    [...notes.matchAll(/id="([^"]+)"/g)].map((match) => match[1])
+    notes
+      ? elements(notes, (element) => attr(element, "id") !== undefined).map((element) => attr(element, "id"))
+      : []
   );
-  const refs = [...html.matchAll(/<a[^>]*data-footnote-ref[^>]*>/g)].map(
-    (match) => match[0]
-  );
+  const refs = elements(dom, (element) => attr(element, "data-footnote-ref") !== undefined);
 
   if (notes) {
     assert.ok(refs.length > 0, `${post.slug} renders footnote references`);
 
     for (const ref of refs) {
-      const target = ref.match(/href="#([^"]+)"/)?.[1];
-      assert.ok(
-        target && noteIds.has(target),
-        `${post.slug} footnote reference resolves`
-      );
+      const target = (attr(ref, "href") ?? "").replace(/^#/, "");
+      assert.ok(noteIds.has(target), `${post.slug} footnote reference resolves`);
     }
 
-    for (const backref of notes.matchAll(/<a[^>]*data-footnote-backref[^>]*>/g)) {
-      const target = backref[0].match(/href="#([^"]+)"/)?.[1];
+    for (const backref of elements(notes, (element) => attr(element, "data-footnote-backref") !== undefined)) {
+      const target = (attr(backref, "href") ?? "").replace(/^#/, "");
       assert.ok(
-        target && new RegExp(`id="${target}"`).test(html),
+        elements(dom, (element) => attr(element, "id") === target).length > 0,
         `${post.slug} footnote backlink resolves`
       );
     }
@@ -476,8 +514,9 @@ for (const slug of UNPUBLISHED_POST_SLUGS) {
 
 // Duplicate ids break anchors and accessibility.
 for (const file of htmlFiles()) {
-  const ids = [...readFile(path.relative(process.cwd(), file)).matchAll(/ id="([^"]+)"/g)].map(
-    (match) => match[1]
+  const dom = parsePage(readFile(path.relative(process.cwd(), file)));
+  const ids = elements(dom, (element) => attr(element, "id") !== undefined).map((element) =>
+    attr(element, "id")
   );
   assert.equal(
     new Set(ids).size,
@@ -508,16 +547,32 @@ for (const name of fs.readdirSync("LICENSES")) {
     `${name} is copied byte for byte`
   );
 }
-assert.ok(!homeHtml.includes("fonts.googleapis.com"), "Home should not use third-party Google Fonts");
+const homeLinks = [
+  ...byTag(home, "link").map((link) => attr(link, "href") ?? ""),
+  ...anchorHrefs(home)
+];
+assert.ok(
+  !homeLinks.some((href) => href.includes("fonts.googleapis.com")),
+  "home must not load third-party Google Fonts"
+);
 
 assert.ok(Array.isArray(searchIndex), "Search index should be an array");
 
-assertIncludes(aboutHtml, 'class="external-link"', "external link class");
-assertIncludes(aboutHtml, 'target="_blank" rel="noopener"', "external link new tab");
-assertIncludes(aboutHtml, 'class="external-link-icon"', "external link icon");
-assertIncludes(aboutHtml, "ouvre dans un nouvel onglet)", "external link accessible name");
-assert.ok(
-  !homeHtml.includes('class="external-link"'),
+const externalLinks = byTag(about, "a").filter((anchor) => hasClass(anchor, "external-link"));
+assert.ok(externalLinks.length > 0, "about page marks external links");
+for (const anchor of externalLinks) {
+  assert.equal(attr(anchor, "target"), "_blank", "external link opens in a new tab");
+  assert.match(attr(anchor, "rel") ?? "", /noopener/, "external link uses noopener");
+  assert.match(attr(anchor, "aria-label") ?? "", /ouvre dans un nouvel onglet/, "external link accessible name");
+  assert.equal(
+    elements(anchor, (element) => hasClass(element, "external-link-icon")).length,
+    1,
+    "external link carries its icon"
+  );
+}
+assert.equal(
+  byTag(home, "a").filter((anchor) => hasClass(anchor, "external-link")).length,
+  0,
   "internal-only pages must not mark links as external"
 );
 

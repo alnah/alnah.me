@@ -3,6 +3,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { SITE } from "../src/config/site.ts";
+import { anchorHrefs, parsePage } from "./page-dom.ts";
 
 export const rootDir = process.cwd();
 export const distDir = path.join(rootDir, "dist");
@@ -61,14 +62,6 @@ export function readJson<T = unknown>(relativePath: string): T {
   return JSON.parse(readFile(relativePath)) as T;
 }
 
-export function readJsonLd(html: string): Record<string, unknown>[] {
-  return [
-    ...html.matchAll(
-      /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g
-    )
-  ].map((match) => JSON.parse(match[1]) as Record<string, unknown>);
-}
-
 export function readPngDimensions(relativePath: string) {
   const buffer = fs.readFileSync(assertFile(relativePath));
   assert.equal(
@@ -118,13 +111,7 @@ export function executableInlineScriptHashes(relativePath: string) {
 }
 
 function hrefMatches(html: string) {
-  const withoutScripts = html.replace(/<script[\s\S]*?<\/script>/g, "");
-  return [
-    ...withoutScripts.matchAll(/<a\b[^>]*?href="([^"]+)"/g),
-    ...withoutScripts.matchAll(/<a\b[^>]*?href='([^']+)'/g)
-  ]
-    .map((match) => match[1])
-    .filter((href) => !href.includes("${"));
+  return anchorHrefs(parsePage(html)).filter((href) => !href.includes("${"));
 }
 
 /** Absolute links to the site itself are internal and must be checked too. */
