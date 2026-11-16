@@ -1,9 +1,28 @@
-import assert from "node:assert/strict";
+import { expect, type Page } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
-import type { Page } from "playwright";
 import type { SearchIndexDocument } from "../../src/lib/search-ranking.ts";
 import { readJson } from "../test-helpers.ts";
+
+export function loadSearchIndex(): SearchIndexDocument[] {
+  return readJson<SearchIndexDocument[]>("dist/index.json");
+}
+
+/** First published post, used as the representative document. */
+export function targetPost(): SearchIndexDocument | undefined {
+  return loadSearchIndex().find((item) => item?.title && item?.url);
+}
+
+export function firstUsefulToken(title: string) {
+  return (
+    title
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .find((token) => token.length >= 4) || title
+  );
+}
 
 /** Posts that exist in the build, as public paths. */
 export function builtPostPaths(): string[] {
@@ -28,26 +47,6 @@ export function findPostPath(predicate: (html: string) => boolean): string | nul
   return null;
 }
 
-export function loadSearchIndex(): SearchIndexDocument[] {
-  return readJson<SearchIndexDocument[]>("dist/index.json");
-}
-
-/** First published post, used as the representative document. */
-export function targetPost(): SearchIndexDocument | undefined {
-  return loadSearchIndex().find((item) => item?.title && item?.url);
-}
-
-export function firstUsefulToken(title: string) {
-  return (
-    title
-      .normalize("NFKD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .split(/[^a-z0-9]+/)
-      .find((token) => token.length >= 4) || title
-  );
-}
-
 export async function assertNoHorizontalOverflow(page: Page, label: string) {
   const overflow = await page.evaluate(() => {
     const previousScrollX = window.scrollX;
@@ -59,5 +58,5 @@ export async function assertNoHorizontalOverflow(page: Page, label: string) {
     return maxScrollX;
   });
 
-  assert.equal(overflow, 0, `${label} should not overflow horizontally (got ${overflow}px)`);
+  expect(overflow, `${label} should not overflow horizontally`).toBe(0);
 }

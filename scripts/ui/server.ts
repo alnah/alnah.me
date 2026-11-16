@@ -1,6 +1,7 @@
 import fs from "node:fs";
-import path from "node:path";
 import http from "node:http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const distDir = path.join(process.cwd(), "dist");
 
@@ -45,7 +46,7 @@ export type StaticServer = {
 };
 
 /** Serve the built site on an ephemeral port for the UI checks. */
-export async function startStaticServer(): Promise<StaticServer> {
+export async function startStaticServer(port = 0): Promise<StaticServer> {
   const server = http.createServer((request, response) => {
     const assetPath = resolveDistAsset(request.url || "/");
 
@@ -62,7 +63,7 @@ export async function startStaticServer(): Promise<StaticServer> {
     fs.createReadStream(assetPath).pipe(response);
   });
 
-  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+  await new Promise<void>((resolve) => server.listen(port, "127.0.0.1", resolve));
   const address = server.address();
 
   if (!address || typeof address === "string") {
@@ -77,4 +78,11 @@ export async function startStaticServer(): Promise<StaticServer> {
       });
     }
   };
+}
+
+const isMain = process.argv[1] === fileURLToPath(import.meta.url);
+
+if (isMain) {
+  const server = await startStaticServer(Number(process.env.UI_PORT ?? "4399"));
+  console.log(`ui server: ${server.origin}`);
 }
