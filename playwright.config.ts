@@ -24,12 +24,14 @@ export default defineConfig({
     },
     {
       name: "iphone-se",
-      use: { ...devices["iPhone SE"] },
+      // The smoke checks only need the viewport and touch emulation; keeping
+      // Chromium avoids a second browser install in CI.
+      use: { ...devices["iPhone SE"], browserName: "chromium" },
       testMatch: /responsive\.spec\.ts/
     },
     {
       name: "ipad-mini",
-      use: { ...devices["iPad Mini"] },
+      use: { ...devices["iPad Mini"], browserName: "chromium" },
       testMatch: /responsive\.spec\.ts/
     }
   ],
