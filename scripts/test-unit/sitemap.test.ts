@@ -16,7 +16,7 @@ function categoryPath(category: string) {
 }
 
 function isoDate(value: string) {
-  return new Date(`${value}T00:00:00Z`).toISOString();
+  return new Date(`${value}T00:00:00Z`);
 }
 
 test('sitemap: empty categories and lastmod', () => {
@@ -63,23 +63,23 @@ test('sitemap: empty categories and lastmod', () => {
     { pageSize: 6 }
   );
 
-  assert.equal(
+  assert.deepEqual(
     single.lastmodByPath.get("/articles/cecrl/"),
     isoDate("2026-11-15"),
     "the post uses lastmod when it is newer than date"
   );
-  assert.equal(
+  assert.deepEqual(
     single.lastmodByPath.get("/etiquettes/pedagogie/"),
     isoDate("2026-11-15"),
     "tag archives are slugified and inherit the post date"
   );
-  assert.equal(
+  assert.deepEqual(
     single.lastmodByPath.get("/categories/enseigner/"),
     isoDate("2026-11-15"),
     "category archives inherit the newest post date"
   );
   for (const path of ["/", "/articles/", "/categories/"]) {
-    assert.equal(
+    assert.deepEqual(
       single.lastmodByPath.get(path),
       isoDate("2026-11-15"),
       `${path} uses the newest post date`
@@ -97,7 +97,7 @@ test('sitemap: empty categories and lastmod', () => {
     { pageSize: 6 }
   );
 
-  assert.equal(
+  assert.deepEqual(
     stale.lastmodByPath.get("/articles/stale/"),
     isoDate("2026-11-10"),
     "a lastmod older than date is ignored"
@@ -111,14 +111,14 @@ test('sitemap: empty categories and lastmod', () => {
     { pageSize: 1 }
   );
 
-  assert.equal(many.lastmodByPath.get("/articles/new/"), isoDate("2026-11-10"));
-  assert.equal(many.lastmodByPath.get("/articles/old/"), isoDate("2026-10-01"));
-  assert.equal(
+  assert.deepEqual(many.lastmodByPath.get("/articles/new/"), isoDate("2026-11-10"));
+  assert.deepEqual(many.lastmodByPath.get("/articles/old/"), isoDate("2026-10-01"));
+  assert.deepEqual(
     many.lastmodByPath.get("/etiquettes/fle/"),
     isoDate("2026-11-10"),
     "shared tags keep the newest post date"
   );
-  assert.equal(
+  assert.deepEqual(
     many.lastmodByPath.get("/articles/2/"),
     isoDate("2026-11-10"),
     "paginated archive pages inherit the newest post date"
@@ -126,7 +126,7 @@ test('sitemap: empty categories and lastmod', () => {
 
   const undated = buildSitemapMetadata([{ slug: "draft" }], { pageSize: 6 });
 
-  assert.equal(undated.lastmodByPath.size, 0, "no date means no lastmod");
+  assert.deepEqual(undated.lastmodByPath.size, 0, "no date means no lastmod");
   assert.ok(
     undated.emptyCategoryPaths.has("/categories/enseigner/"),
     "posts without a category do not populate categories"

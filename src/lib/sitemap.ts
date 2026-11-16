@@ -49,7 +49,7 @@ function keepLatest(byPath: Map<string, Date>, path: string, date?: Date) {
 
 export type SitemapMetadata = {
   emptyCategoryPaths: Set<string>;
-  lastmodByPath: Map<string, string>;
+  lastmodByPath: Map<string, Date>;
 };
 
 /**
@@ -100,8 +100,6 @@ export function buildSitemapMetadata(
 
   return {
     emptyCategoryPaths: buildEmptyCategoryPaths(posts),
-    lastmodByPath: new Map(
-      [...lastmodByPath].map(([path, date]) => [path, date.toISOString()])
-    )
+    lastmodByPath
   };
 }

@@ -35,7 +35,7 @@ export default defineConfig({
       // Dates come from the content, never from the build.
       serialize: (item) => {
         const lastmod = sitemapMetadata.lastmodByPath.get(new URL(item.url).pathname);
-        return lastmod ? { ...item, lastmod } : item;
+        return lastmod ? { ...item, lastmod: lastmod.toISOString() } : item;
       }
     })
   ],
