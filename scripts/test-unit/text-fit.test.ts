@@ -13,6 +13,11 @@ test('text fit: truncation', () => {
   assert.equal(truncateText("abc", 3), "abc");
   assert.equal(truncateText("a b", 1), "…");
 
+  assert.equal(truncateText("averylongwordwithoutspaces", 5), "aver…");
+  assert.equal(truncateText(" leading and trailing ", 50), "leading and trailing");
+  assert.equal(truncateText("", 10), "");
+  assert.equal(truncateText("abc", -3), "");
+
   for (const maxLength of [1, 2, 5, 8, 12]) {
     assert.ok(
       truncateText("un texte beaucoup trop long pour le budget", maxLength).length <= maxLength,
