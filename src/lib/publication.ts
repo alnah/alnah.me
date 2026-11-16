@@ -16,6 +16,28 @@ export type DatedPublication = {
   publishDate?: Date;
 };
 
+/**
+ * Latest of the given dates. Missing and invalid dates are ignored, ties keep
+ * the first known date, and an empty list resolves to undefined.
+ */
+export function latestOf(dates: Array<Date | undefined>): Date | undefined {
+  let latest: Date | undefined;
+
+  for (const date of dates) {
+    const time = date?.getTime();
+
+    if (time === undefined || Number.isNaN(time)) {
+      continue;
+    }
+
+    if (!latest || time > latest.getTime()) {
+      latest = date;
+    }
+  }
+
+  return latest;
+}
+
 export function isBefore(date: Date | undefined, now = new Date()) {
   return !date || date.getTime() <= now.getTime();
 }

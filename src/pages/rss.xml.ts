@@ -4,20 +4,18 @@ import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site.ts";
 import { getPostCategoryMeta, getPublishedPosts, resolvePostDate, resolvePublicationDate } from "../lib/content/index.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
+import { latestOf } from "../lib/publication.ts";
 import { postPath } from "../lib/site-paths.ts";
 
 export async function GET(context: APIContext) {
   const site = context.site ?? new URL(SITE.siteUrl);
   const posts = await getPublishedPosts();
   const latestBuildDate =
-    posts.reduce<Date | null>((latest, post) => {
-      const postDate = resolvePostDate(
-        resolvePublicationDate(post.data),
-        post.data.lastmod
-      );
-
-      return !latest || postDate.date > latest ? postDate.date : latest;
-    }, null) ?? new Date();
+    latestOf(
+      posts.map((post) =>
+        resolvePostDate(resolvePublicationDate(post.data), post.data.lastmod).date
+      )
+    ) ?? new Date();
 
   return rss({
     title: SITE.title,

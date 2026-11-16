@@ -1,5 +1,6 @@
 import { slugify } from "./content/format.ts";
 import { POST_CATEGORIES } from "./content/taxonomy.ts";
+import { latestOf } from "./publication.ts";
 import {
   articlesPagePath,
   categoryPath,
@@ -38,34 +39,11 @@ export function buildEmptyCategoryPaths(posts: SitemapCategorySource[]) {
   );
 }
 
-/** Latest valid date, or undefined when no usable date was provided. */
-function latestDate(dates: Array<Date | undefined>) {
-  let latest: number | undefined;
-
-  for (const date of dates) {
-    const time = date?.getTime();
-
-    if (time === undefined || Number.isNaN(time)) {
-      continue;
-    }
-
-    if (latest === undefined || time > latest) {
-      latest = time;
-    }
-  }
-
-  return latest === undefined ? undefined : new Date(latest);
-}
-
 function keepLatest(byPath: Map<string, Date>, path: string, date?: Date) {
-  if (!date) {
-    return;
-  }
+  const latest = latestOf([byPath.get(path), date]);
 
-  const current = byPath.get(path);
-
-  if (!current || date.getTime() > current.getTime()) {
-    byPath.set(path, date);
+  if (latest) {
+    byPath.set(path, latest);
   }
 }
 
@@ -88,7 +66,7 @@ export function buildSitemapMetadata(
   const postLastmods: Date[] = [];
 
   for (const post of posts) {
-    const lastmod = latestDate([post.date, post.lastmod]);
+    const lastmod = latestOf([post.date, post.lastmod]);
 
     if (!lastmod) {
       continue;
@@ -106,7 +84,7 @@ export function buildSitemapMetadata(
     }
   }
 
-  const newest = latestDate(postLastmods);
+  const newest = latestOf(postLastmods);
 
   if (newest) {
     lastmodByPath.set("/", newest);

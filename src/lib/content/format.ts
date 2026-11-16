@@ -1,3 +1,5 @@
+import { latestOf } from "../publication.ts";
+
 export function slugify(value: string) {
   return value
     .toLowerCase()
@@ -33,18 +35,13 @@ export function resolvePostDate(
   publicationDate: Date,
   lastmod?: Date
 ): PostDate {
-  if (lastmod && lastmod.getTime() > publicationDate.getTime()) {
-    return {
-      date: lastmod,
-      label: `Mis à jour le ${formatDate(lastmod)}`,
-      isUpdated: true
-    };
-  }
+  const date = latestOf([publicationDate, lastmod]) ?? publicationDate;
+  const isUpdated = date.getTime() > publicationDate.getTime();
 
   return {
-    date: publicationDate,
-    label: formatDate(publicationDate),
-    isUpdated: false
+    date,
+    label: isUpdated ? `Mis à jour le ${formatDate(date)}` : formatDate(date),
+    isUpdated
   };
 }
 

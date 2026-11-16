@@ -8,7 +8,7 @@ import {
   summarizeTags,
   type PostCategory
 } from "../src/lib/content/taxonomy.ts";
-import { isPublishedData, resolvePublicationDate } from "../src/lib/publication.ts";
+import { isPublishedData, latestOf, resolvePublicationDate } from "../src/lib/publication.ts";
 import {
   getMarkdownEntries,
   type MarkdownPostEntry
@@ -80,10 +80,7 @@ function expectedPost(entry: MarkdownPostEntry): ExpectedPost {
 
   const publicationDate = resolvePublicationDate({ ...entry.postData, date });
   const display = resolvePostDate(publicationDate, entry.postData.lastmod);
-  const lastmodTime = Math.max(
-    publicationDate.getTime(),
-    entry.postData.lastmod?.getTime() ?? 0
-  );
+  const lastmod = latestOf([publicationDate, entry.postData.lastmod]) ?? publicationDate;
 
   return {
     slug: entry.slug,
@@ -94,7 +91,7 @@ function expectedPost(entry: MarkdownPostEntry): ExpectedPost {
     tagSlugs: [...new Set(entry.tags.map(slugify))],
     date,
     publicationDate,
-    lastmod: new Date(lastmodTime),
+    lastmod,
     isUpdated: display.isUpdated,
     displayDate: display.date,
     url: postPath(entry.slug),

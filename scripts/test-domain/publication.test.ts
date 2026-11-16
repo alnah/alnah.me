@@ -4,6 +4,7 @@ import {
   isAfter,
   isBefore,
   isPublishedData,
+  latestOf,
   resolvePublicationDate
 } from "../../src/lib/publication.ts";
 
@@ -48,4 +49,16 @@ test('publication: windows and dates', () => {
     true,
     "post inside the publication window is published"
   );
+});
+
+test('publication: latest known date wins', () => {
+  const earlier = new Date("2026-01-01T00:00:00Z");
+  const later = new Date("2026-06-01T00:00:00Z");
+
+  assert.equal(latestOf([earlier, later]), later);
+  assert.equal(latestOf([later, earlier]), later);
+  assert.equal(latestOf([earlier, undefined]), earlier);
+  // Ties keep the first known date: lastmod equal to date is not an update.
+  assert.equal(latestOf([earlier, new Date(earlier)]), earlier);
+  assert.equal(latestOf([undefined, new Date("nonsense")]), undefined);
 });
