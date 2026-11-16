@@ -21,7 +21,7 @@ tags:
 
 ## L'enseignement du FLE a évolué sous l'influence du CECRL
 
-Le Cadre européen commun de référence pour les langues (CECRL) existe depuis 2001. Il a redéfini les objectifs de l'enseignement des langues en Europe, notamment le français langue étrangère (FLE). Toutefois, dans la plupart des écoles de langue, des centres de formation pour professionnels ou des plateformes d'enseignement en ligne, la grammaire sans contexte reste la norme.
+Le [Cadre européen commun de référence pour les langues (CECRL)](/articles/cecrl/) existe depuis 2001. Il a redéfini les objectifs de l'enseignement des langues en Europe, notamment le français langue étrangère (FLE). Toutefois, dans la plupart des écoles de langue, des centres de formation pour professionnels ou des plateformes d'enseignement en ligne, la grammaire sans contexte reste la norme.
 
 Pourtant, le CECRL propose une autre philosophie plus efficace :
 
