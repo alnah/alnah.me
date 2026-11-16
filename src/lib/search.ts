@@ -2,13 +2,12 @@ import {
   excerptFromMarkdown,
   formatDate,
   formatIsoDate,
-  markdownToPlainText,
-  resolvePostDate
+  markdownToPlainText
 } from "./content/format.ts";
+import { derivePostMeta } from "./content/post-meta.ts";
 import type { PostEntry } from "./content/queries.ts";
 import { getPostCategoryMeta } from "./content/taxonomy.ts";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.ts";
-import { resolvePublicationDate } from "./publication.ts";
+import { stripLeadingMarkdownTitle } from "./document-title.ts";
 import { postPath } from "./site-paths.ts";
 import {
   buildSearchFieldIndex,
@@ -71,19 +70,18 @@ function searchDateText(date: Date) {
 export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");
   const content = markdownToPlainText(contentBody);
-  const publicationDate = resolvePublicationDate(post.data);
-  const postDate = resolvePostDate(publicationDate, post.data.lastmod);
+  const meta = derivePostMeta(post);
 
   return {
-    title: resolveEntryTitle(post),
+    title: meta.title,
     description: post.data.description,
     category: getPostCategoryMeta(post.data.category).label,
     tags: post.data.tags,
     url: postPath(post.id),
-    date: formatIsoDate(publicationDate),
-    dateLabel: formatDate(publicationDate),
-    updated: postDate.isUpdated ? formatIsoDate(postDate.date) : undefined,
-    updatedLabel: postDate.isUpdated ? postDate.label : undefined,
+    date: meta.publicationIso,
+    dateLabel: formatDate(meta.publicationDate),
+    updated: meta.postDate.isUpdated ? meta.displayIso : undefined,
+    updatedLabel: meta.postDate.isUpdated ? meta.postDate.label : undefined,
     excerpt: excerptFromMarkdown(contentBody),
     content
   };

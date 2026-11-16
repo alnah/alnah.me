@@ -1,10 +1,10 @@
 import type { APIRoute } from "astro";
 import { SITE } from "../../../config/site.ts";
 import {
+  derivePostMeta,
   getPublishedPosts,
   type PostEntry
 } from "../../../lib/content/index.ts";
-import { resolveEntryTitle } from "../../../lib/document-title.ts";
 import { renderSocialImage } from "../../../lib/social-image.ts";
 
 export async function getStaticPaths() {
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ props }) => {
   const { post } = props as { post: PostEntry };
   const png = await renderSocialImage({
-    title: resolveEntryTitle(post),
+    title: derivePostMeta(post).title,
     description: post.data.description,
     authorName: SITE.author.name
   });

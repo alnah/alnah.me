@@ -2,10 +2,8 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, type PostEntry } from "../lib/content/index.ts";
-import { resolvePublicationDate } from "../lib/publication.ts";
+import { derivePostMeta, getPostCategoryMeta, type PostEntry } from "../lib/content/index.ts";
 import { buildBlogPostingSchema } from "../lib/seo.ts";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 import {
   categoryPath,
   postPath,
@@ -18,10 +16,8 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const documentTitle = resolveEntryTitle(entry);
-const readingTime = readingTimeFromMarkdown(stripLeadingMarkdownTitle(entry.body ?? ""));
-const publicationDate = resolvePublicationDate(entry.data);
-const postDate = resolvePostDate(publicationDate, entry.data.lastmod);
+const { title: documentTitle, postDate, publicationDate, readingMinutes, displayIso } =
+  derivePostMeta(entry);
 const canonicalPath = postPath(entry.id);
 const reuseUrl = rawPostPath(entry.id);
 const socialImage = postSocialImagePath(entry.id);
@@ -60,9 +56,9 @@ const schemaJson = buildBlogPostingSchema({
           <a class="category-pill" href={categoryPath(categoryMeta.slug)}>{categoryMeta.label}</a>
         </p>
         <p class="eyebrow post-meta">
-          <time datetime={formatIsoDate(postDate.date)}>{postDate.label}</time>
+          <time datetime={displayIso}>{postDate.label}</time>
           <span aria-hidden="true">·</span>
-          <span>{readingTime} min de lecture</span>
+          <span>{readingMinutes} min de lecture</span>
         </p>
       </header>
       <slot />

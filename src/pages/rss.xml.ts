@@ -2,20 +2,15 @@ import rss from "@astrojs/rss";
 import type { APIContext } from "astro";
 import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site.ts";
-import { getPostCategoryMeta, getPublishedPosts, resolvePostDate } from "../lib/content/index.ts";
-import { resolveEntryTitle } from "../lib/document-title.ts";
-import { latestOf, resolvePublicationDate } from "../lib/publication.ts";
+import { derivePostMeta, getPostCategoryMeta, getPublishedPosts } from "../lib/content/index.ts";
+import { latestOf } from "../lib/publication.ts";
 import { postPath } from "../lib/site-paths.ts";
 
 export async function GET(context: APIContext) {
   const site = context.site ?? new URL(SITE.siteUrl);
   const posts = await getPublishedPosts();
-  const latestBuildDate =
-    latestOf(
-      posts.map((post) =>
-        resolvePostDate(resolvePublicationDate(post.data), post.data.lastmod).date
-      )
-    ) ?? new Date();
+  const metas = posts.map((post) => ({ post, meta: derivePostMeta(post) }));
+  const latestBuildDate = latestOf(metas.map(({ meta }) => meta.postDate.date)) ?? new Date();
 
   return rss({
     title: SITE.title,
@@ -30,10 +25,10 @@ export async function GET(context: APIContext) {
       <generator>Astro v${astroVersion} with @astrojs/rss</generator>
       <atom:link href="${new URL("/rss.xml", site).toString()}" rel="self" type="application/rss+xml" />
     `,
-    items: posts.map((post) => ({
-      title: resolveEntryTitle(post),
+    items: metas.map(({ post, meta }) => ({
+      title: meta.title,
       description: post.data.description,
-      pubDate: resolvePublicationDate(post.data),
+      pubDate: meta.publicationDate,
       link: postPath(post.id),
       categories: [getPostCategoryMeta(post.data.category).label, ...post.data.tags],
       author: SITE.author.email

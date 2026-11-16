@@ -1,7 +1,5 @@
 ---
-import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, type PostEntry } from "../lib/content/index.ts";
-import { resolvePublicationDate } from "../lib/publication.ts";
-import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
+import { derivePostMeta, getPostCategoryMeta, type PostEntry } from "../lib/content/index.ts";
 import { categoryPath, postPath } from "../lib/site-paths.ts";
 
 interface Props {
@@ -21,8 +19,7 @@ const {
 
 <div class="post-list">
   {posts.map((post) => {
-    const publicationDate = resolvePublicationDate(post.data);
-    const postDate = resolvePostDate(publicationDate, post.data.lastmod);
+    const meta = derivePostMeta(post);
 
     return (
     <article class="post-list-item">
@@ -32,18 +29,18 @@ const {
         </a>
       </p>
       <p class="eyebrow post-list-meta">
-        <time datetime={formatIsoDate(postDate.date)}>{postDate.label}</time>
+        <time datetime={meta.displayIso}>{meta.postDate.label}</time>
         {
           showReadingTime && (
             <>
               <span aria-hidden="true">·</span>
-              <span>{readingTimeFromMarkdown(stripLeadingMarkdownTitle(post.body ?? ""))} min de lecture</span>
+              <span>{meta.readingMinutes} min de lecture</span>
             </>
           )
         }
       </p>
       <div class="post-list-copy">
-        <h3><a href={postPath(post.id)}>{resolveEntryTitle(post)}</a></h3>
+        <h3><a href={postPath(post.id)}>{meta.title}</a></h3>
         <p>{post.data.description}</p>
       </div>
     </article>
