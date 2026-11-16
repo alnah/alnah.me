@@ -79,7 +79,7 @@ Clean: `make clean`.
 
 Wrapper style: use Make wrappers, not raw Playwright CLI flags.
 
-Install browser: `make pw-install PW_BROWSER=chromium`; install a browser for screenshot helpers.
+Install browsers: `make pw-install`; installs Chromium and WebKit (UI smoke plus screenshot helpers).
 Shot URL: `make pw-shot PW_URL=http://127.0.0.1:4321/ PW_OUT=/tmp/home.png`; take a screenshot of any URL.
 Shot local: `make pw-shot-local PORT=4321 PW_PATH=/about/ PW_DEVICE='iPhone SE' PW_OUT=/tmp/about.png PW_COLOR_SCHEME=dark`; take a local screenshot with optional device emulation.
 

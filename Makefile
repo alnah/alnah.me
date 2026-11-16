@@ -9,6 +9,7 @@ NVM_SH ?= $(NVM_DIR)/nvm.sh
 HOST ?= 127.0.0.1
 PORT ?= 4321
 PW_BROWSER ?= chromium
+PW_INSTALL_BROWSERS ?= chromium webkit
 PW_DEVICE ?=
 PW_COLOR_SCHEME ?=
 PW_URL ?=
@@ -83,9 +84,9 @@ test-build: doctor ## Run the build contract checks against a fresh build
 test-ui: doctor ## Run the minimal Playwright UI smoke checks against a fresh build
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:ui
 
-pw-install: doctor ## Install the Playwright browser set used by pw-* targets (default: chromium)
+pw-install: doctor ## Install the Playwright browsers (default: chromium and webkit)
 	@[ -x node_modules/.bin/playwright ] || { echo "Playwright is not installed. Run: make install"; exit 1; }
-	@$(USE_PROJECT_NODE) $(PLAYWRIGHT) install $(PW_BROWSER)
+	@$(USE_PROJECT_NODE) $(PLAYWRIGHT) install $(PW_INSTALL_BROWSERS)
 
 pw-shot: doctor ## Capture a screenshot with Playwright (set PW_URL and optionally PW_DEVICE/PW_OUT)
 	@[ -x node_modules/.bin/playwright ] || { echo "Playwright is not installed. Run: make install"; exit 1; }
