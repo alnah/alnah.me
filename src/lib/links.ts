@@ -1,15 +1,6 @@
 /** Suffix added to the accessible name of links that open a new tab. */
 export const NEW_TAB_NOTE = " (s'ouvre dans un nouvel onglet)";
 
-/**
- * Corner-up arrow on a 24x24 viewBox: tail at the bottom left, right, rounded
- * corner, then up. Shared by the Markdown plugin and the diagram runtime.
- */
-export const EXTERNAL_LINK_ICON_PATHS = ["M10 9 15 4 20 9", "M4 20h7a4 4 0 0 0 4-4V4"] as const;
-
-/** Return arrow matching the external-link icon weight and caps. */
-export const BACKLINK_ICON_PATHS = ["M9 14 4 9l5-5", "M4 9h10a6 6 0 0 1 6 6v5"] as const;
-
 export type LinkKind = "external" | "internal" | "ignore";
 
 /**

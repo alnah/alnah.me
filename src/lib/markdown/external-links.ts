@@ -1,38 +1,16 @@
 import type { HastPluginDefinition } from "satteri";
 import { SITE } from "../../config/site.ts";
 import { EXTERNAL_ICON_CLASS, EXTERNAL_LINK_CLASS } from "../dom-hooks.ts";
-import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../links.ts";
+import { externalLinkAttributes } from "../links.ts";
+import { EXTERNAL_LINK_ICON, strokeIconHast } from "../svg-icons.ts";
 import { classList, type HastElement } from "./hast.ts";
 
 /** Decorative arrow that marks a link opening in a new tab. */
 function externalLinkIcon(): HastElement {
-  return {
-    type: "element",
-    tagName: "span",
-    properties: { className: [EXTERNAL_ICON_CLASS], ariaHidden: "true" },
-    children: [
-      {
-        type: "element",
-        tagName: "svg",
-        properties: {
-          viewBox: "0 0 24 24",
-          fill: "none",
-          stroke: "currentColor",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        },
-        children: [
-          ...EXTERNAL_LINK_ICON_PATHS.map((d) => ({
-            type: "element" as const,
-            tagName: "path",
-            properties: { d },
-            children: []
-          }))
-        ]
-      }
-    ]
-  };
+  return strokeIconHast(EXTERNAL_LINK_ICON, {
+    className: EXTERNAL_ICON_CLASS,
+    ariaHidden: true
+  });
 }
 
 /**

@@ -5,7 +5,7 @@ import {
   FOOTNOTE_LABEL_ID,
   FOOTNOTE_REF_CLASS
 } from "../dom-hooks.ts";
-import { BACKLINK_ICON_PATHS } from "../links.ts";
+import { BACKLINK_ICON, strokeIconHast } from "../svg-icons.ts";
 import { classList, type HastElement } from "./hast.ts";
 const BACKLINK_LABEL_PATTERN = /^Back to reference (.+)$/;
 
@@ -39,31 +39,10 @@ function withClasses(node: HastElement, ...classes: string[]) {
 }
 
 function backlinkIcon(): HastElement {
-  return {
-    type: "element",
-    tagName: "span",
-    properties: { className: [FOOTNOTE_ICON_CLASS], ariaHidden: "true" },
-    children: [
-      {
-        type: "element",
-        tagName: "svg",
-        properties: {
-          viewBox: "0 0 24 24",
-          fill: "none",
-          stroke: "currentColor",
-          strokeWidth: "2",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        },
-        children: BACKLINK_ICON_PATHS.map((d) => ({
-          type: "element" as const,
-          tagName: "path",
-          properties: { d },
-          children: []
-        }))
-      }
-    ]
-  };
+  return strokeIconHast(BACKLINK_ICON, {
+    className: FOOTNOTE_ICON_CLASS,
+    ariaHidden: true
+  });
 }
 
 /**

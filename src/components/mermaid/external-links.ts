@@ -3,10 +3,14 @@ import {
   EXTERNAL_ICON_CLASS,
   MERMAID_EXTERNAL_ICON_CLASS
 } from "../../lib/dom-hooks.ts";
-import { EXTERNAL_LINK_ICON_PATHS, externalLinkAttributes } from "../../lib/links.ts";
+import { externalLinkAttributes } from "../../lib/links.ts";
+import {
+  EXTERNAL_LINK_ICON,
+  strokeIconGroupDom,
+  strokeIconSvgDom
+} from "../../lib/svg-icons.ts";
 import { createTokenReader } from "./theme.ts";
 
-const SVG_NS = "http://www.w3.org/2000/svg";
 const XLINK_NS = "http://www.w3.org/1999/xlink";
 const ICON_CLASS = MERMAID_EXTERNAL_ICON_CLASS;
 const ICON_SIZE_PX = 7;
@@ -29,27 +33,12 @@ function anchorHref(anchor: Element): string | null {
   return anchor.getAttribute("href") ?? anchor.getAttributeNS(XLINK_NS, "href");
 }
 
-function iconPaths(container: SVGElement | HTMLElement): void {
-  for (const d of EXTERNAL_LINK_ICON_PATHS) {
-    const path = document.createElementNS(SVG_NS, "path");
-    path.setAttribute("d", d);
-    container.appendChild(path);
-  }
-}
-
 /** Corner-up arrow for an SVG node, before the per-diagram scale is applied. */
 function svgIcon(stroke: string): SVGGElement {
-  const group = document.createElementNS(SVG_NS, "g");
-  group.setAttribute("class", ICON_CLASS);
-  group.setAttribute("aria-hidden", "true");
-  group.setAttribute("fill", "none");
-  group.setAttribute("stroke", stroke);
-  group.setAttribute("stroke-width", "2");
-  group.setAttribute("stroke-linecap", "round");
-  group.setAttribute("stroke-linejoin", "round");
-  iconPaths(group);
-
-  return group;
+  return strokeIconGroupDom(EXTERNAL_LINK_ICON, document, {
+    className: ICON_CLASS,
+    stroke
+  });
 }
 
 /** Corner-up arrow for an HTML label, sized like the prose icon. */
@@ -57,17 +46,7 @@ function htmlIcon(): HTMLSpanElement {
   const span = document.createElement("span");
   span.className = EXTERNAL_ICON_CLASS;
   span.setAttribute("aria-hidden", "true");
-
-  const svg = document.createElementNS(SVG_NS, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("fill", "none");
-  svg.setAttribute("stroke", "currentColor");
-  svg.setAttribute("stroke-width", "2");
-  svg.setAttribute("stroke-linecap", "round");
-  svg.setAttribute("stroke-linejoin", "round");
-  iconPaths(svg);
-
-  span.appendChild(svg);
+  span.appendChild(strokeIconSvgDom(EXTERNAL_LINK_ICON, document));
 
   return span;
 }
