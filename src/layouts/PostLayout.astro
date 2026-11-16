@@ -2,7 +2,8 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "./BaseLayout.astro";
 import PostFooter from "../components/PostFooter.astro";
-import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
+import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, type PostEntry } from "../lib/content/index.ts";
+import { resolvePublicationDate } from "../lib/publication.ts";
 import { buildBlogPostingSchema } from "../lib/seo.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
 import {
