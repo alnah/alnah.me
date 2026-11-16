@@ -74,46 +74,6 @@ export function readingTimeFromMarkdown(markdown: string) {
   return readingTimeFromText(markdownToPlainText(markdown));
 }
 
-export function searchDateText(date: Date) {
-  const year = String(date.getUTCFullYear());
-  const monthNumber = String(date.getUTCMonth() + 1);
-  const paddedMonth = monthNumber.padStart(2, "0");
-  const dayNumber = String(date.getUTCDate());
-  const paddedDay = dayNumber.padStart(2, "0");
-  const shortMonth = new Intl.DateTimeFormat('fr-FR', {
-    month: 'short',
-    timeZone: 'UTC'
-  }).format(date);
-  const longMonth = new Intl.DateTimeFormat('fr-FR', {
-    month: 'long',
-    timeZone: 'UTC'
-  }).format(date);
-
-  return [
-    formatIsoDate(date),
-    formatDate(date),
-    year,
-    `${year}-${paddedMonth}`,
-    `${year}-${paddedMonth}-${paddedDay}`,
-    monthNumber,
-    paddedMonth,
-    dayNumber,
-    paddedDay,
-    shortMonth,
-    longMonth,
-    `${shortMonth} ${year}`,
-    `${longMonth} ${year}`,
-    `${shortMonth} ${dayNumber}`,
-    `${longMonth} ${dayNumber}`,
-    `${shortMonth} ${dayNumber}, ${year}`,
-    `${longMonth} ${dayNumber}, ${year}`,
-    `${paddedMonth}/${paddedDay}/${year}`,
-    `${paddedDay}/${paddedMonth}/${year}`
-  ]
-    .filter(Boolean)
-    .join(" ");
-}
-
 export function excerptFromMarkdown(markdown: string, maxLength = 180) {
   const plainText = markdownToPlainText(markdown);
 

@@ -3,8 +3,7 @@ import {
   formatDate,
   formatIsoDate,
   markdownToPlainText,
-  resolvePostDate,
-  searchDateText
+  resolvePostDate
 } from "./content/format.ts";
 import type { PostEntry } from "./content/queries.ts";
 import { getPostCategoryMeta } from "./content/taxonomy.ts";
@@ -24,6 +23,50 @@ export type {
   SearchIndexDocument
 } from "./search-ranking.ts";
 export { searchDocuments } from "./search-ranking.ts";
+
+/**
+ * Every date spelling a reader may type: ISO, French labels, parts, padded
+ * parts, so "mars 2026" or "01/03/2026" both match the date field.
+ */
+function searchDateText(date: Date) {
+  const year = String(date.getUTCFullYear());
+  const monthNumber = String(date.getUTCMonth() + 1);
+  const paddedMonth = monthNumber.padStart(2, "0");
+  const dayNumber = String(date.getUTCDate());
+  const paddedDay = dayNumber.padStart(2, "0");
+  const shortMonth = new Intl.DateTimeFormat('fr-FR', {
+    month: 'short',
+    timeZone: 'UTC'
+  }).format(date);
+  const longMonth = new Intl.DateTimeFormat('fr-FR', {
+    month: 'long',
+    timeZone: 'UTC'
+  }).format(date);
+
+  return [
+    formatIsoDate(date),
+    formatDate(date),
+    year,
+    `${year}-${paddedMonth}`,
+    `${year}-${paddedMonth}-${paddedDay}`,
+    monthNumber,
+    paddedMonth,
+    dayNumber,
+    paddedDay,
+    shortMonth,
+    longMonth,
+    `${shortMonth} ${year}`,
+    `${longMonth} ${year}`,
+    `${shortMonth} ${dayNumber}`,
+    `${longMonth} ${dayNumber}`,
+    `${shortMonth} ${dayNumber}, ${year}`,
+    `${longMonth} ${dayNumber}, ${year}`,
+    `${paddedMonth}/${paddedDay}/${year}`,
+    `${paddedDay}/${paddedMonth}/${year}`
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
 
 export function createSearchDocument(post: PostEntry): SearchDocument {
   const contentBody = stripLeadingMarkdownTitle(post.body ?? "");
