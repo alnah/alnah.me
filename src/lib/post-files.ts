@@ -55,6 +55,7 @@ function normalizePublicationData(data: RawFrontmatter): PublicationData {
   return {
     ...data,
     date: data.date ? new Date(String(data.date)) : undefined,
+    lastmod: data.lastmod ? new Date(String(data.lastmod)) : undefined,
     publishDate: data.publishDate ? new Date(String(data.publishDate)) : undefined,
     expiryDate: data.expiryDate ? new Date(String(data.expiryDate)) : undefined
   };

@@ -4,6 +4,7 @@
  */
 export type PublicationData = {
   date?: Date;
+  lastmod?: Date;
   publishDate?: Date;
   expiryDate?: Date;
   draft?: boolean;

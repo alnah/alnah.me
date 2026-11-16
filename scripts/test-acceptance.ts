@@ -272,6 +272,24 @@ assert.ok(
   sitemapUrls.includes("https://alnah.me/categories/enseigner/"),
   "sitemap must advertise populated categories"
 );
+
+const sitemapEntries = [...sitemapXml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(
+  (match) => match[1]
+);
+const cecrlEntry = sitemapEntries.find((entry) =>
+  entry.includes("<loc>https://alnah.me/articles/cecrl/</loc>")
+);
+assert.ok(cecrlEntry, "sitemap should list the cecrl post");
+assertIncludes(
+  cecrlEntry,
+  `<lastmod>${new Date("2026-11-15T00:00:00Z").toISOString()}</lastmod>`,
+  "sitemap lastmod uses the post lastmod"
+);
+for (const entry of sitemapEntries) {
+  if (entry.includes("<loc>https://alnah.me/articles/")) {
+    assertIncludes(entry, "<lastmod>", "every listed post carries a lastmod");
+  }
+}
 assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");
 assertIncludes(license, "LICENSES/BSD-3-Clause.txt", "LICENSE BSD pointer");
 assertIncludes(license, "LICENSES/CC-BY-4.0.txt", "LICENSE CC pointer");
