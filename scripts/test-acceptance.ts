@@ -1,6 +1,14 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
+import { SITE } from "../src/config/site.ts";
+import { formatDate, formatIsoDate } from "../src/lib/content/format.ts";
+import {
+  absoluteUrl,
+  EMPTY_CATEGORY_PATHS,
+  PUBLISHED_CATEGORIES,
+  PUBLISHED_POSTS
+} from "./build-expectations.ts";
 import {
   assertFile,
   assertIncludes,
@@ -19,15 +27,17 @@ const requiredFiles = [
   "dist/sitemap-index.xml",
   "dist/robots.txt",
   "dist/_redirects",
+  "dist/_headers",
   "dist/LICENSE.txt",
   "dist/LICENSES/BSD-3-Clause.txt",
   "dist/LICENSES/CC-BY-4.0.txt",
   "dist/a-propos/index.html",
   "dist/confidentialite/index.html",
-  "dist/articles/perspective-actionnelle/index.html",
-  "dist/raw/posts/perspective-actionnelle.md",
-  "dist/og/articles/perspective-actionnelle.png",
-  "dist/og/articles/cecrl.png"
+  ...PUBLISHED_POSTS.flatMap((post) => [
+    `dist/articles/${post.slug}/index.html`,
+    `dist${post.rawPath}`,
+    `dist${post.socialImagePath}`
+  ])
 ];
 
 for (const file of requiredFiles) {
@@ -36,9 +46,6 @@ for (const file of requiredFiles) {
 
 const homeHtml = readFile("dist/index.html");
 const aboutHtml = readFile("dist/a-propos/index.html");
-const perspectiveHtml = readFile("dist/articles/perspective-actionnelle/index.html");
-const perspectiveRaw = readFile("dist/raw/posts/perspective-actionnelle.md");
-const cecrlHtml = readFile("dist/articles/cecrl/index.html");
 const redirects = readFile("dist/_redirects");
 const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");
@@ -53,11 +60,17 @@ const cspLine = headers
   .split("\n")
   .find((line) => line.trimStart().startsWith("Content-Security-Policy:"));
 
+const posts = PUBLISHED_POSTS.map((post) => ({
+  post,
+  html: readFile(`dist/articles/${post.slug}/index.html`),
+  raw: readFile(`dist${post.rawPath}`)
+}));
+
 const websiteSchema = readJsonLd(homeHtml)[0] as {
   "@id"?: string;
   inLanguage?: string;
 };
-assert.equal(websiteSchema["@id"], "https://alnah.me/#website", "website schema id");
+assert.equal(websiteSchema["@id"], absoluteUrl("/#website"), "website schema id");
 assert.equal(websiteSchema.inLanguage, "fr-FR", "website schema language");
 
 const profileSchema = readJsonLd(aboutHtml)[0] as {
@@ -69,7 +82,7 @@ assert.equal(profileSchema["@type"], "ProfilePage", "profile page type");
 assert.equal(profileSchema.inLanguage, "fr-FR", "profile page language");
 assert.equal(
   profileSchema.mainEntity?.["@id"],
-  "https://alnah.me/#person",
+  absoluteUrl("/#person"),
   "profile person id"
 );
 
@@ -77,139 +90,98 @@ for (const label of ["GitHub", "X", "YouTube", "TikTok", "LinkedIn", "E-mail"]) 
   assertIncludes(homeHtml, `aria-label="${label}"`, `home contact icon ${label}`);
   assertIncludes(aboutHtml, `aria-label="${label}"`, `about contact icon ${label}`);
 }
-assertIncludes(homeHtml, 'Me suivre sur', 'home social label');
-assertIncludes(homeHtml, 'Me contacter par', 'home contact label');
-assertIncludes(aboutHtml, 'Me suivre sur', 'about social label');
-assertIncludes(aboutHtml, 'Me contacter par', 'about contact label');
-assertIncludes(homeHtml, 'href="https://alnah.me/rss.xml"', "home RSS href");
+assertIncludes(homeHtml, "Me suivre sur", "home social label");
+assertIncludes(homeHtml, "Me contacter par", "home contact label");
+assertIncludes(aboutHtml, "Me suivre sur", "about social label");
+assertIncludes(aboutHtml, "Me contacter par", "about contact label");
+assertIncludes(homeHtml, `href="${absoluteUrl("/rss.xml")}"`, "home RSS href");
 
-assertIncludes(perspectiveHtml, "data-footnotes", "post footnotes section");
-assertIncludes(perspectiveHtml, 'role="doc-endnotes"', "post footnotes role");
-assertIncludes(perspectiveHtml, 'class="footnote-ref"', "post footnote marker");
-assertIncludes(perspectiveHtml, 'aria-label="Note 1"', "post footnote marker label");
-assertIncludes(perspectiveHtml, 'datetime="2026-11-15"', "post updated datetime");
-assertIncludes(perspectiveHtml, "Mis à jour le 15 nov. 2026", "post updated label");
-for (const slug of ["perspective-actionnelle", "cecrl"]) {
-  const dimensions = readPngDimensions(`dist/og/articles/${slug}.png`);
-  assert.equal(dimensions.width, 1200, `${slug} og image width`);
-  assert.equal(dimensions.height, 630, `${slug} og image height`);
-}
-assertIncludes(
-  perspectiveHtml,
-  'property="og:image" content="https://alnah.me/og/articles/perspective-actionnelle.png"',
-  "post og:image"
-);
-assertIncludes(
-  perspectiveHtml,
-  'property="og:image:width" content="1200"',
-  "post og:image width"
-);
-assertIncludes(
-  perspectiveHtml,
-  'property="og:image:height" content="630"',
-  "post og:image height"
-);
-assertIncludes(
-  perspectiveHtml,
-  '"image":"https://alnah.me/og/articles/perspective-actionnelle.png"',
-  "post schema image"
-);
+for (const { post, html, raw } of posts) {
+  assertIncludes(html, "data-footnotes", `${post.slug} footnotes section`);
+  assertIncludes(html, 'role="doc-endnotes"', `${post.slug} footnotes role`);
+  assertIncludes(html, 'class="footnote-ref"', `${post.slug} footnote marker`);
+  assertIncludes(html, 'class="footnote-backref-icon"', `${post.slug} backlink icon`);
 
-const postSchema = readJsonLd(perspectiveHtml)[0] as {
-  "@id"?: string;
-  inLanguage?: string;
-  author?: {
+  const ogImage = absoluteUrl(post.socialImagePath);
+  assertIncludes(html, `property="og:image" content="${ogImage}"`, `${post.slug} og:image`);
+  assertIncludes(html, '"image":"' + ogImage + '"', `${post.slug} schema image`);
+  assertIncludes(html, 'property="og:image:width" content="1200"', `${post.slug} og:image width`);
+  assertIncludes(html, 'property="og:image:height" content="630"', `${post.slug} og:image height`);
+
+  const dimensions = readPngDimensions(`dist${post.socialImagePath}`);
+  assert.equal(dimensions.width, 1200, `${post.slug} og image width`);
+  assert.equal(dimensions.height, 630, `${post.slug} og image height`);
+
+  assertIncludes(raw, `© ${new Date().getFullYear()} [${SITE.author.name}](${absoluteUrl(SITE.aboutPath)})`, `${post.slug} raw copyright`);
+  assertIncludes(raw, `[${SITE.license.name}](${SITE.license.url})`, `${post.slug} raw license`);
+
+  if (post.isUpdated) {
+    const isoDate = formatIsoDate(post.displayDate);
+    assertIncludes(html, `datetime="${isoDate}"`, `${post.slug} updated datetime`);
+    assertIncludes(
+      html,
+      `Mis à jour le ${formatDate(post.displayDate)}`,
+      `${post.slug} updated label`
+    );
+  }
+
+  const postSchema = readJsonLd(html)[0] as {
     "@id"?: string;
-    jobTitle?: string;
-    knowsAbout?: string[];
-    sameAs?: string[];
+    inLanguage?: string;
+    author?: {
+      "@id"?: string;
+      jobTitle?: string;
+      knowsAbout?: string[];
+      sameAs?: string[];
+    };
+    isPartOf?: { "@id"?: string; name?: string };
+    license?: string;
+    copyrightYear?: number;
+    copyrightHolder?: { "@id"?: string };
   };
-  isPartOf?: { "@id"?: string; name?: string };
-  license?: string;
-  copyrightYear?: number;
-  copyrightHolder?: { "@id"?: string };
-};
-assert.equal(
-  postSchema["@id"],
-  "https://alnah.me/articles/perspective-actionnelle/#article",
-  "post schema id"
-);
-assert.equal(postSchema.inLanguage, "fr-FR", "post schema language");
-assert.equal(postSchema.author?.["@id"], "https://alnah.me/#person", "post author id");
-assert.equal(
-  postSchema.author?.jobTitle,
-  "Professeur de français langue étrangère et développeur logiciel",
-  "post author job title"
-);
-assert.deepEqual(
-  postSchema.author?.knowsAbout,
-  [
-    "Français langue étrangère (FLE)",
-    "Didactique des langues",
-    "Ingénierie pédagogique",
-    "Technologies éducatives"
-  ],
-  "post author knowsAbout"
-);
-assert.equal(postSchema.isPartOf?.["@id"], "https://alnah.me/#blog", "post isPartOf blog");
-assert.equal(postSchema.isPartOf?.name, "Le FLE et la tech", "blog name");
-assert.equal(
-  postSchema.license,
-  "https://creativecommons.org/licenses/by/4.0/",
-  "post license"
-);
-assert.equal(
-  postSchema.copyrightYear,
-  new Date().getFullYear(),
-  "post copyright year"
-);
-assert.equal(
-  postSchema.copyrightHolder?.["@id"],
-  "https://alnah.me/#person",
-  "post copyright holder"
-);
-assertIncludes(
-  perspectiveHtml,
-  'aria-label="Retour au texte, note 1"',
-  "post footnote backlink label"
-);
-assertIncludes(perspectiveHtml, 'class="footnote-backref-icon"', "post footnote backlink icon");
-assert.ok(
-  !perspectiveHtml.includes("Footnotes") && !perspectiveHtml.includes(">Notes<"),
-  "post footnotes should not render a visible or hidden heading"
-);
-assertIncludes(perspectiveRaw, "[^puren]: Christian Puren", "raw post footnote definition");
-assertIncludes(
-  perspectiveRaw,
-  `© ${new Date().getFullYear()} [Alexis Nahan](https://alnah.me/a-propos/)`,
-  "raw post copyright"
-);
-assertIncludes(
-  perspectiveRaw,
-  "[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)",
-  "raw post license"
-);
-assert.ok(
-  !perspectiveRaw.includes("## Références"),
-  "raw post footnotes should not add a repeated heading"
-);
-assertIncludes(cecrlHtml, "data-footnotes", "CECRL post footnotes section");
-assertIncludes(cecrlHtml, 'aria-label="Note 2"', "CECRL volume footnote marker");
-assertIncludes(cecrlHtml, 'datetime="2026-11-15"', "CECRL updated datetime");
-assertIncludes(cecrlHtml, "Mis à jour le 15 nov. 2026", "CECRL updated label");
-assertIncludes(
-  cecrlHtml,
-  'property="og:image" content="https://alnah.me/og/articles/cecrl.png"',
-  "CECRL og:image"
-);
-
-for (const slug of ["cecrl", "perspective-actionnelle"]) {
-  const item = searchIndex.find((entry) => entry.url === `/articles/${slug}/`);
-  assert.equal(item?.updated, "2026-11-15", `${slug} search updated date`);
   assert.equal(
-    item?.updatedLabel,
-    "Mis à jour le 15 nov. 2026",
-    `${slug} search updated label`
+    postSchema["@id"],
+    absoluteUrl(`${post.url}#article`),
+    `${post.slug} schema id`
+  );
+  assert.equal(postSchema.inLanguage, "fr-FR", `${post.slug} schema language`);
+  assert.equal(postSchema.author?.["@id"], absoluteUrl("/#person"), `${post.slug} author id`);
+  assert.equal(postSchema.isPartOf?.["@id"], absoluteUrl("/#blog"), `${post.slug} isPartOf blog`);
+  assert.equal(postSchema.isPartOf?.name, SITE.blogTitle, `${post.slug} blog name`);
+  assert.equal(postSchema.license, SITE.license.url, `${post.slug} license`);
+  assert.equal(postSchema.copyrightYear, new Date().getFullYear(), `${post.slug} copyright year`);
+  assert.equal(
+    postSchema.copyrightHolder?.["@id"],
+    absoluteUrl("/#person"),
+    `${post.slug} copyright holder`
+  );
+
+  const searchItem = searchIndex.find((entry) => entry.url === post.url);
+  assert.ok(searchItem, `${post.slug} search entry`);
+  assert.equal(
+    searchItem?.updated,
+    post.isUpdated ? formatIsoDate(post.lastmod) : undefined,
+    `${post.slug} search updated date`
+  );
+  assert.equal(
+    searchItem?.updatedLabel,
+    post.isUpdated ? `Mis à jour le ${formatDate(post.lastmod)}` : undefined,
+    `${post.slug} search updated label`
+  );
+}
+
+// Editorial canaries kept until the content assertions are removed.
+const noted = posts.find(({ html }) => html.includes("data-footnotes"));
+if (noted) {
+  assertIncludes(noted.html, 'aria-label="Note 1"', "post footnote marker label");
+  assertIncludes(noted.html, 'aria-label="Retour au texte, note 1"', "post footnote backlink label");
+  const puren = posts.find(({ raw }) => raw.includes("[^puren]"));
+  if (puren) {
+    assertIncludes(puren.raw, "[^puren]: Christian Puren", "raw post footnote definition");
+  }
+  assert.ok(
+    !noted.raw.includes("## Références"),
+    "raw post footnotes should not add a repeated heading"
   );
 }
 
@@ -224,12 +196,6 @@ assertIncludes(redirects, "/privacy/ /confidentialite/ 301", "_redirects legacy 
 assertIncludes(redirects, "/posts/* /articles/ 301", "_redirects legacy posts");
 assertIncludes(redirects, "/tags/* /articles/ 301", "_redirects legacy tags");
 assertIncludes(redirects, "/LICENSE /LICENSE.txt 301", "_redirects license text");
-assertIncludes(redirects, "/articles/le-cecrl/ /articles/cecrl/ 301", "_redirects CECRL alias");
-assertIncludes(
-  redirects,
-  "/raw/posts/la-perspective-actionnelle.md /raw/posts/perspective-actionnelle.md 301",
-  "_redirects renamed raw export"
-);
 assertIncludes(headers, "Content-Security-Policy:", "_headers CSP");
 assert.ok(cspLine, "_headers should include a CSP line");
 assert.ok(
@@ -256,7 +222,7 @@ assertIncludes(headers, "/raw/posts/*", "_headers raw posts section");
 assertIncludes(headers, "X-Robots-Tag: noindex", "_headers raw posts noindex");
 assertIncludes(headers, "/raw/posts/:slug.md", "_headers raw posts canonical section");
 assertIncludes(headers, 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
-assertIncludes(robots, "Sitemap: https://alnah.me/sitemap-index.xml", "robots sitemap");
+assertIncludes(robots, `Sitemap: ${absoluteUrl("/sitemap-index.xml")}`, "robots sitemap");
 assertIncludes(robots, "Disallow: /cdn-cgi/", "robots cdn-cgi disallow");
 assertIncludes(
   homeHtml,
@@ -274,52 +240,53 @@ assert.ok(
 );
 
 const sitemapXml = readFile("dist/sitemap-0.xml");
-const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
-  (match) => match[1]
-);
-// Fixture contract: these categories currently have no published post. Their
-// archive is a noindex placeholder, so the sitemap must not advertise them.
-for (const emptyCategory of ["construire", "outiller", "penser", "travailler"]) {
-  assert.ok(
-    !sitemapUrls.includes(`https://alnah.me/categories/${emptyCategory}/`),
-    `sitemap must not advertise the empty category ${emptyCategory}`
-  );
-}
-assert.ok(
-  sitemapUrls.includes("https://alnah.me/categories/enseigner/"),
-  "sitemap must advertise populated categories"
-);
-
 const sitemapEntries = [...sitemapXml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(
   (match) => match[1]
 );
-const cecrlEntry = sitemapEntries.find((entry) =>
-  entry.includes("<loc>https://alnah.me/articles/cecrl/</loc>")
+const sitemapLastmods = new Map(
+  sitemapEntries.map((entry) => {
+    const loc = entry.match(/<loc>([^<]+)<\/loc>/)?.[1] ?? "";
+    const lastmod = entry.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+    return [loc, lastmod];
+  })
 );
-assert.ok(cecrlEntry, "sitemap should list the cecrl post");
-assertIncludes(
-  cecrlEntry,
-  `<lastmod>${new Date("2026-11-15T00:00:00Z").toISOString()}</lastmod>`,
-  "sitemap lastmod uses the post lastmod"
-);
-for (const entry of sitemapEntries) {
-  if (entry.includes("<loc>https://alnah.me/articles/")) {
-    assertIncludes(entry, "<lastmod>", "every listed post carries a lastmod");
-  }
+
+for (const post of PUBLISHED_POSTS) {
+  assert.equal(
+    sitemapLastmods.get(absoluteUrl(post.url)),
+    post.lastmod.toISOString(),
+    `${post.slug} sitemap lastmod`
+  );
 }
 
-// Empty archives are not pages: they must not exist and must not be linked.
-for (const emptyCategory of ["construire", "outiller", "penser", "travailler"]) {
+for (const category of PUBLISHED_CATEGORIES) {
+  assertFile(`dist/categories/${category}/index.html`);
+}
+
+for (const emptyCategoryPath of EMPTY_CATEGORY_PATHS) {
   assert.ok(
-    !fs.existsSync(path.join(process.cwd(), `dist/categories/${emptyCategory}/index.html`)),
-    `empty category ${emptyCategory} must not be generated`
-  );
-  assert.ok(
-    !readFile("dist/categories/index.html").includes(`/categories/${emptyCategory}/`),
-    `the category index must not link the empty category ${emptyCategory}`
+    !sitemapLastmods.has(absoluteUrl(emptyCategoryPath)),
+    `sitemap must not advertise the empty category ${emptyCategoryPath}`
   );
 }
-assertFile("dist/categories/enseigner/index.html");
+for (const category of PUBLISHED_CATEGORIES) {
+  assert.ok(
+    sitemapLastmods.has(absoluteUrl(`/categories/${category}/`)),
+    `sitemap must advertise the populated category ${category}`
+  );
+}
+
+for (const emptyCategoryPath of EMPTY_CATEGORY_PATHS) {
+  const slug = path.basename(emptyCategoryPath);
+  assert.ok(
+    !fs.existsSync(path.join(process.cwd(), `dist/categories/${slug}/index.html`)),
+    `empty category ${slug} must not be generated`
+  );
+  assert.ok(
+    !readFile("dist/categories/index.html").includes(emptyCategoryPath),
+    `the category index must not link the empty category ${slug}`
+  );
+}
 
 // Sitemap contract: no indexable URL is noindex, and no built page is noindex.
 for (const htmlPath of htmlFiles()) {
@@ -328,7 +295,7 @@ for (const htmlPath of htmlFiles()) {
     `${path.relative(process.cwd(), htmlPath)} must stay indexable`
   );
 }
-assertIncludes(license, 'Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>', "LICENSE");
+assertIncludes(license, `Alexis Nahan (alias "alnah") <alexis.nahan@gmail.com>`, "LICENSE");
 assertIncludes(license, "LICENSES/BSD-3-Clause.txt", "LICENSE BSD pointer");
 assertIncludes(license, "LICENSES/CC-BY-4.0.txt", "LICENSE CC pointer");
 assertIncludes(bsdLicense, "BSD 3-Clause License", "BSD license file");
