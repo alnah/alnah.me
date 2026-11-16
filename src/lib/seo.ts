@@ -12,7 +12,7 @@ const IN_LANGUAGE = "fr-FR";
 
 export * from "./seo-meta.ts";
 
-interface BlogPostingInput {
+type BlogPostingInput = {
   canonicalUrl: string;
   category?: string;
   datePublished: Date;
@@ -21,7 +21,7 @@ interface BlogPostingInput {
   image?: string;
   tags?: string[];
   title: string;
-}
+};
 
 function resolvePersonSameAs() {
   return SITE.contacts

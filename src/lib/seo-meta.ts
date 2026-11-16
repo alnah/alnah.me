@@ -1,7 +1,7 @@
 import { SITE } from "../config/site.ts";
 import { postPath } from "./site-paths.ts";
 
-export interface SeoInput {
+export type SeoInput = {
   canonicalPath: string;
   description: string;
   image?: string;
@@ -9,7 +9,7 @@ export interface SeoInput {
   imageHeight?: number;
   title?: string;
   type?: "article" | "website";
-}
+};
 
 export function pageTitle(title?: string) {
   const suffix = ` - ${SITE.title}`;
