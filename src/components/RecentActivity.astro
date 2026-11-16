@@ -1,0 +1,58 @@
+---
+import type { RecentActivityItem } from "../lib/github-types.ts";
+import { formatEventDate } from "../lib/github-view.ts";
+
+interface Props {
+  items: RecentActivityItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="activity-subsection">
+  <div class="eyebrow">Activité publique récente</div>
+  <ul class="activity-list">
+    {items.map((item) => (
+      <li>
+        <span class="event-date">{formatEventDate(item.date)}</span>
+        {
+          item.url ? (
+            <a href={item.url} target="_blank" rel="noreferrer">{item.summary}</a>
+          ) : (
+            <span>{item.summary}</span>
+          )
+        }
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .activity-subsection {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .activity-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .activity-list li {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .activity-list a {
+    text-decoration: none;
+  }
+
+  .event-date {
+    font-family: var(--font-body);
+    font-size: var(--font-size-compact-sm);
+    color: var(--color-text-muted);
+  }
+</style>
