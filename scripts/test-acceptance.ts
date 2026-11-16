@@ -20,6 +20,20 @@ import {
   readPngDimensions
 } from "./test-helpers.ts";
 
+/** Typographic punctuation and whitespace must not decide a text comparison. */
+function normalizeText(value: string) {
+  return value
+    .replace(/[\u2018\u2019\u02BC]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u00A0\u202F]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function textOf(html: string) {
+  return normalizeText(html.replace(/<[^>]+>/g, " ").replace(/&[a-z]+;/g, " "));
+}
+
 const requiredFiles = [
   "dist/index.html",
   "dist/index.json",
@@ -170,6 +184,50 @@ for (const { post, html, raw } of posts) {
     post.isUpdated ? `Mis à jour le ${formatDate(post.lastmod)}` : undefined,
     `${post.slug} search updated label`
   );
+}
+
+
+// Canaries: every published post must render its title and a real body, and
+// every footnote reference must resolve to a note in the same page.
+for (const { post, html } of posts) {
+  const h1 = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/)?.[1] ?? "";
+  assert.equal(textOf(h1), normalizeText(post.title), `${post.slug} renders its title`);
+
+  const article = html.match(/<article[^>]*>([\s\S]*?)<\/article>/)?.[1] ?? "";
+  assert.ok(
+    textOf(article).split(" ").filter(Boolean).length >= 100,
+    `${post.slug} renders a non-empty body`
+  );
+
+  const notes = html.match(/<section[^>]*data-footnotes[\s\S]*?<\/section>/)?.[0] ?? "";
+  const noteIds = new Set(
+    [...notes.matchAll(/id="([^"]+)"/g)].map((match) => match[1])
+  );
+  const refs = [...html.matchAll(/<a[^>]*data-footnote-ref[^>]*>/g)].map(
+    (match) => match[0]
+  );
+
+  if (notes) {
+    assert.ok(refs.length > 0, `${post.slug} renders footnote references`);
+
+    for (const ref of refs) {
+      const target = ref.match(/href="#([^"]+)"/)?.[1];
+      assert.ok(
+        target && noteIds.has(target),
+        `${post.slug} footnote reference resolves`
+      );
+    }
+
+    for (const backref of notes.matchAll(/<a[^>]*data-footnote-backref[^>]*>/g)) {
+      const target = backref[0].match(/href="#([^"]+)"/)?.[1];
+      assert.ok(
+        target && new RegExp(`id="${target}"`).test(html),
+        `${post.slug} footnote backlink resolves`
+      );
+    }
+  } else {
+    assert.equal(refs.length, 0, `${post.slug} renders no dangling footnote reference`);
+  }
 }
 
 assert.ok(
