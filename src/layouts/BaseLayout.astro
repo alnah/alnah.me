@@ -62,6 +62,7 @@ const isHomePage = canonicalPath === "/";
     <meta name="license" content={SITE.license.name} />
     <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
     <link rel="canonical" href={seo.canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link
       rel="alternate"

@@ -36,3 +36,16 @@ available; otherwise the section is hidden.
   when neither `GITHUB_TOKEN` nor `GH_TOKEN` is set, and never write it to disk.
 - Alternatively, copy `.env.example` to `.env` and set `GITHUB_TOKEN`. Astro
   loads it into `process.env` for `dev` and `build`.
+
+## Sitemaps
+
+`@astrojs/sitemap` emits `sitemap-index.xml` and `sitemap-0.xml`. `robots.txt`
+and the `<link rel="sitemap">` tag point to the index. `/sitemap.xml` is
+intentionally not aliased: no crawler needs it, and a redirect or a second file
+would add a second source of truth.
+
+The sitemap only lists URLs that are 200, canonical, and indexable:
+
+- empty category archives are excluded (`src/lib/sitemap.ts`);
+- `lastmod` comes from the post frontmatter (`lastmod`, else `date`), never from
+  the build; archive URLs inherit the newest date of the posts they list.

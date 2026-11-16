@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
 import {
   assertFile,
   assertIncludes,
@@ -255,6 +257,15 @@ assertIncludes(headers, "/raw/posts/:slug.md", "_headers raw posts canonical sec
 assertIncludes(headers, 'Link: </articles/:slug/>; rel="canonical"', "_headers raw canonical link");
 assertIncludes(robots, "Sitemap: https://alnah.me/sitemap-index.xml", "robots sitemap");
 assertIncludes(robots, "Disallow: /cdn-cgi/", "robots cdn-cgi disallow");
+assertIncludes(
+  homeHtml,
+  '<link rel="sitemap" href="/sitemap-index.xml">',
+  "head sitemap link"
+);
+assert.ok(
+  !fs.existsSync(path.join(process.cwd(), "dist/sitemap.xml")),
+  "/sitemap.xml stays unaliased: the index is the single sitemap entrypoint"
+);
 
 const sitemapXml = readFile("dist/sitemap-0.xml");
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
