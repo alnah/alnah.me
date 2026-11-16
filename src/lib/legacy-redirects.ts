@@ -39,6 +39,28 @@ export function isSplatRedirect(from: string): boolean {
 }
 
 /**
+ * Astro treats `/path` and `/path/` as one route, so a redirect map cannot
+ * carry both spellings. Keep the first one; `_redirects` keeps both for
+ * Cloudflare, which matches them separately.
+ */
+export function dedupeRedirects(
+  redirects: Array<[string, string]>
+): Array<[string, string]> {
+  const seen = new Set<string>();
+
+  return redirects.filter(([from]) => {
+    const key = from.length > 1 ? from.replace(/\/+$/, "") : from;
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
+}
+
+/**
  * A retired category alias must not chain into an archive that does not exist
  * yet. While the category is empty, it lands on the category index instead.
  */

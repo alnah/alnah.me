@@ -1,7 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { buildAliasRedirects, buildRawAliasRedirects } from "../../src/lib/post-files.ts";
-import { buildLegacyRedirectLines } from "../../src/lib/legacy-redirects.ts";
+import {
+  buildLegacyRedirectLines,
+  dedupeRedirects,
+  legacyRedirectTargets
+} from "../../src/lib/legacy-redirects.ts";
 import { normalizeAlias } from "../../src/lib/aliases.ts";
 
 /** Alias redirects and the raw export redirects derived from them. */
@@ -21,6 +25,34 @@ test('redirects: aliases and legacy paths', () => {
   assert.ok(
     buildLegacyRedirectLines().includes("/sitemap.xml /sitemap-index.xml 301"),
     "the conventional sitemap path redirects to the index"
+  );
+  assert.deepEqual(
+    dedupeRedirects([
+      ["/about", "/a-propos/"],
+      ["/about/", "/a-propos/"],
+      ["/posts", "/articles/"],
+      ["/posts/", "/articles/"]
+    ]),
+    [
+      ["/about", "/a-propos/"],
+      ["/posts", "/articles/"]
+    ],
+    "Astro gets one spelling per route"
+  );
+  const dedupedLegacy = dedupeRedirects(legacyRedirectTargets(["outiller"]));
+  assert.equal(
+    new Set(dedupedLegacy.map(([from]) => from.replace(/\/+$/, ""))).size,
+    dedupedLegacy.length,
+    "Astro legacy redirects have one spelling per route"
+  );
+  assert.ok(
+    dedupedLegacy.some(([from]) => from === "/categories/outils"),
+    "the slashless legacy spelling is kept"
+  );
+  assert.ok(
+    buildLegacyRedirectLines().includes("/about /a-propos/ 301") &&
+      buildLegacyRedirectLines().includes("/about/ /a-propos/ 301"),
+    "Cloudflare still receives both legacy spellings"
   );
   assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/", "alias normalization adds slashes");
   assert.throws(() => normalizeAlias("../bad"), /Invalid alias path/, "parent traversal is rejected");
