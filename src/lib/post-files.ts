@@ -1,8 +1,9 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { canonicalPostPath, normalizeAlias } from "./aliases.ts";
+import { normalizeAlias } from "./aliases.ts";
 import { isErrnoException } from "./errno.ts";
+import { postPath, postSlugFromPath, rawPostPath } from "./site-paths.ts";
 import { isPublishedData, type PublicationData } from "./publication.ts";
 
 type RawFrontmatter = Record<string, unknown>;
@@ -117,7 +118,7 @@ export function buildAliasRedirects(
   const aliases = new Map<string, string>();
 
   for (const entry of entries) {
-    const canonicalTarget = canonicalPostPath(entry.slug);
+    const canonicalTarget = postPath(entry.slug);
 
     for (const rawAlias of entry.aliases) {
       const alias = typeof rawAlias === "string" ? normalizeAlias(rawAlias) : "";
@@ -148,14 +149,14 @@ export function buildRawAliasRedirects(
   const rawRedirects: Array<[string, string]> = [];
 
   for (const [alias, target] of aliasRedirects) {
-    const aliasSlug = alias.match(/^\/articles\/([^/]+)\/$/)?.[1];
-    const targetSlug = target.match(/^\/articles\/([^/]+)\/$/)?.[1];
+    const aliasSlug = postSlugFromPath(alias);
+    const targetSlug = postSlugFromPath(target);
 
     if (!aliasSlug || !targetSlug || aliasSlug === targetSlug) {
       continue;
     }
 
-    rawRedirects.push([`/raw/posts/${aliasSlug}.md`, `/raw/posts/${targetSlug}.md`]);
+    rawRedirects.push([rawPostPath(aliasSlug), rawPostPath(targetSlug)]);
   }
 
   return rawRedirects;

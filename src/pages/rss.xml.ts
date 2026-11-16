@@ -4,6 +4,7 @@ import { version as astroVersion } from "astro/package.json";
 import { SITE } from "../config/site.ts";
 import { getPostCategoryMeta, getPublishedPosts, resolvePostDate, resolvePublicationDate } from "../lib/content/index.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
+import { postPath } from "../lib/site-paths.ts";
 
 export async function GET(context: APIContext) {
   const site = context.site ?? new URL(SITE.siteUrl);
@@ -35,7 +36,7 @@ export async function GET(context: APIContext) {
       title: resolveEntryTitle(post),
       description: post.data.description,
       pubDate: resolvePublicationDate(post.data),
-      link: `/articles/${post.id}/`,
+      link: postPath(post.id),
       categories: [getPostCategoryMeta(post.data.category).label, ...post.data.tags],
       author: SITE.author.email
     }))

@@ -24,7 +24,3 @@ export function normalizeAlias(alias: string) {
 
   return normalized;
 }
-
-export function canonicalPostPath(slug: string) {
-  return `/articles/${slug}/`;
-}

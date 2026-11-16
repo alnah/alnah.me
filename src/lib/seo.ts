@@ -2,11 +2,12 @@ import profileImage from "../assets/profile.jpeg";
 import { SITE, SOCIAL_CONTACT_IDS } from "../config/site.ts";
 import { serializeJsonForHtmlScript } from "./script-safe.ts";
 import { absoluteUrl } from "./seo-meta.ts";
+import { POSTS_INDEX_PATH } from "./site-paths.ts";
 
 const PERSON_ID = absoluteUrl("/#person");
 const WEBSITE_ID = absoluteUrl("/#website");
 const BLOG_ID = absoluteUrl("/#blog");
-const BLOG_URL = absoluteUrl("/articles/");
+const BLOG_URL = absoluteUrl(POSTS_INDEX_PATH);
 const IN_LANGUAGE = "fr-FR";
 
 export * from "./seo-meta.ts";

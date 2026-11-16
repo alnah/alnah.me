@@ -10,6 +10,7 @@ import type { PostEntry } from "./content/queries.ts";
 import { getPostCategoryMeta } from "./content/taxonomy.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "./document-title.ts";
 import { resolvePublicationDate } from "./publication.ts";
+import { postPath } from "./site-paths.ts";
 import {
   buildSearchFieldIndex,
   type SearchDocument,
@@ -35,7 +36,7 @@ export function createSearchDocument(post: PostEntry): SearchDocument {
     description: post.data.description,
     category: getPostCategoryMeta(post.data.category).label,
     tags: post.data.tags,
-    url: `/articles/${post.id}/`,
+    url: postPath(post.id),
     date: formatIsoDate(publicationDate),
     dateLabel: formatDate(publicationDate),
     updated: postDate.isUpdated ? formatIsoDate(postDate.date) : undefined,

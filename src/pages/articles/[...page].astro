@@ -5,6 +5,7 @@ import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import { SITE } from "../../config/site.ts";
 import { getPublishedPosts, type PostEntry } from "../../lib/content/index.ts";
+import { CATEGORIES_INDEX_PATH } from "../../lib/site-paths.ts";
 
 type ArchivePage = {
   data: PostEntry[];
@@ -56,7 +57,7 @@ const { page } = Astro.props as { page: ArchivePage };
       title="Archives des articles"
       description="Vous pouvez parcourir l'historique complet de mes articles grâce à mes archives. Elles sont organisées par page. Vous pouvez aussi parcourir les articles par catégorie. Bonne lecture !"
     >
-      <p><a href="/categories/">Parcourir par catégorie</a></p>
+      <p><a href={CATEGORIES_INDEX_PATH}>Parcourir par catégorie</a></p>
     </ArchiveIntro>
 
     {

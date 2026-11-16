@@ -1,4 +1,5 @@
 import { SITE } from "../config/site.ts";
+import { postPath } from "./site-paths.ts";
 
 export interface SeoInput {
   canonicalPath: string;
@@ -38,7 +39,7 @@ export function resolveSocialImage(image: string | undefined, slug?: string) {
   }
 
   if (slug) {
-    return absoluteUrl(`/articles/${slug}/${image.replace(/^\.?\//, "")}`);
+    return absoluteUrl(`${postPath(slug)}${image.replace(/^\.?\//, "")}`);
   }
 
   return absoluteUrl(`/${image.replace(/^\.?\//, "")}`);

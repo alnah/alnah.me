@@ -1,6 +1,7 @@
 ---
 import { formatIsoDate, getPostCategoryMeta, readingTimeFromMarkdown, resolvePostDate, resolvePublicationDate, type PostEntry } from "../lib/content/index.ts";
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../lib/document-title.ts";
+import { categoryPath, postPath } from "../lib/site-paths.ts";
 
 interface Props {
   posts: PostEntry[];
@@ -25,7 +26,7 @@ const {
     return (
     <article class="post-list-item">
       <p class="post-list-category">
-        <a class="category-pill" href={`/categories/${getPostCategoryMeta(post.data.category).slug}/`}>
+        <a class="category-pill" href={categoryPath(getPostCategoryMeta(post.data.category).slug)}>
           {getPostCategoryMeta(post.data.category).label}
         </a>
       </p>
@@ -41,7 +42,7 @@ const {
         }
       </p>
       <div class="post-list-copy">
-        <h3><a href={`/articles/${post.id}/`}>{resolveEntryTitle(post)}</a></h3>
+        <h3><a href={postPath(post.id)}>{resolveEntryTitle(post)}</a></h3>
         <p>{post.data.description}</p>
       </div>
     </article>

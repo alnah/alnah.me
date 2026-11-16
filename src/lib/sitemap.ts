@@ -1,5 +1,13 @@
 import { slugify } from "./content/format.ts";
 import { POST_CATEGORIES } from "./content/taxonomy.ts";
+import {
+  articlesPagePath,
+  categoryPath,
+  CATEGORIES_INDEX_PATH,
+  POSTS_INDEX_PATH,
+  postPath,
+  tagPath
+} from "./site-paths.ts";
 
 /** Frontmatter fields the sitemap contract depends on. */
 export type SitemapCategorySource = {
@@ -26,9 +34,7 @@ export function buildEmptyCategoryPaths(posts: SitemapCategorySource[]) {
   );
 
   return new Set(
-    POST_CATEGORIES.filter((category) => !populatedCategories.has(category)).map(
-      (category) => `/categories/${category}/`
-    )
+    POST_CATEGORIES.filter((category) => !populatedCategories.has(category)).map(categoryPath)
   );
 }
 
@@ -89,14 +95,14 @@ export function buildSitemapMetadata(
     }
 
     postLastmods.push(lastmod);
-    lastmodByPath.set(`/articles/${post.slug}/`, lastmod);
+    lastmodByPath.set(postPath(post.slug), lastmod);
 
     if (post.category) {
-      keepLatest(lastmodByPath, `/categories/${post.category}/`, lastmod);
+      keepLatest(lastmodByPath, categoryPath(post.category), lastmod);
     }
 
     for (const tag of post.tags ?? []) {
-      keepLatest(lastmodByPath, `/etiquettes/${slugify(tag)}/`, lastmod);
+      keepLatest(lastmodByPath, tagPath(slugify(tag)), lastmod);
     }
   }
 
@@ -104,13 +110,13 @@ export function buildSitemapMetadata(
 
   if (newest) {
     lastmodByPath.set("/", newest);
-    lastmodByPath.set("/articles/", newest);
-    lastmodByPath.set("/categories/", newest);
+    lastmodByPath.set(POSTS_INDEX_PATH, newest);
+    lastmodByPath.set(CATEGORIES_INDEX_PATH, newest);
 
     const pageCount = pageSize > 0 ? Math.ceil(posts.length / pageSize) : 1;
 
     for (let page = 2; page <= pageCount; page += 1) {
-      lastmodByPath.set(`/articles/${page}/`, newest);
+      lastmodByPath.set(articlesPagePath(page), newest);
     }
   }
 

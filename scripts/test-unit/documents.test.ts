@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { canonicalPostPath, normalizeAlias } from "../../src/lib/aliases.ts";
+import { normalizeAlias } from "../../src/lib/aliases.ts";
 import {
   extractLeadingMarkdownTitle,
   stripLeadingMarkdownTitle,
@@ -8,6 +8,7 @@ import {
 } from "../../src/lib/document-title.ts";
 import { stripFrontmatter } from "../../src/lib/post-files.ts";
 import { readingTimeFromMarkdown } from "../../src/lib/content/format.ts";
+import { postPath } from "../../src/lib/site-paths.ts";
 
 /** Aliases, frontmatter, and the H1 title contract. */
 test('documents: markdown titles', () => {
@@ -27,7 +28,7 @@ Because readable systems compound.`;
 
   assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/");
   assert.equal(normalizeAlias("/articles/old-slug"), "/articles/old-slug/");
-  assert.equal(canonicalPostPath("search-that-stays-local"), "/articles/search-that-stays-local/");
+  assert.equal(postPath("search-that-stays-local"), "/articles/search-that-stays-local/");
   assert.throws(() => normalizeAlias("../bad"), /Invalid alias path/);
   assert.throws(() => normalizeAlias("/bad path"), /Invalid alias path/);
 

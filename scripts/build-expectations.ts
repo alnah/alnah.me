@@ -14,6 +14,16 @@ import {
   type MarkdownPostEntry
 } from "../src/lib/post-files.ts";
 import { buildEmptyCategoryPaths } from "../src/lib/sitemap.ts";
+import {
+  articlesPagePath,
+  categoryPath,
+  CATEGORIES_INDEX_PATH,
+  POSTS_INDEX_PATH,
+  postPath,
+  postSocialImagePath,
+  rawPostPath,
+  tagPath
+} from "../src/lib/site-paths.ts";
 
 /**
  * Single source of build expectations. Tests derive what the site must
@@ -87,9 +97,9 @@ function expectedPost(entry: MarkdownPostEntry): ExpectedPost {
     lastmod: new Date(lastmodTime),
     isUpdated: display.isUpdated,
     displayDate: display.date,
-    url: `/articles/${entry.slug}/`,
-    rawPath: `/raw/posts/${entry.slug}.md`,
-    socialImagePath: `/og/articles/${entry.slug}.png`
+    url: postPath(entry.slug),
+    rawPath: rawPostPath(entry.slug),
+    socialImagePath: postSocialImagePath(entry.slug)
   };
 }
 
@@ -112,7 +122,7 @@ export const EMPTY_CATEGORY_PATHS = buildEmptyCategoryPaths(
 );
 
 export const PUBLISHED_CATEGORIES: PostCategory[] = POST_CATEGORIES.filter(
-  (category) => !EMPTY_CATEGORY_PATHS.has(`/categories/${category}/`)
+  (category) => !EMPTY_CATEGORY_PATHS.has(categoryPath(category))
 );
 
 export const PUBLISHED_TAGS = summarizeTags(PUBLISHED_POSTS.map((post) => post.tags));
@@ -122,9 +132,9 @@ export const STATIC_PAGE_PATHS = [
   "/",
   "/a-propos/",
   "/confidentialite/",
-  "/articles/",
-  "/categories/"
-] as const;
+  POSTS_INDEX_PATH,
+  CATEGORIES_INDEX_PATH
+];
 
 export const SITE_URL = SITE.siteUrl;
 
@@ -140,17 +150,17 @@ export function expectedSitemapPaths(pageSize = SITE.postPageSize) {
   }
 
   for (const category of PUBLISHED_CATEGORIES) {
-    paths.add(`/categories/${category}/`);
+    paths.add(categoryPath(category));
   }
 
   for (const tag of PUBLISHED_TAGS) {
-    paths.add(`/etiquettes/${tag.slug}/`);
+    paths.add(tagPath(tag.slug));
   }
 
   const pageCount = Math.ceil(PUBLISHED_POSTS.length / pageSize);
 
   for (let page = 2; page <= pageCount; page += 1) {
-    paths.add(`/articles/${page}/`);
+    paths.add(articlesPagePath(page));
   }
 
   return paths;

@@ -1,3 +1,5 @@
+import { POSTS_INDEX_PATH } from '../lib/site-paths.ts'
+
 const requiredContactIds = [
   'github',
   'x',
@@ -150,7 +152,7 @@ export const SITE = {
 export const NAV_ITEMS = [
   {
     id: 'posts',
-    href: '/articles/',
+    href: POSTS_INDEX_PATH,
     label: 'Articles',
   },
   {

@@ -1,6 +1,7 @@
 ---
 import ShareLinks from "./ShareLinks.astro";
 import { getPostCategoryMeta, slugify, type PostCategory } from "../lib/content/index.ts";
+import { categoryPath, POSTS_INDEX_PATH, postPath, tagPath } from "../lib/site-paths.ts";
 
 interface Props {
   slug: string;
@@ -10,24 +11,24 @@ interface Props {
 }
 
 const { slug, title, category, tags } = Astro.props;
-const canonicalUrl = new URL(`/articles/${slug}/`, Astro.site).toString();
+const canonicalUrl = new URL(postPath(slug), Astro.site).toString();
 const categoryMeta = getPostCategoryMeta(category);
 ---
 
 <footer class="post-footer section-rule">
   <div class="category-row">
-    <a class="category-pill category-pill--accent" href={`/categories/${categoryMeta.slug}/`}>
+    <a class="category-pill category-pill--accent" href={categoryPath(categoryMeta.slug)}>
       {categoryMeta.label}
     </a>
   </div>
   <div class="tag-row">
     {tags.map((tag) => (
-      <a class="tag" href={`/etiquettes/${slugify(tag)}/`}>#{tag}</a>
+      <a class="tag" href={tagPath(slugify(tag))}>#{tag}</a>
     ))}
   </div>
   <ShareLinks canonicalUrl={canonicalUrl} title={title} />
   <div class="post-footer-bottom">
-    <a href="/articles/">Tous les articles</a>
+    <a href={POSTS_INDEX_PATH}>Tous les articles</a>
   </div>
 </footer>
 

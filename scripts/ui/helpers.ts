@@ -2,6 +2,7 @@ import { expect, type Page } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 import type { SearchIndexDocument } from "../../src/lib/search-ranking.ts";
+import { postPath } from "../../src/lib/site-paths.ts";
 import { readJson } from "../test-helpers.ts";
 
 export function loadSearchIndex(): SearchIndexDocument[] {
@@ -30,7 +31,7 @@ export function builtPostPaths(): string[] {
   return fs
     .readdirSync(articlesDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => `/articles/${entry.name}/`)
+    .map((entry) => postPath(entry.name))
     .filter((url) => fs.existsSync(path.join(process.cwd(), "dist", url, "index.html")));
 }
 
