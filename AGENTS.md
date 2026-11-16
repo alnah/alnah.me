@@ -71,9 +71,7 @@ Check: `make check`.
 Astro check: `make astro-check`.
 Verify: `make verify`.
 Unit: `make test-unit`; pure helper checks without a rebuild.
-Acceptance: `make test-acceptance`.
-Integration: `make test-integration`.
-E2E: `make test-e2e`.
+Build: `make test-build`.
 UI: `make test-ui`; Playwright smoke for search, theme, and mobile overflow (needs `make pw-install`).
 Clean: `make clean`.
 
@@ -174,9 +172,7 @@ Schema rule: do not introduce `public` or `summary` unless the content schema ch
 ## Build system
 
 Prepare script: `scripts/prepare-static.ts`; validate Markdown title contracts, generate `public/_redirects`, copy `LICENSE` to `public/LICENSE.txt` and copy `LICENSES/`, generate raw reusable Markdown under `public/raw/posts/`.
-Acceptance: `scripts/test-acceptance.ts`.
-Integration: `scripts/test-integration.ts`.
-E2E: `scripts/test-e2e.ts`.
+Build: `scripts/test-build.ts`, driven by `scripts/build-expectations.ts`.
 Verify: `scripts/verify.ts`.
 
 ## Deployment

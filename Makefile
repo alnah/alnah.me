@@ -24,7 +24,7 @@ PLAYWRIGHT ?= $(NPM) exec -- playwright
 GITHUB_TOKEN_FALLBACK = if [ -z "$$GITHUB_TOKEN" ] && [ -z "$$GH_TOKEN" ] && ! grep -qE '^[[:space:]]*(GITHUB_TOKEN|GH_TOKEN)=' .env 2>/dev/null && command -v gh >/dev/null 2>&1; then export GITHUB_TOKEN="$$(gh auth token 2>/dev/null)"; fi;
 
 .PHONY: help doctor install prepare-static dev dev-lan build preview preview-lan check astro-check \
-	check-css verify test-unit test-domain test-acceptance test-integration test-e2e test-ui pw-install pw-shot pw-shot-local clean
+	check-css verify test-unit test-domain test-build test-ui pw-install pw-shot pw-shot-local clean
 
 USE_PROJECT_NODE = if [ -s "$(NVM_SH)" ] && [ -f ".nvmrc" ]; then . "$(NVM_SH)" >/dev/null 2>&1; nvm use >/dev/null; fi;
 WITH_WORKTREE_LOCK = $(NODE) scripts/with-worktree-lock.ts
@@ -77,14 +77,8 @@ test-unit: doctor ## Run pure helper checks without rebuilding the site
 test-domain: doctor ## Run domain invariant checks without rebuilding the site
 	@$(USE_PROJECT_NODE) $(NPM) run test:domain
 
-test-acceptance: doctor ## Run acceptance checks against a fresh build
-	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:acceptance
-
-test-integration: doctor ## Run integration checks against a fresh build
-	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:integration
-
-test-e2e: doctor ## Run the local end-to-end smoke checks against a fresh build
-	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:e2e
+test-build: doctor ## Run the build contract checks against a fresh build
+	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:build
 
 test-ui: doctor ## Run the minimal Playwright UI smoke checks against a fresh build
 	@$(USE_PROJECT_NODE) $(WITH_WORKTREE_LOCK) $(NPM) run test:ui

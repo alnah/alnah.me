@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { buildAliasRedirects, buildRawAliasRedirects } from "../../src/lib/post-files.ts";
 import { buildLegacyRedirectLines } from "../../src/lib/legacy-redirects.ts";
+import { normalizeAlias } from "../../src/lib/aliases.ts";
 
 /** Alias redirects and the raw export redirects derived from them. */
 export function testRedirects(): void {
@@ -20,6 +21,9 @@ export function testRedirects(): void {
     buildLegacyRedirectLines().includes("/sitemap.xml /sitemap-index.xml 301"),
     "the conventional sitemap path redirects to the index"
   );
+  assert.equal(normalizeAlias("reuse-notes"), "/reuse-notes/", "alias normalization adds slashes");
+  assert.throws(() => normalizeAlias("../bad"), /Invalid alias path/, "parent traversal is rejected");
+  assert.throws(() => normalizeAlias("/bad path"), /Invalid alias path/, "spaces are rejected");
   assert.deepEqual(
     buildAliasRedirects([{ slug: "a", aliases: ["old-a"] }]),
     [["/old-a/", "/articles/a/"]],

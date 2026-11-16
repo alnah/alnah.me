@@ -70,8 +70,20 @@ const headers = readFile("dist/_headers");
 const robots = readFile("dist/robots.txt");
 const license = readFile("dist/LICENSE.txt");
 const searchIndex = readJson<
-  Array<{ url: string; updated?: string; updatedLabel?: string }>
+  Array<{
+    title?: string;
+    description?: string;
+    tags?: string[];
+    url?: string;
+    date?: string;
+    dateLabel?: string;
+    updated?: string;
+    updatedLabel?: string;
+    excerpt?: string;
+    content?: string;
+  }>
 >("dist/index.json");
+const rssXml = readFile("dist/rss.xml");
 const inlineScriptHashes = executableInlineScriptHashes("dist/index.html");
 const cspLine = headers
   .split("\n")
@@ -121,6 +133,26 @@ assertIncludes(aboutHtml, "Me contacter par", "about contact label");
 assertIncludes(homeHtml, `href="${absoluteUrl("/rss.xml")}"`, "home RSS href");
 
 for (const { post, html, raw } of posts) {
+  assertIncludes(html, `<link rel="canonical" href="${absoluteUrl(post.url)}">`, `${post.slug} canonical link`);
+  assertIncludes(html, 'property="og:type" content="article"', `${post.slug} og:type`);
+  assertIncludes(html, '<meta name="twitter:card" content="summary', `${post.slug} twitter card`);
+  assertIncludes(html, '"@type":"BlogPosting"', `${post.slug} BlogPosting schema`);
+  assertIncludes(html, "min de lecture", `${post.slug} reading time`);
+  assertIncludes(html, "Tous les articles", `${post.slug} all posts link`);
+  assertIncludes(html, "Partager cet article sur", `${post.slug} share block`);
+  assertIncludes(html, post.rawPath, `${post.slug} raw reuse link`);
+
+  for (const platform of [
+    "twitter.com/intent/tweet",
+    "linkedin.com/sharing/share-offsite",
+    "wa.me/?text=",
+    "facebook.com/sharer/sharer.php",
+    "t.me/share/url",
+    "mailto:"
+  ]) {
+    assertIncludes(html, platform, `${post.slug} share link ${platform}`);
+  }
+
   const ogImage = absoluteUrl(post.socialImagePath);
   assertIncludes(html, `property="og:image" content="${ogImage}"`, `${post.slug} og:image`);
   assertIncludes(html, '"image":"' + ogImage + '"', `${post.slug} schema image`);
@@ -131,6 +163,9 @@ for (const { post, html, raw } of posts) {
   assert.equal(dimensions.width, 1200, `${post.slug} og image width`);
   assert.equal(dimensions.height, 630, `${post.slug} og image height`);
 
+  assert.ok(!raw.startsWith("---"), `${post.slug} raw export has no frontmatter`);
+  assert.ok(!raw.includes("\ntitle:"), `${post.slug} raw export has no frontmatter fields`);
+  assert.ok(raw.startsWith(`# ${post.title}`), `${post.slug} raw export starts with its title`);
   assertIncludes(raw, `© ${new Date().getFullYear()} [${SITE.author.name}](${absoluteUrl(SITE.aboutPath)})`, `${post.slug} raw copyright`);
   assertIncludes(raw, `[${SITE.license.name}](${SITE.license.url})`, `${post.slug} raw license`);
 
@@ -486,4 +521,45 @@ assert.ok(
   "internal-only pages must not mark links as external"
 );
 
-console.log("test:acceptance passed");
+assertIncludes(rssXml, 'xmlns:atom="http://www.w3.org/2005/Atom"', "RSS atom namespace");
+assertIncludes(rssXml, "<language>fr</language>", "RSS language");
+assertIncludes(rssXml, 'rel="self"', "RSS self link");
+assert.ok(
+  /<generator>Astro v\d+\.\d+\.\d+ with @astrojs\/rss<\/generator>/.test(rssXml),
+  "RSS generator should reflect the installed Astro version"
+);
+const newestPostDate = new Date(
+  Math.max(...PUBLISHED_POSTS.map((post) => post.lastmod.getTime()))
+);
+assertIncludes(
+  rssXml,
+  `<lastBuildDate>${newestPostDate.toUTCString()}</lastBuildDate>`,
+  "RSS lastBuildDate uses the latest content date"
+);
+assertIncludes(rssXml, "<category>", "RSS item categories");
+assertIncludes(rssXml, `<author>${SITE.author.email}</author>`, "RSS item author");
+
+for (const item of searchIndex) {
+  assert.ok(item.title, "search item missing title");
+  assert.ok(item.description, "search item missing description");
+  assert.ok(Array.isArray(item.tags), "search item missing tags array");
+  assert.ok(item.url?.startsWith("/articles/"), "search item URL should point to a post");
+  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.date ?? ""), "search item missing ISO date");
+  assert.ok(item.dateLabel, "search item missing human date label");
+  if (item.updated) {
+    assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(item.updated), "search item updated date should be ISO");
+    assert.ok(item.updatedLabel, "search item missing updated label");
+  }
+  assert.ok(item.excerpt, "search item missing excerpt");
+  assert.ok(item.content, "search item missing searchable content");
+}
+
+const activitySection = aboutHtml.match(/<section[^>]*class="github-activity"/);
+const activityList = aboutHtml.match(/<ul class="activity-list"[^>]*>([\s\S]*?)<\/ul>/);
+
+assert.ok(
+  !activitySection || (activityList && /<li[\s>]/.test(activityList[1])),
+  "GitHub activity section must not render an empty list"
+);
+
+console.log("test:build passed");

@@ -50,3 +50,10 @@ The sitemap only lists URLs that are 200, canonical, and indexable:
   sitemap (`src/lib/sitemap.ts`);
 - `lastmod` comes from the post frontmatter (`lastmod`, else `date`), never from
   the build; archive URLs inherit the newest date of the posts they list.
+
+## Tests
+
+- `scripts/build-expectations.ts` derives what the build must contain from the
+  Markdown, the taxonomy, and the site config.
+- `scripts/test-build.ts` checks the built site against those expectations.
+- Unit and domain checks stay independent from the build.
