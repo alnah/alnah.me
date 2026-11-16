@@ -22,6 +22,12 @@ export function checkHomeMetadata({ home, homeHtml }: BuiltSite): void {
   };
   assert.equal(websiteSchema["@id"], absoluteUrl("/#website"), "website schema id");
   assert.equal(websiteSchema.inLanguage, "fr-FR", "website schema language");
+  assertIncludes(homeHtml, `<title>${SITE.title} - ${SITE.author.name}</title>`, "home title");
+  assertIncludes(
+    homeHtml,
+    `property="og:site_name" content="${SITE.title}"`,
+    "home site name"
+  );
 
   const ariaLabels = (doc: typeof home) =>
     new Set(

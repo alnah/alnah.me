@@ -78,13 +78,12 @@ function validateContacts(contacts: readonly ContactLink[]) {
 }
 
 export const SITE = {
-  title: 'Alexis Nahan',
+  title: 'Le FLE et la tech',
   alternateName: 'alnah',
-  blogTitle: 'Le FLE et la tech',
   siteUrl: 'https://alnah.me',
   aboutPath: '/a-propos/',
   description:
-    "Notes de travail et réflexion générales sur l'enseignement du Français Langue Étrangère (FLE) et les technologies.",
+    "Ce blog propose des articles sur l'enseignement du français langue étrangère (FLE), entre conception pédagogique et innovation logicielle.",
   defaultSocialImage: '/og-default.jpg',
   socialImageAlt: "Image avec un symbole circulaire dans lequel est écrit an, sous-titré par alnah.me, centré sur un fond clair.",
   xHandle: '@_alnah',

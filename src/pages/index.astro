@@ -2,6 +2,7 @@
 import NewsletterSignup from "../components/NewsletterSignup.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PostList from "../components/PostList.astro";
+import { SITE } from "../config/site.ts";
 import { getPublishedPosts } from "../lib/content/index.ts";
 import { buildWebsiteSchema } from "../lib/seo.ts";
 
@@ -9,7 +10,7 @@ const posts = (await getPublishedPosts()).slice(0, 4);
 ---
 
 <BaseLayout
-  title="Le FLE et la tech"
+  title={SITE.title}
   schemaJson={buildWebsiteSchema()}
 >
   <section class="home-shell content-band">

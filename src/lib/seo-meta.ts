@@ -12,13 +12,14 @@ export type SeoInput = {
 };
 
 export function pageTitle(title?: string) {
-  const suffix = ` - ${SITE.title}`;
+  const suffix = ` - ${SITE.author.name}`;
+  const base = title?.trim();
 
-  if (!title || title === SITE.title) {
-    return SITE.title;
+  if (!base || base === SITE.author.name) {
+    return `${SITE.title}${suffix}`;
   }
 
-  return title.endsWith(suffix) ? title : `${title}${suffix}`;
+  return base.endsWith(suffix) ? base : `${base}${suffix}`;
 }
 
 export function absoluteUrl(pathname: string) {

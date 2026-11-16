@@ -9,8 +9,9 @@ import {
 
 /** Page titles, canonical URLs, and social image resolution. */
 test('seo: titles, canonical, and social images', () => {
-  assert.equal(pageTitle(), "Alexis Nahan");
-  assert.equal(pageTitle("Alexis Nahan"), "Alexis Nahan");
+  assert.equal(pageTitle(), "Le FLE et la tech - Alexis Nahan");
+  assert.equal(pageTitle("Alexis Nahan"), "Le FLE et la tech - Alexis Nahan");
+  assert.equal(pageTitle("Le FLE et la tech"), "Le FLE et la tech - Alexis Nahan");
   assert.equal(pageTitle("Articles"), "Articles - Alexis Nahan");
   assert.equal(pageTitle("Articles - Alexis Nahan"), "Articles - Alexis Nahan");
 

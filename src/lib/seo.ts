@@ -113,7 +113,7 @@ export function buildBlogPostingSchema({
     isPartOf: {
       "@type": "Blog",
       "@id": BLOG_ID,
-      name: SITE.blogTitle,
+      name: SITE.title,
       url: BLOG_URL,
       inLanguage: IN_LANGUAGE,
       publisher: { "@id": PERSON_ID }

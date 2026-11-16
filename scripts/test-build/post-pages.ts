@@ -101,7 +101,7 @@ export function checkPostPages({ posts, searchIndex }: BuiltSite): void {
     assert.equal(postSchema.author?.jobTitle, SITE.author.jobTitle, `${post.slug} author job title`);
     assert.deepEqual(postSchema.author?.knowsAbout, SITE.author.knowsAbout, `${post.slug} author topics`);
     assert.equal(postSchema.isPartOf?.["@id"], absoluteUrl("/#blog"), `${post.slug} isPartOf blog`);
-    assert.equal(postSchema.isPartOf?.name, SITE.blogTitle, `${post.slug} blog name`);
+    assert.equal(postSchema.isPartOf?.name, SITE.title, `${post.slug} blog name`);
     assert.equal(postSchema.license, SITE.license.url, `${post.slug} license`);
     assert.equal(postSchema.copyrightYear, new Date().getFullYear(), `${post.slug} copyright year`);
     assert.equal(
