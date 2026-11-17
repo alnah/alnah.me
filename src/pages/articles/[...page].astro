@@ -4,7 +4,11 @@ import PostList from "../../components/PostList.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import { SITE } from "../../config/site.ts";
-import { getPublishedPosts, type PostEntry } from "../../lib/content/index.ts";
+import {
+  ARTICLES_PAGE_META,
+  getPublishedPosts,
+  type PostEntry
+} from "../../lib/content/index.ts";
 import { CATEGORIES_INDEX_PATH } from "../../lib/site-paths.ts";
 
 type ArchivePage = {
@@ -50,7 +54,7 @@ export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
 const { page } = Astro.props as { page: ArchivePage };
 ---
 
-<BaseLayout title="Articles" description="Archive des articles du blog d'Alexis Nahan">
+<BaseLayout title={ARTICLES_PAGE_META.title} description={ARTICLES_PAGE_META.description}>
   <section class="archive-shell content-band">
     <ArchiveIntro
       eyebrow="Tous les articles"

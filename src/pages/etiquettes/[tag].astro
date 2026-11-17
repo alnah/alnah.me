@@ -2,7 +2,11 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostList from "../../components/PostList.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
-import { getPostsByTag, getTags } from "../../lib/content/index.ts";
+import {
+  getPostsByTag,
+  getTags,
+  tagArchiveMeta
+} from "../../lib/content/index.ts";
 
 export async function getStaticPaths() {
   const tags = await getTags();
@@ -13,13 +17,11 @@ export async function getStaticPaths() {
 }
 
 const { tag } = Astro.props;
+const pageMeta = tagArchiveMeta(tag);
 const posts = await getPostsByTag(tag.slug);
 ---
 
-<BaseLayout
-  title={`Articles étiquetés ${tag.label}`}
-  description={`Articles étiquetés ${tag.label}`}
->
+<BaseLayout title={pageMeta.title} description={pageMeta.description}>
   <section class="archive-shell content-band">
     <ArchiveIntro eyebrow="Archive d'étiquettes" title={`#${tag.label}`}>
       <p>{tag.count} article(s) classé(s) sous cette étiquette.</p>

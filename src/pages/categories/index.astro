@@ -1,15 +1,15 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
-import { getCategories } from "../../lib/content/index.ts";
+import { CATEGORIES_PAGE_META, getCategories } from "../../lib/content/index.ts";
 import { categoryPath } from "../../lib/site-paths.ts";
 
 const categories = (await getCategories()).filter((category) => category.count > 0);
 ---
 
 <BaseLayout
-  title="Catégories"
-  description="Parcourir les articles par catégorie."
+  title={CATEGORIES_PAGE_META.title}
+  description={CATEGORIES_PAGE_META.description}
 >
   <section class="categories-shell content-band">
     <ArchiveIntro

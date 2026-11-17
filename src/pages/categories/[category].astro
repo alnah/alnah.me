@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostList from "../../components/PostList.astro";
 import ArchiveIntro from "../../components/ArchiveIntro.astro";
 import {
+  categoryArchiveMeta,
   getCategories,
   getPostsByCategory
 } from "../../lib/content/index.ts";
@@ -20,12 +21,13 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.props;
+const pageMeta = categoryArchiveMeta(category);
 const posts = await getPostsByCategory(category.slug);
 ---
 
 <BaseLayout
-  title={`Articles classés dans ${category.label}`}
-  description={category.description}
+  title={pageMeta.title}
+  description={pageMeta.description}
 >
   <section class="archive-shell content-band">
     <ArchiveIntro
