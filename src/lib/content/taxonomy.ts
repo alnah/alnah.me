@@ -26,7 +26,7 @@ export const POST_CATEGORY_META: Record<PostCategory, PostCategoryMeta> = {
   },
   enseigner: {
     label: 'Enseigner',
-    description: "Découvrez comment apprendre ou enseigner le français langue étrangère (FLE). Je partage mes retours d'expérience ainsi que mes pratiques pédagogiques pour inspirer de bonnes pratiques."
+    description: "Découvrez comment apprendre ou enseigner le français langue étrangère (FLE). Je partage mes retours d'expérience ainsi que mes méthodes pédagogiques pour inspirer de bonnes pratiques."
   },
   travailler: {
     label: 'Travailler',

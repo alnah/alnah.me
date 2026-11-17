@@ -15,7 +15,7 @@ export const ARTICLES_PAGE_META: PageMetadata = {
 
 export const CATEGORIES_PAGE_META: PageMetadata = {
   title: "Catégories",
-  description: "Parcourir les articles par catégorie."
+  description: "Parcourez les articles par catégorie."
 };
 
 export function categoryArchiveMeta(category: {
