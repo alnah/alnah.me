@@ -21,8 +21,19 @@ export function rawPostPath(slug: string): string {
   return `/raw/posts/${slug}.md`;
 }
 
+/** Route name inside `/og/`: the page path without slashes, root as index. */
+export function pageSocialImageName(pathname: string): string {
+  const trimmed = pathname.replace(/^\/+|\/+$/g, "");
+  return trimmed || "index";
+}
+
+/** Mirror a canonical page path under the generated social image namespace. */
+export function pageSocialImagePath(pathname: string): string {
+  return `/og/${pageSocialImageName(pathname)}.png`;
+}
+
 export function postSocialImagePath(slug: string): string {
-  return `/og/articles/${slug}.png`;
+  return pageSocialImagePath(postPath(slug));
 }
 
 export function categoryPath(category: string): string {
