@@ -10,10 +10,12 @@
 - Standalone content pages such as `About` and `Privacy`:
   - `src/content/pages/a-propos.md`
   - `src/content/pages/confidentialite.md`
-- System pages:
+- System page titles and descriptions shared with generated social images:
+  - `src/lib/content/archive-meta.ts`
   - `src/pages/index.astro`
+  - `src/pages/404.astro`
+- Archive intros and page layouts:
   - `src/pages/articles/[...page].astro`
   - `src/pages/categories/index.astro`
   - `src/pages/categories/[category].astro`
   - `src/pages/etiquettes/[tag].astro`
-  - `src/pages/404.astro`
