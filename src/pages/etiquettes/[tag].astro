@@ -7,6 +7,7 @@ import {
   getTags,
   tagArchiveMeta
 } from "../../lib/content/index.ts";
+import { pageSocialImagePath, tagPath } from "../../lib/site-paths.ts";
 
 export async function getStaticPaths() {
   const tags = await getTags();
@@ -21,7 +22,11 @@ const pageMeta = tagArchiveMeta(tag);
 const posts = await getPostsByTag(tag.slug);
 ---
 
-<BaseLayout title={pageMeta.title} description={pageMeta.description}>
+<BaseLayout
+  title={pageMeta.title}
+  description={pageMeta.description}
+  image={pageSocialImagePath(tagPath(tag.slug))}
+>
   <section class="archive-shell content-band">
     <ArchiveIntro eyebrow="Archive d'étiquettes" title={`#${tag.label}`}>
       <p>{tag.count} article(s) classé(s) sous cette étiquette.</p>

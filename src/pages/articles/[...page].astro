@@ -9,7 +9,11 @@ import {
   getPublishedPosts,
   type PostEntry
 } from "../../lib/content/index.ts";
-import { CATEGORIES_INDEX_PATH } from "../../lib/site-paths.ts";
+import {
+  CATEGORIES_INDEX_PATH,
+  pageSocialImagePath,
+  POSTS_INDEX_PATH
+} from "../../lib/site-paths.ts";
 
 type ArchivePage = {
   data: PostEntry[];
@@ -54,7 +58,11 @@ export async function getStaticPaths({ paginate }: { paginate: Paginate }) {
 const { page } = Astro.props as { page: ArchivePage };
 ---
 
-<BaseLayout title={ARTICLES_PAGE_META.title} description={ARTICLES_PAGE_META.description}>
+<BaseLayout
+  title={ARTICLES_PAGE_META.title}
+  description={ARTICLES_PAGE_META.description}
+  image={pageSocialImagePath(POSTS_INDEX_PATH)}
+>
   <section class="archive-shell content-band">
     <ArchiveIntro
       eyebrow="Tous les articles"

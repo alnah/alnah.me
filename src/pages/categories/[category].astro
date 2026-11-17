@@ -7,6 +7,7 @@ import {
   getCategories,
   getPostsByCategory
 } from "../../lib/content/index.ts";
+import { categoryPath, pageSocialImagePath } from "../../lib/site-paths.ts";
 
 /**
  * An archive with no post is not a page: it would be a thin, empty duplicate
@@ -28,6 +29,7 @@ const posts = await getPostsByCategory(category.slug);
 <BaseLayout
   title={pageMeta.title}
   description={pageMeta.description}
+  image={pageSocialImagePath(categoryPath(category.slug))}
 >
   <section class="archive-shell content-band">
     <ArchiveIntro

@@ -10,6 +10,7 @@ import { getPageContent } from "../lib/content/index.ts";
 import { markdownHastPlugins } from "../lib/markdown/plugins.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
 import { buildProfilePageSchema } from "../lib/seo.ts";
+import { pageSocialImagePath } from "../lib/site-paths.ts";
 
 const page = await getPageContent("a-propos");
 
@@ -50,6 +51,7 @@ const { code: afterSignupHtml } = await markdownProcessor.render(afterSignup);
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
+  image={pageSocialImagePath(SITE.aboutPath)}
   schemaJson={buildProfilePageSchema({
     canonicalUrl: new URL("/a-propos/", Astro.site).toString(),
     description: pageDescription,

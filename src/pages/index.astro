@@ -5,12 +5,14 @@ import PostList from "../components/PostList.astro";
 import { SITE } from "../config/site.ts";
 import { getPublishedPosts } from "../lib/content/index.ts";
 import { buildWebsiteSchema } from "../lib/seo.ts";
+import { pageSocialImagePath } from "../lib/site-paths.ts";
 
 const posts = (await getPublishedPosts()).slice(0, 4);
 ---
 
 <BaseLayout
   title={SITE.title}
+  image={pageSocialImagePath("/")}
   schemaJson={buildWebsiteSchema()}
 >
   <section class="home-shell content-band">

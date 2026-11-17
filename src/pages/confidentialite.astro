@@ -3,6 +3,7 @@ import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getPageContent } from "../lib/content/index.ts";
 import { resolveEntryTitle } from "../lib/document-title.ts";
+import { pageSocialImagePath } from "../lib/site-paths.ts";
 
 const page = await getPageContent("confidentialite");
 
@@ -13,7 +14,11 @@ if (!page) {
 const { Content } = await render(page);
 ---
 
-<BaseLayout title={resolveEntryTitle(page)} description={page.data.description}>
+<BaseLayout
+  title={resolveEntryTitle(page)}
+  description={page.data.description}
+  image={pageSocialImagePath("/confidentialite/")}
+>
   <section class="page-shell page-stack page-pad-top content-band">
     <div class="prose reading-column">
       <Content />
