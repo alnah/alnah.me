@@ -26,6 +26,11 @@ export function absoluteUrl(pathname: string) {
   return new URL(pathname, SITE.siteUrl).toString();
 }
 
+/** Generated cards under /og/ share the 1200x630 contract. */
+export function isGeneratedSocialImage(image: string | undefined) {
+  return image?.startsWith("/og/") ?? false;
+}
+
 export function resolveSocialImage(image: string | undefined, slug?: string) {
   if (!image) {
     return undefined;
@@ -58,13 +63,15 @@ export function buildSeo({
   const canonicalUrl = absoluteUrl(canonicalPath);
   const resolvedImage = resolveSocialImage(image ?? SITE.defaultSocialImage);
   const isDefaultSocialImage = resolvedImage === absoluteUrl(SITE.defaultSocialImage);
+  const hasFixedSize =
+    isDefaultSocialImage || isGeneratedSocialImage(image);
 
   return {
     canonicalUrl,
     description,
     image: resolvedImage,
-    imageHeight: imageHeight ?? (isDefaultSocialImage ? 630 : undefined),
-    imageWidth: imageWidth ?? (isDefaultSocialImage ? 1200 : undefined),
+    imageHeight: imageHeight ?? (hasFixedSize ? 630 : undefined),
+    imageWidth: imageWidth ?? (hasFixedSize ? 1200 : undefined),
     title: pageTitle(title),
     twitterCard: resolvedImage ? "summary_large_image" : "summary",
     type

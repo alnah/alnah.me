@@ -4,7 +4,7 @@ import Analytics from "../components/Analytics.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import { SITE } from "../config/site.ts";
-import { buildSeo } from "../lib/seo.ts";
+import { buildSeo, isGeneratedSocialImage } from "../lib/seo.ts";
 
 interface Props {
   canonicalPath?: string;
@@ -26,7 +26,7 @@ const {
   title = SITE.title,
   description = SITE.description,
   image,
-  imageAlt = SITE.socialImageAlt,
+  imageAlt,
   imageWidth,
   imageHeight,
   publishedTime,
@@ -45,6 +45,11 @@ const seo = buildSeo({
   title,
   type
 });
+const resolvedImageAlt =
+  imageAlt ??
+  (isGeneratedSocialImage(image)
+    ? `Image de partage pour ${title}.`
+    : SITE.socialImageAlt);
 const isHomePage = canonicalPath === "/";
 ---
 
@@ -80,9 +85,9 @@ const isHomePage = canonicalPath === "/";
     {seo.image && <meta property="og:image" content={seo.image} />}
     {seo.imageWidth && <meta property="og:image:width" content={String(seo.imageWidth)} />}
     {seo.imageHeight && <meta property="og:image:height" content={String(seo.imageHeight)} />}
-    {seo.image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+    {seo.image && resolvedImageAlt && <meta property="og:image:alt" content={resolvedImageAlt} />}
     {seo.image && <meta name="twitter:image" content={seo.image} />}
-    {seo.image && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+    {seo.image && resolvedImageAlt && <meta name="twitter:image:alt" content={resolvedImageAlt} />}
     {publishedTime && <meta property="article:published_time" content={publishedTime} />}
     {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
     <title>{seo.title}</title>

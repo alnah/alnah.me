@@ -21,7 +21,6 @@ const { title: documentTitle, postDate, publicationDate, readingMinutes, display
 const canonicalPath = postPath(entry.id);
 const reuseUrl = rawPostPath(entry.id);
 const socialImage = postSocialImagePath(entry.id);
-const socialImageAlt = `Image de partage pour ${documentTitle}.`;
 const categoryMeta = getPostCategoryMeta(entry.data.category);
 const schemaJson = buildBlogPostingSchema({
   canonicalUrl: new URL(canonicalPath, Astro.site).toString(),
@@ -40,9 +39,6 @@ const schemaJson = buildBlogPostingSchema({
   description={entry.data.description}
   canonicalPath={canonicalPath}
   image={socialImage}
-  imageAlt={socialImageAlt}
-  imageWidth={1200}
-  imageHeight={630}
   modifiedTime={postDate.date.toISOString()}
   publishedTime={publicationDate.toISOString()}
   schemaJson={schemaJson}

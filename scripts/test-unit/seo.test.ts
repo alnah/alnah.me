@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   absoluteUrl,
   buildSeo,
+  isGeneratedSocialImage,
   pageTitle,
   resolveSocialImage
 } from "../../src/lib/seo-meta.ts";
@@ -19,6 +20,9 @@ test('seo: titles, canonical, and social images', () => {
 
   assert.equal(resolveSocialImage(undefined), undefined);
   assert.equal(resolveSocialImage("/og-default.jpg"), "https://alnah.me/og-default.jpg");
+  assert.equal(isGeneratedSocialImage("/og/index.png"), true);
+  assert.equal(isGeneratedSocialImage("/og-default.jpg"), false);
+  assert.equal(isGeneratedSocialImage(undefined), false);
   assert.equal(resolveSocialImage("https://example.com/a.png"), "https://example.com/a.png");
   assert.equal(
     resolveSocialImage("./cover.jpg", "essai"),
@@ -49,4 +53,14 @@ test('seo: titles, canonical, and social images', () => {
   assert.equal(customImage.image, "https://alnah.me/custom.png");
   assert.equal(customImage.imageWidth, undefined);
   assert.equal(customImage.imageHeight, undefined);
+
+  const generatedImage = buildSeo({
+    canonicalPath: "/",
+    description: "Description",
+    image: "/og/index.png"
+  });
+
+  assert.equal(generatedImage.image, "https://alnah.me/og/index.png");
+  assert.equal(generatedImage.imageWidth, 1200);
+  assert.equal(generatedImage.imageHeight, 630);
 });
