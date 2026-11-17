@@ -31,6 +31,6 @@ export function categoryArchiveMeta(category: {
 export function tagArchiveMeta(tag: Pick<TagSummary, "label">): PageMetadata {
   return {
     title: `Articles étiquetés ${tag.label}`,
-    description: `Tous les articles du blog associés à l'étiquette ${tag.label}.`
+    description: `Découvrez tous les articles du blog associés à l'étiquette #${tag.label}.`
   };
 }
