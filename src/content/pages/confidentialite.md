@@ -1,6 +1,6 @@
 ---
 title: "Confidentialité"
-description: "Politique de confidentialité pour les statistiques du site, les abonnements à la newsletter et les liens externes."
+description: "Découvrez la politique de confidentialité de mon site et les services tiers utilisés."
 ---
 
 # Confidentialité
