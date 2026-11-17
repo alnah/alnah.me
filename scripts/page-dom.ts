@@ -42,6 +42,12 @@ export function attr(element: PageElement, name: string) {
   return element.attrs.find((attribute) => attribute.name === name)?.value;
 }
 
+/** Meta tag content by attribute (`property` or `name`). */
+export function metaContent(doc: PageDocument, key: string, value: string) {
+  const tag = byTag(doc, "meta").find((meta) => attr(meta, key) === value);
+  return tag ? attr(tag, "content") : undefined;
+}
+
 export function hasClass(element: PageElement, name: string) {
   return (attr(element, "class") ?? "").split(/\s+/).includes(name);
 }

@@ -7,18 +7,13 @@ import {
   attr,
   byTag,
   jsonLd,
+  metaContent,
   normalizeText,
   textContent,
   type PageDocument
 } from "../page-dom.ts";
-import { assertIncludes, readPngDimensions } from "../test-helpers.ts";
+import { assertIncludes } from "../test-helpers.ts";
 import type { BuiltSite } from "./built-site.ts";
-
-/** Meta tag content by attribute (`property` or `name`). */
-function metaContent(doc: PageDocument, key: string, value: string) {
-  const tag = byTag(doc, "meta").find((meta) => attr(meta, key) === value);
-  return tag ? attr(tag, "content") : undefined;
-}
 
 function anchorFor(doc: PageDocument, href: string) {
   return byTag(doc, "a").find((anchor) => attr(anchor, "href") === href);
@@ -50,15 +45,6 @@ export function checkPostPages({ posts, searchIndex }: BuiltSite): void {
         `${post.slug} share link ${platform}`
       );
     }
-
-    const ogImage = absoluteUrl(post.socialImagePath);
-    assert.equal(metaContent(dom, "property", "og:image"), ogImage, `${post.slug} og:image`);
-    assert.equal(metaContent(dom, "property", "og:image:width"), "1200", `${post.slug} og:image width`);
-    assert.equal(metaContent(dom, "property", "og:image:height"), "630", `${post.slug} og:image height`);
-
-    const dimensions = readPngDimensions(`dist${post.socialImagePath}`);
-    assert.equal(dimensions.width, 1200, `${post.slug} og image width`);
-    assert.equal(dimensions.height, 630, `${post.slug} og image height`);
 
     assert.ok(!raw.startsWith("---"), `${post.slug} raw export has no frontmatter`);
     assert.ok(!raw.includes("\ntitle:"), `${post.slug} raw export has no frontmatter fields`);
@@ -95,7 +81,7 @@ export function checkPostPages({ posts, searchIndex }: BuiltSite): void {
     };
     assert.equal(postSchema["@type"], "BlogPosting", `${post.slug} BlogPosting schema`);
     assert.equal(postSchema["@id"], absoluteUrl(`${post.url}#article`), `${post.slug} schema id`);
-    assert.equal(postSchema.image, ogImage, `${post.slug} schema image`);
+    assert.equal(postSchema.image, absoluteUrl(post.socialImagePath), `${post.slug} schema image`);
     assert.equal(postSchema.inLanguage, "fr-FR", `${post.slug} schema language`);
     assert.equal(postSchema.author?.["@id"], absoluteUrl("/#person"), `${post.slug} author id`);
     assert.equal(postSchema.author?.jobTitle, SITE.author.jobTitle, `${post.slug} author job title`);

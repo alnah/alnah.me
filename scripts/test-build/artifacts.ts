@@ -18,11 +18,6 @@ export function checkArtifacts({ license }: BuiltSite): void {
     PUBLISHED_POSTS.map((post) => `${post.slug}.md`).sort(),
     "raw exports match the published posts"
   );
-  assert.deepEqual(
-    fs.readdirSync(path.join(process.cwd(), "dist/og/articles")).sort(),
-    PUBLISHED_POSTS.map((post) => `${post.slug}.png`).sort(),
-    "social images match the published posts"
-  );
   // Duplicate ids break anchors and accessibility.
   for (const file of htmlFiles()) {
     const dom = parsePage(readFile(path.relative(process.cwd(), file)));

@@ -16,6 +16,7 @@ import {
   articlesPagePath,
   categoryPath,
   CATEGORIES_INDEX_PATH,
+  pageSocialImagePath,
   POSTS_INDEX_PATH,
   postPath,
   postSocialImagePath,
@@ -95,6 +96,26 @@ export const PUBLISHED_CATEGORIES: PostCategory[] = POST_CATEGORIES.filter(
 );
 
 const PUBLISHED_TAGS = summarizeTags(PUBLISHED_POSTS.map((post) => post.tags));
+
+export type ExpectedSocialImage = {
+  pagePath: string;
+  imagePath: string;
+};
+
+/** Every indexable page owns one generated card under /og. */
+export const EXPECTED_SOCIAL_IMAGES: ExpectedSocialImage[] = [
+  "/",
+  "/a-propos/",
+  "/confidentialite/",
+  POSTS_INDEX_PATH,
+  CATEGORIES_INDEX_PATH,
+  ...PUBLISHED_CATEGORIES.map((category) => categoryPath(category)),
+  ...PUBLISHED_TAGS.map((tag) => tagPath(tag.slug)),
+  ...PUBLISHED_POSTS.map((post) => post.url)
+].map((pagePath) => ({
+  pagePath,
+  imagePath: pageSocialImagePath(pagePath)
+}));
 
 /** Pages that are route files rather than content entries. */
 const STATIC_PAGE_PATHS = [

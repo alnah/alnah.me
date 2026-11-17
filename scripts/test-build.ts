@@ -9,6 +9,7 @@ import { checkSitemapEntries } from "./test-build/sitemap-entries.ts";
 import { checkSearchIndex } from "./test-build/search-index.ts";
 import { checkUnpublishedPosts } from "./test-build/unpublished-posts.ts";
 import { checkArtifacts } from "./test-build/artifacts.ts";
+import { checkSocialImages } from "./test-build/social-images.ts";
 
 const site = loadBuiltSite();
 
@@ -22,5 +23,6 @@ checkSitemapEntries();
 checkSearchIndex(site);
 checkUnpublishedPosts(site);
 checkArtifacts(site);
+checkSocialImages();
 
 console.log("test:build passed");
