@@ -117,7 +117,7 @@ Susan M. Gass et Alison Mackey, dans la fin des années 2000, reprennent ces cou
 
 > « L'approche interactionniste cherche à rendre compte de l'apprentissage par l'exposition de l'apprenant à la langue, par sa production langagière et par le feedback sur cette production. »[^gass]
 
-Ce modèle n'est pas une théorie générale de l'apprentissage : c'est une explication psycholinguistique, et Gass et Mackey le disent elles-mêmes. Il ne couvre pas tous les facteurs de l'acquisition et ne se substitue pas aux approches qui insistent sur le contexte social et culturel.
+Ce modèle n'est pas une théorie générale de l'apprentissage. C'est une explication psycholinguistique, et Gass et Mackey le disent elles-mêmes. Il ne couvre pas tous les facteurs de l'acquisition et ne se substitue pas aux approches qui insistent sur le contexte social et culturel.
 
 _Les composants du modèle Input-Interaction-Output_
 
