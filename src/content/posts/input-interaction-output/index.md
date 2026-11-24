@@ -55,7 +55,7 @@ Même si on peut comprendre un message avec le contexte et le vocabulaire, on ne
 - **Le test d'hypothèses** : il essaie une forme et ajuste ce qu'il exprime en fonction de la réaction de son interlocuteur ;
 - **La réflexion métalinguistique** : il résout un problème en réfléchissant au fonctionnement de la langue.
 
-Chez Swain, l'output peut faciliter l'apprentissage. Attention, rien ne dit que l'acquisition est automatique, et l'output n'est pas un remplacement de l'input. Aujourd'hui, la prévalence de l'input au début de l'apprentissage est établie. On sait que l'apprentissage formel peut alimenter l'acquisition inconsciente, et que l'output contrôlé favorise la mémorisation. Une prise de parole libre trop précoce favorise le recours à la traduction, ce qui institue de mauvaises habitudes syntaxiques chez l'apprenant. On commence à s'approcher de la réalité de l'assimilation d'une langue. Il manque encore à ces deux modèles un élément central : l'interaction.
+Chez Swain, l'output peut faciliter l'apprentissage. Attention, rien ne dit que l'acquisition est automatique, et l'output n'est pas un remplacement de l'input. Aujourd'hui, la prévalence de l'input au début de l'apprentissage est établie. On sait que l'apprentissage formel peut alimenter l'acquisition inconsciente, et que l'output contrôlé favorise la mémorisation. Une prise de parole libre trop précoce favorise le recours à la traduction, ce qui institue de mauvaises habitudes syntaxiques chez l'apprenant. À ce stade, bien qu'on commence à s'approcher de la réalité de l'assimilation d'une langue, il manque encore à ces deux modèles un élément central : l'interaction.
 
 ### L'interaction et la négociation du sens
 
