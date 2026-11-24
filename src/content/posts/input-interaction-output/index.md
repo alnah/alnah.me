@@ -67,9 +67,9 @@ Long confirme que l'input abondant est une condition indispensable. Il ajoute qu
 
 Long explique que la négociation du sens est l'élément qui connecte l'input et l'output via un processus d'attention sélective. Dans la conversation, l'apprenant peut faire une pause sur le sens global de l'échange pour se concentrer sur un élément précis de la langue. C'est une opportunité pour donner du sens aux formes d'expression. À ce moment précis, l'apprenant a plus de chances de mémoriser le vocabulaire, la grammaire ou la prononciation.
 
-## Le feedback correctif
+## Le feedback dépend de l'apprenant et du but visé
 
-Bien que le feedback correctif fasse progresser, ses effets dépendent de l'apprenant et du but recherché.
+Un feedback correctif ne produit d'effet qu'à trois conditions : un type d'erreur visé, une réponse demandée à l'apprenant, une trace conservée.
 
 ### En général
 
