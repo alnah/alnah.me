@@ -150,7 +150,7 @@ Il faut aussi retenir ici que le modèle est utile à plusieurs niveaux. Il est 
 
 Une dernière chose, il faut garder à l'esprit que l'intake n'est jamais garanti. L'enseignant ne peut pas garantir un apprentissage avec certitude, mais il peut créer un meilleur contexte d'acquisition.
 
-## Concevoir une tâche avec le modèle
+## La tâche multiplie les occasions de feedback
 
 Un apprentissage organisé autour de la tâche comme unité d'analyse multiplie les occasions de feedback correctif. Dans ce cadre, la tâche prend la forme d'un problème à résoudre, et les solutions à trouver font naître des frictions. Ces frictions offrent le plus d'occasions de négocier le sens, donc de produire du noticing et du feedback. Tout le but du jeu est de maximiser l'intake.
 
@@ -184,7 +184,7 @@ flowchart TB
   O --> K
 ```
 
-## Gérer l'asymétrie
+## Le temps de parole dit qui contrôle l'échange
 
 Enseigner sans trop parler est un art. Je surveille rigoureusement mon temps de parole. Je vise 20 à 30 % pour moi et 70 à 80 % pour le ou les apprenants. Si je parle trop, cela signifie que je parle à leur place et que j'étouffe la possibilité d'un échange.
 
