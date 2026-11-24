@@ -1,0 +1,20 @@
+{
+  "Editor@@border-focus-mode": false,
+  "Editor@@line-hover-indicator": false,
+  "Editor@@focus-indicator-list-level": false,
+  "Components@@tab-autohide": false,
+  "Components@@status-bar-autohide": false,
+  "Components@@Ribbon-autohide": false,
+  "Components@@nav-header-autohide": false,
+  "Components@@tab-title-bar-autohide": false,
+  "Components@@vault-profile-autohide": false,
+  "Editor@@heading-indicator-off": false,
+  "Appearance-light@@card-layout-open-light": false,
+  "Editor@@editor-grid-background-pattren": false,
+  "Plugin@@DB-table-full-width-off": false,
+  "Plugin@@colorful-checkbox": false,
+  "Components@@CTA-BTN-enable": false,
+  "Components@@file-names-untrim": false,
+  "Components@@folder-font-bold": false,
+  "Appearance-light@@theme-light-style-select": "theme-light-background-default"
+}

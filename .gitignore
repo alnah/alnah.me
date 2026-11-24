@@ -23,8 +23,12 @@ Session.vim
 .vscode/
 .codex/
 
-# Obsidian
-src/content/.obsidian/
+# Obsidian (vault = src/content): version config, ignore volatile state
+src/content/.obsidian/workspace.json
+src/content/.obsidian/workspace-mobile.json
+src/content/.obsidian/cache
+src/content/.obsidian/.trash/
+src/content/.obsidian/image-converter-image-alignments.json
 
 # Astro
 dist/

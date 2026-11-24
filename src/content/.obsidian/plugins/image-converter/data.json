@@ -1,0 +1,11 @@
+{
+  "selectedFolderPreset": "Default (Obsidian setting)",
+  "selectedFilenamePreset": "Keep original name",
+  "outputFormat": "WEBP",
+  "quality": 80,
+  "resizeMode": "LongestEdge",
+  "desiredLongestEdge": 1600,
+  "enlargeOrReduce": "Reduce",
+  "allowLargerFiles": false,
+  "conversionPresets": []
+}

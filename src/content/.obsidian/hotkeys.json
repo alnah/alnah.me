@@ -1,0 +1,20 @@
+{
+  "app:delete-file": [{ "modifiers": ["Mod", "Shift"], "key": "D" }],
+  "app:toggle-left-sidebar": [{ "modifiers": ["Alt", "Mod"], "key": "ArrowLeft" }],
+  "app:toggle-right-sidebar": [{ "modifiers": ["Alt", "Mod"], "key": "ArrowRight" }],
+  "editor:toggle-bold": [{ "modifiers": ["Mod"], "key": "B" }],
+  "editor:toggle-italics": [{ "modifiers": ["Mod"], "key": "I" }],
+  "editor:toggle-strikethrough": [{ "modifiers": ["Mod"], "key": "S" }],
+  "editor:toggle-bullet-list": [{ "modifiers": ["Mod", "Shift"], "key": "L" }],
+  "editor:toggle-numbered-list": [{ "modifiers": ["Mod", "Shift"], "key": "N" }],
+  "editor:cycle-list-checklist": [{ "modifiers": ["Mod", "Ctrl"], "key": "L" }],
+  "editor:insert-link": [{ "modifiers": ["Mod", "Shift"], "key": "K" }],
+  "editor:insert-table": [{ "modifiers": ["Mod", "Shift"], "key": "I" }],
+  "editor:toggle-source": [{ "modifiers": ["Mod"], "key": "E" }],
+  "file-explorer:move-file": [{ "modifiers": ["Mod"], "key": "D" }],
+  "file-explorer:open": [{ "modifiers": ["Mod", "Shift"], "key": "X" }],
+  "obsidian-smarter-md-hotkeys:smarter-highlight": [{ "modifiers": [], "key": "F9" }],
+  "workspace:copy-full-path": [{ "modifiers": ["Mod", "Shift"], "key": "C" }],
+  "workspace:new-tab": [{ "modifiers": ["Alt", "Mod"], "key": "T" }],
+  "theme:switch": [{ "modifiers": ["Alt", "Ctrl", "Mod"], "key": "T" }]
+}

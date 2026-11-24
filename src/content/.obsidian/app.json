@@ -1,0 +1,20 @@
+{
+  "attachmentFolderPath": "./assets",
+  "alwaysUpdateLinks": true,
+  "newLinkFormat": "absolute",
+  "useMarkdownLinks": true,
+  "promptDelete": true,
+  "spellcheck": true,
+  "readableLineLength": true,
+  "showLineNumber": false,
+  "strictLineBreaks": false,
+  "showFrontmatter": true,
+  "defaultViewMode": "source",
+  "livePreview": true,
+  "pdfExportSettings": {
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  }
+}

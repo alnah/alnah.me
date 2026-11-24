@@ -1,0 +1,17 @@
+{
+  "accentColor": "",
+  "cssTheme": "Border",
+  "theme": "system",
+  "baseFontSize": 16,
+  "baseFontSizeAction": false,
+  "translucency": true,
+  "interfaceFontFamily": "Arial",
+  "textFontFamily": "Arial",
+  "monospaceFontFamily": "Cascadia Code",
+  "enabledCssSnippets": [
+    "Center Images"
+  ],
+  "nativeMenus": true,
+  "showRibbon": false,
+  "showViewHeader": true
+}
