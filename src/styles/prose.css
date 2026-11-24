@@ -212,6 +212,9 @@
   }
 
   .footnote-ref {
+    /* Keep the marker clear of a preceding italic glyph, whose slant reads as
+     * contact with the superscript number. */
+    margin-left: 0.18em;
     font-size: 0.72em;
     line-height: 0;
     vertical-align: super;
