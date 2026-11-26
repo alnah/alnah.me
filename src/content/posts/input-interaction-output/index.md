@@ -5,14 +5,14 @@ draft: false
 description: Le modèle Input-Interaction-Output décrit les mécanismes d'acquisition d'une langue seconde, du feedback correctif à l'intake. Il complète le CECRL en FLE.
 category: enseigner
 tags:
- - cecrl
- - fle
- - pédagogie
- - acquisition
- - input
- - interaction
- - output
- - feedback
+  - cecrl
+  - fle
+  - pédagogie
+  - acquisition
+  - input
+  - interaction
+  - output
+  - feedback
 ---
 
 # Input, interaction, output : comment apprendre une langue ?
@@ -86,14 +86,14 @@ Le feedback correctif doit donc être ciblé et mobiliser l'apprenant à produir
 
 *Les différents types de feedback correctif à l'oral*[^lyster-ranta]
 
-| La technique                    | Le principe                                             | Un exemple                                                                                                 | La réaction et la reprise                                                                           | Les effets                                                                                                        |
-| ------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **La sollicitation**            | Relancer pour faire produire la forme, sans la donner   | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « Hier, je... ? »                              | Réaction systématique<br><br>L'apprenant répare souvent<br><br>Il ne reste jamais muet              | Le plus efficace en réparation<br><br>Suppose un apprenant actif<br><br>Peut bloquer l'apprenant s'il ne sait pas |
-| **L'indice métalinguistique**   | Commenter la règle ou signaler la catégorie de l'erreur | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « Attention à l'auxiliaire »                   | Réaction presque toujours<br><br>L'apprenant répare souvent                                         | Plus durable que le recast<br><br>Suppose la règle connue<br><br>Coupe l'échange                                  |
-| **La correction explicite**     | Corriger en indiquant clairement que l'énoncé est faux  | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « On ne dit pas j'ai allé, mais je suis allé » | Réaction irrégulière<br><br>L'apprenant répare parfois<br><br>La réparation est immédiate           | Fort sur la vérification immédiate<br><br>Moins durable<br><br>Coupe l'échange                                    |
-| **Le recast**                   | Reformuler l'énoncé erroné sans signaler l'erreur       | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « je suis allé au cinéma »                     | Passe souvent inaperçu<br><br>L'apprenant réagit rarement<br><br>Il répare rarement                 | Modeste chez le débutant<br><br>Plus utile chez l'avancé                                                          |
-| **La répétition**               | Répéter l'énoncé erroné avec une intonation montante    | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « Tu as allé au cinéma ? »                     | Réaction souvent<br><br>L'apprenant répare parfois<br><br>Mais parfois, il ne réagit pas            | Peut passer pour une question de sens                                                                             |
-| **La demande de clarification** | Signaler qu'on n'a pas compris, sans nommer l'erreur    | L'apprenant : « j'ai allé au cinéma »<br><br>L'enseignant : « Pardon ? »                                   | Réaction presque toujours<br><br>L'apprenant répare rarement<br><br>Il répète souvent la même forme | Utile si le sens bloque vraiment<br><br>Ambigu quand le sens est clair<br><br>Fragile pour un problème de forme   |
+| La technique                    | Le principe                                             | Un exemple                                                                                                       | La réaction et la reprise                                                                           | Les effets                                                                                                        |
+| ------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **La sollicitation**            | Relancer pour faire produire la forme, sans la donner   | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « Hier, je... ? »                              | Réaction systématique<br><br>L'apprenant répare souvent<br><br>Il ne reste jamais muet              | Le plus efficace en réparation<br><br>Suppose un apprenant actif<br><br>Peut bloquer l'apprenant s'il ne sait pas |
+| **L'indice métalinguistique**   | Commenter la règle ou signaler la catégorie de l'erreur | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « Attention à l'auxiliaire »                   | Réaction presque toujours<br><br>L'apprenant répare souvent                                         | Plus durable que le recast<br><br>Suppose la règle connue<br><br>Coupe l'échange                                  |
+| **La correction explicite**     | Corriger en indiquant clairement que l'énoncé est faux  | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « On ne dit pas j'ai allé, mais je suis allé » | Réaction irrégulière<br><br>L'apprenant répare parfois<br><br>La réparation est immédiate           | Fort sur la vérification immédiate<br><br>Moins durable<br><br>Coupe l'échange                                    |
+| **Le recast**                   | Reformuler l'énoncé erroné sans signaler l'erreur       | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « je suis allé au cinéma »                     | Passe souvent inaperçu<br><br>L'apprenant réagit rarement<br><br>Il répare rarement                 | Modeste chez le débutant<br><br>Plus utile chez l'avancé                                                          |
+| **La répétition**               | Répéter l'énoncé erroné avec une intonation montante    | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « Tu as allé au cinéma ? »                     | Réaction souvent<br><br>L'apprenant répare parfois<br><br>Mais parfois, il ne réagit pas            | Peut passer pour une question de sens                                                                             |
+| **La demande de clarification** | Signaler qu'on n'a pas compris, sans nommer l'erreur    | L'apprenant : « Hier, j'ai allé au cinéma »<br><br>L'enseignant : « Pardon ? »                                   | Réaction presque toujours<br><br>L'apprenant répare rarement<br><br>Il répète souvent la même forme | Utile si le sens bloque vraiment<br><br>Ambigu quand le sens est clair<br><br>Fragile pour un problème de forme   |
 
 ### À l'écrit
 
@@ -119,7 +119,7 @@ Susan M. Gass et Alison Mackey, dans la fin des années 2000, reprennent ces cou
 
 Ce modèle n'est pas une théorie générale de l'apprentissage. C'est une explication psycholinguistique, et Gass et Mackey le disent elles-mêmes. Il ne couvre pas tous les facteurs de l'acquisition et ne se substitue pas aux approches qui insistent sur le contexte social et culturel.
 
-_Les composants du modèle Input-Interaction-Output_
+*Les composants du modèle Input-Interaction-Output*
 
 ```mermaid
 %%{init: {"flowchart": {"wrappingWidth": 240, "curve": "step"}}}%%
@@ -160,7 +160,7 @@ Par exemple, un apprenant qui n'a jamais vu le passé composé aura besoin d'un 
 
 Voyons le modèle à l'œuvre sur le scénario « Planifier une randonnée dans les Alpes avec un groupe d'amis sur WhatsApp ».
 
-_Les composants du modèle appliqués à la tâche_
+*Les composants du modèle appliqués à la tâche*
 
 ```mermaid
 %%{init: {"flowchart": {"wrappingWidth": 240, "curve": "step"}}}%%
@@ -198,15 +198,24 @@ L'asymétrie ne veut pas dire que vous devez montrer votre supériorité et votr
 
 Bref, soyez sympa et à l'écoute !
 
-
 [^lyster-saito]: Roy Lyster et Kazuya Saito, « Oral Feedback in Classroom SLA: A Meta-Analysis », *Studies in Second Language Acquisition*, vol. 32, no 2, 2010. [Consulter](https://doi.org/10.1017/S0272263109990520).
+
 [^lyster-ranta]: Roy Lyster et Leila Ranta, « Corrective Feedback and Learner Uptake: Negotiation of Form in Communicative Classrooms », *Studies in Second Language Acquisition*, vol. 19, no 1, 1997. [Consulter](https://doi.org/10.1017/S0272263197001034).
+
 [^lyster-saito-sato]: Roy Lyster, Kazuya Saito et Masatoshi Sato, « Oral Corrective Feedback in Second Language Classrooms », *Language Teaching*, vol. 46, no 1, 2013. [Consulter](https://doi.org/10.1017/S0261444812000365).
+
 [^sheen]: Younghee Sheen, « The Effect of Focused Written Corrective Feedback and Language Aptitude on ESL Learners' Acquisition of Articles », *TESOL Quarterly*, vol. 41, no 2, 2007. [Consulter](https://doi.org/10.1002/j.1545-7249.2007.tb00059.x).
+
 [^ellis]: Rod Ellis, « A Typology of Written Corrective Feedback Types », *ELT Journal*, vol. 63, no 2, 2009. [Consulter](https://doi.org/10.1093/elt/ccn023).
+
 [^kang-han]: EunYoung Kang et Zhaohong Han, « The Efficacy of Written Corrective Feedback in Improving L2 Written Accuracy: A Meta-Analysis », *The Modern Language Journal*, vol. 99, no 1, 2015. [Consulter](https://doi.org/10.1111/modl.12189).
+
 [^gass]: Susan M. Gass et Alison Mackey, « Input, Interaction, and Output in Second Language Acquisition », dans Bill VanPatten et Jessica Williams (dir.), *Theories in Second Language Acquisition: An Introduction*, 2e éd., Routledge, 2015. [Consulter](https://doi.org/10.4324/9780203628942). Traduction de l'anglais.
+
 [^krashen]: Stephen D. Krashen, *Principles and Practice in Second Language Acquisition*, Pergamon, 1982. [Consulter](https://www.sdkrashen.com/content/books/principles_and_practice.pdf#page=28). Traduction de l'anglais.
+
 [^long]: Michael H. Long, « The Role of the Linguistic Environment in Second Language Acquisition », dans William C. Ritchie et Tej K. Bhatia (dir.), *Handbook of Second Language Acquisition*, Academic Press, 1996. [Consulter](https://doi.org/10.1016/B978-012589042-7/50015-3). Traduction de l'anglais.
+
 [^swain]: Merrill Swain, « Three Functions of Output in Second Language Learning », dans Guy Cook et Barbara Seidlhofer (dir.), *Principle and Practice in Applied Linguistics: Studies in Honour of H. G. Widdowson*, Oxford University Press, 1995. [Consulter](https://books.google.com/books?id=2rv20RsUfmMC&pg=PA125). Traduction de l'anglais.
+
 [^swain-1988]: Merrill Swain, « Manipulating and Complementing Content Teaching to Maximize Second Language Learning », *TESL Canada Journal*, vol. 6, no 1, 1988. [Consulter](https://doi.org/10.18806/tesl.v6i1.542).
