@@ -16,8 +16,15 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title: documentTitle, postDate, publicationDate, readingMinutes, displayIso } =
-  derivePostMeta(entry);
+const {
+  title: documentTitle,
+  postDate,
+  publicationDate,
+  publicationIso,
+  publicationLabel,
+  readingMinutes,
+  displayIso
+} = derivePostMeta(entry);
 const canonicalPath = postPath(entry.id);
 const reuseUrl = rawPostPath(entry.id);
 const socialImage = postSocialImagePath(entry.id);
@@ -52,7 +59,14 @@ const schemaJson = buildBlogPostingSchema({
           <a class="category-pill" href={categoryPath(categoryMeta.slug)}>{categoryMeta.label}</a>
         </p>
         <p class="eyebrow post-meta">
-          <time datetime={displayIso}>{postDate.label}</time>
+          <time datetime={publicationIso}>{publicationLabel}</time>
+          {
+            postDate.isUpdated && (
+              <time datetime={displayIso}>
+                <span aria-hidden="true">·</span> {postDate.label}
+              </time>
+            )
+          }
           <span aria-hidden="true">·</span>
           <span>{readingMinutes} min de lecture</span>
         </p>
@@ -88,6 +102,10 @@ const schemaJson = buildBlogPostingSchema({
     margin-bottom: var(--space-4);
     flex-wrap: wrap;
     text-transform: none;
+  }
+
+  .post-meta time {
+    white-space: nowrap;
   }
 
   .post-category {

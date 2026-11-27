@@ -52,12 +52,25 @@ export function checkPostPages({ posts, searchIndex }: BuiltSite): void {
     assertIncludes(raw, `© ${new Date().getFullYear()} [${SITE.author.name}](${absoluteUrl(SITE.aboutPath)})`, `${post.slug} raw copyright`);
     assertIncludes(raw, `[${SITE.license.name}](${SITE.license.url})`, `${post.slug} raw license`);
 
+    const pageText = normalizeText(textContent(dom));
+    assert.match(
+      pageText,
+      new RegExp(`Publié le ${formatDate(post.publicationDate)}`),
+      `${post.slug} publication label`
+    );
+    assert.ok(
+      byTag(dom, "time").some(
+        (element) => attr(element, "datetime") === formatIsoDate(post.publicationDate)
+      ),
+      `${post.slug} publication datetime`
+    );
+
     if (post.isUpdated) {
       const isoDate = formatIsoDate(post.displayDate);
       const time = byTag(dom, "time").find((element) => attr(element, "datetime") === isoDate);
       assert.ok(time, `${post.slug} updated datetime`);
       assert.match(
-        normalizeText(textContent(dom)),
+        pageText,
         new RegExp(`Mis à jour le ${formatDate(post.displayDate)}`),
         `${post.slug} updated label`
       );

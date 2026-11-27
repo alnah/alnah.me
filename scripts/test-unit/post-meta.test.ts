@@ -17,6 +17,7 @@ test("post meta: one derivation for every surface", () => {
 
   assert.equal(meta.title, "Titre");
   assert.equal(meta.publicationIso, "2026-01-01");
+  assert.equal(meta.publicationLabel, "Publié le 1 janv. 2026");
   assert.equal(meta.displayIso, "2026-02-01");
   assert.equal(meta.postDate.isUpdated, true);
   assert.equal(meta.postDate.label, "Mis à jour le 1 févr. 2026");
@@ -40,6 +41,7 @@ test("post meta: publishDate wins and equal lastmod is not an update", () => {
 
   assert.equal(meta.publicationDate, publicationDate);
   assert.equal(meta.publicationIso, "2026-03-01");
+  assert.equal(meta.publicationLabel, "Publié le 1 mars 2026");
   assert.equal(meta.displayIso, "2026-03-01");
   assert.equal(meta.postDate.isUpdated, false);
   assert.equal(meta.postDate.label, "1 mars 2026");

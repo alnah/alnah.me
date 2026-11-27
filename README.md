@@ -46,4 +46,4 @@ expiryDate: 2026-12-31
 - `description` is the summary used for feeds, cards, and search previews
 - `category` is required; allowed values live in `src/lib/content/taxonomy.ts`
 - `draft: false` means the post is public
-- a `lastmod` later than the publication date displays « Mis à jour le … » on the post page and cards
+- the post page and cards show « Publié le … », plus « Mis à jour le … » when `lastmod` is later than the publication date

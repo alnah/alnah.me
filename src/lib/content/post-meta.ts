@@ -1,6 +1,7 @@
 import { resolveEntryTitle, stripLeadingMarkdownTitle } from "../document-title.ts";
 import { resolvePublicationDate } from "../publication.ts";
 import {
+  formatDate,
   formatIsoDate,
   readingTimeFromMarkdown,
   resolvePostDate,
@@ -25,6 +26,8 @@ export type PostMeta = {
   publicationDate: Date;
   /** ISO date of the publication, for feeds and structured data. */
   publicationIso: string;
+  /** Publication date as readers see it, always labelled. */
+  publicationLabel: string;
   /** Displayed date: publication unless lastmod is strictly later. */
   postDate: PostDate;
   /** ISO date of the displayed date, for datetime attributes. */
@@ -41,6 +44,7 @@ export function derivePostMeta(entry: PostMetaSource): PostMeta {
     title: resolveEntryTitle(entry),
     publicationDate,
     publicationIso: formatIsoDate(publicationDate),
+    publicationLabel: `Publié le ${formatDate(publicationDate)}`,
     postDate,
     displayIso: formatIsoDate(postDate.date),
     readingMinutes: readingTimeFromMarkdown(stripLeadingMarkdownTitle(entry.body ?? ""))

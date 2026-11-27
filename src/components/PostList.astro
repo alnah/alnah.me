@@ -29,7 +29,14 @@ const {
         </a>
       </p>
       <p class="eyebrow post-list-meta">
-        <time datetime={meta.displayIso}>{meta.postDate.label}</time>
+        <time datetime={meta.publicationIso}>{meta.publicationLabel}</time>
+        {
+          meta.postDate.isUpdated && (
+            <time datetime={meta.displayIso}>
+              <span aria-hidden="true">·</span> {meta.postDate.label}
+            </time>
+          )
+        }
         {
           showReadingTime && (
             <>
@@ -77,6 +84,10 @@ const {
     align-items: center;
     flex-wrap: wrap;
     text-transform: none;
+  }
+
+  .post-list-meta time {
+    white-space: nowrap;
   }
 
   .post-list-copy h3 {
