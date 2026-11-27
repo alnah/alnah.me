@@ -27,7 +27,7 @@ function buildResultItem(item: SearchIndexDocument, index: number, idPrefix: str
   const category = document.createElement("span");
   const tags = document.createElement("span");
   const tagList = item.tags ?? [];
-  const dateLabel = item.updatedLabel || item.dateLabel;
+  const dateLabel = item.dateLabel;
 
   listItem.dataset.searchResultItem = "";
   link.href = item.url;
