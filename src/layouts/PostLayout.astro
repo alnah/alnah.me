@@ -108,6 +108,13 @@ const schemaJson = buildBlogPostingSchema({
     white-space: nowrap;
   }
 
+  @media (max-width: 480px) {
+    .post-meta {
+      font-size: var(--font-size-compact-3xs);
+      gap: var(--space-1);
+    }
+  }
+
   .post-category {
     margin: 0 0 var(--space-3);
     font-family: var(--font-body);
